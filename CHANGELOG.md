@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#6](https://github.com/LaxarJS/ax-developer-tools-widget/issues/6): jshint: avoid validation problems with embedded application (also requires grunt-laxar#33 to fully work)
+
 
 ## v0.1.3
 
