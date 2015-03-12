@@ -1,6 +1,6 @@
 {
    "name": "laxarjs/ax-developer-tools-widget",
-   "version": "0.1.2",
+   "version": "0.1.3",
    "description": "Provides developer tools to inspect the event bus and the application log, and the grid-alignment of widgets",
    "license": "MIT",
    "dependencies": {

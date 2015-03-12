@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v0.1.3
+
 - [#9](https://github.com/LaxarJS/ax-developer-tools-widget/issues/9): tests: fixed broken spec tests
 
 
