@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+## v0.1.2
+
 - [#7](https://github.com/LaxarJS/ax-developer-tools-widget/issues/7): browser support: widget should not break page in msie8
 
 
