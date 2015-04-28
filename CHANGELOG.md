@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#12](https://github.com/LaxarJS/ax-developer-tools-widget/issues/12): fixed log level.
+
 
 ## v0.2.1
 
