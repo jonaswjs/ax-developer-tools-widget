@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v1.4.1
+
 - [#23](https://github.com/LaxarJS/ax-developer-tools-widget/issues/23): fixed `ngSanitize` use in events display widget
 
 
