@@ -5,9 +5,10 @@
  */
 define( [
    'laxar',
+   'laxar-patterns',
    'angular',
    'require'
-], function( ax, ng, require ) {
+], function( ax, patterns, ng, require ) {
    'use strict';
 
    var BUFFER_SIZE = 500;
@@ -17,7 +18,7 @@ define( [
    var cleanupInspector;
 
 
-   var channel;
+   var developerHooks;
    var buffers;
    var enabled;
 
@@ -49,11 +50,13 @@ define( [
          window[ $scope.features.open.onGlobalMethod ] = openContentWindow;
       }
 
+      developerHooks.tracker = topicTracker();
       if( $scope.features.grid ) {
-         channel.gridSettings = $scope.features.grid;
+         developerHooks.gridSettings = $scope.features.grid;
       }
 
       $scope.$on( '$destroy', cleanup );
+
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -97,14 +100,24 @@ define( [
 
    function startCapturingEvents( eventBus ) {
       enabled = ax.configuration.get( 'widgets.laxar-developer-tools-widget.enabled', true );
-      if( enabled ) {
-         channel = window.axDeveloperTools = ( window.axDeveloperTools || {} );
-         buffers = channel.buffers = ( channel.buffers || { events: [], log: [] } );
 
+      if( enabled ) {
+         developerHooks = window.axDeveloperTools = ( window.axDeveloperTools || {} );
+         buffers = developerHooks.buffers = ( developerHooks.buffers || { events: [], log: [] } );
 
          ax.log.addLogChannel( logChannel );
          cleanupInspector = eventBus.addInspector( function( eventItem ) {
-            pushIntoStore( 'events', ax.object.options( {time: new Date() }, eventItem ) );
+            var problems = developerHooks.tracker ? developerHooks.tracker.track( eventItem ) : [];
+            problems.forEach( function( problem ) {
+               console.error( 'DeveloperTools:', problem.description, '  (event: ', eventItem, ')' );
+            } );
+            pushIntoStore(
+               'events',
+               ax.object.options( {
+                  time: new Date(),
+                  problems: problems
+               }, eventItem )
+            );
          } );
          ng.element( window ).off( 'beforeunload.AxDeveloperToolsWidget' );
          ng.element( window ).on( 'beforeunload.AxDeveloperToolsWidget', function() {
@@ -118,6 +131,208 @@ define( [
 
       function logChannel( messageObject ) {
          pushIntoStore( 'log', messageObject );
+      }
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function topicTracker() {
+      var ACTION = 'action';
+      var FLAG = 'flag';
+      var RESOURCE = 'resource';
+      var ERROR = 'error';
+
+      var OTHER = 'other';
+
+      var types = {
+         takeActionRequest: ACTION,
+         willTakeAction: ACTION,
+         didTakeAction: ACTION,
+
+         didChangeFlag: FLAG,
+
+         didReplace: RESOURCE,
+         didUpdate: RESOURCE,
+         validateRequest: RESOURCE,
+         willValidate: RESOURCE,
+         didValidate: RESOURCE,
+         saveRequest: RESOURCE,
+         willSave: RESOURCE,
+         didSave: RESOURCE,
+
+         didEncounterError: ERROR
+      };
+
+      var resourceState = {};
+      var flagState = {};
+      var actionState = {};
+
+      return {
+         state: function() {
+            return ax.object.deepClone( {
+               resources: resourceState,
+               flags: flagState,
+               actions: actionState
+            } );
+         },
+         track: function( eventItem ) {
+            if( eventItem.action !== 'publish' ) {
+               return [];
+            }
+
+            var topics = eventItem.event.split( '.' );
+            var subject = eventItem.source;
+            var verb = topics[ 0 ];
+            var object = topics[ 1 ];
+            var payload = eventItem.eventObject;
+
+            if( !object ) {
+               return [ {
+                  description: 'Event seems to have an invalid name: The second topic is missing!'
+               } ];
+            }
+
+            var type = types[ verb ] || OTHER;
+            if( type === RESOURCE ) {
+               return trackResourceEvent( payload, subject, verb, object );
+            }
+            if( type === ACTION ) {
+               return trackActionEvent( payload, subject, verb, object );
+            }
+
+            return [];
+         }
+      };
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function trackActionEvent( payload, subject, verb, actionName ) {
+         var state;
+         var problems = [];
+         if( !payload.action ) {
+            problems.push( { description: 'Event is missing "action" field in payload.' } );
+         }
+
+         state = actionState[ actionName ] = actionState[ actionName ] || {
+            state: 'inactive',
+            numRequests: 0,
+            requester: subject,
+            requestedBy: null,
+            outstandingReplies: {}
+         };
+
+         if( verb === 'takeActionRequest' ) {
+            if( state.state === 'active' ) {
+               problems.push( { description: ax.string.format(
+                  'Published takeActionRequest, but action already requested by "[0]"',
+                  [ state.requestedBy ]
+               ) } );
+            }
+            state.state = 'active';
+            ++state.numRequests;
+            return problems;
+         }
+
+         if( verb === 'willTakeAction' ) {
+            if( state.state === 'inactive' ) {
+               problems.push( { description: 'willTakeAction published with no active request' } );
+            }
+            if( state.outstandingReplies[ subject ] ) {
+                problems.push( { description: 'willTakeAction published twice by the same respondent' } );
+            }
+            state.outstandingReplies[ subject ] = true;
+            return problems;
+         }
+
+         if( verb === 'didTakeAction' ) {
+            if( state.state === 'inactive' ) {
+               problems.push( { description: 'didTakeAction published with no active request' } );
+            }
+            if( !state.outstandingReplies[ subject ] ) {
+               // This is o.k., for example while finishing up navigation!
+               problems.push( { description: 'didTakeAction published without willTakeAction' } );
+            }
+            delete state.outstandingReplies[ subject ];
+            if( Object.keys( state.outstandingReplies).length === 0 ) {
+               state.state = 'inactive';
+            }
+            return problems;
+         }
+
+         return problems;
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function trackFlagEvent() {
+         return [];
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function trackResourceEvent( payload, subject, verb, resourceName ) {
+         var state;
+         var problems = [];
+         if( !payload.resource ) {
+            problems.push( { description: 'Event is missing "resource" field in payload.' } );
+         }
+
+         if( verb === 'didReplace' ) {
+            if (payload.data === undefined) {
+               problems.push( { description: 'didReplace event-payload is missing "data" field.' } );
+            }
+            state = resourceState[ resourceName ] = resourceState[ resourceName ] || {
+               state: 'replaced',
+               master: subject,
+               lastModificationBy: null,
+               value: null
+            };
+            if( state.master !== subject ) {
+               problems.push( {
+                  description: ax.string.format(
+                     'master/master conflict: for resource `[0]` (first master: [1], second master: [2])"',
+                     [ resourceName, state.master, subject ]
+                  )
+               } );
+            }
+            state.lastModificationBy = subject;
+            state.value = payload.data;
+            return problems;
+         }
+
+         if( verb === 'didUpdate' ) {
+            state = resourceState[ resourceName ];
+            if( !state ) {
+               problems.push( {
+                  description: 'Sender "' + subject + '" published didUpdate without prior didReplace.'
+               } );
+            }
+            if( state.value === null || state.value === undefined ) {
+               problems.push( {
+                  description: 'Sender "' + subject + '" published didUpdate, but resource is ' + state.value
+               } );
+            }
+            if( !event.patches ) {
+               problems.push( {
+                  description: 'Sender "' + subject + '" published didUpdate without patches field.'
+               } );
+            }
+
+            if( problems.length ) {
+               return;
+            }
+
+            state.lastModificationBy = subject;
+            try {
+               patterns.json.applyPatch( state.value, payload.patches );
+            }
+            catch( error ) {
+               problems.push( {
+                  description: 'Failed to apply patch sequence in didUpdate from "' + subject + '"'
+               } );
+            }
+            return problems;
+         }
       }
    }
 
