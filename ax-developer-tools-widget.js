@@ -109,7 +109,7 @@ define( [
          cleanupInspector = eventBus.addInspector( function( eventItem ) {
             var problems = developerHooks.tracker ? developerHooks.tracker.track( eventItem ) : [];
             problems.forEach( function( problem ) {
-               console.error( 'DeveloperTools:', problem.description, '  (event: ', eventItem, ')' );
+               ax.log.warn( 'DeveloperTools: [0], event: [1]', problem.description, eventItem );
             } );
             pushIntoStore(
                'events',
