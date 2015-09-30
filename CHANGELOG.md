@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v1.5.1
+
 - [#25](https://github.com/LaxarJS/ax-developer-tools-widget/issues/25): tracker: allow multiple simultaneous will/did replies
 
 
