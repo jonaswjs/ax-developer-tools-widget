@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v1.5.3
+
 - [#27](https://github.com/LaxarJS/ax-developer-tools-widget/issues/27): tracker: allow will/didTakeAction without request
 
 
