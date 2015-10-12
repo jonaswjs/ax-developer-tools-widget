@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#28](https://github.com/LaxarJS/ax-developer-tools-widget/issues/28): tracker: clear state on $destroy
+
 
 ## v1.5.3
 
