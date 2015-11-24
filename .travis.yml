@@ -15,7 +15,7 @@ install:
    - npm install "codecov.io" "grunt-laxar@${GRUNT_LAXAR_VERSION}"
    - cp node_modules/grunt-laxar/widgets/package.json package.json
    - npm install
-   - bower install "laxar#${LAXAR_VERSION}"
+   - bower install "laxar#${LAXAR_VERSION}" "laxar-uikit@${LAXAR_VERSION}"
 after_success:
    - cat lcov.info | codecov
 notifications:
