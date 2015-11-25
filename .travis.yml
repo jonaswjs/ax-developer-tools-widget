@@ -6,16 +6,15 @@ env:
    matrix:
       # Support the latest 1.0.x and 1.1.x versions
       # GRUNT_LAXAR_VERSION=^0.8.0 LAXAR_VERSION=LaxarJS/laxar#^0.26.0
-      - GRUNT_LAXAR_VERSION=~1.0.0-0 LAXAR_VERSION=~1.0.0
-      - GRUNT_LAXAR_VERSION=~1.1.0-0 LAXAR_VERSION=~1.1.0
+      - GRUNT_LAXAR_VERSION=release-1.0.x LAXAR_VERSION=~1.0.0
+      - GRUNT_LAXAR_VERSION=release-1.1.x LAXAR_VERSION=~1.1.0
 before_install:
    - echo "{}" > "package.json"
    - export PATH="$PATH:$(npm bin)"
 install:
-   - npm install "codecov.io" "grunt-laxar@${GRUNT_LAXAR_VERSION}"
+   - npm install "codecov.io" "https://github.com/LaxarJS/grunt-laxar/tarball/${GRUNT_LAXAR_VERSION}"
    - cp node_modules/grunt-laxar/widgets/package.json package.json
    - npm install
-   - bower install "laxar#${LAXAR_VERSION}" "laxar-uikit#${LAXAR_VERSION}"
 after_success:
    - cat lcov.info | codecov
 notifications:
