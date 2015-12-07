@@ -64,9 +64,12 @@ define( [
                   stream: $scope.features.events.stream,
                   // re-wrap the transfer array to avoid bug in MSIE11
                   // see http://stackoverflow.com/questions/7975655 for details
-                  data: [].concat( buffers.events )
+                  data: [].concat( buffers.events ).map( function ( _ ) {
+                     // content is stringified during transfer to improve MSIE11 performance
+                     return JSON.parse( _ );
+                  } )
                } );
-               buffers.events = [];
+               buffers.events.splice( 0, buffers.events.length );
             }
 
             if( buffers.log.length ) {
@@ -74,9 +77,11 @@ define( [
                   stream: $scope.features.log.stream,
                   // re-wrap the transfer array to avoid bug in MSIE11
                   // see http://stackoverflow.com/questions/7975655 for details
-                  data: [].concat( buffers.log )
+                  data: [].concat( buffers.log ).map( function ( _ ) {
+                     return JSON.parse( _ );
+                  } )
                } );
-               buffers.log = [];
+               buffers.log.splice( 0, buffers.log.length );
             }
          }
 
