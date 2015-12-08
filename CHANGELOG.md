@@ -1,5 +1,8 @@
 # Changelog
 
+
+## v1.6.2
+
 - [#35](https://github.com/LaxarJS/ax-developer-tools-widget/issues/35): host-connector: fixed log message overflow
 
 
