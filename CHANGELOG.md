@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#37](https://github.com/LaxarJS/ax-developer-tools-widget/issues/37): page inspection: respect `enabled: false` when identifying topics
+
 
 ## v2.0.0-alpha.0
 
