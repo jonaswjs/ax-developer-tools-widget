@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#41](https://github.com/LaxarJS/ax-developer-tools-widget/issues/41): page inspection: improved display in safari
+
 
 ## v2.0.0-alpha.1
 
