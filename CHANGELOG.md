@@ -3,6 +3,7 @@
 
 ## Last Changes
 
+- [#40](https://github.com/LaxarJS/ax-developer-tools-widget/issues/40): page inspection: fixed filtering of isolated widgets when containers are hidden
 - [#41](https://github.com/LaxarJS/ax-developer-tools-widget/issues/41): page inspection: improved display in safari
 
 
