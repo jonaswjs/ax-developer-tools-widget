@@ -1,5 +1,6 @@
-
 import wireflow from 'wireflow';
+
+import { object } from 'laxar';
 
 const TYPE_CONTAINER = 'CONTAINER';
 
@@ -36,20 +37,32 @@ const edgeTypes = {
  * Create a wireflow graph from a given page/widget information model.
  *
  * @param {Object} pageInfo
- * @param {Boolean=false} withIrrelevantWidgets
+ * @param {Boolean=false} pageInfo.withIrrelevantWidgets
  *   If set to `true`, widgets without any relevance to actions/resources/flags are removed.
  *   Containers of widgets (that are relevant by this measure) are kept.
+ * @param {Boolean=false} pageInfo.withContainers
+ *   If set to `true`, Container relationships are included in the graph representation.
+ * @param {String='FLAT'} pageInfo.compositionDisplay
+ *   If set to `'COMPACT'` (default), compositions are represented by an instance node, reflecting their development-time model.
+ *   If set to `'FLAT'`, compositions are replaced recursively by their configured expansion, reflecting their run-time model.
  */
 export function graph( pageInfo, options ) {
 
    const {
       withIrrelevantWidgets = false,
-      withContainers = true
+      withContainers = true,
+      compositionDisplay = 'FLAT'
    } = options;
 
    const PAGE_ID = '.';
-   const { pageReference, pageDefinitions, widgetDescriptors } = pageInfo;
-   const page = pageDefinitions[ pageReference ];
+   const {
+      pageReference,
+      pageDefinitions,
+      widgetDescriptors,
+      compositionDefinitions
+   } = pageInfo;
+   const page = pageDefinitions[ pageReference ][ compositionDisplay ];
+
 
    const vertices = {};
    const edges = {};
@@ -70,75 +83,86 @@ export function graph( pageInfo, options ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function isWidget( pageAreaItem ) {
-      return !!pageAreaItem.widget;
-   }
-
-   function isLayout( pageAreaItem ) {
-      return !!pageAreaItem.layout;
-   }
-
-   function either( f, g ) {
-      return function() {
-         return f.apply( this, arguments ) || g.apply( this, arguments );
-      };
-   }
-
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function identifyVertices() {
       Object.keys( page.areas ).forEach( areaName => {
-         page.areas[ areaName ].forEach( component => {
-            if( component.widget ) {
-               processWidgetInstance( component, areaName );
+         page.areas[ areaName ].forEach( pageAreaItem => {
+            if( isWidget( pageAreaItem ) ) {
+               processWidgetInstance( pageAreaItem, areaName );
             }
-            else if( component.layout ) {
-               processLayoutInstance( component, areaName );
+            else if( isComposition( pageAreaItem ) ) {
+               processCompositionInstance( pageAreaItem, areaName );
+            }
+            else if( isLayout( pageAreaItem ) ) {
+               processLayoutInstance( pageAreaItem, areaName );
             }
          } );
       } );
-   }
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function processLayoutInstance( layout, areaName ) {
-      vertices[ layout.id ] = {
-         id: layout.id,
-         kind: 'LAYOUT',
-         label: layout.id,
-         ports: { inbound: [], outbound: [] }
-      };
-   }
+      function processLayoutInstance( layout, areaName ) {
+         vertices[ layout.id ] = {
+            id: layout.id,
+            label: layout.id,
+            kind: 'LAYOUT',
+            ports: { inbound: [], outbound: [] }
+         };
+      }
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function processWidgetInstance( widget, areaName ) {
-      const descriptor = widgetDescriptors[ widget.widget ];
-      const ports = { inbound: [], outbound: [] };
+      function processWidgetInstance( widgetInstance, areaName ) {
+         const descriptor = widgetDescriptors[ widgetInstance.widget ];
 
-      const kinds = {
-         widget: 'WIDGET',
-         activity: 'ACTIVITY'
-      };
+         const kinds = {
+            widget: 'WIDGET',
+            activity: 'ACTIVITY'
+         };
 
-      identifyPorts( widget.features, descriptor.features, [] );
-      vertices[ widget.id ] = {
-         id: widget.id,
-         kind: kinds[ descriptor.integration.type ],
-         label: widget.id,
-         ports: ports
-      };
+         const { id } = widgetInstance;
+         const ports = identifyPorts( widgetInstance.features, descriptor.features );
+         vertices[ id ] = {
+            id: id,
+            label: id,
+            kind: kinds[ descriptor.integration.type ],
+            ports: ports
+         };
+      }
 
-      function identifyPorts( value, schema, path ) {
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function processCompositionInstance( compositionInstance, areaName ) {
+         const { id } = compositionInstance;
+         const definition = compositionDefinitions[ pageReference ][ id ].COMPACT;
+
+         const ports = identifyPorts( compositionInstance.features, definition.features );
+
+         vertices[ id ] = {
+            id: id,
+            label: id,
+            kind: 'COMPOSITION',
+            ports: ports
+         };
+      }
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function identifyPorts( value, schema, path, ports ) {
+         if( !path && !ports ) {
+            console.log( 'CLOG IDENT PORTS', value, schema ); // :TODO: DELETE ME
+         }
+         path = path || [];
+         ports = ports || { inbound: [], outbound: [] };
          if( !value || !schema ) {
             return;
          }
 
          if( value.enabled === false ) {
-            // widget feature can be disabled, and was disabled
+            // feature can be disabled, and was disabled
             return;
          }
-
          if( schema.type === 'string' && schema.axRole &&
              ( schema.format === 'topic' || schema.format === 'flag-topic' ) ) {
             const type = schema.axPattern ? schema.axPattern.toUpperCase() : inferEdgeType( path );
@@ -157,16 +181,18 @@ export function graph( pageInfo, options ) {
          if( schema.type === 'object' && schema.properties ) {
             Object.keys( schema.properties ).forEach( key => {
                const propertySchema = schema.properties[ key ] || schema.additionalProperties;
-               identifyPorts( value[ key ], propertySchema, path.concat( [ key ] ) );
+               identifyPorts( value[ key ], propertySchema, path.concat( [ key ] ), ports );
             } );
          }
-
          if( schema.type === 'array' ) {
             value.forEach( (item, i) => {
-               identifyPorts( item, schema.items, path.concat( [ i ] ) );
+               identifyPorts( item, schema.items, path.concat( [ i ] ), ports );
             } );
          }
+         return ports;
       }
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function inferEdgeType( path ) {
          if( !path.length ) {
@@ -181,66 +207,7 @@ export function graph( pageInfo, options ) {
          }
          return inferEdgeType( path.slice( 0, path.length - 1 ) );
       }
-   }
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function pruneIrrelevantWidgets( withContainers ) {
-      let toPrune = [];
-      do {
-         toPrune.forEach( id => { delete vertices[ id ]; } );
-         pruneEmptyEdges();
-         toPrune = mark();
-      } while( toPrune.length );
-
-      function mark() {
-         const pruneList = [];
-         Object.keys( vertices ).forEach( vId => {
-            const ports = vertices[ vId ].ports;
-            if( ports.inbound.length <= withContainers ? 1 : 0 ) {
-               if( ports.outbound.every( _ => !_.edgeId ) ) {
-                  pruneList.push( vId  );
-               }
-            }
-         } );
-         return pruneList;
-      }
-   }
-
-   function pruneEmptyEdges() {
-      const toPrune = [];
-      Object.keys( edges ).forEach( edgeId => {
-         const type = edgeTypes[ edges[ edgeId ].type ];
-         const sources = Object.keys( vertices ).filter( isSourceOf( edgeId ) );
-         const sinks = Object.keys( vertices ).filter( isSinkOf( edgeId ) );
-         const hasSources = sources.length > 0;
-         const hasSinks = sinks.length > 0;
-         const isEmpty = type.owningPort ? (!hasSources || !hasSinks) : (!hasSources && !hasSinks);
-         if( !isEmpty ) {
-            return;
-         }
-
-         toPrune.push( edgeId );
-         sources.concat( sinks ).forEach( vertexId => {
-            const ports = vertices[ vertexId ].ports;
-            ports.inbound.concat( ports.outbound ).forEach( port => {
-               port.edgeId = port.edgeId === edgeId ? null : port.edgeId;
-            } );
-         } );
-      } );
-      toPrune.forEach( id => { delete edges[ id ]; } );
-
-      function isSourceOf( edgeId ) {
-         return function( vertexId ) {
-            return vertices[ vertexId ].ports.inbound.some( port => port.edgeId === edgeId );
-         };
-      }
-
-      function isSinkOf( edgeId ) {
-         return function( vertexId ) {
-            return vertices[ vertexId ].ports.outbound.some( port => port.edgeId === edgeId );
-         };
-      }
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,12 +230,18 @@ export function graph( pageInfo, options ) {
          }
 
          let containsAnything = false;
-         page.areas[ areaName ].filter( either( isWidget, isLayout ) ).forEach( item => {
-            if( vertices[ item.id ] ) {
-               insertUplink( vertices[ item.id ], areaName );
-               containsAnything = true;
-            }
-         } );
+         page.areas[ areaName ]
+            .filter( item => {
+               return isComposition( item ) ?
+                  compositionDisplay === 'COMPACT' :
+                  true;
+            } )
+            .forEach( item => {
+               if( vertices[ item.id ] ) {
+                  insertUplink( vertices[ item.id ], areaName );
+                  containsAnything = true;
+               }
+            } );
          if( containsAnything ) {
             insertOwnerPort( owner, areaName );
          }
@@ -310,6 +283,90 @@ export function graph( pageInfo, options ) {
       }
    }
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function pruneIrrelevantWidgets( withContainers ) {
+      let toPrune = [];
+      do {
+         toPrune.forEach( id => { delete vertices[ id ]; } );
+         pruneEmptyEdges();
+         toPrune = mark();
+      } while( toPrune.length );
+
+      function mark() {
+         const pruneList = [];
+         Object.keys( vertices ).forEach( vId => {
+            const ports = vertices[ vId ].ports;
+            if( ports.inbound.length <= withContainers ? 1 : 0 ) {
+               if( ports.outbound.every( _ => !_.edgeId ) ) {
+                  pruneList.push( vId  );
+               }
+            }
+         } );
+         return pruneList;
+      }
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function pruneEmptyEdges() {
+      const toPrune = [];
+      Object.keys( edges ).forEach( edgeId => {
+         const type = edgeTypes[ edges[ edgeId ].type ];
+         const sources = Object.keys( vertices ).filter( isSourceOf( edgeId ) );
+         const sinks = Object.keys( vertices ).filter( isSinkOf( edgeId ) );
+         const hasSources = sources.length > 0;
+         const hasSinks = sinks.length > 0;
+         const isEmpty = type.owningPort ? (!hasSources || !hasSinks) : (!hasSources && !hasSinks);
+         if( !isEmpty ) {
+            return;
+         }
+
+         toPrune.push( edgeId );
+         sources.concat( sinks ).forEach( vertexId => {
+            const ports = vertices[ vertexId ].ports;
+            ports.inbound.concat( ports.outbound ).forEach( port => {
+               port.edgeId = port.edgeId === edgeId ? null : port.edgeId;
+            } );
+         } );
+      } );
+      toPrune.forEach( id => { delete edges[ id ]; } );
+
+      function isSourceOf( edgeId ) {
+         return function( vertexId ) {
+            return vertices[ vertexId ].ports.inbound.some( port => port.edgeId === edgeId );
+         };
+      }
+
+      function isSinkOf( edgeId ) {
+         return function( vertexId ) {
+            return vertices[ vertexId ].ports.outbound.some( port => port.edgeId === edgeId );
+         };
+      }
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function isComposition( pageAreaItem ) {
+   return !!pageAreaItem.composition;
+}
+
+function isWidget( pageAreaItem ) {
+   return !!pageAreaItem.widget;
+}
+
+function isLayout( pageAreaItem ) {
+   return !!pageAreaItem.layout;
+}
+
+function either( f, g ) {
+   return function() {
+      return f.apply( this, arguments ) || g.apply( this, arguments );
+   };
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

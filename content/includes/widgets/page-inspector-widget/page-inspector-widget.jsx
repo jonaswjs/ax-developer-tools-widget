@@ -29,6 +29,7 @@ function create( context, eventBus, reactRender ) {
 
    let withIrrelevantWidgets = false;
    let withContainers = true;
+   let withFlatCompositions = false;
 
    let publishedSelection = null;
 
@@ -76,6 +77,13 @@ function create( context, eventBus, reactRender ) {
 
    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+   function toggleCompositions() {
+      withFlatCompositions = !withFlatCompositions;
+      initializeViewModel( true );
+   }
+
+   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    function initializeViewModel( doReset ) {
       if( doReset ) {
          viewModel = null;
@@ -87,10 +95,15 @@ function create( context, eventBus, reactRender ) {
       }
 
       if( visible ) {
+         // setTimeout: used to ensure that the browser shows the spinner before stalling for layout
          viewModelCalculation = viewModelCalculation || setTimeout( () => {
             const pageTypes = types();
             const pageInfo = context.resources.pageInfo;
-            const pageGraph = graph( pageInfo, { withIrrelevantWidgets, withContainers } );
+            const pageGraph = graph( pageInfo, {
+               withIrrelevantWidgets,
+               withContainers,
+               compositionDisplay: withFlatCompositions ? 'FLAT' : 'COMPACT'
+            } );
             const dispatcher = new Dispatcher( render );
             new HistoryStore( dispatcher );
             const graphStore = new GraphStore( dispatcher, pageGraph, pageTypes );
@@ -131,6 +144,7 @@ function create( context, eventBus, reactRender ) {
 
       replaceFilter( selectionStore.selection, graphStore.graph );
 
+
       reactRender(
          <div className='page-inspector-row form-inline'>
             <div className='text-right'>
@@ -144,6 +158,11 @@ function create( context, eventBus, reactRender ) {
                        onClick={toggleContainers}
                   ><i className={'fa fa-toggle-' + ( withContainers ? 'on' : 'off' ) }
                   ></i> <span>Containers</span></button>
+               <button type='button' className='btn btn-link'
+                       title="Flatten compositions into their runtime contents?"
+                       onClick={toggleCompositions}
+                  ><i className={'fa fa-toggle-' + ( withFlatCompositions ? 'on' : 'off' ) }
+                  ></i> <span>Flatten Compositions</span></button>
             </div>
             <Graph className='nbe-theme-fusebox-app'
                    types={graphStore.types}

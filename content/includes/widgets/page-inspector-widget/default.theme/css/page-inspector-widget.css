@@ -4,7 +4,7 @@
  */
 @charset "UTF-8";
 
-@import "../../../../../bower_components/wireflow/demos/fusebox/css/wireflow.css";
+@import "./wireflow.css";
 
 .page-inspector-widget {
    display: flex;
