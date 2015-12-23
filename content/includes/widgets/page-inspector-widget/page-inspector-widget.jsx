@@ -9,7 +9,7 @@ const {
   selection: { SelectionStore },
   history: { HistoryStore },
   layout: { LayoutStore },
-  graph: { GraphStore },
+  graph: { GraphStore, actions: { ActivateVertex } },
   settings: {
     actions: { ChangeMode, MinimapResized },
     model: { Settings, READ_ONLY, READ_WRITE },
@@ -30,6 +30,7 @@ function create( context, eventBus, reactRender ) {
    let withIrrelevantWidgets = false;
    let withContainers = true;
    let withFlatCompositions = false;
+   let activeComposition = null;
 
    let publishedSelection = null;
 
@@ -102,7 +103,8 @@ function create( context, eventBus, reactRender ) {
             const pageGraph = graph( pageInfo, {
                withIrrelevantWidgets,
                withContainers,
-               compositionDisplay: withFlatCompositions ? 'FLAT' : 'COMPACT'
+               compositionDisplay: withFlatCompositions ? 'FLAT' : 'COMPACT',
+               activeComposition
             } );
             const dispatcher = new Dispatcher( render );
             new HistoryStore( dispatcher );
@@ -110,6 +112,14 @@ function create( context, eventBus, reactRender ) {
             const layoutStore = new LayoutStore( dispatcher, graphStore );
             const settingsStore = new SettingsStore( dispatcher, Settings({ mode: READ_ONLY }) );
             const selectionStore = new SelectionStore( dispatcher, layoutStore, graphStore );
+
+            dispatcher.register( ActivateVertex, ({ vertex }) => {
+               console.log( 'activate: ', vertex.toJS() );
+               if( vertex.kind === 'COMPOSITION' ) {
+                  activeComposition = vertex.id;
+                  initializeViewModel( true );
+               }
+            } );
 
             viewModel = { graphStore, layoutStore, settingsStore, selectionStore, dispatcher };
             render();
@@ -147,6 +157,7 @@ function create( context, eventBus, reactRender ) {
 
       reactRender(
          <div className='page-inspector-row form-inline'>
+            { activeComposition || 'nothing' }
             <div className='text-right'>
                <button type='button' className='btn btn-link'
                        title="Include widgets without any links to relevant topics?"

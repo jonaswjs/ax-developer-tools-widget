@@ -45,13 +45,16 @@ const edgeTypes = {
  * @param {String='FLAT'} pageInfo.compositionDisplay
  *   If set to `'COMPACT'` (default), compositions are represented by an instance node, reflecting their development-time model.
  *   If set to `'FLAT'`, compositions are replaced recursively by their configured expansion, reflecting their run-time model.
+ * @param {String=null} pageInfo.activeComposition
+ *   If set, generate a graph for the contents of the given composition, rather than for the page.
  */
 export function graph( pageInfo, options ) {
 
    const {
       withIrrelevantWidgets = false,
       withContainers = true,
-      compositionDisplay = 'FLAT'
+      compositionDisplay = 'FLAT',
+      activeComposition = null
    } = options;
 
    const PAGE_ID = '.';
@@ -61,7 +64,12 @@ export function graph( pageInfo, options ) {
       widgetDescriptors,
       compositionDefinitions
    } = pageInfo;
-   const page = pageDefinitions[ pageReference ][ compositionDisplay ];
+   const page = activeComposition ?
+      compositionDefinitions[ pageReference ][ activeComposition ][ compositionDisplay ] :
+      pageDefinitions[ pageReference ][ compositionDisplay ];
+   console.log( '>> PageInfo', pageInfo ); // :TODO: DELETE ME
+   console.log( '>> options', options ); // :TODO: DELETE ME
+   console.log( '>> page', page ); // :TODO: DELETE ME
 
 
    const vertices = {};
@@ -80,8 +88,6 @@ export function graph( pageInfo, options ) {
       vertices,
       edges
    } );
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -138,7 +144,6 @@ export function graph( pageInfo, options ) {
          const definition = compositionDefinitions[ pageReference ][ id ].COMPACT;
 
          const ports = identifyPorts( compositionInstance.features, definition.features );
-
          vertices[ id ] = {
             id: id,
             label: id,
@@ -150,9 +155,6 @@ export function graph( pageInfo, options ) {
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function identifyPorts( value, schema, path, ports ) {
-         if( !path && !ports ) {
-            console.log( 'CLOG IDENT PORTS', value, schema ); // :TODO: DELETE ME
-         }
          path = path || [];
          ports = ports || { inbound: [], outbound: [] };
          if( !value || !schema ) {
@@ -217,7 +219,7 @@ export function graph( pageInfo, options ) {
 
       vertices[ PAGE_ID ] =  {
          PAGE_ID,
-         label: 'Page ' + pageReference,
+         label: activeComposition ? activeComposition : ( 'Page ' + pageReference ),
          kind: 'PAGE',
          ports: { inbound: [], outbound: [] }
       };
@@ -382,6 +384,12 @@ export function layout( graph ) {
 
 export function types() {
    return graphModel.convert.types( edgeTypes );
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export function compositionStack( compositionInstanceId ) {
+   return [];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
