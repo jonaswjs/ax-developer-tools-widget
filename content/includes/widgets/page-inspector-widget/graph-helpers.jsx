@@ -143,7 +143,25 @@ export function graph( pageInfo, options ) {
          const { id } = compositionInstance;
          const definition = compositionDefinitions[ pageReference ][ id ].COMPACT;
 
-         const ports = identifyPorts( compositionInstance.features, definition.features );
+         const schema = definition.features.type ?
+            definition.features :
+            { type: 'object', properties: definition.features };
+
+         const ports = identifyPorts(
+            compositionInstance.features || {},
+            object.options( schema )
+         );
+
+         /*
+         console.log(
+            "IDENT COMPOSITION PORTS\n",
+            object.deepClone( compositionInstance ), '\n',
+            object.deepClone( compositionInstance.features || {} ), '\n',
+            object.deepClone( schema ), '\n -----> ',
+            object.deepClone( ports )
+         );\
+         */
+
          vertices[ id ] = {
             id: id,
             label: id,
@@ -158,12 +176,12 @@ export function graph( pageInfo, options ) {
          path = path || [];
          ports = ports || { inbound: [], outbound: [] };
          if( !value || !schema ) {
-            return;
+            return ports;
          }
 
          if( value.enabled === false ) {
             // feature can be disabled, and was disabled
-            return;
+            return ports;
          }
          if( schema.type === 'string' && schema.axRole &&
              ( schema.format === 'topic' || schema.format === 'flag-topic' ) ) {
