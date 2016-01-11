@@ -33,6 +33,8 @@ const edgeTypes = {
    }
 };
 
+export const PAGE_ID = '.';
+
 /**
  * Create a wireflow graph from a given page/widget information model.
  *
@@ -57,7 +59,6 @@ export function graph( pageInfo, options ) {
       activeComposition = null
    } = options;
 
-   const PAGE_ID = '.';
    const {
       pageReference,
       pageDefinitions,
@@ -235,7 +236,7 @@ export function graph( pageInfo, options ) {
    function identifyContainers() {
       const type = TYPE_CONTAINER;
 
-      vertices[ PAGE_ID ] =  {
+      vertices[ PAGE_ID ] = {
          PAGE_ID,
          label: activeComposition ? activeComposition : ( 'Page ' + pageReference ),
          kind: 'PAGE',

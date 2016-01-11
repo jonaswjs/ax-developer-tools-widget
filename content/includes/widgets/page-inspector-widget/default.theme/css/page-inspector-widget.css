@@ -28,6 +28,17 @@
    height: 100%;
 }
 
+.page-inspector-widget .page-inspector-breadcrumb::after {
+   content: ' / ';
+}
+.page-inspector-widget .page-inspector-breadcrumb {
+   padding-right: 4px;
+}
+.page-inspector-widget .page-inspector-breadcrumb:not(:first-child) {
+   padding-left: 0;
+}
+
+
 .page-inspector-widget button {
    position: relative;
 }

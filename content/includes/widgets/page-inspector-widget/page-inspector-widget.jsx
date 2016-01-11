@@ -3,7 +3,7 @@ import patterns from 'laxar-patterns';
 
 import wireflow from 'wireflow';
 
-import { types, graph, layout, filterFromSelection } from './graph-helpers';
+import { types, graph, layout, filterFromSelection, PAGE_ID } from './graph-helpers';
 
 const {
   selection: { SelectionStore },
@@ -30,6 +30,8 @@ function create( context, eventBus, reactRender ) {
    let withIrrelevantWidgets = false;
    let withContainers = true;
    let withFlatCompositions = false;
+
+   let compositionStack = [];
    let activeComposition = null;
 
    let publishedSelection = null;
@@ -85,6 +87,21 @@ function create( context, eventBus, reactRender ) {
 
    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+   function enterCompositionInstance( id ) {
+      console.log( 'activate: ', id );
+      const currentIndex = id ? compositionStack.indexOf( id ) : 0;
+      if( currentIndex !== -1 ) {
+         compositionStack.splice( id ? currentIndex + 1 : 0, compositionStack.length - currentIndex );
+      }
+      else {
+         compositionStack.push( id );
+      }
+      activeComposition = id;
+      initializeViewModel( true );
+   }
+
+   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    function initializeViewModel( doReset ) {
       if( doReset ) {
          viewModel = null;
@@ -114,10 +131,8 @@ function create( context, eventBus, reactRender ) {
             const selectionStore = new SelectionStore( dispatcher, layoutStore, graphStore );
 
             dispatcher.register( ActivateVertex, ({ vertex }) => {
-               console.log( 'activate: ', vertex.toJS() );
                if( vertex.kind === 'COMPOSITION' ) {
-                  activeComposition = vertex.id;
-                  initializeViewModel( true );
+                  enterCompositionInstance( vertex.id );
                }
             } );
 
@@ -157,9 +172,9 @@ function create( context, eventBus, reactRender ) {
 
       reactRender(
          <div className='page-inspector-row form-inline'>
-            { activeComposition || 'nothing' }
             <div className='text-right'>
-               <button type='button' className='btn btn-link'
+               <div className='pull-left'>{ renderBreadCrumbs() }</div>
+               <button type='button' className='btn btn-link '
                        title="Include widgets without any links to relevant topics?"
                        onClick={toggleIrrelevantWidgets}
                   ><i className={'fa fa-toggle-' + ( withIrrelevantWidgets ? 'on' : 'off' ) }
@@ -185,6 +200,19 @@ function create( context, eventBus, reactRender ) {
                    eventHandler={dispatcher.dispatch} />
          </div>
       );
+
+      function renderBreadCrumbs() {
+         return [
+            <button key={PAGE_ID} type='button' className='btn btn-link page-inspector-breadcrumb'
+                    onClick={() => enterCompositionInstance( null )}>
+              <i className='fa fa-home'></i>
+           </button>
+         ].concat( compositionStack.map( id =>
+            activeComposition === id ? id :
+               <button key={id} type='button' className='btn btn-link page-inspector-breadcrumb'
+                       onClick={() => enterCompositionInstance( id )}>{ id }</button>
+        ) );
+      }
    }
 
    //////////////////////////////////////////////////////////////////////////////////////////////////////////
