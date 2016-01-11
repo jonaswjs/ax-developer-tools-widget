@@ -76,6 +76,7 @@ export function graph( pageInfo, options ) {
    const vertices = {};
    const edges = {};
 
+
    identifyVertices();
    if( withContainers ) {
       identifyContainers();
@@ -93,6 +94,9 @@ export function graph( pageInfo, options ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function identifyVertices() {
+
+      vertices[ PAGE_ID ] = rootVertex();
+
       Object.keys( page.areas ).forEach( areaName => {
          page.areas[ areaName ].forEach( pageAreaItem => {
             if( isWidget( pageAreaItem ) ) {
@@ -108,6 +112,43 @@ export function graph( pageInfo, options ) {
       } );
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function rootVertex() {
+         let ports = identifyPorts( {}, {} );
+         console.log( "ROOT", activeComposition );
+         if( activeComposition ) {
+            // find composition instance in embedding page/composition:
+            [ pageDefinitions[ pageReference ] ]
+               .concat( Object
+                  .keys( compositionDefinitions[ pageReference ] )
+                  .map( key => compositionDefinitions[ pageReference ][ key ] )
+               )
+               .forEach( pagelike => {
+                  console.log( "pagelike", pagelike );
+                  const areas = pagelike.COMPACT.areas;
+                  Object.keys( areas )
+                     .forEach( name => areas[ name ]
+                        .filter( item => item.id === activeComposition )
+                        .forEach( item => {
+                           const features = item.features;
+                           const schema = page.features;
+                           console.log( "f / s", object.deepClone( features ), object.deepClone( schema ) );
+                           ports = identifyPorts( features, schema );
+                           console.log( "f/s ports", object.deepClone( ports ) );
+                        } )
+                     );
+               } );
+         }
+
+         return {
+            PAGE_ID,
+            label: '[root] ' + ( activeComposition ? activeComposition : pageReference ),
+            kind: 'PAGE',
+            ports
+         };
+      }
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function processLayoutInstance( layout, areaName ) {
          vertices[ layout.id ] = {
@@ -152,16 +193,6 @@ export function graph( pageInfo, options ) {
             compositionInstance.features || {},
             object.options( schema )
          );
-
-         /*
-         console.log(
-            "IDENT COMPOSITION PORTS\n",
-            object.deepClone( compositionInstance ), '\n',
-            object.deepClone( compositionInstance.features || {} ), '\n',
-            object.deepClone( schema ), '\n -----> ',
-            object.deepClone( ports )
-         );\
-         */
 
          vertices[ id ] = {
             id: id,
@@ -236,13 +267,6 @@ export function graph( pageInfo, options ) {
    function identifyContainers() {
       const type = TYPE_CONTAINER;
 
-      vertices[ PAGE_ID ] = {
-         PAGE_ID,
-         label: activeComposition ? activeComposition : ( 'Page ' + pageReference ),
-         kind: 'PAGE',
-         ports: { inbound: [], outbound: [] }
-      };
-
       Object.keys( page.areas ).forEach( areaName => {
          insertEdge( areaName );
          const owner = findOwner( areaName );
@@ -269,7 +293,7 @@ export function graph( pageInfo, options ) {
       } );
 
       function findOwner( areaName ) {
-         if( areaName.indexOf( '.' ) === -1 ) {
+         if( areaName.indexOf( '.' ) <= 0 ) {
             return vertices[ PAGE_ID ];
          }
          const prefix = areaName.slice( 0, areaName.lastIndexOf( '.' ) );
@@ -365,8 +389,6 @@ export function graph( pageInfo, options ) {
          };
       }
    }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
 
