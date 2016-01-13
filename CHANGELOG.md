@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#43](https://github.com/LaxarJS/ax-developer-tools-widget/issues/43): page inspection: updated wireflow version
+
 
 ## v2.0.0-alpha.2
 
