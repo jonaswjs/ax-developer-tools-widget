@@ -3,6 +3,7 @@
 
 ## Last Changes
 
+- [#39](https://github.com/LaxarJS/ax-developer-tools-widget/issues/39): page inspection: added composition support
 - [#43](https://github.com/LaxarJS/ax-developer-tools-widget/issues/43): page inspection: updated wireflow version
 
 

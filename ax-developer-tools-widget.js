@@ -100,45 +100,48 @@ define( [
 
    function startCapturingEvents( eventBus ) {
       enabled = ax.configuration.get( 'widgets.laxar-developer-tools-widget.enabled', true );
+      if( !enabled ) {
+         return;
+      }
 
-      if( enabled ) {
-         developerHooks = window.axDeveloperTools = ( window.axDeveloperTools || {} );
-         developerHooks.buffers = ( developerHooks.buffers || { events: [], log: [] } );
-         developerHooks.eventCounter = developerHooks.eventCounter || Date.now();
-         developerHooks.logCounter = developerHooks.logCounter || Date.now();
-         developerHooks.pageInfo = developerHooks.pageInfo || ax._tooling.pages.current();
-         developerHooks.pageInfoVersion = developerHooks.pageInfoVersion || 1;
-         ax._tooling.pages.addListener( onPageChange );
+      ax._tooling.pages.addListener( onPageChange );
+      ax.log.addLogChannel( logChannel );
 
-         ax.log.addLogChannel( logChannel );
-         cleanupInspector = eventBus.addInspector( function( item ) {
-            var problems = [];
-            if( developerHooks.tracker ) {
-               problems = developerHooks.tracker.track( item );
-               problems.forEach( function( problem ) {
-                  ax.log.warn( 'DeveloperTools: [0], event: [1]', problem.description, item );
-               } );
-            }
+      developerHooks = window.axDeveloperTools = ( window.axDeveloperTools || {} );
+      developerHooks.buffers = ( developerHooks.buffers || { events: [], log: [] } );
+      developerHooks.eventCounter = developerHooks.eventCounter || Date.now();
+      developerHooks.logCounter = developerHooks.logCounter || Date.now();
+      developerHooks.pageInfo = developerHooks.pageInfo || ax._tooling.pages.current();
+      developerHooks.pageInfoVersion = developerHooks.pageInfoVersion || 1;
 
-            var index = developerHooks.eventCounter++;
-            var jsonItem = JSON.stringify( ax.object.options( {
-               time: Date.now(),
-               problems: problems
-            }, item ) );
-
-            pushIntoStore( 'events', {
-               index: index,
-               json: jsonItem
+      cleanupInspector = eventBus.addInspector( function( item ) {
+         var problems = [];
+         if( developerHooks.tracker ) {
+            problems = developerHooks.tracker.track( item );
+            problems.forEach( function( problem ) {
+               ax.log.warn( 'DeveloperTools: [0], event: [1]', problem.description, item );
             } );
-         } );
+         }
 
-         ng.element( window ).off( 'beforeunload.AxDeveloperToolsWidget' );
-         ng.element( window ).one( 'beforeunload.AxDeveloperToolsWidget', function() {
+         var index = developerHooks.eventCounter++;
+         var jsonItem = JSON.stringify( ax.object.options( {
+            time: Date.now(),
+            problems: problems
+         }, item ) );
+
+         pushIntoStore( 'events', {
+            index: index,
+            json: jsonItem
+         } );
+      } );
+
+      ng.element( window )
+         .off( 'beforeunload.AxDeveloperToolsWidget' )
+         .one( 'beforeunload.AxDeveloperToolsWidget', function() {
             ax.log.removeLogChannel( logChannel );
             cleanupInspector();
             cleanupInspector = null;
          } );
-      }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
