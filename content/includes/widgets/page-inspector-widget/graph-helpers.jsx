@@ -33,7 +33,7 @@ const edgeTypes = {
    }
 };
 
-export const PAGE_ID = '.';
+export const ROOT_ID = '.';
 
 /**
  * Create a wireflow graph from a given page/widget information model.
@@ -65,18 +65,13 @@ export function graph( pageInfo, options ) {
       widgetDescriptors,
       compositionDefinitions
    } = pageInfo;
+
    const page = activeComposition ?
       compositionDefinitions[ pageReference ][ activeComposition ][ compositionDisplay ] :
       pageDefinitions[ pageReference ][ compositionDisplay ];
-   console.log( '>> PageInfo', pageInfo ); // :TODO: DELETE ME
-   console.log( '>> options', options ); // :TODO: DELETE ME
-   console.log( '>> page', page ); // :TODO: DELETE ME
-
 
    const vertices = {};
    const edges = {};
-
-
    identifyVertices();
    if( withContainers ) {
       identifyContainers();
@@ -86,16 +81,13 @@ export function graph( pageInfo, options ) {
    }
    pruneEmptyEdges();
 
-   return graphModel.convert.graph( {
-      vertices,
-      edges
-   } );
+   return graphModel.convert.graph( { vertices, edges } );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function identifyVertices() {
 
-      vertices[ PAGE_ID ] = rootVertex();
+      vertices[ ROOT_ID ] = rootVertex();
 
       Object.keys( page.areas ).forEach( areaName => {
          page.areas[ areaName ].forEach( pageAreaItem => {
@@ -115,16 +107,14 @@ export function graph( pageInfo, options ) {
 
       function rootVertex() {
          let ports = identifyPorts( {}, {} );
-         console.log( "ROOT", activeComposition );
          if( activeComposition ) {
-            // find composition instance in embedding page/composition:
-            [ pageDefinitions[ pageReference ] ]
-               .concat( Object
-                  .keys( compositionDefinitions[ pageReference ] )
-                  .map( key => compositionDefinitions[ pageReference ][ key ] )
-               )
+            // find composition instance within embedding page/composition:
+            const pageCompositionDefinitions = Object
+               .keys( compositionDefinitions[ pageReference ] )
+               .map( key => compositionDefinitions[ pageReference ][ key ] );
+
+            [ pageDefinitions[ pageReference ] ].concat( pageCompositionDefinitions )
                .forEach( pagelike => {
-                  console.log( "pagelike", pagelike );
                   const areas = pagelike.COMPACT.areas;
                   Object.keys( areas )
                      .forEach( name => areas[ name ]
@@ -132,17 +122,17 @@ export function graph( pageInfo, options ) {
                         .forEach( item => {
                            const features = item.features;
                            const schema = page.features;
-                           console.log( "f / s", object.deepClone( features ), object.deepClone( schema ) );
-                           ports = identifyPorts( features, schema );
-                           console.log( "f/s ports", object.deepClone( ports ) );
+                           ports = identifyPorts( features || {}, schema );
+                           // swap port directions (from inside, an input is an output, and vice versa):
+                           ports = { inbound: ports.outbound, outbound: ports.inbound };
                         } )
                      );
                } );
          }
 
          return {
-            PAGE_ID,
-            label: '[root] ' + ( activeComposition ? activeComposition : pageReference ),
+            ROOT_ID,
+            label: activeComposition ? '[parent]' : ( '[root] ' + pageReference ),
             kind: 'PAGE',
             ports
          };
@@ -209,6 +199,11 @@ export function graph( pageInfo, options ) {
          ports = ports || { inbound: [], outbound: [] };
          if( !value || !schema ) {
             return ports;
+         }
+
+         if( !schema.type ) {
+            // TODO: cleanup, invert role
+            schema = { type: 'object', properties: schema };
          }
 
          if( value.enabled === false ) {
@@ -294,7 +289,7 @@ export function graph( pageInfo, options ) {
 
       function findOwner( areaName ) {
          if( areaName.indexOf( '.' ) <= 0 ) {
-            return vertices[ PAGE_ID ];
+            return vertices[ ROOT_ID ];
          }
          const prefix = areaName.slice( 0, areaName.lastIndexOf( '.' ) );
          return vertices[ prefix ];

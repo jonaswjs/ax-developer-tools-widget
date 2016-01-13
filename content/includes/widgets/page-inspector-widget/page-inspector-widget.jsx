@@ -3,7 +3,7 @@ import patterns from 'laxar-patterns';
 
 import wireflow from 'wireflow';
 
-import { types, graph, layout, filterFromSelection, PAGE_ID } from './graph-helpers';
+import { types, graph, layout, filterFromSelection, ROOT_ID } from './graph-helpers';
 
 const {
   selection: { SelectionStore },
@@ -88,13 +88,16 @@ function create( context, eventBus, reactRender ) {
    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function enterCompositionInstance( id ) {
-      console.log( 'activate: ', id );
-      const currentIndex = id ? compositionStack.indexOf( id ) : 0;
-      if( currentIndex !== -1 ) {
-         compositionStack.splice( id ? currentIndex + 1 : 0, compositionStack.length - currentIndex );
+      if( id === ROOT_ID ) {
+         id = compositionStack.length > 1 ? compositionStack[ compositionStack.length - 2 ] : null;
+      }
+      const goToTop = id === null;
+      const targetIndex = goToTop ? 0 : compositionStack.indexOf( id );
+      if( targetIndex === -1 ) {
+         compositionStack.push( id );
       }
       else {
-         compositionStack.push( id );
+         compositionStack.splice( goToTop ? 0 : targetIndex + 1, compositionStack.length - targetIndex );
       }
       activeComposition = id;
       initializeViewModel( true );
@@ -131,7 +134,7 @@ function create( context, eventBus, reactRender ) {
             const selectionStore = new SelectionStore( dispatcher, layoutStore, graphStore );
 
             dispatcher.register( ActivateVertex, ({ vertex }) => {
-               if( vertex.kind === 'COMPOSITION' ) {
+               if( vertex.kind === 'COMPOSITION' || vertex.kind === 'PAGE' ) {
                   enterCompositionInstance( vertex.id );
                }
             } );
@@ -203,7 +206,7 @@ function create( context, eventBus, reactRender ) {
 
       function renderBreadCrumbs() {
          return [
-            <button key={PAGE_ID} type='button' className='btn btn-link page-inspector-breadcrumb'
+            <button key={ROOT_ID} type='button' className='btn btn-link page-inspector-breadcrumb'
                     onClick={() => enterCompositionInstance( null )}>
               <i className='fa fa-home'></i>
            </button>
