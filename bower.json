@@ -1,6 +1,6 @@
 {
    "name": "laxar-developer-tools-widget",
-   "version": "2.0.0-alpha.2",
+   "version": "2.0.0-alpha.3",
    "description": "Provides developer tools to inspect the event bus and the application log, and the grid-alignment of widgets",
    "license": "MIT",
    "repository": {
@@ -8,8 +8,8 @@
       "url": "https://github.com/LaxarJS/ax-developer-tools-widget.git"
    },
    "dependencies": {
-      "laxar": "^1.2.0-alpha.2",
-      "laxar-patterns": "^1.2.0-alpha.1",
+      "laxar": "^1.2.0-beta.0",
+      "laxar-patterns": "^1.2.0-alpha.2",
       "laxar-uikit": "^1.1.0"
    },
    "devDependencies": {
