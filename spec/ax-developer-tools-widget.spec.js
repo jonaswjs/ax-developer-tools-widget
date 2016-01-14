@@ -76,7 +76,6 @@ define( [
             testBed.tearDown();
 
             if( window.axDeveloperTools ) {
-               delete window.axDeveloperTools.tracker;
                delete window.axDeveloperTools.buffers.log;
                delete window.axDeveloperTools.buffers.events;
                delete window.axDeveloperTools.buffers;
@@ -130,8 +129,7 @@ define( [
                target: '-',
                event: 'takeActionRequest.develop',
                cycleId: -1,
-               time: jasmine.any( Number ),
-               problems: []
+               time: jasmine.any( Number )
             } );
 
          } );
