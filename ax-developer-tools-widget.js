@@ -15,6 +15,7 @@ define( [
    // To capture navigation and lifecycle events, the event log persists across LaxarJS navigation.
    var contentWindow;
    var cleanupInspector;
+   var hasLogChannel;
 
    var developerHooks;
    var enabled;
@@ -28,6 +29,9 @@ define( [
       if( !$scope.enabled ) {
          return;
       }
+
+      // Needed for inspection to work with laxar-mocks (run-block is run too early).
+      ensureEventBusInspection( eventBus );
 
       $scope.commands = {
          open: openContentWindow
@@ -101,7 +105,10 @@ define( [
       }
 
       ax._tooling.pages.addListener( onPageChange );
-      ax.log.addLogChannel( logChannel );
+      if( !hasLogChannel ) {
+         ax.log.addLogChannel( logChannel );
+         hasLogChannel = true;
+      }
 
       developerHooks = window.axDeveloperTools = ( window.axDeveloperTools || {} );
       developerHooks.buffers = ( developerHooks.buffers || { events: [], log: [] } );
@@ -110,23 +117,18 @@ define( [
       developerHooks.pageInfo = developerHooks.pageInfo || ax._tooling.pages.current();
       developerHooks.pageInfoVersion = developerHooks.pageInfoVersion || 1;
 
-      cleanupInspector = eventBus.addInspector( function( item ) {
-         var index = developerHooks.eventCounter++;
-         var jsonItem = JSON.stringify( ax.object.options( { time: Date.now() }, item ) );
+      ensureEventBusInspection( eventBus );
 
-         pushIntoStore( 'events', {
-            index: index,
-            json: jsonItem
-         } );
-      } );
-
-      ng.element( window )
-         .off( 'beforeunload.AxDeveloperToolsWidget' )
-         .one( 'beforeunload.AxDeveloperToolsWidget', function() {
+      window.addEventListener( 'beforeunload', function() {
+         if( hasLogChannel ) {
             ax.log.removeLogChannel( logChannel );
+            hasLogChannel = false;
+         }
+         if( cleanupInspector ) {
             cleanupInspector();
             cleanupInspector = null;
-         } );
+         }
+      } );
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -135,6 +137,24 @@ define( [
          var jsonItem = JSON.stringify( messageObject );
          pushIntoStore( 'log', { index: index, json: jsonItem } );
       }
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function ensureEventBusInspection( globalEventBus ) {
+      if( cleanupInspector ) {
+         cleanupInspector();
+      }
+
+      cleanupInspector = globalEventBus.addInspector( function( item ) {
+         var index = developerHooks.eventCounter++;
+         var jsonItem = JSON.stringify( ax.object.options( { time: Date.now() }, item ) );
+
+         pushIntoStore( 'events', {
+            index: index,
+            json: jsonItem
+         } );
+      } );
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
