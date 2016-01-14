@@ -38,9 +38,7 @@ define( [
 
       describe( 'with feature "open"', function() {
 
-         beforeEach( axMocks.createSetupForWidget( descriptor, {
-            knownMissingResources: [ 'ax-i18n-control.css' ]
-         } ) );
+         beforeEach( axMocks.createSetupForWidget( descriptor ) );
 
          beforeEach( function() {
             axMocks.widget.configure( {
