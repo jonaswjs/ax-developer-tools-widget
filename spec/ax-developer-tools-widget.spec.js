@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 aixigo AG
+ * Copyright 2016 aixigo AG
  * Released under the MIT license.
  * http://www.laxarjs.org
  */
@@ -8,87 +8,65 @@ define( [
    '../ax-developer-tools-widget',
    'angular-mocks',
    'jquery',
-   'laxar/laxar_testing'
-], function( descriptor, widgetModule, ngMocks, $, ax ) {
+   'laxar',
+   'laxar-mocks'
+], function( descriptor, widgetModule, ngMocks, $, ax, axMocks ) {
    'use strict';
 
-   describe( 'An ax-developer-tools-widget', function() {
+   describe( 'The ax-developer-tools-widget', function() {
 
-      var cleanup;
       var testBed;
       var windowOpenSpy;
       var windowState;
 
-      beforeEach( function setup() {
-         jasmine.Clock.useMock();
-         testBed = ax.testing.portalMocksAngular.createControllerTestBed( descriptor );
-         testBed.featuresMock = {
-            open: {
-               onActions: [ 'develop' ],
-               onGlobalMethod: 'axOpenDevTools'
-            }
-         };
-
-         testBed.injections.axConfiguration = {
-            'get': jasmine.createSpy( 'get' ).andCallFake( function( key, fallback ) {
-               return fallback;
-            } )
-         };
-
-         // intercept unload registration
-         cleanup = null;
-         spyOn( $.prototype, 'on' ).andCallFake( function( event, callback ) {
-            expect( event ).toEqual( 'beforeunload.AxDeveloperToolsWidget' );
-            cleanup = callback;
-         } );
-
-         windowState = {
-            closed: false,
-            focus: jasmine.createSpy( 'focus' )
-         };
-
-         windowOpenSpy = spyOn( window, 'open' ).andCallFake( function() {
-            return windowState;
-         } );
-      } );
-
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       afterEach( function() {
-         if( cleanup ) {
-            cleanup();
-         }
          windowState.closed = true;
+
+         if( window.axDeveloperTools ) {
+            delete window.axDeveloperTools.buffers.log;
+            delete window.axDeveloperTools.buffers.events;
+            delete window.axDeveloperTools.buffers;
+         }
          delete window.axDeveloperTools;
       } );
+
+      afterEach( axMocks.tearDown );
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       describe( 'with feature "open"', function() {
 
+         beforeEach( axMocks.createSetupForWidget( descriptor ) );
+
          beforeEach( function() {
-            testBed.setup();
+            axMocks.widget.configure( {
+               open: {
+                  onActions: [ 'develop' ],
+                  onGlobalMethod: 'axOpenDevTools'
+               }
+            } );
+
+            windowState = {
+               closed: false,
+               focus: jasmine.createSpy( 'focus' )
+            };
+
+            windowOpenSpy = spyOn( window, 'open' ).and.callFake( function() {
+               return windowState;
+            } );
          } );
 
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         afterEach( function() {
-            testBed.tearDown();
-
-            if( window.axDeveloperTools ) {
-               delete window.axDeveloperTools.buffers.log;
-               delete window.axDeveloperTools.buffers.events;
-               delete window.axDeveloperTools.buffers;
-            }
-         } );
+         beforeEach( axMocks.widget.load );
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
 
          it( 'allows to configure an action for opening the developer tools window (R1.1)', function() {
-            expect( testBed.scope.eventBus.subscribe ).toHaveBeenCalledWith(
+            expect( axMocks.widget.axEventBus.subscribe ).toHaveBeenCalledWith(
                'takeActionRequest.develop', jasmine.any( Function ) );
-            testBed.eventBusMock.publish( 'takeActionRequest.develop', { action: 'develop' } );
-            jasmine.Clock.tick( 0 );
+            axMocks.eventBus.publish( 'takeActionRequest.develop', { action: 'develop' } );
+            axMocks.eventBus.flush();
             expect( windowOpenSpy ).toHaveBeenCalled();
          } );
 
@@ -110,10 +88,11 @@ define( [
 
          it( 'intercepts _event bus activity_ from the host application and forwards it to the communication channel as JSON (R1.4)', function() {
             window.axOpenDevTools();
-            jasmine.Clock.tick( 0 );
-            testBed.eventBusMock.subscribe( 'someEvent', function() {} );
-            testBed.eventBusMock.publish( 'someEvent', { content: 'develop' } );
-            jasmine.Clock.tick( 0 );
+            axMocks.eventBus.flush();
+
+            axMocks.eventBus.subscribe( 'someEvent', function() {} );
+            axMocks.eventBus.publish( 'someEvent', { content: 'develop' } );
+            axMocks.eventBus.flush();
 
             // initial subscribe for develop action + subscribe/publish/deliver for someEvent:
             expect( window.axDeveloperTools.buffers.events.length ).toBe( 4 );
@@ -125,22 +104,20 @@ define( [
             expect( payload ).toEqual( jasmine.any( String ) );
             expect( JSON.parse( payload ) ).toEqual( {
                action: 'subscribe',
-               source: 'widget.ax-developer-tools-widget#testWidgetId',
+               source: 'widget.ax-developer-tools-widget#testWidget',
                target: '-',
                event: 'takeActionRequest.develop',
                cycleId: -1,
                time: jasmine.any( Number )
             } );
-
          } );
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
 
          it( 'intercepts LaxarJS _log messages_ from the host application and forwards them to the communication channel as JSON (R1.5)', function() {
             window.axOpenDevTools();
-            ax.log.trace( 'test log message' );
-            ax.log.info( 'test log message' );
-            jasmine.Clock.tick( 0 );
+            ax.log.info( 'test log message A' );
+            ax.log.info( 'test log message B' );
             expect( window.axDeveloperTools.buffers.log.length ).toBe( 2 );
 
             var index = window.axDeveloperTools.buffers.log[ 0 ].index;
@@ -150,8 +127,8 @@ define( [
             expect( payload ).toEqual( jasmine.any( String ) );
             expect( JSON.parse( payload ) ).toEqual( {
                id: jasmine.any( Number ),
-               level: 'TRACE',
-               text: 'test log message',
+               level: 'INFO',
+               text: 'test log message A',
                replacements: [],
                time: jasmine.any( String ),
                tags: {},
@@ -172,26 +149,26 @@ define( [
          var configPath = 'widgets.laxar-developer-tools-widget.enabled';
 
          beforeEach( function() {
-            spyOn( ax.configuration, 'get' ).andCallFake( function( key, fallback ) {
-               expect( key ).toEqual( configPath );
-               expect( fallback ).toEqual( true );
-               return false;
+            spyOn( ax.configuration, 'get' ).and.callFake( function( key, fallback ) {
+               if( key === configPath ) {
+                  expect( fallback ).toEqual( true );
+                  return false;
+               }
+               return fallback;
             } );
-
             spyOn( ax.log, 'addLogChannel' );
-            testBed.setup();
          } );
 
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
+         beforeEach( axMocks.createSetupForWidget( descriptor, {
+            knownMissingResources: [ 'ax-i18n-control.css' ]
+         } ) );
 
-         afterEach( function() {
-            testBed.tearDown();
-         } );
+         beforeEach( axMocks.widget.load );
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
 
          it( 'does not subscribe to action requests (R6.1)', function() {
-            expect( testBed.scope.eventBus.subscribe ).not.toHaveBeenCalled();
+            expect( axMocks.widget.axEventBus.subscribe ).not.toHaveBeenCalled();
          } );
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,7 +193,7 @@ define( [
          /////////////////////////////////////////////////////////////////////////////////////////////////////
 
          it( 'does not add a button (R6.5)', function() {
-            expect( testBed.scope.enabled ).toBeFalsy();
+            expect( axMocks.widget.$scope.enabled ).toBeFalsy();
          } );
 
       } );

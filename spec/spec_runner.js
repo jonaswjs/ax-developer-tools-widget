@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 aixigo AG
+ * Copyright 2016 aixigo AG
  * Released under the MIT license.
  * http://www.laxarjs.org
  */
@@ -9,6 +9,8 @@
       title: 'ax-developer-tools-widget Specification',
       tests: [
          'ax-developer-tools-widget.spec'
-      ]
+      ],
+      testRunner: 'laxar-mocks',
+      jasmineMajorVersion: 2
    };
 } )( this );
