@@ -105,16 +105,6 @@
                   "default": false
                }
             }
-         },
-         "tracker": {
-            "type": "object",
-            "description": "track and validate pattern events (actions, resources, flags)",
-            "properties": {
-               "enabled": {
-                  "type": "boolean",
-                  "default": false
-               }
-            }
          }
       }
    }

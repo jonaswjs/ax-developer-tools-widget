@@ -3,6 +3,9 @@
 
 ## Last Changes
 
+- [#42](https://github.com/LaxarJS/ax-developer-tools-widget/issues/42): tracker: moved event validation into developer tools window
+    + **BREAKING CHANGE:** see ticket for details
+
 
 ## v2.0.0-alpha.3
 
