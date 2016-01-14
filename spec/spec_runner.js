@@ -9,6 +9,8 @@
       title: 'ax-developer-tools-widget Specification',
       tests: [
          'ax-developer-tools-widget.spec'
-      ]
+      ],
+      testRunner: 'laxar-mocks',
+      jasmineMajorVersion: 2
    };
 } )( this );
