@@ -3,6 +3,9 @@
 
 ## Last Changes
 
+
+## v2.0.0
+
 - [#45](https://github.com/LaxarJS/ax-developer-tools-widget/issues/45): polish (styles, documentation)
 - [#38](https://github.com/LaxarJS/ax-developer-tools-widget/issues/38): documentation: added docs on page inspection
 - [#44](https://github.com/LaxarJS/ax-developer-tools-widget/issues/44): project: now using laxar-mocks for testing, updated copyright
