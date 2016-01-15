@@ -3,6 +3,7 @@
 
 ## Last Changes
 
+- [#38](https://github.com/LaxarJS/ax-developer-tools-widget/issues/38): documentation: added docs on page inspection
 - [#44](https://github.com/LaxarJS/ax-developer-tools-widget/issues/44): project: now using laxar-mocks for testing, updated copyright
 - [#42](https://github.com/LaxarJS/ax-developer-tools-widget/issues/42): tracker: moved event validation into developer tools window
     + **BREAKING CHANGE:** see ticket for details

@@ -1,6 +1,6 @@
 # ax-developer-tools-widget [![Build Status](https://travis-ci.org/LaxarJS/ax-developer-tools-widget.svg?branch=master)](https://travis-ci.org/LaxarJS/ax-developer-tools-widget)
 
-The ax-developer-tools-widget allows to open a _developer tools window_ that displays log messages and events about the containing LaxarJS application.
+The ax-developer-tools-widget allows to open a _developer tools window_ that displays application events, helps visualizing the structure of the current page, and allows to browse log messages of the running LaxarJS application.
 
 
 ## Content
@@ -13,7 +13,24 @@ The ax-developer-tools-widget allows to open a _developer tools window_ that dis
 
 ## Appearance
 
-![The window opened by the ax-developer-tools-widget](docs/example.png)
+### Events tab
+
+![The event log of the LaxarJS developer tools](docs/events.png)
+
+The events tab displays the latest publish/subscribe events of the currently running application, including subscribe/unsubscribe calls, as well as publication and delivery of events.
+Events may be filtered by name, pattern, or source/target.
+
+### Page tab
+
+![The page inspector of the LaxarJS developer tools](docs/page.png)
+
+This "fusebox" view of the running application visualizes which widgets are connected through shared topics.
+See [below](#usage) for more information on how to enable page inspection.
+
+### Log tab
+
+The log tab lists log messages that were created using the `laxar.log` API.
+You can also use the browser console to inspect these messages without opening the developer tools.
 
 
 ## Usage
@@ -55,6 +72,85 @@ Alternatively, the window can be opened by calling the method `window.goDevelop(
 _Note:_ To open the developer window in this fashion, it might be necessary to add an exception to the browser's popup blocker.
 
 For full configuration options refer to the [widget.json](widget.json).
+
+
+### Enabling Page Inspection
+
+In the page tab, area nesting (blue connections) will work out of the box.
+The standard [LaxarJS patterns](//github.com/LaxarJS/laxar-patterns) *resource*, *action* and *flag* are also supported, but additional markup needs to be added to your *widget.json* files for visualization to work:
+
+* Configurable topics must use `"format": "topic"` in their JSON schema (with the exception of flag-receivers, which should use `"format": "flag-topic"` to support negated flags).
+
+* Configurable topics must specify the new field `"axRole"`:
+
+   - `"outlet" must be used for topic publishers (resource masters, action triggers, flag providers),
+
+   - `"inlet"` must be used for topic subscribers (resource slaves, action/flag handlers).
+
+* If not evident from the configuration path, the field `"axPattern"` must be specified to indicate the standard pattern (one of `"resource", "action", "flag"`) associated with the field.
+
+For example, a widget that is master for a configurable `user.resource` would use the following JSON schema snippet, with description fields omitted in favour of brevity:
+
+```js
+"features": {
+   // ...
+   "user": {
+      "type": "object",
+      "properties": {
+         "resource": {
+            "type": "string",
+            "format": "topic",
+            "axRole": "outlet"
+         }
+      }
+   }
+}
+```
+
+Alternatively, a widget/activty that subscribes to `order.onActions` would use this:
+
+```js
+"features": {
+   // ...
+   "order": {
+      "type": "object",
+      "properties": {
+         "onActions": {
+            "type": "array",
+            "item": {
+               "type": "string",
+               "format": "topic",
+               "axRole": "inlet"
+            }
+         }
+      }
+   }
+}
+```
+
+
+Finally, a widget/activty that processes a flag `visibility.toggleOn` would use this:
+
+```js
+"features": {
+   // ...
+   "visibility": {
+      "type": "object",
+      "properties": {
+         "toggleOn": {
+            "type": "string",
+            "format": "flag-topic",
+            "axRole": "inlet",
+            "axPattern": "flag"
+         }
+      }
+   }
+}
+```
+
+The page inspector simply ignores configuration values that cannot be unambiguously assigned to a specific pattern and role.
+
+[Compositions](https://github.com/LaxarJS/laxar/blob/master/docs/manuals/writing_compositions.md) are supported as well, just make sure to add "`format`' and "`role`"
 
 
 ### Development
@@ -163,23 +259,18 @@ If the enabled-flag value is `false`, the widget MUST NOT subscribe to _takeActi
 *R6.6* If the enabled-flag value is `false`, the pattern tracker (see below) must always be disabled.
 
 
-### 7. Pattern Tracking (tracker)
+### 7. Visualize the Structure of the Current Page
 
-The widget must allow to track and validate _pattern events_ (resource, actions, flags) published by widgets on the page.
+The widget must allow to inspect _nesting relationship_ between widgets, as well as connections formed by _pattern topics_ (resource, actions, flags) that are configured for widgets  and compositions on the page.
 
-*R7.1* The widget MUST allow to enable a pattern tracker (default: disabled)
-
-*R7.2* If the tracker is enabled, the widget MUST watch _takeActionRequest_, _willTakeAction_ and _didTakeAction_ events and report problems using log-level WARN.
-
-*R7.3* If the tracker is enabled, the widget MUST watch _didUpdate_ and _didReplace_ events and report problems using log-level WARN.
-
-*R7.4* If the tracker is enabled, the widget MUST watch _didChangeFlag_ events and report problems using log-level WARN.
+*R7.1* The widget MUST allow to widgets, activities, layouts and compositions, insofar as the correct meta data has been added to their descriptors.
+Refer to the embedded [page-inspector-widget](content/includes/widgets/page-inspector-widget/README.md) for details.
 
 
 ### 8. Visualize the Structure of the Current Page
 
 *R8.1* The widget MUST allow to inspect widgets and activities of the current host application page.
-Refer to the [AxEventsDisplayWidget](content/includes/widgets/events-display-widget/README.md) for details.
+Refer to the embedded [events-display-widget](content/includes/widgets/events-display-widget/README.md) for details.
 
 
 ## Integration
