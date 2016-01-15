@@ -77,13 +77,13 @@ For full configuration options refer to the [widget.json](widget.json).
 ### Enabling Page Inspection
 
 In the page tab, area nesting (blue connections) will work out of the box.
-The standard [LaxarJS patterns](//github.com/LaxarJS/laxar-patterns) *resource*, *action* and *flag* are also supported, but additional markup needs to be added to your *widget.json* files for visualization to work:
+The standard [LaxarJS patterns](//github.com/LaxarJS/laxar-patterns/blob/master/docs/index.md#families-of-laxarjs-patterns) *resource*, *action* and *flag* are also supported, but additional markup needs to be added to your *widget.json* files for visualization to work:
 
-* Configurable topics must use `"format": "topic"` in their JSON schema (with the exception of flag-receivers, which should use `"format": "flag-topic"` to support negated flags).
+* Configurable topics must use `"format": "topic"` in their JSON schema (with the exception of flag-receivers, which should use `"format": "flag-topic"` to support negated flags). For validation, this is recommended anyway.
 
 * Configurable topics must specify the new field `"axRole"`:
 
-   - `"outlet" must be used for topic publishers (resource masters, action triggers, flag providers),
+   - `"outlet"` must be used for topic publishers (resource masters, action triggers, flag providers),
 
    - `"inlet"` must be used for topic subscribers (resource slaves, action/flag handlers).
 
