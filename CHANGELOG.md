@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#48](https://github.com/LaxarJS/ax-developer-tools-widget/issues/48): fixed initialization sequence of log channel and `developerHooks`
+
 
 ## v2.0.0
 
