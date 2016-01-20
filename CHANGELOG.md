@@ -3,6 +3,7 @@
 
 ## Last Changes
 
+- [#47](https://github.com/LaxarJS/ax-developer-tools-widget/issues/47): fixed error messages after page navigation
 - [#48](https://github.com/LaxarJS/ax-developer-tools-widget/issues/48): fixed initialization sequence of log channel and `developerHooks`
 
 
