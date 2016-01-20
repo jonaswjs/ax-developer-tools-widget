@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#47](https://github.com/LaxarJS/ax-developer-tools-widget/issues/47): fixed error messages after page navigation
+
 
 ## v2.0.1
 
