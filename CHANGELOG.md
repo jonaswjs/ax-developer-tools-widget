@@ -3,6 +3,9 @@
 
 ## Last Changes
 
+
+## v2.0.3
+
 - [#49](https://github.com/LaxarJS/ax-developer-tools-widget/issues/49): fixed late listener registration
 
 
