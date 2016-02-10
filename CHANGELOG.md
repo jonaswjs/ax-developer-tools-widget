@@ -3,6 +3,7 @@
 
 ## Last Changes
 
+- [#50](https://github.com/LaxarJS/ax-developer-tools-widget/issues/50): performance: updated wireflow to v0.6.0, React to v0.14.7
 - [#49](https://github.com/LaxarJS/ax-developer-tools-widget/issues/49): fixed late listener registration
 - [#47](https://github.com/LaxarJS/ax-developer-tools-widget/issues/47): fixed error messages after page navigation
 - [#48](https://github.com/LaxarJS/ax-developer-tools-widget/issues/48): fixed initialization sequence of log channel and `developerHooks`
