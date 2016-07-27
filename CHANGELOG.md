@@ -3,6 +3,9 @@
 
 ## Last Changes
 
+
+## v2.1.0-alpha.0
+
 - [#51](https://github.com/LaxarJS/ax-developer-tools-widget/issues/51): Using chrome extension API if running in chrome developer tools
 - [#50](https://github.com/LaxarJS/ax-developer-tools-widget/issues/50): performance: updated wireflow to v0.6.0, React to v0.14.7
 - [#49](https://github.com/LaxarJS/ax-developer-tools-widget/issues/49): fixed late listener registration
