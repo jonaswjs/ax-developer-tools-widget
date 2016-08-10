@@ -3,6 +3,9 @@
 
 ## Last Changes
 
+
+## v2.1.0-alpha.1
+
 - [#52](https://github.com/LaxarJS/ax-developer-tools-widget/issues/52): Using Firefox Add-on SDK API if running in Firefox developer tools
 
 
