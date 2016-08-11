@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#53](https://github.com/LaxarJS/ax-developer-tools-widget/issues/53): developer-toolbar-widget: Changed `href` attribute to prevent CSP error message in Chrome web extension
+
 
 ## v2.1.0-alpha.1
 
