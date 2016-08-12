@@ -3,6 +3,9 @@
 
 ## Last Changes
 
+
+## v2.1.0-alpha.3
+
 - [#54](https://github.com/LaxarJS/ax-developer-tools-widget/issues/54): Developer-toolbar-widget: Fix message for Firefox extension if host app is not available
 
 
