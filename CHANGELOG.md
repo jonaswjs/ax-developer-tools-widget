@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#55](https://github.com/LaxarJS/ax-developer-tools-widget/issues/55): host-connector-widget: Publish empty grid resource when the grid settings aren't configured
+
 
 ## v2.1.0-alpha.3
 
