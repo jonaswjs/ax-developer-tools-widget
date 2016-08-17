@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#57](https://github.com/LaxarJS/ax-developer-tools-widget/issues/57):  developer-toolbar-widget: handle empty grid settings resource
+
 
 ## v2.1.0-alpha.4
 
@@ -11,7 +13,7 @@
 
 ## v2.1.0-alpha.3
 
-- [#54](https://github.com/LaxarJS/ax-developer-tools-widget/issues/54): Developer-toolbar-widget: Fix message for Firefox extension if host app is not available
+- [#54](https://github.com/LaxarJS/ax-developer-tools-widget/issues/54): developer-toolbar-widget: Fix message for Firefox extension if host app is not available
 
 
 ## v2.1.0-alpha.2
