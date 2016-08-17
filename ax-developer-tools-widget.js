@@ -48,7 +48,8 @@ define( [
          window[ $scope.features.open.onGlobalMethod ] = openContentWindow;
       }
 
-      if( Object.keys( $scope.features.grid ).length > 0 ) {
+      developerHooks.gridSettings = ax.configuration.get( 'tooling.grid', undefined );
+      if( developerHooks.gridSettings === undefined && Object.keys( $scope.features.grid ).length > 0 ) {
          developerHooks.gridSettings = $scope.features.grid;
       }
 

@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#58](https://github.com/LaxarJS/ax-developer-tools-widget/issues/58):  Use grid settings from application configuration
+
 - [#57](https://github.com/LaxarJS/ax-developer-tools-widget/issues/57):  developer-toolbar-widget: handle empty grid settings resource
 
 
