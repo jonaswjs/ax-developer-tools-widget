@@ -4,6 +4,9 @@
 ## Last Changes
 
 
+## v2.1.0
+
+
 ## v2.1.0-alpha.5
 
 - [#58](https://github.com/LaxarJS/ax-developer-tools-widget/issues/58): Use grid settings from application configuration
