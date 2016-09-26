@@ -3,6 +3,8 @@
 
 ## Last Changes
 
+- [#59](https://github.com/LaxarJS/ax-developer-tools-widget/issues/59): developer-toolbar-widget: fixed reload page handling for widget outline
+
 
 ## v2.1.0
 
