@@ -3,6 +3,9 @@
 
 ## Last Changes
 
+
+## v2.2.0
+
 - [#61](https://github.com/LaxarJS/ax-developer-tools-widget/issues/61): created grunt task for not optimized version for extensions
 
 - [#59](https://github.com/LaxarJS/ax-developer-tools-widget/issues/59): developer-toolbar-widget: fixed reload page handling for widget outline
