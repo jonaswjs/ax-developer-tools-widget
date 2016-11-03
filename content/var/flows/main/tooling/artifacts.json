@@ -90,7 +90,7 @@
       {
          "path": "includes/widgets/developer-toolbar-widget",
          "integration": {
-            "technology": "angular",
+            "technology": "react",
             "type": "widget"
          },
          "resources": {

@@ -3,7 +3,7 @@
    "description": "Allows to show widget outlines and to display an alignment grid for the host application",
 
    "integration": {
-      "technology": "angular",
+      "technology": "react",
       "type": "widget"
    },
 
