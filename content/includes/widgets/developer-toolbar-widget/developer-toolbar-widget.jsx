@@ -19,6 +19,7 @@ import axPatterns from 'laxar-patterns';
 
 function create( context, eventBus, reactRender) {
    'use strict';
+   let visible = false;
    var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    var HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
    var HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
@@ -116,6 +117,7 @@ function create( context, eventBus, reactRender) {
          return;
       }
 
+
       if( model.activeTab !== newTab ) {
          publishVisibility( model.activeTab, false );
          publishVisibility( newTab, true );
@@ -129,6 +131,13 @@ function create( context, eventBus, reactRender) {
          }
       }
    } );
+
+   eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, (event, meta) => {
+     if( !visible && event.visible ) {
+        visible = true;
+        render();
+     }
+  } );
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -146,10 +155,10 @@ function create( context, eventBus, reactRender) {
          action: 'navigation'
       } );
    } );
-/*
+
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   $scope.activateTab = function( tab ) {
+   function activateTab( tab ) {
       var data = {};
       data[ context.features.tabs.parameter ] = tab.name;
       eventBus.publish( 'navigateRequest._self', {
@@ -160,7 +169,7 @@ function create( context, eventBus, reactRender) {
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   $scope.toggleGrid = function() {
+   function onClickToggleGrid() {
       if( !context.resources.grid ){ return; }
       toggleGrid();
       model.gridOverlay = !model.gridOverlay;
@@ -168,50 +177,50 @@ function create( context, eventBus, reactRender) {
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   $scope.toggleWidgetOutline = function() {
+   function onClickToggleWidgetOutline() {
       toggleWidgetOutline();
       model.widgetOverlay = !model.widgetOverlay;
    };
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-   // function toggleGrid() {
-   //    if( window.opener ) {
-   //       /* global axDeveloperToolsToggleGrid */
-   //       axDeveloperToolsToggleGrid( context.resources.grid );
-   //       return;
-   //    }
-   //    if( isBrowserWebExtension ) {
-   //       var event;
-   //       event = new CustomEvent( 'toogleGrid', {
-   //          detail: JSON.stringify( context.resources.grid )
-   //       } );
-   //       window.dispatchEvent( event );
-   //    }
-   //    else if( firefoxExtensionMessagePort ) {
-   //       var message = { text: 'toogleGrid', data: context.resources.grid };
-   //       firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
-   //    }
-   // }
-   //
-   // ////////////////////////////////////////////////////////////////////////////////////////////////////////
-   //
-   // function toggleWidgetOutline() {
-   //    if( window.opener ) {
-   //       /* global axDeveloperToolsToggleWidgetOutline */
-   //       axDeveloperToolsToggleWidgetOutline();
-   //       return;
-   //    }
-   //    if( isBrowserWebExtension ) {
-   //       var event;
-   //       event = new CustomEvent( 'widgetOutline', { } );
-   //       window.dispatchEvent( event );
-   //    }
-   //    else if( firefoxExtensionMessagePort ) {
-   //       var message = { text: 'widgetOutline', data: {} };
-   //       firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
-   //    }
-   // }
+
+   function toggleGrid() {
+      if( window.opener ) {
+         /* global axDeveloperToolsToggleGrid */
+         //axDeveloperToolsToggleGrid( context.resources.grid );
+         return;
+      }
+      if( isBrowserWebExtension ) {
+         var event;
+         event = new CustomEvent( 'toogleGrid', {
+            detail: JSON.stringify( context.resources.grid )
+         } );
+         window.dispatchEvent( event );
+      }
+      else if( firefoxExtensionMessagePort ) {
+         var message = { text: 'toogleGrid', data: context.resources.grid };
+         firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
+      }
+   }
+
+   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function toggleWidgetOutline() {
+      if( window.opener ) {
+         /* global axDeveloperToolsToggleWidgetOutline */
+         //axDeveloperToolsToggleWidgetOutline();
+         return;
+      }
+      if( isBrowserWebExtension ) {
+         var event;
+         event = new CustomEvent( 'widgetOutline', { } );
+         window.dispatchEvent( event );
+      }
+      else if( firefoxExtensionMessagePort ) {
+         var message = { text: 'widgetOutline', data: {} };
+         firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
+      }
+   }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -224,50 +233,57 @@ function create( context, eventBus, reactRender) {
          return;
       }
 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       function renderGridButton() {
-         if( resources.grid ) {
+         if( context.resources.grid ) {
             return <button className="btn btn-link"
                     title={model.toggleGridTitle}
                     type="button"
-                    onClick={toggleGrid}
+                    onClick={onClickToggleGrid()}
                ><i className={ 'fa fa-toggle-' + ( model.gridOverlay ? 'on' : 'off' ) }
-               ></i>&nbsp;(model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay')</button>;
+               ></i>&nbsp;{model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay'}</button>;
          }
          return;
       }
 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       function renderWidgetOutlineButton() {
          return <button className="btn btn-link"
                     type="button"
-                    onClick={toggleWidgetOutline}
+                    onClick={onClickToggleWidgetOutline()}
                ><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }
-               ></i>&nbsp;(model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline')</button>;
+               ></i>&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>;
       }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function renderTabs() {
          if( !model.laxar ) { return; }
          const tab = model.tabs.find( ( tab ) => model.activeTab === tab );
          return <div className="app-tab app-tab-page"
                     data-ax-widget-area
-                    data-ax-widget-area-binding={tab.name}></div>;
+                    data-ax-widget-area-binding={tab ? tab.name : tab }></div>;
       }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function renderTabList() {
          const listItems = model.tabs.map( ( tab ) =>
             <li
-            className={ ( model.activeTab.name === tab.name ? 'ax-active': '' ) }
+            className={ ( model.activeTab && model.activeTab.name === tab.name ? 'ax-active': '' ) }
+            key={tab.name}
             ><a href="" onClick={activateTab( tab )}>{tab.label}</a></li>
          );
          return listItems;
       }
 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-      reactRender(
-      //   { renderButtons() }
-
-         <ul className="nav nav-tabs"
-             role="tablist">
+      function renderNavTab() {
+         return <ul  className="nav nav-tabs"
+                     role="tablist">
             <li><a className="developer-toolbar-icon"
                    title="LaxarJS Documentation"
                    href="http://www.laxarjs.org/docs"
@@ -277,9 +293,17 @@ function create( context, eventBus, reactRender) {
             { model.laxar === false &&
                <li className="developer-toolbar-hint">{model.noLaxar}</li>
             }
-         </ul>
-         //{ renderTabs }
+         </ul>;
+      }
 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      reactRender(
+         <div>
+         { renderButtons() }
+         { renderNavTab() }
+         {renderTabs()}
+         </div>
       );
    }
 
