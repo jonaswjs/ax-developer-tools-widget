@@ -250,11 +250,7 @@ function create( context, eventBus, reactRender) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function renderWidgetOutlineButton() {
-         return <button className="btn btn-link"
-                    type="button"
-                    onClick={onClickToggleWidgetOutline()}
-               ><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }
-               ></i>&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>;
+         return <button className="btn btn-link" type="button" onClick={onClickToggleWidgetOutline()}><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }></i>&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>;
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,46 +258,43 @@ function create( context, eventBus, reactRender) {
       function renderTabs() {
          if( !model.laxar ) { return; }
          const tab = model.tabs.find( ( tab ) => model.activeTab === tab );
-         return <div className="app-tab app-tab-page"
-                    data-ax-widget-area
-                    data-ax-widget-area-binding={tab ? tab.name : tab }></div>;
+         const name = tab ? tab.name : 'noTab';
+         return (
+            <div className="app-tab app-tab-page"
+                    data-ax-widget-area={name}>
+            </div>
+
+         );
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      function renderTabList() {
-         const listItems = model.tabs.map( ( tab ) =>
+      const tabListItems = model.tabs.map( ( tab ) =>
             <li
             className={ ( model.activeTab && model.activeTab.name === tab.name ? 'ax-active': '' ) }
             key={tab.name}
             ><a href="" onClick={activateTab( tab )}>{tab.label}</a></li>
          );
-         return listItems;
-      }
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      function renderNavTab() {
-         return <ul  className="nav nav-tabs"
+      const renderNavTab = <ul  className="nav nav-tabs"
                      role="tablist">
             <li><a className="developer-toolbar-icon"
                    title="LaxarJS Documentation"
                    href="http://www.laxarjs.org/docs"
                    target="_blank"></a>
             </li>
-            { renderTabList() }
+            { tabListItems }
             { model.laxar === false &&
                <li className="developer-toolbar-hint">{model.noLaxar}</li>
             }
          </ul>;
-      }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       reactRender(
          <div>
          { renderButtons() }
-         { renderNavTab() }
+         { renderNavTab }
          {renderTabs()}
          </div>
       );
