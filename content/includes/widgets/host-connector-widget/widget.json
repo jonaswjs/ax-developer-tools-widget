@@ -40,7 +40,9 @@
                "resource": {
                   "type": "string",
                   "description": "The topic through which to publish the current page.",
-                  "default": null
+                  "default": null,
+                  "format": "topic",
+                  "axRole": "outlet"
                }
             }
          },
@@ -51,7 +53,9 @@
                "resource": {
                   "type": "string",
                   "description": "A resource through which to publish grid settings.",
-                  "default": null
+                  "default": null,
+                  "format": "topic",
+                  "axRole": "outlet"
                }
             }
          },

@@ -158,17 +158,6 @@ function create( context, eventBus, reactRender) {
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function activateTab( tab ) {
-      var data = {};
-      data[ context.features.tabs.parameter ] = tab.name;
-      eventBus.publish( 'navigateRequest._self', {
-         target: '_self',
-         data: data
-      } );
-   };
-
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
    function onClickToggleGrid() {
       if( !context.resources.grid ){ return; }
       toggleGrid();
@@ -269,11 +258,40 @@ function create( context, eventBus, reactRender) {
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+      class TabItem extends React.Component {
+         constructor( properties ) {
+            super( properties );
+            this.tab = properties.tab;
+            this.active = properties.active;
+            // This binding is necessary to make `this` work in the callback
+            this.activateTab = this.activateTab.bind( this );
+         }
+
+         activateTab() {
+            var data = {};
+            data[ context.features.tabs.parameter ] = this.tab.name;
+            eventBus.publish( 'navigateRequest._self', {
+               target: '_self',
+               data: data
+            } );
+         }
+
+         render() {
+            if( this.active ) {
+               return (
+                  <li
+                  className='ax-active'
+                  ><a href="" onClick={this.activateTab}>{this.tab.label}</a></li>
+               );
+            }
+            return (
+               <li><a href="" onClick={this.activateTab}>{this.tab.label}</a></li>
+            );
+         }
+      }
+
       const tabListItems = model.tabs.map( ( tab ) =>
-            <li
-            className={ ( model.activeTab && model.activeTab.name === tab.name ? 'ax-active': '' ) }
-            key={tab.name}
-            ><a href="" onClick={activateTab( tab )}>{tab.label}</a></li>
+            <TabItem key={tab.name} tab={tab} active={ ( model.activeTab && model.activeTab.name === tab.name ? true: false ) }/>
          );
 
       const renderNavTab = <ul  className="nav nav-tabs"
