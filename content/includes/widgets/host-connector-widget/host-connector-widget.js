@@ -6,23 +6,17 @@
 
 /* global chrome */
 
-define( [
-   'laxar',
-   'angular'
-], function( ax, ng ) {
+define( [ 'laxar' ], function( ax ) {
    'use strict';
 
    var REFRESH_DELAY_MS = 100;
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   Controller.$inject = [ '$scope' ];
    //Security wrapper denied access to property "buffers" on privileged Javascript object.
    //Support for exposing privileged objects to untrusted content via __exposedProps__ is being
    //gradually removed - use WebIDL bindings or Components.utils.cloneInto instead.
    // Note that only the first denied property access from a given global object will be reported.
-   function Controller( $scope ) {
-      var eventBus = $scope.eventBus;
+
+   var controller = function( context, eventBus ) {
       var pageInfoVersion = -1;
       var timeout;
       var lastIndexByStream = {};
@@ -30,15 +24,9 @@ define( [
       var isBrowserWebExtension = ( window.chrome && chrome.runtime && chrome.runtime.id );
       // If the development server is used and we don't want the development window to be reloaded each
       // time something changes during development, we shutdown live reload here.
-      if( window.LiveReload && !$scope.features.development.liveReload ) {
+      if( window.LiveReload && !context.features.development.liveReload ) {
          window.LiveReload.shutDown();
       }
-
-      $scope.$on( '$destroy', function() {
-         if( timeout ) {
-            window.clearTimeout( timeout );
-         }
-      } );
 
       if( window.opener ) {
          eventBus.subscribe( 'beginLifecycleRequest', function() {
@@ -62,7 +50,7 @@ define( [
             return;
          }
          var channelGridSettings = channel && channel.gridSettings;
-         if( $scope.features.grid.resource ) {
+         if( context.features.grid.resource ) {
             publishGridSettings( channelGridSettings );
          }
          if( channel && channel.pageInfoVersion > pageInfoVersion ) {
@@ -96,7 +84,7 @@ define( [
          }
          else {
             var channelGridSettings = channel && channel.gridSettings;
-            if( $scope.features.grid.resource ) {
+            if( context.features.grid.resource ) {
                publishGridSettings( channelGridSettings );
             }
             publishLaxarApplicationFlag( true );
@@ -110,8 +98,8 @@ define( [
          if( !channelGridSettings ) {
             channelGridSettings = null;
          }
-         eventBus.publish( 'didReplace.' + $scope.features.grid.resource, {
-            resource: $scope.features.grid.resource,
+         eventBus.publish( 'didReplace.' + context.features.grid.resource, {
+            resource: context.features.grid.resource,
             data: channelGridSettings
          } );
       }
@@ -151,8 +139,8 @@ define( [
 
       function publishAndSetPageInfoVersion( pageInfo, version ) {
          pageInfoVersion = version;
-         eventBus.publish( 'didReplace.' + $scope.features.pageInfo.resource, {
-            resource: $scope.features.pageInfo.resource,
+         eventBus.publish( 'didReplace.' + context.features.pageInfo.resource, {
+            resource: context.features.pageInfo.resource,
             data: pageInfo
          } );
       }
@@ -168,8 +156,8 @@ define( [
          if( !events.length ) {
             return;
          }
-         eventBus.publish( 'didProduce.' + $scope.features[ bufferFeature ].stream, {
-            stream: $scope.features[ bufferFeature ].stream,
+         eventBus.publish( 'didProduce.' + context.features[ bufferFeature ].stream, {
+            stream: context.features[ bufferFeature ].stream,
             data: events
          } );
          lastIndexByStream[ bufferFeature ] = buffer[ buffer.length - 1 ].index;
@@ -192,8 +180,8 @@ define( [
 
       function publishLaxarApplicationFlag( state ) {
          if( isLaxarApplication !== state ) {
-            eventBus.publish( 'didChangeFlag.' + $scope.features.laxarApplication.flag + '.' + state, {
-               flag: $scope.features.laxarApplication.flag,
+            eventBus.publish( 'didChangeFlag.' + context.features.laxarApplication.flag + '.' + state, {
+               flag: context.features.laxarApplication.flag,
                state: state
             } );
             isLaxarApplication = state;
@@ -209,7 +197,11 @@ define( [
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   return ng.module( 'hostConnectorWidget', [] )
-      .controller( 'HostConnectorWidgetController', Controller );
+   return {
+      name: 'host-connector-widget',
+      injections: [ 'axContext', 'axEventBus' ],
+      create: controller
+   };
+
 
 } );

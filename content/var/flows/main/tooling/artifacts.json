@@ -165,7 +165,7 @@
       {
          "path": "includes/widgets/host-connector-widget",
          "integration": {
-            "technology": "angular",
+            "technology": "plain",
             "type": "widget"
          },
          "resources": {
