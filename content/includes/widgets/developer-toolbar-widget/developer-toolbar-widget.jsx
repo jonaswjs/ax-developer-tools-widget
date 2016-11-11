@@ -112,6 +112,7 @@ function create( context, eventBus, reactRender) {
 
    eventBus.subscribe( 'didNavigate', function( event ) {
       var newName = event.data[ context.features.tabs.parameter ];
+
       var newTab = TABS.filter( function( _ ) { return _.name === newName; } )[ 0 ];
       if( !newTab ) {
          return;
@@ -130,6 +131,7 @@ function create( context, eventBus, reactRender) {
             axPatterns.visibility.requestPublisherForArea( context, area )( visible );
          }
       }
+      render();
    } );
 
    eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, (event, meta) => {
@@ -281,11 +283,11 @@ function create( context, eventBus, reactRender) {
                return (
                   <li
                   className='ax-active'
-                  ><a href="" onClick={this.activateTab}>{this.tab.label}</a></li>
+                  ><button className='btn btn-link' onClick={this.activateTab}>{this.tab.label}</button></li>
                );
             }
             return (
-               <li><a href="" onClick={this.activateTab}>{this.tab.label}</a></li>
+               <li><button className='btn btn-link' onClick={this.activateTab}>{this.tab.label}</button></li>
             );
          }
       }
