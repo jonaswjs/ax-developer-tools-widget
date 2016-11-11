@@ -3,7 +3,7 @@
    "description": "Displays log messages to the user.",
 
    "integration": {
-      "technology": "angular",
+      "technology": "react",
       "type": "widget"
    },
 

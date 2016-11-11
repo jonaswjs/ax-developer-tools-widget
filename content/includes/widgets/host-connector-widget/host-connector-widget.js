@@ -28,6 +28,12 @@ define( [ 'laxar' ], function( ax ) {
          window.LiveReload.shutDown();
       }
 
+      eventBus.subscribe( 'endLifecycleRequest', function() {
+         if( timeout ) {
+            window.clearTimeout( timeout );
+         }
+      } );
+
       if( window.opener ) {
          eventBus.subscribe( 'beginLifecycleRequest', function() {
             publishLaxarApplicationFlag( true );

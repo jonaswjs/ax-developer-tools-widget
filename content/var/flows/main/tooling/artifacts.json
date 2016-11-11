@@ -201,7 +201,7 @@
       {
          "path": "includes/widgets/log-display-widget",
          "integration": {
-            "technology": "angular",
+            "technology": "react",
             "type": "widget"
          },
          "resources": {
