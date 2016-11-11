@@ -7,17 +7,10 @@
 import React from 'react';
 import axPatterns from 'laxar-patterns';
 
+import '../../lib/laxar-developer-tools/grid';
+import '../../lib/laxar-developer-tools/widget-outline';
 
-//   '../../lib/laxar-developer-tools/grid',
-//   '../../lib/laxar-developer-tools/widget-outline'
-
-
-   /* global chrome */
-   // This controller performs heavy DOM-manipulation, which you would normally put into a directive.
-   // However, only the DOM of the host application is manipulated, so this is acceptable.
-
-
-function create( context, eventBus, reactRender) {
+function create( context, eventBus, reactRender, flowService ) {
    'use strict';
    let visible = false;
    var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
@@ -42,7 +35,7 @@ function create( context, eventBus, reactRender) {
       noLaxar: HINT_NO_LAXAR_EXTENSION
    };
 
-   /*
+
    var isBrowserWebExtension = ( window.chrome && chrome.runtime && chrome.runtime.id );
    var firefoxExtensionMessagePort;
 
@@ -64,14 +57,13 @@ function create( context, eventBus, reactRender) {
          }
       } );
    }
-*/
+
    context.resources = {};
-/*
 
    if( window.opener ) {
       model.noLaxar = HINT_NO_LAXAR_ANYMORE_WIDGET;
    }
-*/
+
    axPatterns.resources.handlerFor( context ).registerResourceFromFeature(
       'grid',
       {
@@ -93,15 +85,15 @@ function create( context, eventBus, reactRender) {
          model.laxar = newState;
       }
    } );
-/*
+
    if( isBrowserWebExtension ) {
       chrome.devtools.network.onNavigated.addListener( function() {
          model.gridOverlay = false;
          model.widgetOverlay = false;
-         $scope.$apply();
+         render()
       } );
    }
-*/
+
    axPatterns.visibility.handlerFor( context, { onAnyAreaRequest: function( event ) {
       var prefix = context.id() + '.';
       var activeTab = model.activeTab;
@@ -117,7 +109,6 @@ function create( context, eventBus, reactRender) {
       if( !newTab ) {
          return;
       }
-
 
       if( model.activeTab !== newTab ) {
          publishVisibility( model.activeTab, false );
@@ -141,7 +132,7 @@ function create( context, eventBus, reactRender) {
      }
   } );
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    eventBus.subscribe( 'takeActionRequest.navigation', function( event ) {
       eventBus.publish( 'willTakeAction.navigation', {
@@ -156,6 +147,7 @@ function create( context, eventBus, reactRender) {
       eventBus.publish( 'didTakeAction.navigation', {
          action: 'navigation'
       } );
+      render();
    } );
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,6 +156,7 @@ function create( context, eventBus, reactRender) {
       if( !context.resources.grid ){ return; }
       toggleGrid();
       model.gridOverlay = !model.gridOverlay;
+      render();
    };
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +164,7 @@ function create( context, eventBus, reactRender) {
    function onClickToggleWidgetOutline() {
       toggleWidgetOutline();
       model.widgetOverlay = !model.widgetOverlay;
+      render();
    };
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +172,7 @@ function create( context, eventBus, reactRender) {
    function toggleGrid() {
       if( window.opener ) {
          /* global axDeveloperToolsToggleGrid */
-         //axDeveloperToolsToggleGrid( context.resources.grid );
+         axDeveloperToolsToggleGrid( context.resources.grid );
          return;
       }
       if( isBrowserWebExtension ) {
@@ -199,7 +193,7 @@ function create( context, eventBus, reactRender) {
    function toggleWidgetOutline() {
       if( window.opener ) {
          /* global axDeveloperToolsToggleWidgetOutline */
-         //axDeveloperToolsToggleWidgetOutline();
+         axDeveloperToolsToggleWidgetOutline();
          return;
       }
       if( isBrowserWebExtension ) {
@@ -216,88 +210,65 @@ function create( context, eventBus, reactRender) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function render() {
-
-      function renderButtons() {
-         if( model.laxar ) {
-            return <div className="pull-right"> { renderGridButton() } { renderWidgetOutlineButton() } </div>;
-         }
-         return;
+      let gridButton = '';
+      if( context.resources.grid ) {
+         gridButton = (
+            <button className="btn btn-link"
+                 title={model.toggleGridTitle}
+                 type="button"
+                 onClick={onClickToggleGrid}
+            ><i className={ 'fa fa-toggle-' + ( model.gridOverlay ? 'on' : 'off' ) }
+            ></i>&nbsp;{model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay'}</button>
+         );
       }
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+      const widgetOutlineButton = (
+         <button
+            className="btn btn-link"
+            type="button"
+            onClick={onClickToggleWidgetOutline}
+            ><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }
+            ></i>&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>
+      );
 
-      function renderGridButton() {
-         if( context.resources.grid ) {
-            return <button className="btn btn-link"
-                    title={model.toggleGridTitle}
-                    type="button"
-                    onClick={onClickToggleGrid()}
-               ><i className={ 'fa fa-toggle-' + ( model.gridOverlay ? 'on' : 'off' ) }
-               ></i>&nbsp;{model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay'}</button>;
-         }
-         return;
+      let optionButtons = '';
+      if( model.laxar ) {
+         optionButtons = <div className="pull-right">
+            { gridButton } { widgetOutlineButton }
+         </div>;
       }
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      function renderWidgetOutlineButton() {
-         return <button className="btn btn-link" type="button" onClick={onClickToggleWidgetOutline()}><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }></i>&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>;
-      }
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      function renderTabs() {
-         if( !model.laxar ) { return; }
+      let widgetArea = '';
+      if( model.laxar ) {
          const tab = model.tabs.find( ( tab ) => model.activeTab === tab );
          const name = tab ? tab.name : 'noTab';
-         return (
+         widgetArea = (
             <div className="app-tab app-tab-page"
                     data-ax-widget-area={name}>
             </div>
-
          );
       }
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      class TabItem extends React.Component {
-         constructor( properties ) {
-            super( properties );
-            this.tab = properties.tab;
-            this.active = properties.active;
-            // This binding is necessary to make `this` work in the callback
-            this.activateTab = this.activateTab.bind( this );
-         }
-
-         activateTab() {
-            var data = {};
-            data[ context.features.tabs.parameter ] = this.tab.name;
-            eventBus.publish( 'navigateRequest._self', {
-               target: '_self',
-               data: data
-            } );
-         }
-
-         render() {
-            if( this.active ) {
-               return (
-                  <li
-                  className='ax-active'
-                  ><button className='btn btn-link' onClick={this.activateTab}>{this.tab.label}</button></li>
-               );
-            }
-            return (
-               <li><button className='btn btn-link' onClick={this.activateTab}>{this.tab.label}</button></li>
+      const tabListItems = model.tabs.map( ( tab ) => {
+         const url = flowService.constructAbsoluteUrl( 'tools', { 'tab': tab.name } )
+         if( model.activeTab && model.activeTab.name === tab.name ) {
+            return(
+               <li key={tab.name} className='ax-active'
+                  ><a href={url}
+                  >{tab.label}</a></li>
             );
          }
-      }
+         else {
+            return(
+               <li key={tab.name}
+                  ><a href={url}
+                  >{tab.label}</a></li>
+            );
+         }
+      } );
 
-      const tabListItems = model.tabs.map( ( tab ) =>
-            <TabItem key={tab.name} tab={tab} active={ ( model.activeTab && model.activeTab.name === tab.name ? true: false ) }/>
-         );
-
-      const renderNavTab = <ul  className="nav nav-tabs"
-                     role="tablist">
+      const navTab = (
+         <ul className="nav nav-tabs" role="tablist">
             <li><a className="developer-toolbar-icon"
                    title="LaxarJS Documentation"
                    href="http://www.laxarjs.org/docs"
@@ -307,15 +278,14 @@ function create( context, eventBus, reactRender) {
             { model.laxar === false &&
                <li className="developer-toolbar-hint">{model.noLaxar}</li>
             }
-         </ul>;
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+         </ul>
+      );
 
       reactRender(
          <div>
-         { renderButtons() }
-         { renderNavTab }
-         {renderTabs()}
+            { optionButtons }
+            { navTab }
+            { widgetArea }
          </div>
       );
    }
@@ -327,9 +297,8 @@ function create( context, eventBus, reactRender) {
    };
 }
 
-
 export default {
    name: 'developer-toolbar-widget',
-   injections: [ 'axContext', 'axEventBus', 'axReactRender' ],
+   injections: [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService' ],
    create
 };
