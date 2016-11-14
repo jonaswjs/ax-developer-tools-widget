@@ -3,7 +3,7 @@
    "description": "Displays events from the event bus.",
 
    "integration": {
-      "technology": "angular",
+      "technology": "react",
       "type": "widget"
    },
 

@@ -419,44 +419,38 @@ function create( context, reactRender, flowService ) {
             <div className="ax-affix-area"
                  ax-affix
                  ax-affix-offset-top="100">
-                  { !model.eventInfos.length &&
-                    <div className="text-large">
-                       <h4 className="text-primary">Empty Events List</h4>
-                       <p><i className="fa fa-clock-o"></i> Waiting for events from host application...</p>
-                    </div>
-                  }
-                  { model.eventInfos.length && !model.visibleEventInfos.length &&
-                    <div className="text-large">
-                       <h4 className="text-primary">0/{ model.eventInfos.length } Event Items</h4>
-                       <p>No events matching current filters.</p>
-                       <p><button type="button"
-                                 className="btn btn-sm btn-primary"
-                                 onClick="commands.clearFilters">Show All</button></p>
-                    </div>
-                  }
-
-                  { model.problemSummary.hasProblems &&
-                     <div className="text-large">
-                        <h4 className="text-primary ax-error">{ model.problemSummary.eventInfos.length }/{ model.eventInfos.length } Events with Problems</h4>
-                        <ul>{eventInfoList}</ul>
-                       <p className="ax-event-problems-explanation">
-                          Events with problems are marked <strong className="ax-error">red</strong> in the events table.
-                          Filter by event/source as needed.
-                       </p>
-                    </div>
-                  }
-
-
-
-
-
-                 <div ng-if="model.visibleEventInfos.length"
-                      className="text-large">
-                    <h4 className="text-primary">{{ model.visibleEventInfos.length }}/{{ model.eventInfos.length }} Events</h4>
+               { !model.eventInfos.length &&
+                 <div className="text-large">
+                    <h4 className="text-primary">Empty Events List</h4>
+                    <p><i className="fa fa-clock-o"></i> Waiting for events from host application...</p>
                  </div>
+               }
+               { model.eventInfos.length && !model.visibleEventInfos.length &&
+                 <div className="text-large">
+                    <h4 className="text-primary">0/{ model.eventInfos.length } Event Items</h4>
+                    <p>No events matching current filters.</p>
+                    <p><button type="button"
+                              className="btn btn-sm btn-primary"
+                              onClick="commands.clearFilters">Show All</button></p>
+                 </div>
+               }
 
+               { model.problemSummary.hasProblems &&
+                  <div className="text-large">
+                     <h4 className="text-primary ax-error">{ model.problemSummary.eventInfos.length }/{ model.eventInfos.length } Events with Problems</h4>
+                     <ul>{eventInfoList}</ul>
+                    <p className="ax-event-problems-explanation">
+                       Events with problems are marked <strong className="ax-error">red</strong> in the events table.
+                       Filter by event/source as needed.
+                    </p>
+                 </div>
+               }
+               { model.visibleEventInfos.length &&
+                  <div className="text-large">
+                     <h4 className="text-primary">{ model.visibleEventInfos.length }/{ model.eventInfos.length } Events</h4>
+                  </div>
+               }
                <div className="ax-button-wrapper form-inline">
-
                   <div className="form-group form-group-sm">
                      <label ax-for="'search'"><small>Filters:</small></label>
                      <input className="form-control input-sm"
