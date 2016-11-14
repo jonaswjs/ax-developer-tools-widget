@@ -8,7 +8,7 @@ import React from 'react';
 import ax from 'laxar';
 import moment from 'moment';
 
-function create( context, eventBus, reactRender, flowService ) {
+function create( context, eventBus, reactRender ) {
    'use strict';
 
    var model = {
@@ -114,6 +114,6 @@ function create( context, eventBus, reactRender, flowService ) {
 
 export default {
    name: 'log-display-widget',
-   injections: [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService' ],
+   injections: [ 'axContext', 'axEventBus', 'axReactRender' ],
    create
 };
