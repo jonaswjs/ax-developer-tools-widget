@@ -5,27 +5,25 @@
  */
 
 import React from 'react';
-import patterns from 'laxar-patterns';
+import axPatterns from 'laxar-patterns';
 import moment from 'moment';
-import ng from 'angular';
 import tracker from './tracker';
 
 
 function create( context, reactRender, flowService ) {
    'use strict';
 
-   var settingGroups = [ 'patterns', 'interactions', 'sources' ];
+   let settingGroups = [ 'patterns', 'interactions', 'sources' ];
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    context.resources = {};
 
-   var resourceHandler = patterns.resources.handlerFor( context ).registerResourceFromFeature( 'filter', {
+   axPatterns.resources.handlerFor( context ).registerResourceFromFeature( 'filter', {
       onUpdateReplace: runFilters,
       isOptional: true
    } );
-
-   var model = {
+   let model = {
       patterns: [
          { name: 'lifecycle', htmlIcon: '<i class="fa fa-recycle"></i>', eventTypes: [
             'endLifecycle', 'beginLifecycle'
@@ -78,62 +76,66 @@ function create( context, reactRender, flowService ) {
    context.view = {
       showPatterns: false,
       patternsByName: ( function() {
-         var result = {};
-         context.model.patterns.forEach( function( pattern ) {
+         let result = {};
+         model.patterns.forEach( function( pattern ) {
             result[ pattern.name ] = pattern;
          } );
          return result;
       } )()
    };
 
-   var commands = {
+   let commands = {
       setAll: function( toValue ) {
          settingGroups.forEach( function( groupName ) {
-            var group = context.model.settings[ groupName ];
-            ng.forEach( group, function( _, name ) {
-               group[ name ] = toValue;
-            } );
+            let group = model.settings[ groupName ];
+            for( let name in group ) {
+               if( group.hasOwnProperty[ name ] ) {
+                  group[ name ] = toValue;
+               }
+            }
          } );
       },
       setDefaults: function() {
          settingGroups.forEach( function( groupName ) {
-            var group = context.model.settings[ groupName ];
-            ng.forEach( group, function( _, name ) {
-               group[ name ] = true;
-            } );
+            let group = model.settings[ groupName ];
+            for( let name in group ) {
+               if( group.hasOwnProperty[ name ] ) {
+                  group[ name ] = true;
+               }
+            }
          } );
-         context.model.patterns.forEach( function( patternInfo ) {
-            context.model.settings.patterns[ patternInfo.name ] = true;
+         model.patterns.forEach( function( patternInfo ) {
+            model.settings.patterns[ patternInfo.name ] = true;
          } );
          context.features.filter.hidePatterns.forEach( function( pattern ) {
-            context.model.settings.patterns[ pattern ] = false;
+            model.settings.patterns[ pattern ] = false;
          } );
          context.features.filter.hideSources.forEach( function( pattern ) {
-            context.model.settings.sources[ pattern ] = false;
+            model.settings.sources[ pattern ] = false;
          } );
          context.features.filter.hideInteractions.forEach( function( pattern ) {
-            context.model.settings.interactions[ pattern ] = false;
+            model.settings.interactions[ pattern ] = false;
          } );
       },
       clearFilters: function() {
-         context.model.settings.namePattern = '';
-         context.model.settings.visibleEventsLimit = null;
+         model.settings.namePattern = '';
+         model.settings.visibleEventsLimit = null;
          context.commands.setAll( true );
       },
       select: function( eventInfo ) {
-         context.model.selectionEventInfo = eventInfo.selected ? null : eventInfo;
+         model.selectionEventInfo = eventInfo.selected ? null : eventInfo;
          runFilters();
       },
       discard: function() {
-         context.model.eventInfos = [];
-         context.model.selectionEventInfo = null;
+         model.eventInfos = [];
+         model.selectionEventInfo = null;
          runFilters();
          refreshProblemSummary();
       },
       runFilters: runFilters
    };
 
-   context.commands.setDefaults();
+   commands.setDefaults();
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -149,14 +151,14 @@ function create( context, reactRender, flowService ) {
       } );
    }
 
-   context.$watch( 'model.settings', runFilters, true );
+   //context.$watch( 'model.settings', runFilters, true );
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function addEvent( eventInfo ) {
 
-      var completeEventInfo = {
-         index: ++context.model.index,
+      let completeEventInfo = {
+         index: ++model.index,
          interaction: eventInfo.action,
          cycleId: eventInfo.cycleId > -1 ? eventInfo.cycleId : '-',
          eventObject: eventInfo.eventObject || {},
@@ -176,20 +178,20 @@ function create( context, reactRender, flowService ) {
          problems: tracker.track( eventInfo )
       };
 
-      context.model.eventInfos.unshift( completeEventInfo );
+      model.eventInfos.unshift( completeEventInfo );
       if( completeEventInfo.problems.length ) {
          refreshProblemSummary();
       }
 
-      if( context.model.eventInfos.length > context.features.events.bufferSize ) {
-         var removedInfo = context.model.eventInfos.pop();
+      if( model.eventInfos.length > context.features.events.bufferSize ) {
+         let removedInfo = model.eventInfos.pop();
          if( removedInfo.problems.length ) {
             refreshProblemSummary();
          }
       }
 
       function pattern( eventName ) {
-         var matchingPatthern = context.model.patterns.filter( function( pattern ) {
+         let matchingPatthern = model.patterns.filter( function( pattern ) {
             return pattern.eventTypes.some( function( eventType ) {
                return eventName.indexOf( eventType.toLowerCase() ) !== -1;
             } );
@@ -202,11 +204,11 @@ function create( context, reactRender, flowService ) {
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function refreshProblemSummary() {
-      var eventInfos = context.model.eventInfos.filter( function( info ) {
+      let eventInfos = model.eventInfos.filter( function( info ) {
          return info.problems.length > 0;
       } );
 
-      context.model.problemSummary = {
+      model.problemSummary = {
          hasProblems: eventInfos.length > 0,
          eventInfos: eventInfos
       };
@@ -215,19 +217,19 @@ function create( context, reactRender, flowService ) {
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function runFilters() {
-      var settings = context.model.settings;
-      var numVisible = 0;
+      let settings = model.settings;
+      let numVisible = 0;
 
-      var searchRegExp = null;
+      let searchRegExp = null;
       if( settings.namePattern ) {
          try {
             searchRegExp = new RegExp( settings.namePattern, 'gi' );
          }
          catch( e ) { /* ignore invalid search pattern */ }
       }
-      var selectionEventInfo = context.model.selectionEventInfo;
+      let selectionEventInfo = model.selectionEventInfo;
 
-      context.model.visibleEventInfos = context.model.eventInfos.filter( function( eventInfo ) {
+      model.visibleEventInfos = model.eventInfos.filter( function( eventInfo ) {
          if( settings.visibleEventsLimit !== null && numVisible >= settings.visibleEventsLimit ) {
             return false;
          }
@@ -251,7 +253,7 @@ function create( context, reactRender, flowService ) {
       } );
 
       // modify matches in place
-      context.model.visibleEventInfos.forEach( function( eventInfo ) {
+      model.visibleEventInfos.forEach( function( eventInfo ) {
          eventInfo.htmlName = htmlValue( eventInfo.name, searchRegExp, '.' );
          eventInfo.htmlSource = htmlValue( eventInfo.source, searchRegExp, '#' );
          eventInfo.htmlTarget = htmlValue( eventInfo.target, searchRegExp, '#' );
@@ -264,7 +266,7 @@ function create( context, reactRender, flowService ) {
    function matchesSearchExpression( eventInfo, searchRegExp ) {
       return !searchRegExp || [ eventInfo.name, eventInfo.source, eventInfo.target ]
          .some( function( field ) {
-            var matches = searchRegExp.test( field );
+            let matches = searchRegExp.test( field );
             searchRegExp.lastIndex = 0;
             return !!matches;
          } );
@@ -272,7 +274,7 @@ function create( context, reactRender, flowService ) {
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   var patternTopics = {
+   let patternTopics = {
       RESOURCE: [ 'didReplace', 'didUpdate' ],
       ACTION: [ 'takeActionRequest', 'willTakeAction', 'didTakeAction' ],
       FLAG: [ 'didChangeFlag' ],
@@ -284,23 +286,23 @@ function create( context, reactRender, flowService ) {
          return true;
       }
 
-      var filterTopics = context.resources.filter.topics || [];
-      var filterParticipants = context.resources.filter.participants || [];
+      let filterTopics = context.resources.filter.topics || [];
+      let filterParticipants = context.resources.filter.participants || [];
       if( !filterTopics.length && !filterParticipants.length ) {
          return true;
       }
 
-      var matchesTopicFilter = filterTopics
+      let matchesTopicFilter = filterTopics
          .some( function( item ) {
-            var prefixes = patternTopics[ item.pattern ];
+            let prefixes = patternTopics[ item.pattern ];
             return prefixes.some( function( prefix ) {
-               var topic = prefix + '.' + item.topic;
+               let topic = prefix + '.' + item.topic;
                return eventInfo.name === topic || eventInfo.name.indexOf( topic + '.' ) === 0;
             } );
          } );
 
-      var matchesParticipantsFilter = [ 'target', 'source' ].some( function( field ) {
-         var value = eventInfo[ field ];
+      let matchesParticipantsFilter = [ 'target', 'source' ].some( function( field ) {
+         let value = eventInfo[ field ];
          return filterParticipants
             .map( function( _ ) { return _.participant; } )
             .some( isSuffixOf( value ) );
@@ -310,7 +312,7 @@ function create( context, reactRender, flowService ) {
 
       function isSuffixOf( value ) {
          return function( _ ) {
-            var tail = '#' + _;
+            let tail = '#' + _;
             return value.length >= tail.length && value.indexOf( tail ) === value.length - tail.length;
          };
       }
@@ -319,48 +321,49 @@ function create( context, reactRender, flowService ) {
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function htmlValue( value, searchRegExp, splitCharacter ) {
-      var html = $sanitize( value );
-      var wasSplit = false;
-      if( !searchRegExp ) {
-         return wrap( split( html, false ) );
-      }
-
-      var parts = [];
-      var match;
-      var lastIndex = 0;
-      var limit = 1;
-      while( limit-- && ( match = searchRegExp.exec( html ) ) !== null ) {
-         if( match.index > lastIndex ) {
-            parts.push( split( html.substring( lastIndex, match.index ), false ) );
-         }
-         parts.push( '<b>' );
-         parts.push( split( match[ 0 ], true ) );
-         parts.push( '</b>' );
-         lastIndex = searchRegExp.lastIndex;
-      }
-      searchRegExp.lastIndex = 0;
-      parts.push( split( html.substring( lastIndex, html.length ) ) );
-      return wrap( parts.join( '' ) );
-
-      function wrap( whole ) {
-         return '<span>' + whole + '</span>';
-      }
-
-      function split( part, isBold ) {
-         if( !splitCharacter || wasSplit ) {
-            return part;
-         }
-
-         var splitPoint = part.indexOf( splitCharacter );
-         if( splitPoint === -1 ) {
-            return part;
-         }
-
-         wasSplit = true;
-         return part.substring( 0, splitPoint ) +
-            ( isBold ? '</b>' : '' ) + '</span><br /><span>' + ( isBold ? '<b>' : '' ) +
-            part.substring( splitPoint + 1, part.length );
-      }
+      return value;
+      // let html = $sanitize( value );
+      // let wasSplit = false;
+      // if( !searchRegExp ) {
+      //    return wrap( split( html, false ) );
+      // }
+      //
+      // let parts = [];
+      // let match;
+      // let lastIndex = 0;
+      // let limit = 1;
+      // while( limit-- && ( match = searchRegExp.exec( html ) ) !== null ) {
+      //    if( match.index > lastIndex ) {
+      //       parts.push( split( html.substring( lastIndex, match.index ), false ) );
+      //    }
+      //    parts.push( '<b>' );
+      //    parts.push( split( match[ 0 ], true ) );
+      //    parts.push( '</b>' );
+      //    lastIndex = searchRegExp.lastIndex;
+      // }
+      // searchRegExp.lastIndex = 0;
+      // parts.push( split( html.substring( lastIndex, html.length ) ) );
+      // return wrap( parts.join( '' ) );
+      //
+      // function wrap( whole ) {
+      //    return '<span>' + whole + '</span>';
+      // }
+      //
+      // function split( part, isBold ) {
+      //    if( !splitCharacter || wasSplit ) {
+      //       return part;
+      //    }
+      //
+      //    let splitPoint = part.indexOf( splitCharacter );
+      //    if( splitPoint === -1 ) {
+      //       return part;
+      //    }
+      //
+      //    wasSplit = true;
+      //    return part.substring( 0, splitPoint ) +
+      //       ( isBold ? '</b>' : '' ) + '</span><br /><span>' + ( isBold ? '<b>' : '' ) +
+      //       part.substring( splitPoint + 1, part.length );
+      // }
    }
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -380,8 +383,8 @@ function create( context, reactRender, flowService ) {
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function separate( label, separator, defaultText ) {
-      var name = label || defaultText;
-      var splitPoint = name.indexOf( separator );
+      let name = label || defaultText;
+      let splitPoint = name.indexOf( separator );
       return {
          upper: splitPoint === -1 ? name : name.substr( 0, splitPoint ),
          lower: splitPoint === -1 ? defaultText : name.substr( splitPoint, name.length )
@@ -394,28 +397,149 @@ function create( context, reactRender, flowService ) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function affix() {
-
+         return ( <div><p>affix calling</p></div> );
+         /*
          const eventInfoList = model.problemSummary.eventInfos.map( ( event ) => {
             return (
-               <li key={event.name} >
-                 <h5><strong>{ event.name }</strong> <em>(source: { event.source })</em></h5>
-                 <ul>
-                    {
-                       event.problems.map( ( problems ) => {
-                          return (
-                             <li key={problem.description}
-                              className="ax-event-problem">
-                             <i className="fa fa-warning ax-error"></i> { problem.description }
-                             </li>
-                          );
-                       } )
-                    }
-                 </ul>
-             </li>
+               <li key={event.name}>
+                  <h5><strong>{ event.name }</strong> <em>(source: { event.source })</em></h5>
+                  <ul>
+                     {
+                        event.problems.map( ( problems ) => {
+                           return (
+                              <li key={problem.description}
+                                  className="ax-event-problem">
+                                 <i className="fa fa-warning ax-error"/> { problem.description }
+                              </li>
+                           );
+                        } )
+                     }
+                  </ul>
+               </li>
             )
          } );
 
-         return (
+         class FiltersForm extends React.Component {
+            constructor( props ) {
+               super( props );
+               this.state = {value: this.props.name};
+
+               this.handleChange = this.handleChange.bind( this );
+            }
+
+            handleChange( event ) {
+               this.setState( {value: event.target.value} );
+            }
+
+            render() {
+               return (
+                  <form>
+                     <label ax-for="'search'">
+                        <small>Filters:</small>
+                     </label>
+                     <input className="form-control input-sm"
+                            placeholder="Search (RegExp)"
+                            ax-id="'search'"
+                            type="text"
+                            value={this.state.value}
+                            onChange={this.handleChange}/>
+                  </form>
+               );
+            }
+         }
+
+         const filters = <FiltersForm name="model.settings.namePattern"/>;
+
+         const limit = (
+            <form>
+               <label ax-for="'limit'">
+                  <small>Limit:</small>
+               </label>
+               <input className="form-control input-sm"
+                      ax-id="'limit'"
+                      ng-model="model.settings.visibleEventsLimit"
+                      ng-model-options="{ updateOn: 'default' }"
+                      ax-input="integer"
+                      ax-input-minimum-value="0"
+                      ax-input-maximum-value="features.events.bufferSize"
+                      placeholder="0-{{ features.events.bufferSize }}"
+                      maxlength="4"/>
+            </form>
+         );
+         return {filters};
+      */
+      /*   const filterMenu = (
+            <div className="btn-group btn-group-sm"
+                 ng-className="{ 'open': view.showPatterns }"
+                 ng-mouseenter="view.showPatterns = true"
+                 ng-mouseleave="view.showPatterns = false">
+               <button type="button"
+                       className="btn btn-default dropdown-toggle"
+                       data-toggle="dropdown"
+                       aria-expanded="{{ view.showPatterns }}">
+                  More <span className="caret"></span>
+               </button>
+               <div className="dropdown-menu container col-lg-6" role="menu">
+
+                  <div className="row">
+                     <div className="ax-event-settings-col first">
+                        <h4>Patterns</h4>
+                        <div ng-repeat="pattern in model.patterns track by pattern.name">
+                           <button
+                              type="button"
+                              className="btn btn-link ax-event-setting-toggle"
+                              ng-click="model.settings.patterns[ pattern.name ] = !model.settings.patterns[ pattern.name ]">
+                              <span className="ax-event-pattern" ng-bind-html="pattern.htmlIcon"></span>
+                              {{ pattern.name }}
+                              <i className="fa pull-right ax-event-setting-toggle"
+                                 ng-class="{ 'fa-toggle-off': !model.settings.patterns[ pattern.name ], 'fa-toggle-on': model.settings.patterns[ pattern.name ] }"></i>
+                           </button>
+                        </div>
+                     </div>
+
+                     <div className="ax-event-settings-col last">
+                        <h4>Interactions</h4>
+                        <div ng-repeat="(interaction, enabled) in model.settings.interactions track by interaction">
+                           <button
+                              type="button"
+                              className="btn btn-link ax-event-setting-toggle"
+                              ng-click="model.settings.interactions[ interaction ] = !enabled"
+                              >{{ interaction }}<i className="fa pull-right ax-event-setting-toggle"
+                                              ng-className="{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }"></i>
+                           </button>
+                        </div>
+
+                        <br>
+                        <h4>Sources</h4>
+                        <div ng-repeat="(source, enabled) in model.settings.sources track by source">
+                           <button
+                              type="button"
+                              className="btn btn-link ax-event-setting-toggle"
+                              ng-click="model.settings.sources[ source ] = !enabled"
+                              >{{ source }}<i className="fa pull-right ax-event-setting-toggle"
+                                              ng-class="{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }"></i>
+                           </button>
+                        </div>
+                     </div>
+
+                  </div>
+
+                  <div className="row">
+                     <div className="ax-event-settings-col first">&nbsp;</div>
+                     <div className="ax-event-settings-col last">
+                        <div className="pull-right">
+                           <button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( true )">All On</button>
+                           <button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( false )">All Off</button>
+                           <button type="button" className="btn btn-xs" ng-click="commands.setDefaults()">Defaults</button>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+            </div>
+         );*/
+
+       /*  return
             <div className="ax-affix-area"
                  ax-affix
                  ax-affix-offset-top="100">
@@ -452,93 +576,12 @@ function create( context, reactRender, flowService ) {
                }
                <div className="ax-button-wrapper form-inline">
                   <div className="form-group form-group-sm">
-                     <label ax-for="'search'"><small>Filters:</small></label>
-                     <input className="form-control input-sm"
-                            placeholder="Search (RegExp)"
-                            ax-id="'search'"
-                            ng-model="model.settings.namePattern">
-
-                     <label ax-for="'limit'"><small>Limit:</small></label>
-                     <input className="form-control input-sm"
-                            ax-id="'limit'"
-                            ng-model="model.settings.visibleEventsLimit"
-                            ng-model-options="{ updateOn: 'default' }"
-                            ax-input="integer"
-                            ax-input-minimum-value="0"
-                            ax-input-maximum-value="features.events.bufferSize"
-                            placeholder="0-{{ features.events.bufferSize }}"
-                            maxlength="4">
+                     {filters}
+                     {limit}
                   </div>
 
-                  <!-- Filters menu -->
-                  <div className="btn-group btn-group-sm"
-                       ng-className="{ 'open': view.showPatterns }"
-                       ng-mouseenter="view.showPatterns = true"
-                       ng-mouseleave="view.showPatterns = false">
-                     <button type="button"
-                             className="btn btn-default dropdown-toggle"
-                             data-toggle="dropdown"
-                             aria-expanded="{{ view.showPatterns }}">
-                        More <span className="caret"></span>
-                     </button>
-                     <div className="dropdown-menu container col-lg-6" role="menu">
 
-                        <div className="row">
-                           <div className="ax-event-settings-col first">
-                              <h4>Patterns</h4>
-                              <div ng-repeat="pattern in model.patterns track by pattern.name">
-                                 <button
-                                    type="button"
-                                    className="btn btn-link ax-event-setting-toggle"
-                                    ng-click="model.settings.patterns[ pattern.name ] = !model.settings.patterns[ pattern.name ]">
-                                    <span className="ax-event-pattern" ng-bind-html="pattern.htmlIcon"></span>
-                                    {{ pattern.name }}
-                                    <i className="fa pull-right ax-event-setting-toggle"
-                                       ng-class="{ 'fa-toggle-off': !model.settings.patterns[ pattern.name ], 'fa-toggle-on': model.settings.patterns[ pattern.name ] }"></i>
-                                 </button>
-                              </div>
-                           </div>
-
-                           <div className="ax-event-settings-col last">
-                              <h4>Interactions</h4>
-                              <div ng-repeat="(interaction, enabled) in model.settings.interactions track by interaction">
-                                 <button
-                                    type="button"
-                                    className="btn btn-link ax-event-setting-toggle"
-                                    ng-click="model.settings.interactions[ interaction ] = !enabled"
-                                    >{{ interaction }}<i className="fa pull-right ax-event-setting-toggle"
-                                                    ng-className="{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }"></i>
-                                 </button>
-                              </div>
-
-                              <br>
-                              <h4>Sources</h4>
-                              <div ng-repeat="(source, enabled) in model.settings.sources track by source">
-                                 <button
-                                    type="button"
-                                    className="btn btn-link ax-event-setting-toggle"
-                                    ng-click="model.settings.sources[ source ] = !enabled"
-                                    >{{ source }}<i className="fa pull-right ax-event-setting-toggle"
-                                                    ng-class="{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }"></i>
-                                 </button>
-                              </div>
-                           </div>
-
-                        </div>
-
-                        <div className="row">
-                           <div className="ax-event-settings-col first">&nbsp;</div>
-                           <div className="ax-event-settings-col last">
-                              <div className="pull-right">
-                                 <button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( true )">All On</button>
-                                 <button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( false )">All Off</button>
-                                 <button type="button" className="btn btn-xs" ng-click="commands.setDefaults()">Defaults</button>
-                              </div>
-                           </div>
-                        </div>
-
-                     </div>
-                  </div>
+                  {filterMenu}
 
                   <button className="btn btn-primary btn-sm"
                           type="button"
@@ -558,26 +601,179 @@ function create( context, reactRender, flowService ) {
                         {{item.participant}}
                   </span>
                </div>
-            </div>
-         )
+            </div>*/
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function eventListTable() {
-         return (
-            <table ng-if="model.visibleEventInfos.length"
-                   className="table">
-               <colgroup>
-                  <col className="ax-col-pattern-icon">
-                  <col className="ax-col-interaction">
-                  <col className="ax-col-payload-icon">
-                  <col className="ax-col-name">
+         if( !model.visibleEventInfos.length ) {
+            return <p>no events</p>;
+         }
 
-                  <col className="ax-col-source">
-                  <col className="ax-col-target">
-                  <col className="ax-col-cycle">
-                  <col className="ax-col-timestamp">
+         // {/*class tbodyEvent extends React.Component {*/}
+         //    {/*constructor(props) {*/}
+         //       {/*super(props);*/}
+         //       {/*this.event = this.events*/}
+         //
+         //       {/*// This binding is necessary to make `this` work in the callback*/}
+         //       {/*this.handleClick = this.handleClick.bind(this);*/}
+         //    {/*}*/}
+
+         //    handleClick() {
+         //       //commands.select( event )"
+         //       this.setState(prevState => ({
+         //          isToggleOn: !prevState.isToggleOn
+         //       }));
+         //    }
+         //
+         //    render() {
+         //       return (
+         //          <tbody className="ax-event-pattern- + {event.pattern} +
+         //                      ax-event-interaction- + {event.interaction} +
+         //                      {event.selected ? ' ax-event-selected' : '' ) +
+         //                        ( event.problems.length ? ' ax-event-has-problems' : '' )"
+         //                 onClick={this.handleClick}>
+         //          <tr className="ax-event-summary">
+         //             <td className="ax-col-pattern-icon"
+         //                 title="{{ event.pattern }}"
+         //                 ng-bind-html="view.patternsByName[ event.pattern ].htmlIcon"></td>
+         //             <td className="ax-col-interaction">{{event.interaction}}</td>
+         //             <td className="ax-col-payload-icon">
+         //                <button type="button" className="btn-link btn-info"
+         //                        ng-if="event.interaction == 'publish' && !event.showDetails"
+         //                        ng-click="event.showDetails = true; $event.stopPropagation();"><i className="fa fa-plus-square">&nbsp;</i></button>
+         //                <button type="button" className="btn-link btn-info"
+         //                        ng-if="event.interaction == 'publish' && event.showDetails"
+         //                        ng-click="event.showDetails = false; $event.stopPropagation();"><i className="fa fa-minus-square" >&nbsp;</i></button>
+         //             </td>
+         //             <td ng-bind-html="event.htmlName"></td>
+         //             <td ng-bind-html="event.htmlSource"></td>
+         //             <td ng-bind-html="event.htmlTarget"></td>
+         //             <td className="ax-col-cycle text-right">{{event.cycleId}}</td>
+         //             <td className="text-right"><span>{{event.formattedTime.upper}}</span><br /><span>{{event.formattedTime.lower}}</span></td>
+         //          </tr>
+         //          <tr className="ax-event-payload"
+         //              ng-if="event.problems.length">
+         //             <td colspan="3"></td>
+         //             <td colspan="5">
+         //                <ul>
+         //                   <li ng-repeat="problem in event.problems track by problem.description"
+         //                       className="ax-event-problem">
+         //                      <i className="fa fa-warning"></i> {{ problem.description }}
+         //                   </li>
+         //                </ul>
+         //             </td>
+         //          </tr>
+         //          <tr className="ax-event-payload"
+         //              ng-if="event.showDetails">
+         //             <td colspan="3"></td>
+         //             <td colspan="5" ><pre>{{event.formattedEvent}}</pre></td>
+         //          </tr>
+         //          </tbody>
+         //       );
+         //    }
+         // }
+
+         class ShowDetailsButton extends React.Component {
+            constructor(props) {
+               super(props);
+               this.props = props;
+               this.handleClick = this.handleClick.bind(this);
+            }
+
+            handleClick( e ) {
+               this.props.onNameChanged(!this.props.showDetails);
+               e.stopPropagation();
+            }
+
+            render() {
+               return <button type="button"
+                          className="btn-link btn-info"
+                     onClick={this.handleClick}>
+                     <i className={ this.props.showDetails ? "fa fa-minus-square" : "fa fa-plus-square" } >&nbsp;</i>
+                  </button>;
+            }
+         }
+
+         class EventBody extends React.Component {
+            constructor(props) {
+               super(props);
+               this.props = props;
+               console.log(props,this.props.interaction)
+               this.state = { showDetails: props.showDetails };
+               this.handleName = this.handleName.bind(this);
+            }
+
+            handleName(){
+               this.setState({showDetails: !this.state.showDetails});
+            }
+
+            render() {
+               return <tbody>
+               <tr className="ax-event-summary">
+                  <td className="ax-col-pattern-icon"
+                      title="{event.pattern}"
+                      ng-bind-html="view.patternsByName[ event.pattern ].htmlIcon"></td>
+                  <td className="ax-col-interaction">{this.props.interaction}</td>
+                  <td className="ax-col-payload-icon">
+                     { this.props.interaction == 'publish' &&
+                       <ShowDetailsButton showDetails={this.state.showDetails} onNameChanged={this.handleName}/>
+                     }
+                  </td>
+                  <td>{this.props.htmlName}</td>
+                  <td>{this.props.htmlSource}</td>
+                  <td>{this.props.htmlTarget}</td>
+                  <td className="ax-col-cycle text-right">{this.props.cycleId}</td>
+                  <td className="text-right"><span>{this.props.formattedTime.upper}</span><br />
+                     <span>{this.props.formattedTime.lower}</span>
+                  </td>
+               </tr>
+               { this.props.problems.length &&
+                 <tr className="ax-event-payload">
+                    <td colspan="3"></td>
+                    <td colspan="5">
+                       <ul>
+                          <li className="ax-event-problem">
+                             ng-repeat="problem in event.problems track by problem.description"
+                             <i className="fa fa-warning"></i> problem.description
+                          </li>
+                       </ul>
+                    </td>
+                 </tr>
+               }
+               { this.state.showDetails &&
+                 <tr className="ax-event-payload">
+                    <td colspan="3"></td>
+                    <td colspan="5">
+                       <pre>{this.props.formattedEvent}</pre>
+                    </td>
+                 </tr>
+               }
+               </tbody>
+            }
+         }
+
+
+
+         const events = model.visibleEventInfos.map( ( event, key )=> {
+            //return <tbodyEvent key={key} event={event}/>;
+            return (
+               <EventBody {...event} key={key} />
+            );
+         } );
+
+         return (
+            <table className="table">
+               <colgroup>
+                  <col className="ax-col-pattern-icon" />
+                  <col className="ax-col-interaction" />
+                  <col className="ax-col-payload-icon" />
+                  <col className="ax-col-name" />
+                  <col className="ax-col-source" />
+                  <col className="ax-col-target" />
+                  <col className="ax-col-cycle" />
+                  <col className="ax-col-timestamp" />
                </colgroup>
                <thead>
                   <tr>
@@ -585,65 +781,26 @@ function create( context, reactRender, flowService ) {
                      <th>Action</th>
                      <th>&nbsp;</th>
                      <th>Event Name</th>
-
                      <th>Source</th>
                      <th>Target</th>
                      <th className="text-right">Cycle</th>
-                     <th className="text-right">Time<i className="fa fa-long-arrow-up"></i></th>
+                     <th className="text-right">Time<i className="fa fa-long-arrow-up" /></th>
                   </tr>
                </thead>
-               <tbody ng-repeat="event in model.visibleEventInfos"
-                      ng-className="'ax-event-pattern-' + event.pattern +
-                                ' ax-event-interaction-' + event.interaction +
-                                ( event.selected ? ' ax-event-selected' : '' ) +
-                                ( event.problems.length ? ' ax-event-has-problems' : '' )"
-                      ng-click="commands.select( event )">
-                  <tr className="ax-event-summary">
-                     <td className="ax-col-pattern-icon"
-                         title="{{ event.pattern }}"
-                         ng-bind-html="view.patternsByName[ event.pattern ].htmlIcon"></td>
-                     <td className="ax-col-interaction">{{event.interaction}}</td>
-                     <td className="ax-col-payload-icon">
-                        <button type="button" className="btn-link btn-info"
-                                ng-if="event.interaction == 'publish' && !event.showDetails"
-                                ng-click="event.showDetails = true; $event.stopPropagation();"><i className="fa fa-plus-square">&nbsp;</i></button>
-                        <button type="button" className="btn-link btn-info"
-                                ng-if="event.interaction == 'publish' && event.showDetails"
-                                ng-click="event.showDetails = false; $event.stopPropagation();"><i className="fa fa-minus-square" >&nbsp;</i></button>
-                     </td>
-                     <td ng-bind-html="event.htmlName"></td>
-                     <td ng-bind-html="event.htmlSource"></td>
-                     <td ng-bind-html="event.htmlTarget"></td>
-                     <td className="ax-col-cycle text-right">{{event.cycleId}}</td>
-                     <td className="text-right"><span>{{event.formattedTime.upper}}</span><br /><span>{{event.formattedTime.lower}}</span></td>
-                  </tr>
-                  <tr className="ax-event-payload"
-                      ng-if="event.problems.length">
-                     <td colspan="3"></td>
-                     <td colspan="5">
-                        <ul>
-                           <li ng-repeat="problem in event.problems track by problem.description"
-                               className="ax-event-problem">
-                              <i className="fa fa-warning"></i> {{ problem.description }}
-                           </li>
-                        </ul>
-                     </td>
-                  </tr>
-                  <tr className="ax-event-payload"
-                      ng-if="event.showDetails">
-                     <td colspan="3"></td>
-                     <td colspan="5" ><pre>{{event.formattedEvent}}</pre></td>
-                  </tr>
-               </tbody>
+               {events}
             </table>
-         )
+      );
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
       reactRender(
-         {affix}
-         {eventListTable}
+         <div>
+            <p>hello</p>
+            {affix()}
+            {eventListTable()}
+         </div>
       )
    }
 

@@ -58,10 +58,7 @@
          "pages": [],
          "widgets": [
             "host-connector-widget",
-            "developer-toolbar-widget",
-            "page-inspector-widget",
-            "events-display-widget",
-            "log-display-widget"
+            "events-display-widget"
          ]
       }
    ],
@@ -88,45 +85,9 @@
    ],
    "widgets": [
       {
-         "path": "includes/widgets/developer-toolbar-widget",
-         "integration": {
-            "technology": "react",
-            "type": "widget"
-         },
-         "resources": {
-            "watch": [
-               "widget.json",
-               "*.theme/developer-toolbar-widget.html",
-               "*.theme/css/developer-toolbar-widget.css",
-               "developer-toolbar-widget.js"
-            ],
-            "embed": [
-               "widget.json",
-               "*.theme/developer-toolbar-widget.html"
-            ],
-            "list": [
-               "*.theme/css/developer-toolbar-widget.css"
-            ]
-         },
-         "references": {
-            "local": {
-               "self": "developer-toolbar-widget"
-            },
-            "amd": {
-               "self": "../includes/widgets/developer-toolbar-widget",
-               "module": "laxar-application/includes/widgets/developer-toolbar-widget/developer-toolbar-widget"
-            }
-         },
-         "controls": [],
-         "referencedAs": {
-            "byUser": "developer-toolbar-widget",
-            "derivedReference": "developer-toolbar-widget"
-         }
-      },
-      {
          "path": "includes/widgets/events-display-widget",
          "integration": {
-            "technology": "angular",
+            "technology": "react",
             "type": "widget"
          },
          "resources": {
@@ -153,10 +114,7 @@
                "module": "laxar-application/includes/widgets/events-display-widget/events-display-widget"
             }
          },
-         "controls": [
-            "laxar-input-control",
-            "laxar-affix-control"
-         ],
+         "controls": [],
          "referencedAs": {
             "byUser": "events-display-widget",
             "derivedReference": "events-display-widget"
@@ -197,148 +155,7 @@
             "byUser": "host-connector-widget",
             "derivedReference": "host-connector-widget"
          }
-      },
-      {
-         "path": "includes/widgets/log-display-widget",
-         "integration": {
-            "technology": "react",
-            "type": "widget"
-         },
-         "resources": {
-            "watch": [
-               "widget.json",
-               "*.theme/log-display-widget.html",
-               "*.theme/css/log-display-widget.css",
-               "log-display-widget.js"
-            ],
-            "embed": [
-               "widget.json",
-               "*.theme/log-display-widget.html"
-            ],
-            "list": [
-               "*.theme/css/log-display-widget.css"
-            ]
-         },
-         "references": {
-            "local": {
-               "self": "log-display-widget"
-            },
-            "amd": {
-               "self": "../includes/widgets/log-display-widget",
-               "module": "laxar-application/includes/widgets/log-display-widget/log-display-widget"
-            }
-         },
-         "controls": [
-            "laxar-affix-control"
-         ],
-         "referencedAs": {
-            "byUser": "log-display-widget",
-            "derivedReference": "log-display-widget"
-         }
-      },
-      {
-         "path": "includes/widgets/page-inspector-widget",
-         "integration": {
-            "technology": "react",
-            "type": "widget"
-         },
-         "resources": {
-            "watch": [
-               "widget.json",
-               "*.theme/page-inspector-widget.html",
-               "*.theme/css/page-inspector-widget.css",
-               "page-inspector-widget.js"
-            ],
-            "embed": [
-               "widget.json",
-               "*.theme/page-inspector-widget.html"
-            ],
-            "list": [
-               "*.theme/css/page-inspector-widget.css"
-            ]
-         },
-         "references": {
-            "local": {
-               "self": "page-inspector-widget"
-            },
-            "amd": {
-               "self": "../includes/widgets/page-inspector-widget",
-               "module": "laxar-application/includes/widgets/page-inspector-widget/page-inspector-widget"
-            }
-         },
-         "controls": [],
-         "referencedAs": {
-            "byUser": "page-inspector-widget",
-            "derivedReference": "page-inspector-widget"
-         }
       }
    ],
-   "controls": [
-      {
-         "path": "bower_components/laxar-affix-control",
-         "integration": {
-            "technology": "angular",
-            "type": "control"
-         },
-         "resources": {
-            "watch": [
-               "*.theme/css/ax-affix-control.css",
-               "ax-affix-control.js"
-            ],
-            "embed": [
-               "control.json"
-            ],
-            "list": [
-               "*.theme/css/ax-affix-control.css"
-            ]
-         },
-         "references": {
-            "local": {
-               "self": "../laxar-affix-control"
-            },
-            "amd": {
-               "self": "laxar-affix-control",
-               "module": "laxar-affix-control/ax-affix-control"
-            }
-         },
-         "referencedAs": {
-            "byUser": "laxar-affix-control",
-            "derivedScheme": "amd",
-            "derivedReference": "laxar-affix-control"
-         }
-      },
-      {
-         "path": "bower_components/laxar-input-control",
-         "integration": {
-            "technology": "angular",
-            "type": "control"
-         },
-         "resources": {
-            "watch": [
-               "*.theme/css/ax-input-control.css",
-               "ax-input-control.js"
-            ],
-            "embed": [
-               "control.json"
-            ],
-            "list": [
-               "*.theme/css/ax-input-control.css"
-            ]
-         },
-         "references": {
-            "local": {
-               "self": "../laxar-input-control"
-            },
-            "amd": {
-               "self": "laxar-input-control",
-               "module": "laxar-input-control/ax-input-control"
-            }
-         },
-         "referencedAs": {
-            "byUser": "laxar-input-control",
-            "derivedScheme": "amd",
-            "derivedReference": "laxar-input-control"
-         }
-      }
-   ]
+   "controls": []
 }

@@ -19,7 +19,6 @@
     "laxar-mocks": "~1.0.0"
   },
   "resolutions": {
-    "laxar": "^1.3.0",
-    "jjv": "525475c9abd36ec1e939b65a3ba112367928c056"
+    "laxar": "^1.3.0"
   }
 }

@@ -34,12 +34,7 @@ var require = {
       "lodash": "lodash/lodash", 
       "dagre": "dagre/dist/dagre.core", 
       "graphlib": "graphlib/dist/graphlib.core", 
-      "immutable": "immutable/dist/immutable", 
-      "jjv": "jjv/lib/jjv", 
-      "jjve": "jjve/jjve", 
-      "laxar/laxar_testing": "laxar/dist/laxar_testing", 
-      "jasmine": "jasmine/lib/jasmine-core/jasmine", 
-      "q_mock": "q_mock/q"
+      "immutable": "immutable/dist/immutable"
    }, 
    "packages": [
       { 
@@ -90,9 +85,6 @@ var require = {
             return angular;
          }
       }, 
-      "bootstrap/tooltip": [
-         "jquery"
-      ], 
       "json-patch": { 
          "exports": "jsonpatch"
       }, 
@@ -114,11 +106,9 @@ var require = {
       }, 
       "bootstrap/affix": [
          "jquery"
+      ], 
+      "bootstrap/tooltip": [
+         "jquery"
       ]
-   }, 
-   "map": { 
-      "bower_components/laxar-input-control": { 
-         "laxar": "laxar/dist/laxar"
-      }
    }
 };

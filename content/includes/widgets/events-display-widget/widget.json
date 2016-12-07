@@ -7,11 +7,6 @@
       "type": "widget"
    },
 
-   "controls": [
-      "laxar-input-control",
-      "laxar-affix-control"
-   ],
-
    "features": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "type": "object",
