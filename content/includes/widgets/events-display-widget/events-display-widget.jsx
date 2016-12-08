@@ -23,6 +23,49 @@ function create( context, reactRender, flowService ) {
       onUpdateReplace: runFilters,
       isOptional: true
    } );
+
+   class PatternsHtmlIcon extends React.Component {
+
+      constructor( props ) {
+         super( props );
+         this.props = props;
+
+         switch( props.name ) {
+            case 'lifecycle':
+               this.iconClass = 'fa fa-recycle';
+               break;
+            case 'navigation':
+               this.iconClass = 'fa fa-location-arrow';
+               break;
+            case 'resources':
+               this.iconClass = 'fa fa-file-text-o';
+               break;
+            case 'actions':
+               this.iconClass = 'fa fa-rocket';
+               break;
+            case 'flags':
+               this.iconClass = 'fa fa-flag';
+               break;
+            case 'i18n':
+               this.iconClass = 'fa fa-globe';
+               break;
+            case 'visibility':
+               this.iconClass = 'fa fa-eye';
+               break;
+            default:
+               this.iconClass = '';
+         }
+      }
+
+      render() {
+         return (
+            <i className={this.iconClass} />
+         );
+
+      }
+   }
+
+
    let model = {
       patterns: [
          { name: 'lifecycle', htmlIcon: '<i class="fa fa-recycle"></i>', eventTypes: [
@@ -73,15 +116,8 @@ function create( context, reactRender, flowService ) {
       }
    };
 
-   context.view = {
-      showPatterns: false,
-      patternsByName: ( function() {
-         let result = {};
-         model.patterns.forEach( function( pattern ) {
-            result[ pattern.name ] = pattern;
-         } );
-         return result;
-      } )()
+   const view = {
+      showPatterns: false
    };
 
    let commands = {
@@ -122,10 +158,10 @@ function create( context, reactRender, flowService ) {
          model.settings.visibleEventsLimit = null;
          context.commands.setAll( true );
       },
-      select: function( eventInfo ) {
-         model.selectionEventInfo = eventInfo.selected ? null : eventInfo;
-         runFilters();
-      },
+      // select: function( eventInfo ) {
+      //    model.selectionEventInfo = eventInfo.selected ? null : eventInfo;
+      //    runFilters();
+      // },
       discard: function() {
          model.eventInfos = [];
          model.selectionEventInfo = null;
@@ -201,7 +237,7 @@ function create( context, reactRender, flowService ) {
 
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function refreshProblemSummary() {
       let eventInfos = model.eventInfos.filter( function( info ) {
@@ -214,7 +250,7 @@ function create( context, reactRender, flowService ) {
       };
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function runFilters() {
       let settings = model.settings;
@@ -261,7 +297,7 @@ function create( context, reactRender, flowService ) {
       } );
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function matchesSearchExpression( eventInfo, searchRegExp ) {
       return !searchRegExp || [ eventInfo.name, eventInfo.source, eventInfo.target ]
@@ -272,7 +308,7 @@ function create( context, reactRender, flowService ) {
          } );
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    let patternTopics = {
       RESOURCE: [ 'didReplace', 'didUpdate' ],
@@ -280,6 +316,8 @@ function create( context, reactRender, flowService ) {
       FLAG: [ 'didChangeFlag' ],
       CONTAINER: [ 'changeAreaVisibilityRequest', 'willChangeAreaVisibility', 'didChangeAreaVisibility' ]
    };
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function matchesFilterResource( eventInfo ) {
       if( !context.resources.filter ) {
@@ -310,6 +348,8 @@ function create( context, reactRender, flowService ) {
 
       return matchesTopicFilter || matchesParticipantsFilter;
 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       function isSuffixOf( value ) {
          return function( _ ) {
             let tail = '#' + _;
@@ -318,7 +358,7 @@ function create( context, reactRender, flowService ) {
       }
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function htmlValue( value, searchRegExp, splitCharacter ) {
       return value;
@@ -366,7 +406,7 @@ function create( context, reactRender, flowService ) {
       // }
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function inSelection( eventInfo, selectionEventInfo ) {
       if( !selectionEventInfo ) {
@@ -380,7 +420,7 @@ function create( context, reactRender, flowService ) {
       );
    }
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function separate( label, separator, defaultText ) {
       let name = label || defaultText;
@@ -391,10 +431,10 @@ function create( context, reactRender, flowService ) {
       };
    }
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    function render() {
 
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function affix() {
          return ( <div><p>affix calling</p></div> );
@@ -675,6 +715,8 @@ function create( context, reactRender, flowService ) {
          //    }
          // }
 
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+
          class ShowDetailsButton extends React.Component {
             constructor(props) {
                super(props);
@@ -696,72 +738,121 @@ function create( context, reactRender, flowService ) {
             }
          }
 
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+
          class EventBody extends React.Component {
             constructor(props) {
                super(props);
                this.props = props;
-               console.log(props,this.props.interaction)
-               this.state = { showDetails: props.showDetails };
+               this.state = {
+                  showDetails: props.event.showDetails,
+                  cssClassName: ''
+               };
                this.handleName = this.handleName.bind(this);
+               this.state.cssClassName = 'ax-event-pattern-' + this.props.event.pattern +
+               ' ax-event-interaction-' + this.props.event.interaction +
+               ( this.props.event.selected ? ' ax-event-selected' : '' ) +
+               ( this.props.event.problems.length ? ' ax-event-has-problems' : '' );
             }
 
             handleName(){
-               this.setState({showDetails: !this.state.showDetails});
+               this.setState( { showDetails: !this.state.showDetails } );
             }
 
+            handleClick( e ) {
+               // select: function( eventInfo ) {
+               //    model.selectionEventInfo = eventInfo.selected ? null : eventInfo;
+               //    runFilters();
+               // },
+            }
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
             render() {
-               return <tbody>
-               <tr className="ax-event-summary">
-                  <td className="ax-col-pattern-icon"
-                      title="{event.pattern}"
-                      ng-bind-html="view.patternsByName[ event.pattern ].htmlIcon"></td>
-                  <td className="ax-col-interaction">{this.props.interaction}</td>
-                  <td className="ax-col-payload-icon">
-                     { this.props.interaction == 'publish' &&
-                       <ShowDetailsButton showDetails={this.state.showDetails} onNameChanged={this.handleName}/>
-                     }
-                  </td>
-                  <td>{this.props.htmlName}</td>
-                  <td>{this.props.htmlSource}</td>
-                  <td>{this.props.htmlTarget}</td>
-                  <td className="ax-col-cycle text-right">{this.props.cycleId}</td>
-                  <td className="text-right"><span>{this.props.formattedTime.upper}</span><br />
-                     <span>{this.props.formattedTime.lower}</span>
-                  </td>
-               </tr>
-               { this.props.problems.length &&
-                 <tr className="ax-event-payload">
-                    <td colspan="3"></td>
-                    <td colspan="5">
-                       <ul>
-                          <li className="ax-event-problem">
-                             ng-repeat="problem in event.problems track by problem.description"
-                             <i className="fa fa-warning"></i> problem.description
-                          </li>
-                       </ul>
-                    </td>
-                 </tr>
+               const eventSummaryRow = (
+                  <tr className="ax-event-summary">
+                     <td className="ax-col-pattern-icon"
+                         title={this.props.event.pattern}> <PatternsHtmlIcon name={this.props.event.pattern} /></td>
+                     <td className="ax-col-interaction">{this.props.event.interaction}</td>
+                     <td className="ax-col-payload-icon">
+                        { this.props.event.interaction == 'publish' &&
+                          <ShowDetailsButton showDetails={this.state.showDetails} onNameChanged={this.handleName}/>
+                        }
+                     </td>
+                     <td>{this.props.event.htmlName}</td>
+                     <td>{this.props.event.htmlSource}</td>
+                     <td>{this.props.event.htmlTarget}</td>
+                     <td className="ax-col-cycle text-right">{this.props.event.cycleId}</td>
+                     <td className="text-right"><span>{this.props.event.formattedTime.upper}</span><br />
+                        <span>{this.props.event.formattedTime.lower}</span>
+                     </td>
+                  </tr>
+               );
+
+               ///////////////////////////////////////////////////////////////////////////////////////////////
+
+               function detailsRow( show, formattedEvent ) {
+                  if(!show) {
+                     return <tr />;
+                  }
+                  return  (<tr className="ax-event-payload">
+                     <td colSpan="3"></td>
+                     <td colSpan="5">
+                        <pre>{formattedEvent}</pre>
+                     </td>
+                  </tr>);
                }
-               { this.state.showDetails &&
-                 <tr className="ax-event-payload">
-                    <td colspan="3"></td>
-                    <td colspan="5">
-                       <pre>{this.props.formattedEvent}</pre>
-                    </td>
-                 </tr>
+
+               ///////////////////////////////////////////////////////////////////////////////////////////////
+
+               //TODO: Test display of problems
+
+               function eventProblems( problems ) {
+                  const listOfProblems = problems.map( ( problem ) => {
+                     return (
+                        <li key={problem.description} className="ax-event-problem">
+                           <i className="fa fa-warning"></i> problem.description
+                        </li>
+                     );
+                  } );
+                  return (
+                     <tr className="ax-event-payload">
+                        <td colSpan="3"></td>
+                        <td colSpan="5">
+                           <ul>
+                              {listOfProblems}
+                           </ul>
+                        </td>
+                     </tr>
+                  );
                }
-               </tbody>
+
+               ///////////////////////////////////////////////////////////////////////////////////////////////
+
+               return (
+                  <tbody
+                     className={ this.state.cssClassName }
+                     onClick={this.handleClick}
+                  >
+                     { eventSummaryRow }
+                     { this.props.event.problems.length && eventProblems( this.props.event.problems ) }
+                     { detailsRow( this.state.showDetails, this.props.event.formattedEvent ) }
+                  </tbody>
+               );
             }
          }
 
-
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
 
          const events = model.visibleEventInfos.map( ( event, key )=> {
-            //return <tbodyEvent key={key} event={event}/>;
+            console.log(event)
             return (
-               <EventBody {...event} key={key} />
+               //<EventBody {...event} key={key} viewPatternsByName={view.patternsByName}/>
+               <EventBody event={event} key={key} viewPatternsByName={view.patternsByName}/>
             );
          } );
+
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
 
          return (
             <table className="table">
@@ -789,7 +880,7 @@ function create( context, reactRender, flowService ) {
                </thead>
                {events}
             </table>
-      );
+         );
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
