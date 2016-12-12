@@ -24,46 +24,54 @@ function create( context, reactRender, flowService ) {
       isOptional: true
    } );
 
-   class PatternsHtmlIcon extends React.Component {
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      constructor( props ) {
-         super( props );
-         this.props = props;
+   function runFilters() {
+      let settings = model.settings;
+      let numVisible = 0;
 
-         switch( props.name ) {
-            case 'lifecycle':
-               this.iconClass = 'fa fa-recycle';
-               break;
-            case 'navigation':
-               this.iconClass = 'fa fa-location-arrow';
-               break;
-            case 'resources':
-               this.iconClass = 'fa fa-file-text-o';
-               break;
-            case 'actions':
-               this.iconClass = 'fa fa-rocket';
-               break;
-            case 'flags':
-               this.iconClass = 'fa fa-flag';
-               break;
-            case 'i18n':
-               this.iconClass = 'fa fa-globe';
-               break;
-            case 'visibility':
-               this.iconClass = 'fa fa-eye';
-               break;
-            default:
-               this.iconClass = '';
+      let searchRegExp = null;
+      if( settings.namePattern ) {
+         try {
+            searchRegExp = new RegExp( settings.namePattern, 'gi' );
          }
+         catch( e ) { /* ignore invalid search pattern */ }
       }
+      let selectionEventInfo = model.selectionEventInfo;
 
-      render() {
-         return (
-            <i className={this.iconClass}/>
-         );
+      model.visibleEventInfos = model.eventInfos.filter( function( eventInfo ) {
+         if( settings.visibleEventsLimit !== null && numVisible >= settings.visibleEventsLimit ) {
+            return false;
+         }
+         if( !settings.interactions[eventInfo.interaction] ) {
+            return false;
+         }
+         if( !settings.patterns[eventInfo.pattern] ) {
+            return false;
+         }
+         if( !settings.sources[eventInfo.sourceType] ) {
+            return false;
+         }
+         if( !matchesFilterResource( eventInfo ) ) {
+            return false;
+         }
+         if( !matchesSearchExpression( eventInfo, searchRegExp ) ) {
+            return false;
+         }
+         ++numVisible;
+         return true;
+      } );
 
-      }
+      // modify matches in place
+      model.visibleEventInfos.forEach( function( eventInfo ) {
+         eventInfo.htmlName = htmlValue( eventInfo.name, searchRegExp, '.' );
+         eventInfo.htmlSource = htmlValue( eventInfo.source, searchRegExp, '#' );
+         eventInfo.htmlTarget = htmlValue( eventInfo.target, searchRegExp, '#' );
+         eventInfo.selected = !!selectionEventInfo && inSelection( eventInfo, selectionEventInfo );
+      } );
    }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    let model = {
       patterns: [
@@ -186,7 +194,7 @@ function create( context, reactRender, flowService ) {
 
    commands.setDefaults();
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    if( context.features.events.stream ) {
       context.eventBus.subscribe( 'didProduce.' + context.features.events.stream, function( event ) {
@@ -202,7 +210,50 @@ function create( context, reactRender, flowService ) {
 
    //context.$watch( 'model.settings', runFilters, true );
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   class PatternsHtmlIcon extends React.Component {
+
+      constructor( props ) {
+         super( props );
+         this.props = props;
+
+         switch( props.name ) {
+            case 'lifecycle':
+               this.iconClass = 'fa fa-recycle';
+               break;
+            case 'navigation':
+               this.iconClass = 'fa fa-location-arrow';
+               break;
+            case 'resources':
+               this.iconClass = 'fa fa-file-text-o';
+               break;
+            case 'actions':
+               this.iconClass = 'fa fa-rocket';
+               break;
+            case 'flags':
+               this.iconClass = 'fa fa-flag';
+               break;
+            case 'i18n':
+               this.iconClass = 'fa fa-globe';
+               break;
+            case 'visibility':
+               this.iconClass = 'fa fa-eye';
+               break;
+            default:
+               this.iconClass = '';
+         }
+      }
+
+      render() {
+         return (
+            <i className={this.iconClass}/>
+         );
+
+      }
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function addEvent( eventInfo ) {
 
@@ -261,53 +312,6 @@ function create( context, reactRender, flowService ) {
          hasProblems: eventInfos.length > 0,
          eventInfos: eventInfos
       };
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function runFilters() {
-      let settings = model.settings;
-      let numVisible = 0;
-
-      let searchRegExp = null;
-      if( settings.namePattern ) {
-         try {
-            searchRegExp = new RegExp( settings.namePattern, 'gi' );
-         }
-         catch( e ) { /* ignore invalid search pattern */ }
-      }
-      let selectionEventInfo = model.selectionEventInfo;
-
-      model.visibleEventInfos = model.eventInfos.filter( function( eventInfo ) {
-         if( settings.visibleEventsLimit !== null && numVisible >= settings.visibleEventsLimit ) {
-            return false;
-         }
-         if( !settings.interactions[eventInfo.interaction] ) {
-            return false;
-         }
-         if( !settings.patterns[eventInfo.pattern] ) {
-            return false;
-         }
-         if( !settings.sources[eventInfo.sourceType] ) {
-            return false;
-         }
-         if( !matchesFilterResource( eventInfo ) ) {
-            return false;
-         }
-         if( !matchesSearchExpression( eventInfo, searchRegExp ) ) {
-            return false;
-         }
-         ++numVisible;
-         return true;
-      } );
-
-      // modify matches in place
-      model.visibleEventInfos.forEach( function( eventInfo ) {
-         eventInfo.htmlName = htmlValue( eventInfo.name, searchRegExp, '.' );
-         eventInfo.htmlSource = htmlValue( eventInfo.source, searchRegExp, '#' );
-         eventInfo.htmlTarget = htmlValue( eventInfo.target, searchRegExp, '#' );
-         eventInfo.selected = !!selectionEventInfo && inSelection( eventInfo, selectionEventInfo );
-      } );
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -375,48 +379,48 @@ function create( context, reactRender, flowService ) {
 
    function htmlValue( value, searchRegExp, splitCharacter ) {
       return value;
-      // let html = $sanitize( value );
-      // let wasSplit = false;
-      // if( !searchRegExp ) {
-      //    return wrap( split( html, false ) );
-      // }
-      //
-      // let parts = [];
-      // let match;
-      // let lastIndex = 0;
-      // let limit = 1;
-      // while( limit-- && ( match = searchRegExp.exec( html ) ) !== null ) {
-      //    if( match.index > lastIndex ) {
-      //       parts.push( split( html.substring( lastIndex, match.index ), false ) );
-      //    }
-      //    parts.push( '<b>' );
-      //    parts.push( split( match[ 0 ], true ) );
-      //    parts.push( '</b>' );
-      //    lastIndex = searchRegExp.lastIndex;
-      // }
-      // searchRegExp.lastIndex = 0;
-      // parts.push( split( html.substring( lastIndex, html.length ) ) );
-      // return wrap( parts.join( '' ) );
-      //
-      // function wrap( whole ) {
-      //    return '<span>' + whole + '</span>';
-      // }
-      //
-      // function split( part, isBold ) {
-      //    if( !splitCharacter || wasSplit ) {
-      //       return part;
-      //    }
-      //
-      //    let splitPoint = part.indexOf( splitCharacter );
-      //    if( splitPoint === -1 ) {
-      //       return part;
-      //    }
-      //
-      //    wasSplit = true;
-      //    return part.substring( 0, splitPoint ) +
-      //       ( isBold ? '</b>' : '' ) + '</span><br /><span>' + ( isBold ? '<b>' : '' ) +
-      //       part.substring( splitPoint + 1, part.length );
-      // }
+      let html = value; //$sanitize( value );
+      let wasSplit = false;
+      if( !searchRegExp ) {
+         return wrap( split( html, false ) );
+      }
+
+      let parts = [];
+      let match;
+      let lastIndex = 0;
+      let limit = 1;
+      while( limit-- && ( match = searchRegExp.exec( html ) ) !== null ) {
+         if( match.index > lastIndex ) {
+            parts.push( split( html.substring( lastIndex, match.index ), false ) );
+         }
+         parts.push( '<b>' );
+         parts.push( split( match[ 0 ], true ) );
+         parts.push( '</b>' );
+         lastIndex = searchRegExp.lastIndex;
+      }
+      searchRegExp.lastIndex = 0;
+      parts.push( split( html.substring( lastIndex, html.length ) ) );
+      return wrap( parts.join( '' ) );
+
+      function wrap( whole ) {
+         return '<span>' + whole + '</span>';
+      }
+
+      function split( part, isBold ) {
+         if( !splitCharacter || wasSplit ) {
+            return part;
+         }
+
+         let splitPoint = part.indexOf( splitCharacter );
+         if( splitPoint === -1 ) {
+            return part;
+         }
+
+         wasSplit = true;
+         return part.substring( 0, splitPoint ) +
+            ( isBold ? '</b>' : '' ) + '</span><br /><span>' + ( isBold ? '<b>' : '' ) +
+            part.substring( splitPoint + 1, part.length );
+      }
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -681,6 +685,27 @@ function create( context, reactRender, flowService ) {
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+      class EventCell extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.props = props;
+         }
+
+         render() {
+            let splitPoint = this.props.content.indexOf( this.props.separator  );
+            if( splitPoint === -1 ) {
+               return <td><span>{ this.props.content }</span></td>;
+            }
+            return ( <td>
+               <span>{ this.props.content.substring( 0, splitPoint ) }</span><br />
+               <span>{ this.props.content.substring( splitPoint + 1, this.props.content.length ) }</span>
+            </td> );
+
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       class EventBody extends React.Component {
          constructor( props ) {
             super( props );
@@ -719,9 +744,9 @@ function create( context, reactRender, flowService ) {
                                           onNameChanged={this.handleName}/>
                      }
                   </td>
-                  <td>{this.props.event.htmlName}</td>
-                  <td>{this.props.event.htmlSource}</td>
-                  <td>{this.props.event.htmlTarget}</td>
+                  <EventCell content={this.props.event.name} separator="." />
+                  <EventCell content={this.props.event.source} separator="#" />
+                  <EventCell content={this.props.event.target} separator="#" />
                   <td className="ax-col-cycle text-right">{this.props.event.cycleId}</td>
                   <td className="text-right"><span>{this.props.event.formattedTime.upper}</span><br />
                      <span>{this.props.event.formattedTime.lower}</span>
@@ -789,10 +814,10 @@ function create( context, reactRender, flowService ) {
          }
 
          render() {
-            const events = this.props.events.map( ( event, key ) => {
+            const events = this.props.events.map( event => {
                return (
                   <EventBody event={event}
-                             key={key}
+                             key={event.index}
                              viewPatternsByName={view.patternsByName}
                              selectionEventInfo={this.props.selectionEventInfo}
                              onSelection={this.props.onSelection}
@@ -844,29 +869,41 @@ function create( context, reactRender, flowService ) {
          }
 
          handleSelection( selectedEvent ) {
+            const selectionEventInfoIndex = this.state.selectionEventInfo && this.state.selectionEventInfo.index;
 
-            // TODO select related events
-            // select: function( eventInfo ) {
-            //    model.selectionEventInfo = eventInfo.selected ? null : eventInfo;
-            //    runFilters();
-            // },
+            if( selectedEvent.index === selectionEventInfoIndex ) {
+               this.setState( { selectionEventInfo: null } );
+               this.props.events.forEach( ( event ) => {
+                  event.selected = false;
+               } );
+               return;
+            }
 
             this.props.events.forEach( ( event ) => {
-               if( event.index !== selectedEvent.index ) {
-                  event.selected = false;
-                  return;
-               }
-               const selectionEventInfoIndex= this.state.selectionEventInfo && this.state.selectionEventInfo.index;
-               if( event.index === selectionEventInfoIndex ) {
-                  this.setState( { selectionEventInfo: null } );
-                  event.selected = false;
-               }
-               else {
+               if( event.index === selectedEvent.index ) {
                   this.setState( { selectionEventInfo: event } );
                   event.selected = true;
+                  return;
+               }
+               if( inSelection( event, selectedEvent ) ) {
+                  event.selected = true;
+               }
+               else {
+                  event.selected = false;
+               }
+            } );
+
+            function inSelection( eventInfo, selectionEventInfo ) {
+               if( !selectionEventInfo ) {
+                  return false;
                }
 
-            } );
+               return eventInfo === selectionEventInfo || (
+                     eventInfo.cycleId === selectionEventInfo.cycleId &&
+                     eventInfo.source === selectionEventInfo.source &&
+                     eventInfo.name === selectionEventInfo.name
+                  );
+            }
          }
 
          render() {
