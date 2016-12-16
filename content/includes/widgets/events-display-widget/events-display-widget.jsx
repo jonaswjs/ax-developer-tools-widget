@@ -62,55 +62,53 @@ function create( context, reactRender, flowService ) {
          return true;
       } );
 
-      // modify matches in place
-      model.visibleEventInfos.forEach( function( eventInfo ) {
-         eventInfo.htmlName = htmlValue( eventInfo.name, searchRegExp, '.' );
-         eventInfo.htmlSource = htmlValue( eventInfo.source, searchRegExp, '#' );
-         eventInfo.htmlTarget = htmlValue( eventInfo.target, searchRegExp, '#' );
-         eventInfo.selected = !!selectionEventInfo && inSelection( eventInfo, selectionEventInfo );
-      } );
+
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   let model = {
+   //TODO delete model object, its duplicated in affixarea component
+   const model = {
       patterns: [
          {
-            name: 'lifecycle', htmlIcon: '<i class="fa fa-recycle"></i>', eventTypes: [
-            'endLifecycle', 'beginLifecycle'
-         ]
+            name: 'lifecycle',
+            icon: <i className="fa fa-recycle" />,
+            eventTypes: [ 'endLifecycle', 'beginLifecycle' ]
          },
          {
-            name: 'navigation', htmlIcon: '<i class="fa fa-location-arrow"></i>', eventTypes: [
-            'navigate'
-         ]
+            name: 'navigation',
+            icon: <i className="fa fa-location-arrow" />,
+            eventTypes: [ 'navigate' ]
          },
          {
-            name: 'resources', htmlIcon: '<i class="fa fa-file-text-o"></i>', eventTypes: [
-            'replace', 'update', 'validate', 'save'
-         ]
+            name: 'resources',
+            icon: <i className="fa fa-file-text-o" />,
+            eventTypes: [ 'replace', 'update', 'validate', 'save' ]
          },
          {
-            name: 'actions', htmlIcon: '<i class="fa fa-rocket"></i>', eventTypes: [
-            'takeAction'
-         ]
+            name: 'actions',
+            icon: <i className="fa fa-rocket" />,
+            eventTypes: [ 'takeAction' ]
          },
          {
-            name: 'flags', htmlIcon: '<i class="fa fa-flag"></i>', eventTypes: [
-            'changeFlag'
-         ]
+            name: 'flags',
+            icon: <i className="fa fa-flag" />,
+            eventTypes: [ 'changeFlag' ]
          },
          {
-            name: 'i18n', htmlIcon: '<i class="fa fa-globe"></i>', eventTypes: [
-            'changeLocale'
-         ]
+            name: 'i18n',
+            icon: <i className="fa fa-globe" />,
+            eventTypes: [ 'changeLocale' ]
          },
          {
-            name: 'visibility', htmlIcon: '<i class="fa fa-eye"></i>', eventTypes: [
-            'changeAreaVisibility', 'changeWidgetVisibility'
-         ]
+            name: 'visibility',
+            icon: <i className="fa fa-eye" />,
+            eventTypes: [ 'changeAreaVisibility', 'changeWidgetVisibility' ]
          },
-         {name: 'other', htmlIcon: '&nbsp;', eventTypes: []}
+         {
+            name: 'other',
+            icon: <i />,
+            eventTypes: []
+         }
       ],
       index: 0,
       eventInfos: [],
@@ -377,68 +375,6 @@ function create( context, reactRender, flowService ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function htmlValue( value, searchRegExp, splitCharacter ) {
-      return value;
-      let html = value; //$sanitize( value );
-      let wasSplit = false;
-      if( !searchRegExp ) {
-         return wrap( split( html, false ) );
-      }
-
-      let parts = [];
-      let match;
-      let lastIndex = 0;
-      let limit = 1;
-      while( limit-- && ( match = searchRegExp.exec( html ) ) !== null ) {
-         if( match.index > lastIndex ) {
-            parts.push( split( html.substring( lastIndex, match.index ), false ) );
-         }
-         parts.push( '<b>' );
-         parts.push( split( match[ 0 ], true ) );
-         parts.push( '</b>' );
-         lastIndex = searchRegExp.lastIndex;
-      }
-      searchRegExp.lastIndex = 0;
-      parts.push( split( html.substring( lastIndex, html.length ) ) );
-      return wrap( parts.join( '' ) );
-
-      function wrap( whole ) {
-         return '<span>' + whole + '</span>';
-      }
-
-      function split( part, isBold ) {
-         if( !splitCharacter || wasSplit ) {
-            return part;
-         }
-
-         let splitPoint = part.indexOf( splitCharacter );
-         if( splitPoint === -1 ) {
-            return part;
-         }
-
-         wasSplit = true;
-         return part.substring( 0, splitPoint ) +
-            ( isBold ? '</b>' : '' ) + '</span><br /><span>' + ( isBold ? '<b>' : '' ) +
-            part.substring( splitPoint + 1, part.length );
-      }
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function inSelection( eventInfo, selectionEventInfo ) {
-      if( !selectionEventInfo ) {
-         return false;
-      }
-
-      return eventInfo === selectionEventInfo || (
-            eventInfo.cycleId === selectionEventInfo.cycleId &&
-            eventInfo.source === selectionEventInfo.source &&
-            eventInfo.name === selectionEventInfo.name
-         );
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
    function separate( label, separator, defaultText ) {
       let name = label || defaultText;
       let splitPoint = name.indexOf( separator );
@@ -452,212 +388,423 @@ function create( context, reactRender, flowService ) {
 
    function render() {
 
-      function affix() {
-         return ( <div><p>affix calling</p></div> );
-         /*
-          const eventInfoList = model.problemSummary.eventInfos.map( ( event ) => {
-          return (
-          <li key={event.name}>
-          <h5><strong>{ event.name }</strong> <em>(source: { event.source })</em></h5>
-          <ul>
-          {
-          event.problems.map( ( problems ) => {
-          return (
-          <li key={problem.description}
-          className="ax-event-problem">
-          <i className="fa fa-warning ax-error"/> { problem.description }
-          </li>
-          );
-          } )
-          }
-          </ul>
-          </li>
-          )
-          } );
+      class NumberOfEvents extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.props = props;
+            this.clearFilters = this.clearFilters.bind( this );
+         }
 
-          class FiltersForm extends React.Component {
-          constructor( props ) {
-          super( props );
-          this.state = {value: this.props.name};
+         clearFilters() {
 
-          this.handleChange = this.handleChange.bind( this );
-          }
+         }
 
-          handleChange( event ) {
-          this.setState( {value: event.target.value} );
-          }
+         render() {
+            if( this.props.numberOfEvents === 0  ) {
+               return(
+                  <div className="text-large">
+                  <h4 className="text-primary">Empty Events List</h4>
+                  <p><i className="fa fa-clock-o" /> Waiting for events from host application...</p>
+                  </div>
+               );
+            }
 
-          render() {
-          return (
-          <form>
-          <label ax-for="'search'">
-          <small>Filters:</small>
-          </label>
-          <input className="form-control input-sm"
-          placeholder="Search (RegExp)"
-          ax-id="'search'"
-          type="text"
-          value={this.state.value}
-          onChange={this.handleChange}/>
-          </form>
-          );
-          }
-          }
+            if( this.props.numberOfEvents > 0 && this.props.numberOfVisibleEvents === 0) {
+               return(
+                  <div className="text-large">
+                     <h4 className="text-primary">0/{ this.props.numberOfEvents } Event Items</h4>
+                     <p>No events matching current filters.</p>
+                     <p>
+                        <button type="button"
+                                className="btn btn-sm btn-primary"
+                                onClick="clearFilters">Show All
+                        </button>
+                     </p>
+                  </div>
+               );
+            }
 
-          const filters = <FiltersForm name="model.settings.namePattern"/>;
+            // TODO: ng-if="model.problemSummary.hasProblems
 
-          const limit = (
-          <form>
-          <label ax-for="'limit'">
-          <small>Limit:</small>
-          </label>
-          <input className="form-control input-sm"
-          ax-id="'limit'"
-          ng-model="model.settings.visibleEventsLimit"
-          ng-model-options="{ updateOn: 'default' }"
-          ax-input="integer"
-          ax-input-minimum-value="0"
-          ax-input-maximum-value="features.events.bufferSize"
-          placeholder="0-{{ features.events.bufferSize }}"
-          maxlength="4"/>
-          </form>
-          );
-          return {filters};
-          */
-         /*   const filterMenu = (
-          <div className="btn-group btn-group-sm"
-          ng-className="{ 'open': view.showPatterns }"
-          ng-mouseenter="view.showPatterns = true"
-          ng-mouseleave="view.showPatterns = false">
-          <button type="button"
-          className="btn btn-default dropdown-toggle"
-          data-toggle="dropdown"
-          aria-expanded="{{ view.showPatterns }}">
-          More <span className="caret"></span>
-          </button>
-          <div className="dropdown-menu container col-lg-6" role="menu">
+            return (
+               <div className="text-large">
+                  <h4 className="text-primary">
+                     { this.props.numberOfVisibleEvents }/{ this.props.numberOfEvents } Events
+                  </h4>
+               </div>
+            );
 
-          <div className="row">
-          <div className="ax-event-settings-col first">
-          <h4>Patterns</h4>
-          <div ng-repeat="pattern in model.patterns track by pattern.name">
-          <button
-          type="button"
-          className="btn btn-link ax-event-setting-toggle"
-          ng-click="model.settings.patterns[ pattern.name ] = !model.settings.patterns[ pattern.name ]">
-          <span className="ax-event-pattern" ng-bind-html="pattern.htmlIcon"></span>
-          {{ pattern.name }}
-          <i className="fa pull-right ax-event-setting-toggle"
-          ng-class="{ 'fa-toggle-off': !model.settings.patterns[ pattern.name ], 'fa-toggle-on': model.settings.patterns[ pattern.name ] }"></i>
-          </button>
-          </div>
-          </div>
+         }
+      }
 
-          <div className="ax-event-settings-col last">
-          <h4>Interactions</h4>
-          <div ng-repeat="(interaction, enabled) in model.settings.interactions track by interaction">
-          <button
-          type="button"
-          className="btn btn-link ax-event-setting-toggle"
-          ng-click="model.settings.interactions[ interaction ] = !enabled"
-          >{{ interaction }}<i className="fa pull-right ax-event-setting-toggle"
-          ng-className="{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }"></i>
-          </button>
-          </div>
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-          <br>
-          <h4>Sources</h4>
-          <div ng-repeat="(source, enabled) in model.settings.sources track by source">
-          <button
-          type="button"
-          className="btn btn-link ax-event-setting-toggle"
-          ng-click="model.settings.sources[ source ] = !enabled"
-          >{{ source }}<i className="fa pull-right ax-event-setting-toggle"
-          ng-class="{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }"></i>
-          </button>
-          </div>
-          </div>
+      class FiltersInput extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.state = {value: this.props.name};
+            this.handleChange = this.handleChange.bind( this );
+         }
 
-          </div>
+         handleChange( event ) {
+            this.setState( { value: event.target.value } );
+         }
 
-          <div className="row">
-          <div className="ax-event-settings-col first">&nbsp;</div>
-          <div className="ax-event-settings-col last">
-          <div className="pull-right">
-          <button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( true )">All On</button>
-          <button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( false )">All Off</button>
-          <button type="button" className="btn btn-xs" ng-click="commands.setDefaults()">Defaults</button>
-          </div>
-          </div>
-          </div>
+         render() {
+            return (
+               <input className="form-control input-sm"
+                      placeholder="Search (RegExp)"
+                      ax-id="'search'"
+                      type="text"
+                      value={ this.state.value }
+                      onChange={ this.handleChange }/>
+            );
+         }
+      }
 
-          </div>
-          </div>
-          );*/
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-         /*  return
-          <div className="ax-affix-area"
-          ax-affix
-          ax-affix-offset-top="100">
-          { !model.eventInfos.length &&
-          <div className="text-large">
-          <h4 className="text-primary">Empty Events List</h4>
-          <p><i className="fa fa-clock-o"></i> Waiting for events from host application...</p>
-          </div>
-          }
-          { model.eventInfos.length && !model.visibleEventInfos.length &&
-          <div className="text-large">
-          <h4 className="text-primary">0/{ model.eventInfos.length } Event Items</h4>
-          <p>No events matching current filters.</p>
-          <p><button type="button"
-          className="btn btn-sm btn-primary"
-          onClick="commands.clearFilters">Show All</button></p>
-          </div>
-          }
+      class LimitInput extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.state = { value: this.props.name };
+            this.handleChange = this.handleChange.bind( this );
+         }
 
-          { model.problemSummary.hasProblems &&
-          <div className="text-large">
-          <h4 className="text-primary ax-error">{ model.problemSummary.eventInfos.length }/{ model.eventInfos.length } Events with Problems</h4>
-          <ul>{eventInfoList}</ul>
-          <p className="ax-event-problems-explanation">
-          Events with problems are marked <strong className="ax-error">red</strong> in the events table.
-          Filter by event/source as needed.
-          </p>
-          </div>
-          }
-          { model.visibleEventInfos.length &&
-          <div className="text-large">
-          <h4 className="text-primary">{ model.visibleEventInfos.length }/{ model.eventInfos.length } Events</h4>
-          </div>
-          }
-          <div className="ax-button-wrapper form-inline">
-          <div className="form-group form-group-sm">
-          {filters}
-          {limit}
-          </div>
+         handleChange( event ) {
+            if( event.target.value === '' ) {
+               this.setState( {value: value} );
+            }
+            const value = Number( event.target.value );
+            if( !Number.isInteger( value ) ) { return; }
+            if( value >= 0 && value <= 5000 ) {
+               this.setState( {value: value} );
+            }
+         }
+
+         render() {
+            return (
+               <input
+                  className="form-control input-sm"
+                  type="text"
+                  ax-id="'limit'"
+                  placeholder={ '0-' + this.props.placeholder }
+                  maxLength={ 4 }
+                  value={ this.state.value }
+                  onChange={ this.handleChange }
+               />
+            );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      class FiltersAndLimitForm extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.state = { value: this.props.name };
+            this.handleChange = this.handleChange.bind( this );
+         }
+
+         handleChange( event ) {
+            this.setState( {value: event.target.value} );
+         }
+
+         render() {
+            return (
+               <div className="form-group form-group-sm">
+                  <label ax-for="'search'">
+                     <small>Filters:</small>
+                  </label>
+                  <FiltersInput />
+                  <label ax-for="'limit'">
+                     <small>Limit:</small>
+                  </label>
+                  <LimitInput placeholder={ 5000 }/>
+               </div>
+            );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      class SettingsToggleButton extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.props = props;
+            this.handleClick = this.handleClick.bind( this );
+         }
+
+         handleClick( e ) {
+            this.props.onSettingsChanged( this.props.type, this.props.text, this.props.enabled  );
+            //model.settings.patterns[ pattern.name ] = !model.settings.patterns[ pattern.name ]
+            //model.settings.interactions[ interaction ] = !enabled
+            // model.settings[ a ][b] = !c
+            e.stopPropagation();
+         }
+
+         render() {
+            const toggleClassNames = 'fa pull-right ax-event-setting-toggle' + (
+                  this.props.enabled? ' fa-toggle-on' : ' fa-toggle-off' );
+            return (
+               <button
+                  type="button"
+                  className="btn btn-link ax-event-setting-toggle"
+                  onClick={ this.handleClick }>{ this.props.icon &&
+                  <span className="ax-event-pattern">{ this.props.icon }</span>}
+                  { this.props.text } <i className={ toggleClassNames }></i></button>
+
+            );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      class SelectFiltersButton extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.props = props;
+            this.state = { showPatterns: false };
+         }
+
+         render() {
+            const handleMouseEnter = () => this.setState( { showPatterns : true } );
+            const handleMouseLeave = () => this.setState( { showPatterns : false } );
+
+            const patternsButtons = this.props.patterns.map( pattern => {
+               return (
+                  <SettingsToggleButton key={ pattern.name }
+                                        type="patterns"
+                                        text={ pattern.name }
+                                        icon={ pattern.icon }
+                                        enabled={ this.props.settings.patterns[ pattern.name ] }
+                                        onSettingsChanged={this.props.onSettingsChanged}
+               /> );
+            } );
+
+            const interactionsButtons = Object.keys( this.props.settings.interactions ).map( interaction => {
+               return (
+                  <SettingsToggleButton key={ interaction }
+                                        type="interactions"
+                                        text={ interaction }
+                                        enabled={ this.props.settings.interactions[ interaction ] }
+                                        onSettingsChanged={this.props.onSettingsChanged}
+                  /> );
+            } );
+
+            const sourceButtons = Object.keys( this.props.settings.sources ).map( source => {
+               return (
+                  <SettingsToggleButton key={ source }
+                                        type="sources"
+                                        text={ source }
+                                        enabled={ this.props.settings.sources[ source ] }
+                                        onSettingsChanged={this.props.onSettingsChanged}
+                  /> );
+            } );
 
 
-          {filterMenu}
+            const commandBar = (
+               <div className="pull-right">
+                  <button type="button" className="btn btn-xs btn-primary">All On</button>
+                  <button type="button" className="btn btn-xs btn-primary">All Off</button>
+                  <button type="button" className="btn btn-xs">Defaults</button>
+               </div>
+            );
+            /*<button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( true )">All On</button>
+            <button type="button" className="btn btn-xs btn-primary" ng-click="commands.setAll( false )">All Off</button>
+            <button type="button" className="btn btn-xs" ng-click="commands.setDefaults()">Defaults</button>*/
 
-          <button className="btn btn-primary btn-sm"
-          type="button"
-          ng-class="{ 'ax-disabled': !model.eventInfos.length }"
-          ng-click="commands.discard()">Discard Events</button>
-          </div>
+            return (
+               <div className={ this.state.showPatterns ? 'btn-group btn-group-sm open': 'btn-group btn-group-sm' }
+                    onMouseEnter={ handleMouseEnter }
+                    onMouseLeave={ handleMouseLeave }>
+                  <button type="button"
+                          className="btn btn-default dropdown-toggle"
+                          data-toggle="dropdown"
+                          aria-expanded={ view.showPatterns }>
+                     More <span className="caret" />
+                  </button>
+                  <div className="dropdown-menu container col-lg-6" role="menu">
 
-          <div className="form-inline events-display-filter-items" ng-if="resources.filter.topics.length || resources.filter.participants.length">
-          <a className="btn btn-xs btn-link" href="#/tools/page">Page selection</a>
-          <span className="btn btn-xs btn-info"
-          ng-repeat="item in resources.filter.topics track by item.topic"
-          ng-className="'ax-events-display-pattern-' + item.pattern">
-          {{item.topic}}
-          </span><span className="btn btn-xs btn-info"
-          ng-repeat="item in resources.filter.participants track by item.participant"
-          ng-className="'ax-events-display-kind-' + item.kind">
-          {{item.participant}}
-          </span>
-          </div>
-          </div>*/
+                     <div className="row">
+                        <div className="ax-event-settings-col first">
+                           <h4>Patterns</h4>
+                           <div>{ patternsButtons }</div>
+                        </div>
+
+                        <div className="ax-event-settings-col last">
+                           <h4>Interactions</h4>
+                           <div>{ interactionsButtons }</div>
+
+                           <br />
+                              <h4>Sources</h4>
+                           <div>{ sourceButtons }</div>
+                        </div>
+
+                     </div>
+
+                     <div className="row">
+                        <div className="ax-event-settings-col first">&nbsp;</div>
+                        <div className="ax-event-settings-col last">
+                           {commandBar}
+                        </div>
+                     </div>
+
+                  </div>
+               </div>
+            );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      class Filters extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.props = props;
+         }
+
+         render() {
+            if( !model.eventInfos.length ) {
+               return (
+                  <div className="text-large">
+                     <h4 className="text-primary">Empty Events List</h4>
+                     <p><i className="fa fa-clock-o" /> Waiting for events from host application...</p>
+                  </div>
+               );
+            }
+            return (
+               <div className="ax-button-wrapper form-inline">
+                  <FiltersAndLimitForm name="model.settings.namePattern"/>
+                  <SelectFiltersButton patterns={ this.props.patterns }
+                                       settings={ this.props.settings }
+                                       onSettingsChanged={this.props.onSettingsChanged}
+                  />
+               </div>
+            );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      class DiscardEventsButton extends React.Component {
+         constructor( props ) {
+            super( props );
+            this.props = props;
+            this.handleClick = this.handleClick.bind( this );
+         }
+
+         handleClick( e ) {
+            e.stopPropagation();
+         }
+
+         render() {
+            return <div><h4>DiscardEventsButton</h4></div>;
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      class AffixArea extends React.Component {
+
+         constructor( props ) {
+            super( props );
+            this.state = {
+               patterns: [
+                  {
+                     name: 'lifecycle',
+                     icon: <i className="fa fa-recycle" />,
+                     eventTypes: [ 'endLifecycle', 'beginLifecycle' ]
+                  },
+                  {
+                     name: 'navigation',
+                     icon: <i className="fa fa-location-arrow" />,
+                     eventTypes: [ 'navigate' ]
+                  },
+                  {
+                     name: 'resources',
+                     icon: <i className="fa fa-file-text-o" />,
+                     eventTypes: [ 'replace', 'update', 'validate', 'save' ]
+                  },
+                  {
+                     name: 'actions',
+                     icon: <i className="fa fa-rocket" />,
+                     eventTypes: [ 'takeAction' ]
+                  },
+                  {
+                     name: 'flags',
+                     icon: <i className="fa fa-flag" />,
+                     eventTypes: [ 'changeFlag' ]
+                  },
+                  {
+                     name: 'i18n',
+                     icon: <i className="fa fa-globe" />,
+                     eventTypes: [ 'changeLocale' ]
+                  },
+                  {
+                     name: 'visibility',
+                     icon: <i className="fa fa-eye" />,
+                     eventTypes: [ 'changeAreaVisibility', 'changeWidgetVisibility' ]
+                  },
+                  {
+                     name: 'other',
+                     icon: <i />,
+                     eventTypes: []
+                  }
+               ],
+               index: 0,
+               eventInfos: [],
+               visibleEventInfos: [],
+               problemSummary: {
+                  count: 0,
+                  eventInfos: []
+               },
+               selectionEventInfo: null,
+               settings: {
+                  namePattern: '',
+                  visibleEventsLimit: 100,
+                  patterns: {},
+                  interactions: {
+                     subscribe: true,
+                     publish: true,
+                     deliver: true,
+                     unsubscribe: true
+                  },
+                  sources: {
+                     widgets: true,
+                     runtime: true
+                  }
+               }
+            };
+
+         }
+
+
+
+         render() {
+            const onSettingsChanged = function (a,b,c) {
+               let settings = this.state.settings;
+               settings[ a ][ b ] = !c;
+               this.setState({
+                  settings: settings
+               });
+
+            };
+            return (
+               <div className="ax-affix-area"
+                    ax-affix
+                    ax-affix-offset-top="100">
+                  <NumberOfEvents numberOfVisibleEvents={1} numberOfEvents={1} />
+                  <Filters patterns={ this.state.patterns }
+                           settings={ this.state.settings }
+                           onSettingsChanged={onSettingsChanged}
+                  />
+                  <DiscardEventsButton />
+               </div>
+            );
+         }
+
+
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -670,7 +817,7 @@ function create( context, reactRender, flowService ) {
          }
 
          handleClick( e ) {
-            this.props.onNameChanged( !this.props.showDetails );
+            this.props.onNameChanged();
             e.stopPropagation();
          }
 
@@ -773,6 +920,9 @@ function create( context, reactRender, flowService ) {
             //TODO: Test display of problems
 
             function eventProblems( problems ) {
+               if( problems.length === 0 ) {
+                  return <tr />;
+               }
                const listOfProblems = problems.map( ( problem ) => {
                   return (
                      <li key={problem.description} className="ax-event-problem">
@@ -798,7 +948,7 @@ function create( context, reactRender, flowService ) {
                <tbody className={ cssClassName }
                       onClick={this.handleClick}>
                { eventSummaryRow }
-               { this.props.event.problems.length && eventProblems( this.props.event.problems ) }
+               { eventProblems( this.props.event.problems ) }
                { detailsRow( this.state.showDetails, this.props.event.formattedEvent ) }
                </tbody>
             );
@@ -921,9 +1071,12 @@ function create( context, reactRender, flowService ) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       reactRender(
-         <EventDisplayElement visibleEventInfosLength={model.visibleEventInfos.length}
-                              events={model.visibleEventInfos}
-         />
+         <div>
+            <AffixArea />
+            <EventDisplayElement visibleEventInfosLength={model.visibleEventInfos.length}
+                                 events={model.visibleEventInfos}
+            />
+         </div>
       );
    }
 
