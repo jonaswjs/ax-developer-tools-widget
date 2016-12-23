@@ -275,7 +275,8 @@
 .events-display-widget li.ax-event-problem {
   list-style-type: none;
 }
-.events-display-widget > .ax-affix-area > div.text-large {
-   padding: 8px;
-   float: left;
+
+.events-display-widget > div > .ax-affix-area > div.text-large {
+  padding: 8px;
+  float: left;
 }
