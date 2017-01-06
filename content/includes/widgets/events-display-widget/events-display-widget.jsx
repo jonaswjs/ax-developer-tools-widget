@@ -8,7 +8,7 @@ import React from 'react';
 import axPatterns from 'laxar-patterns';
 import moment from 'moment';
 import tracker from './tracker';
-
+import ax from 'laxar';
 
 function create( context, reactRender, flowService ) {
    'use strict';
@@ -18,7 +18,7 @@ function create( context, reactRender, flowService ) {
       showPatterns: false
    };
 
-   let settingGroups = ['patterns', 'interactions', 'sources'];
+   let settingGroups = [ 'patterns', 'interactions', 'sources' ];
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,45 +33,39 @@ function create( context, reactRender, flowService ) {
 
    context.resources = {};
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    let patterns = [
       {
          name: 'lifecycle',
-         icon: <i className="fa fa-recycle" />,
          eventTypes: [ 'endLifecycle', 'beginLifecycle' ]
       },
       {
          name: 'navigation',
-         icon: <i className="fa fa-location-arrow" />,
          eventTypes: [ 'navigate' ]
       },
       {
          name: 'resources',
-         icon: <i className="fa fa-file-text-o" />,
          eventTypes: [ 'replace', 'update', 'validate', 'save' ]
       },
       {
          name: 'actions',
-         icon: <i className="fa fa-rocket" />,
          eventTypes: [ 'takeAction' ]
       },
       {
          name: 'flags',
-         icon: <i className="fa fa-flag" />,
          eventTypes: [ 'changeFlag' ]
       },
       {
          name: 'i18n',
-         icon: <i className="fa fa-globe" />,
          eventTypes: [ 'changeLocale' ]
       },
       {
          name: 'visibility',
-         icon: <i className="fa fa-eye" />,
          eventTypes: [ 'changeAreaVisibility', 'changeWidgetVisibility' ]
       },
       {
          name: 'other',
-         icon: <i />,
          eventTypes: []
       }
    ];
@@ -121,6 +115,32 @@ function create( context, reactRender, flowService ) {
          runFilters();
          render();
       } );
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function setDefaults( settings, patterns ) {
+      settingGroups.forEach( function( groupName ) {
+         let group = settings[ groupName ];
+         for( let name in group ) {
+            if( group.hasOwnProperty( name ) ) {
+               group[ name ] = true;
+            }
+         }
+      } );
+      patterns.forEach( function( patternInfo ) {
+         settings.patterns[ patternInfo.name ] = true;
+      } );
+      context.features.filter.hidePatterns.forEach( function( pattern ) {
+         settings.patterns[ pattern ] = false;
+      } );
+      context.features.filter.hideSources.forEach( function( pattern ) {
+         settings.sources[ pattern ] = false;
+      } );
+      context.features.filter.hideInteractions.forEach( function( pattern ) {
+         settings.interactions[ pattern ] = false;
+      } );
+      return settings;
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,13 +207,13 @@ function create( context, reactRender, flowService ) {
          if( settings.visibleEventsLimit !== null && numVisible >= settings.visibleEventsLimit ) {
             return false;
          }
-         if( !settings.interactions[eventInfo.interaction] ) {
+         if( !settings.interactions[ eventInfo.interaction ] ) {
             return false;
          }
-         if( !settings.patterns[eventInfo.pattern] ) {
+         if( !settings.patterns[ eventInfo.pattern ] ) {
             return false;
          }
-         if( !settings.sources[eventInfo.sourceType] ) {
+         if( !settings.sources[ eventInfo.sourceType ] ) {
             return false;
          }
          if( !matchesFilterResource( eventInfo ) ) {
@@ -205,6 +225,29 @@ function create( context, reactRender, flowService ) {
          ++numVisible;
          return true;
       } );
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function filterBySearch( event ) {
+      settings.namePattern = event.target.value;
+      runFilters();
+      render();
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function limitEvents( event ) {
+      if( event.target.value === '' ) {
+         settings.visibleEventsLimit = null;
+      }
+      const value = Number( event.target.value );
+      if( !Number.isInteger( value ) ) { return; }
+      if( value >= 0 && value <= 5000 ) {
+         settings.visibleEventsLimit = event.target.value;
+      }
+      runFilters();
+      render();
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -274,41 +317,6 @@ function create( context, reactRender, flowService ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function separate( label, separator, defaultText ) {
-      let name = label || defaultText;
-      let splitPoint = name.indexOf( separator );
-      return {
-         upper: splitPoint === -1 ? name : name.substr( 0, splitPoint ),
-         lower: splitPoint === -1 ? defaultText : name.substr( splitPoint, name.length )
-      };
-   }
-
-   function setDefaults( settings, patterns ) {
-      settingGroups.forEach( function( groupName ) {
-         let group = settings[groupName];
-         for( let name in group ) {
-            if( group.hasOwnProperty[ name ] ) {
-               group[ name ] = true;
-            }
-         }
-      } );
-      patterns.forEach( function( patternInfo ) {
-         settings.patterns[patternInfo.name] = true;
-      } );
-      context.features.filter.hidePatterns.forEach( function( pattern ) {
-         settings.patterns[pattern] = false;
-      } );
-      context.features.filter.hideSources.forEach( function( pattern ) {
-         settings.sources[pattern] = false;
-      } );
-      context.features.filter.hideInteractions.forEach( function( pattern ) {
-         settings.interactions[pattern] = false;
-      } );
-      return settings;
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
    function onSettingsChanged( type, group, name, state ) {
       let settings = model.settings;
       const patterns = model.patterns;
@@ -326,11 +334,12 @@ function create( context, reactRender, flowService ) {
             settings = setDefaults( settings, patterns );
             break;
       }
-      model.settings = settings;
 
       runFilters();
 
       render();
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function changeAll( enable ) {
          [ 'patterns', 'interactions', 'sources' ].forEach( ( _group ) => {
@@ -346,7 +355,7 @@ function create( context, reactRender, flowService ) {
    function clearFilters() {
       model.settings.namePattern = '';
       model.settings.visibleEventsLimit = null;
-      context.commands.setAll( true );
+      onSettingsChanged( 'ON' );
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -357,6 +366,44 @@ function create( context, reactRender, flowService ) {
       runFilters();
       refreshProblemSummary();
       render();
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function handleSelection( selectedEvent ) {
+      if( selectedEvent.selected ) {
+         model.selectionEventInfo = null;
+         model.visibleEventInfos.forEach( ( event ) => {
+            event.selected = false;
+         } );
+         render();
+         return;
+      }
+
+      model.visibleEventInfos.forEach( ( event ) => {
+         if( event.index === selectedEvent.index ) {
+            model.selectionEventInfo = event;
+            event.selected = true;
+            return;
+         }
+         event.selected = inSelection( event, selectedEvent );
+      } );
+
+      render();
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function inSelection( eventInfo, selectionEventInfo ) {
+         if( !selectionEventInfo ) {
+            return false;
+         }
+
+         return eventInfo === selectionEventInfo || (
+               eventInfo.cycleId === selectionEventInfo.cycleId &&
+               eventInfo.source === selectionEventInfo.source &&
+               eventInfo.name === selectionEventInfo.name
+            );
+      }
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -428,7 +475,7 @@ function create( context, reactRender, flowService ) {
                   <p>
                      <button type="button"
                              className="btn btn-sm btn-primary"
-                             onClick="clearFilters">Show All
+                             onClick={this.props.clearFilters}>Show All
                      </button>
                   </p>
                </div>
@@ -450,76 +497,9 @@ function create( context, reactRender, flowService ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   class FiltersInput extends React.Component {
-      constructor( props ) {
-         super( props );
-         this.state = {value: this.props.name};
-         this.handleChange = this.handleChange.bind( this );
-      }
-
-      handleChange( event ) {
-         this.setState( { value: event.target.value } );
-      }
-
-      render() {
-         return (
-            <input className="form-control input-sm"
-                   placeholder="Search (RegExp)"
-                   ax-id="'search'"
-                   type="text"
-                   value={ this.state.value }
-                   onChange={ this.handleChange } />
-         );
-      }
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   class LimitInput extends React.Component {
-      constructor( props ) {
-         super( props );
-         this.state = { value: this.props.name };
-         this.handleChange = this.handleChange.bind( this );
-      }
-
-      handleChange( event ) {
-         if( event.target.value === '' ) {
-            this.setState( {value: value} );
-         }
-         const value = Number( event.target.value );
-         if( !Number.isInteger( value ) ) { return; }
-         if( value >= 0 && value <= 5000 ) {
-            this.setState( {value: value} );
-         }
-      }
-
-      render() {
-         return (
-            <input
-               className="form-control input-sm"
-               type="text"
-               ax-id="'limit'"
-               placeholder={ '0-' + this.props.placeholder }
-               maxLength={ 4 }
-               value={ this.state.value }
-               onChange={ this.handleChange }
-            />
-         );
-      }
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
    class FiltersAndLimitForm extends React.Component {
       constructor( props ) {
          super( props );
-         this.state = { value: this.props.name };
-         this.handleChange = this.handleChange.bind( this );
-      }
-
-      handleChange( event ) {
-         this.setState( {value: event.target.value} );
-         render();
       }
 
       render() {
@@ -534,11 +514,19 @@ function create( context, reactRender, flowService ) {
                       ax-id="'search'"
                       type="text"
                       value={ this.props.searchRegExp }
-                      onChange={ this.handleChange } />
+                      onChange={ this.props.filterBySearch } />
                <label ax-for="'limit'">
                   <small>Limit:</small>
                </label>
-               <LimitInput placeholder={ 5000 }/>
+               <input
+                  className="form-control input-sm"
+                  type="text"
+                  ax-id="'limit'"
+                  placeholder="0-5000"
+                  maxLength={ 4 }
+                  value={ this.props.limit }
+                  onChange={ this.props.limitEvents }
+               />
             </div>
          );
       }
@@ -566,7 +554,7 @@ function create( context, reactRender, flowService ) {
                type="button"
                className="btn btn-link ax-event-setting-toggle"
                onClick={ this.handleClick }>{ this.props.icon &&
-               <span className="ax-event-pattern">{ this.props.icon }</span>}
+               <span className="ax-event-pattern"><PatternsHtmlIcon name={ this.props.text }/></span>}
                { this.props.text } <i className={ toggleClassNames } /></button>
 
          );
@@ -602,7 +590,6 @@ function create( context, reactRender, flowService ) {
       }
 
       render() {
-         console.log(this.props.settings)
          const handleMouseEnter = () => this.setState( { showPatterns : true } );
          const handleMouseLeave = () => this.setState( { showPatterns : false } );
 
@@ -611,7 +598,7 @@ function create( context, reactRender, flowService ) {
                <SettingsToggleButton key={ pattern.name }
                                      type="patterns"
                                      text={ pattern.name }
-                                     icon={ pattern.icon }
+                                     icon={ true }
                                      enabled={ this.props.settings.patterns[ pattern.name ] }
                                      onSettingsChanged={this.props.onSettingsChanged}
             /> );
@@ -792,7 +779,7 @@ function create( context, reactRender, flowService ) {
       render() {
          const cssClassName = 'ax-event-pattern-' + this.props.event.pattern +
                         ' ax-event-interaction-' + this.props.event.interaction +
-                        ( this.props.selected ? ' ax-event-selected' : '' ) +
+                        ( this.props.event.selected ? ' ax-event-selected' : '' ) +
                         ( this.props.event.problems.length ? ' ax-event-has-problems' : '' );
          const eventSummaryRow = (
             <tr className="ax-event-summary">
@@ -822,12 +809,12 @@ function create( context, reactRender, flowService ) {
             if( !show ) {
                return <tr />;
             }
-            return (<tr className="ax-event-payload">
+            return( <tr className="ax-event-payload">
                <td colSpan="3" />
                <td colSpan="5">
                   <pre>{formattedEvent}</pre>
                </td>
-            </tr>);
+            </tr> );
          }
 
          ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -886,7 +873,6 @@ function create( context, reactRender, flowService ) {
                           viewPatternsByName={view.patternsByName}
                           selectionEventInfo={this.props.selectionEventInfo}
                           onSelection={this.props.onSelection}
-                          selected={event.selected}
                />
             );
          } );
@@ -929,49 +915,14 @@ function create( context, reactRender, flowService ) {
       constructor( props ) {
          super( props );
          this.props = props;
-         this.state = {selectionEventInfo: null};
-         this.handleSelection = this.handleSelection.bind( this );
-      }
-
-      handleSelection( selectedEvent ) {
-         const selectionEventInfoIndex = this.state.selectionEventInfo && this.state.selectionEventInfo.index;
-
-         if( selectedEvent.index === selectionEventInfoIndex ) {
-            this.setState( { selectionEventInfo: null } );
-            this.props.events.forEach( ( event ) => {
-               event.selected = false;
-            } );
-            return;
-         }
-
-         this.props.events.forEach( ( event ) => {
-            if( event.index === selectedEvent.index ) {
-               this.setState( { selectionEventInfo: event } );
-               event.selected = true;
-               return;
-            }
-            return inSelection( event, selectedEvent );
-         } );
-
-         function inSelection( eventInfo, selectionEventInfo ) {
-            if( !selectionEventInfo ) {
-               return false;
-            }
-
-            return eventInfo === selectionEventInfo || (
-                  eventInfo.cycleId === selectionEventInfo.cycleId &&
-                  eventInfo.source === selectionEventInfo.source &&
-                  eventInfo.name === selectionEventInfo.name
-               );
-         }
       }
 
       render() {
          if( this.props.visibleEventInfosLength === 0 ) {
             return <div></div>;
          }
-         return ( <EventListTable selectionEventInfo={ this.state.selectionEventInfo }
-                                 onSelection={ this.handleSelection }
+         return ( <EventListTable selectionEventInfo={ this.props.selectionEventInfo }
+                                 onSelection={ this.props.onSelection }
                                  events={this.props.events}
                  />
          );
@@ -988,9 +939,14 @@ function create( context, reactRender, flowService ) {
                  ax-affix-offset-top="100">
                <NumberOfEvents numberOfVisibleEvents={ model.visibleEventInfos.length }
                                numberOfEvents={ model.eventInfos.length }
+                               clearFilters={clearFilters}
                />
                <div className="ax-button-wrapper form-inline">
-                  <FiltersAndLimitForm name={ settings.namePattern }/>
+                  <FiltersAndLimitForm name={ settings.namePattern }
+                                       filterBySearch={ filterBySearch }
+                                       limit={ settings.visibleEventsLimit }
+                                       limitEvents={ limitEvents }
+                  />
                   <SelectFiltersButton patterns={ model.patterns }
                                        settings={ model.settings }
                                        onSettingsChanged={ onSettingsChanged }
@@ -1003,6 +959,8 @@ function create( context, reactRender, flowService ) {
             </div>
             <EventDisplayElement visibleEventInfosLength={model.visibleEventInfos.length}
                                  events={model.visibleEventInfos}
+                                 onSelection={ handleSelection }
+                                 selectionEventInfo={ model.selectionEventInfo }
             />
          </div>
       );
