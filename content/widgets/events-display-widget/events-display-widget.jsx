@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import axPatterns from 'laxar-patterns';
+import * as axPatterns from 'laxar-patterns';
 import moment from 'moment';
 import tracker from './tracker';
 
@@ -503,22 +503,22 @@ function create( context, reactRender, flowService ) {
          return (
             <div className="form-group form-group-sm">
                { this.props.searchRegExp }
-               <label ax-for="'search'">
+               <label data-ax-for="'search'">
                   <small>Filters:</small>
                </label>
                <input className="form-control input-sm"
                       placeholder="Search (RegExp)"
-                      ax-id="'search'"
+                      data-ax-id="'search'"
                       type="text"
                       value={ this.props.searchRegExp }
                       onChange={ this.props.filterBySearch } />
-               <label ax-for="'limit'">
+               <label data-ax-for="'limit'">
                   <small>Limit:</small>
                </label>
                <input
                   className="form-control input-sm"
                   type="text"
-                  ax-id="'limit'"
+                  data-ax-id="'limit'"
                   placeholder="0-5000"
                   maxLength={ 4 }
                   value={ this.props.limit }
@@ -974,9 +974,7 @@ function create( context, reactRender, flowService ) {
    function render() {
       reactRender(
          <div>
-            <div className="ax-affix-area"
-                 ax-affix
-                 ax-affix-offset-top="100">
+            <div className="ax-affix-area">
                <NumberOfEvents numberOfVisibleEvents={ model.visibleEventInfos.length }
                                numberOfEvents={ model.eventInfos.length }
                                clearFilters={clearFilters}

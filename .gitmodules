@@ -1,0 +1,12 @@
+[submodule "content/lib/laxar"]
+	path = content/lib/laxar
+	url = https://github.com/LaxarJS/laxar.git
+[submodule "content/lib/laxar-react-adapter"]
+	path = content/lib/laxar-react-adapter
+	url = https://github.com/LaxarJS/laxar-react-adapter.git
+[submodule "content/lib/laxar-patterns"]
+	path = content/lib/laxar-patterns
+	url = https://github.com/LaxarJS/laxar-patterns.git
+[submodule "content/lib/laxar-uikit"]
+	path = content/lib/laxar-uikit
+	url = https://github.com/LaxarJS/laxar-uikit.git
