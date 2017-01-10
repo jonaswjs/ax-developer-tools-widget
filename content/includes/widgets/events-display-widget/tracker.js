@@ -209,7 +209,7 @@ define( [
             };
             if( state.master !== sender ) {
                problems.push( { description: ax.string.format(
-                  'master/master conflict: for resource `[0]` (first master: [1], second master: [2])"',
+                  'master/master conflict: for resource `[0]` (first master: [1], second master: [2])',
                   [ resourceName, state.master, sender ]
                ) } );
             }

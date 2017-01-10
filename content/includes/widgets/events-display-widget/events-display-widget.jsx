@@ -8,7 +8,6 @@ import React from 'react';
 import axPatterns from 'laxar-patterns';
 import moment from 'moment';
 import tracker from './tracker';
-import ax from 'laxar';
 
 function create( context, reactRender, flowService ) {
    'use strict';
@@ -482,8 +481,6 @@ function create( context, reactRender, flowService ) {
             );
          }
 
-         // TODO: ng-if="model.problemSummary.hasProblems
-
          return (
             <div className="text-large">
                <h4 className="text-primary">
@@ -819,8 +816,6 @@ function create( context, reactRender, flowService ) {
 
          ///////////////////////////////////////////////////////////////////////////////////////////////
 
-         //TODO: Test display of problems
-
          function eventProblems( problems ) {
             if( problems.length === 0 ) {
                return <tr />;
@@ -828,7 +823,7 @@ function create( context, reactRender, flowService ) {
             const listOfProblems = problems.map( ( problem ) => {
                return (
                   <li key={problem.description} className="ax-event-problem">
-                     <i className="fa fa-warning">{problem.description}</i>
+                     <i className="fa fa-warning" /> {problem.description}
                   </li>
                );
             } );
@@ -911,6 +906,50 @@ function create( context, reactRender, flowService ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+   class ProblemListTable extends React.Component {
+      constructor( props ) {
+         super( props );
+         this.props = props;
+      }
+
+      render() {
+         const eventList = this.props.problemSummary.eventInfos.map( function( event ) {
+            const problemList = event.problems.map( function( problem ) {
+               return (
+                  <li key={ problem.description }
+                      className="ax-event-problem">
+                     <i className="fa fa-warning ax-error" />{problem.description}
+                  </li>
+               );
+            } );
+            return (
+               <li  key={event.index} >
+                  <h5><strong>{ event.name }</strong> <em>(source: { event.source })</em></h5>
+                  <ul>
+                     {problemList}
+                  </ul>
+               </li>
+            );
+         } );
+
+         return (
+            <div className="text-large">
+               <h4 className="text-primary ax-error">{ this.props.problemSummary.eventInfos.length }/{ this.props.eventInfos.length } Events with Problems</h4>
+               <ul>
+                  {eventList}
+               </ul>
+               <p className="ax-event-problems-explanation">
+                  Events with problems are marked <strong className="ax-error">red</strong> in the events table.
+                  Filter by event/source as needed.
+               </p>
+            </div>
+         );
+      }
+   }
+
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    class EventDisplayElement extends React.Component {
       constructor( props ) {
          super( props );
@@ -921,10 +960,11 @@ function create( context, reactRender, flowService ) {
          if( this.props.visibleEventInfosLength === 0 ) {
             return <div></div>;
          }
-         return ( <EventListTable selectionEventInfo={ this.props.selectionEventInfo }
-                                 onSelection={ this.props.onSelection }
-                                 events={this.props.events}
-                 />
+         return (
+            <EventListTable selectionEventInfo={ this.props.selectionEventInfo }
+                            onSelection={ this.props.onSelection }
+                            events={this.props.events}
+            />
          );
       }
    }
@@ -957,6 +997,10 @@ function create( context, reactRender, flowService ) {
 
                </div>
             </div>
+            { model.problemSummary.hasProblems &&
+            <ProblemListTable problemSummary={ model.problemSummary }
+                              eventInfos={ model.eventInfos }
+            /> }
             <EventDisplayElement visibleEventInfosLength={model.visibleEventInfos.length}
                                  events={model.visibleEventInfos}
                                  onSelection={ handleSelection }
