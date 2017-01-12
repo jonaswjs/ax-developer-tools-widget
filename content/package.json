@@ -52,8 +52,11 @@
   },
   "dependencies": {
     "fast-json-patch": "^1.1.4",
+    "jquery": "^1.11.x",
     "moment": "^2.17.1",
     "react": "^15.3.0",
-    "react-dom": "^15.3.0"
+    "react-bootstrap": "^0.30.7",
+    "react-dom": "^15.3.0",
+    "react-overlays": "^0.6.10"
   }
 }

@@ -9,16 +9,14 @@
       padding: 8px 8px;
    }
 
-   .affix {
+   .ax-affix-area {
+      text-align: right;
       top: 0;
       left: 0;
       right: 0;
       background-color: rgba(255, 255, 255, 0.8);
       border-bottom: 1px solid #CCC;
       box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-   }
-   .ax-affix-area {
-      text-align: right;
    }
 
    [data-ax-id="'limit'"] {
@@ -336,9 +334,9 @@
    li.ax-event-problem {
       list-style-type: none;
    }
-}
 
-.events-display-widget > div > .ax-affix-area > div.text-large {
-   padding: 8px;
-   float: left;
+   .text-large {
+      padding: 8px;
+      float: left;
+   }
 }

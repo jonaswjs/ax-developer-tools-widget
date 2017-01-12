@@ -8,10 +8,11 @@ import React from 'react';
 import * as axPatterns from 'laxar-patterns';
 import moment from 'moment';
 import tracker from './tracker';
+import AutoAffix from 'react-overlays/lib/AutoAffix';
 
-function create( context, reactRender, flowService ) {
+
+function create( context, reactRender ) {
    'use strict';
-
 
    const view = {
       showPatterns: false
@@ -500,25 +501,28 @@ function create( context, reactRender, flowService ) {
       }
 
       render() {
+         const searchId = context.id( 'search' );
+         const limitId = context.id( 'limit' );
+
          return (
             <div className="form-group form-group-sm">
                { this.props.searchRegExp }
-               <label data-ax-for="'search'">
+               <label htmlFor={ searchId }>
                   <small>Filters:</small>
                </label>
                <input className="form-control input-sm"
                       placeholder="Search (RegExp)"
-                      data-ax-id="'search'"
+                      id={ searchId }
                       type="text"
                       value={ this.props.searchRegExp }
                       onChange={ this.props.filterBySearch } />
-               <label data-ax-for="'limit'">
+               <label htmlFor={ limitId }>
                   <small>Limit:</small>
                </label>
                <input
                   className="form-control input-sm"
                   type="text"
-                  data-ax-id="'limit'"
+                  id={ limitId }
                   placeholder="0-5000"
                   maxLength={ 4 }
                   value={ this.props.limit }
@@ -974,27 +978,28 @@ function create( context, reactRender, flowService ) {
    function render() {
       reactRender(
          <div>
-            <div className="ax-affix-area">
-               <NumberOfEvents numberOfVisibleEvents={ model.visibleEventInfos.length }
-                               numberOfEvents={ model.eventInfos.length }
-                               clearFilters={clearFilters}
-               />
-               <div className="ax-button-wrapper form-inline">
-                  <FiltersAndLimitForm name={ settings.namePattern }
-                                       filterBySearch={ filterBySearch }
-                                       limit={ settings.visibleEventsLimit }
-                                       limitEvents={ limitEvents }
+            <AutoAffix>
+               <div className="ax-affix-area">
+                  <NumberOfEvents numberOfVisibleEvents={ model.visibleEventInfos.length }
+                                  numberOfEvents={ model.eventInfos.length }
+                                  clearFilters={clearFilters}
                   />
-                  <SelectFiltersButton patterns={ model.patterns }
-                                       settings={ model.settings }
-                                       onSettingsChanged={ onSettingsChanged }
-                  />
-                  <DiscardEventsButton eventInfosLength={ model.eventInfos.length }
-                                       onDiscard={ discardEvents }
-                  />
-
+                  <div className="ax-button-wrapper form-inline">
+                     <FiltersAndLimitForm name={ settings.namePattern }
+                                          filterBySearch={ filterBySearch }
+                                          limit={ settings.visibleEventsLimit }
+                                          limitEvents={ limitEvents }
+                     />
+                     <SelectFiltersButton patterns={ model.patterns }
+                                          settings={ model.settings }
+                                          onSettingsChanged={ onSettingsChanged }
+                     />
+                     <DiscardEventsButton eventInfosLength={ model.eventInfos.length }
+                                          onDiscard={ discardEvents }
+                     />
+                  </div>
                </div>
-            </div>
+            </AutoAffix>
             { model.problemSummary.hasProblems &&
             <ProblemListTable problemSummary={ model.problemSummary }
                               eventInfos={ model.eventInfos }

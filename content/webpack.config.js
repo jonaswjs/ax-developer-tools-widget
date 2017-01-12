@@ -18,7 +18,7 @@ const basePlugins = [
 module.exports = {
    entry: {
       'app': './init.js',
-      'vendor': [ 'polyfills', 'react', 'laxar' ]
+      'vendor': [ 'polyfills', 'react', 'react-overlays', 'laxar' ]
    },
 
    output: {
@@ -33,6 +33,12 @@ module.exports = {
       new webpack.SourceMapDevToolPlugin( {
          filename: '[name].bundle.js.map'
       } )
+      // ,
+      // new webpack.ProvidePlugin({
+      //    jQuery: 'jquery',
+      //    $: 'jquery',
+      //    jquery: 'jquery'
+      // })
    ] ),
 
    resolve: {
