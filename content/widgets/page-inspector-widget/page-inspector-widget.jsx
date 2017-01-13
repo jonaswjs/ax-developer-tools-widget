@@ -4,8 +4,7 @@
  * http://laxarjs.org/license
  */
 import React from 'react';
-import patterns from 'laxar-patterns';
-
+import * as patterns from 'laxar-patterns';
 import wireflow from 'wireflow';
 
 import { types, graph, layout, filterFromSelection, ROOT_ID } from './graph-helpers';

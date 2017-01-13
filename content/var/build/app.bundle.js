@@ -2,12 +2,12 @@ webpackJsonp([0],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';__webpack_require__(16);
-	var _laxar = __webpack_require__(18);
+	'use strict';__webpack_require__(21);
+	var _laxar = __webpack_require__(23);
 	
-	var _laxarReactAdapter = __webpack_require__(62);var reactAdapter = _interopRequireWildcard(_laxarReactAdapter);
+	var _laxarReactAdapter = __webpack_require__(67);var reactAdapter = _interopRequireWildcard(_laxarReactAdapter);
 	
-	var _artifactsFlowMainThemeDefault = __webpack_require__(243);var _artifactsFlowMainThemeDefault2 = _interopRequireDefault(_artifactsFlowMainThemeDefault);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}
+	var _artifactsFlowMainThemeDefault = __webpack_require__(248);var _artifactsFlowMainThemeDefault2 = _interopRequireDefault(_artifactsFlowMainThemeDefault);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}
 	
 	var config = {
 	   name: 'LaxarJS Developer Tools',
@@ -98,7 +98,12 @@ webpackJsonp([0],[
 /* 59 */,
 /* 60 */,
 /* 61 */,
-/* 62 */
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109,7 +114,7 @@ webpackJsonp([0],[
 	exports.technology = undefined;
 	exports.bootstrap = bootstrap;
 	
-	var _reactDom = __webpack_require__(63);
+	var _reactDom = __webpack_require__(68);
 	
 	var ReactDom = _interopRequireWildcard(_reactDom);
 	
@@ -231,11 +236,6 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
 /* 68 */,
 /* 69 */,
 /* 70 */,
@@ -411,15 +411,20 @@ webpackJsonp([0],[
 /* 240 */,
 /* 241 */,
 /* 242 */,
-/* 243 */
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* global __resourceQuery */
-	module.exports = __webpack_require__( 244 );
+	module.exports = __webpack_require__( 249 );
 
 
 /***/ },
-/* 244 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
@@ -429,7 +434,13 @@ webpackJsonp([0],[
 	      controls: {},
 	      flows: { main: 0 },
 	      pages: { tools: 0 },
-	      widgets: { "host-connector-widget": 0, "events-display-widget": 1 }
+	      widgets: {
+	         "host-connector-widget": 0,
+	         "developer-toolbar-widget": 1,
+	         "page-inspector-widget": 2,
+	         "events-display-widget": 3,
+	         "log-display-widget": 4
+	      }
 	   },
 	   flows: [
 	      {
@@ -452,7 +463,7 @@ webpackJsonp([0],[
 	         descriptor: { name: "default.theme" },
 	         assets: {
 	            "css/theme.css": {
-	               url: __webpack_require__( 245 )
+	               url: __webpack_require__( 250 )
 	            }
 	         }
 	      }
@@ -478,6 +489,29 @@ webpackJsonp([0],[
 	                     id: "hostConnectorWidget-id0"
 	                  }
 	               ],
+	               toolbar: [
+	                  {
+	                     widget: "developer-toolbar-widget",
+	                     id: "tabs",
+	                     features: {
+	                        grid: { resource: "gridSettings" },
+	                        tabs: { parameter: "tab" },
+	                        detailsOn: [ "isLaxarApplication" ]
+	                     },
+	                     enabled: true
+	                  }
+	               ],
+	               tabspage: [
+	                  {
+	                     widget: "page-inspector-widget",
+	                     features: {
+	                        pageInfo: { resource: "pageInfo" },
+	                        filter: { resource: "eventFilter" }
+	                     },
+	                     enabled: true,
+	                     id: "pageInspectorWidget-id1"
+	                  }
+	               ],
 	               tabsevents: [
 	                  {
 	                     widget: "events-display-widget",
@@ -491,7 +525,15 @@ webpackJsonp([0],[
 	                        }
 	                     },
 	                     enabled: true,
-	                     id: "eventsDisplayWidget-id1"
+	                     id: "eventsDisplayWidget-id2"
+	                  }
+	               ],
+	               tabslog: [
+	                  {
+	                     widget: "log-display-widget",
+	                     features: { log: { stream: "logItems" } },
+	                     enabled: true,
+	                     id: "logDisplayWidget-id3"
 	                  }
 	               ]
 	            }
@@ -504,10 +546,10 @@ webpackJsonp([0],[
 	         assets: {
 	            "default.theme": {
 	               "tools.html": {
-	                  content: __webpack_require__( 261 )
+	                  content: __webpack_require__( 266 )
 	               },
 	               "css/tools.css": {
-	                  url: __webpack_require__( 262 )
+	                  url: __webpack_require__( 267 )
 	               }
 	            }
 	         }
@@ -599,8 +641,109 @@ webpackJsonp([0],[
 	            controls: [],
 	            compatibility: []
 	         },
-	         module: __webpack_require__( 265 ),
+	         module: __webpack_require__( 270 ),
 	         assets: { "default.theme": {} }
+	      },
+	      {
+	         descriptor: {
+	            name: "developer-toolbar-widget",
+	            description: "Allows to show widget outlines and to display an alignment grid for the host application",
+	            integration: { technology: "react", type: "widget" },
+	            features: {
+	               $schema: "http://json-schema.org/draft-04/schema#",
+	               type: "object",
+	               required: [ "grid" ],
+	               properties: {
+	                  grid: {
+	                     type: "object",
+	                     required: [ "resource" ],
+	                     properties: { resource: { type: "string", format: "topic", axRole: "inlet" } },
+	                     additionalProperties: false
+	                  },
+	                  tabs: {
+	                     type: "object",
+	                     required: [ "parameter" ],
+	                     properties: {
+	                        parameter: { type: "string", format: "topic", "default": "events" }
+	                     },
+	                     additionalProperties: false
+	                  },
+	                  detailsOn: {
+	                     type: "array",
+	                     description: "Publish the state if a LaxarJS application is running in the inspected window.",
+	                     items: {
+	                        type: "string",
+	                        format: "flag-topic",
+	                        axPattern: "flag",
+	                        description: "The topic through which to publish the current state."
+	                     }
+	                  }
+	               },
+	               additionalProperties: false
+	            },
+	            controls: [],
+	            compatibility: []
+	         },
+	         module: __webpack_require__( 271 ),
+	         assets: {
+	            "default.theme": {
+	               "css/developer-toolbar-widget.css": {
+	                  url: __webpack_require__( 286 )
+	               }
+	            }
+	         }
+	      },
+	      {
+	         descriptor: {
+	            name: "page-inspector-widget",
+	            description: "Visualizes the widgets on the current page and their event connections",
+	            integration: { technology: "react", type: "widget" },
+	            features: {
+	               $schema: "http://json-schema.org/draft-04/schema#",
+	               type: "object",
+	               properties: {
+	                  pageInfo: {
+	                     type: "object",
+	                     description: "Inspect page models received through wrapper events.",
+	                     requires: [ "resource" ],
+	                     properties: {
+	                        resource: {
+	                           type: "string",
+	                           description: "The event topic through which to monitor pages.",
+	                           format: "topic",
+	                           axRole: "inlet"
+	                        }
+	                     },
+	                     additionalProperties: false
+	                  },
+	                  filter: {
+	                     type: "object",
+	                     description: "Allows to filter by topic or widget/activity instance",
+	                     requires: [ "resource" ],
+	                     properties: {
+	                        resource: {
+	                           type: "string",
+	                           description: "The topic through which to publish filter information",
+	                           format: "topic",
+	                           axRole: "outlet"
+	                        }
+	                     },
+	                     additionalProperties: false
+	                  }
+	               },
+	               additionalProperties: false
+	            },
+	            controls: [],
+	            compatibility: []
+	         },
+	         module: __webpack_require__( 290 ),
+	         assets: {
+	            "default.theme": {
+	               "css/page-inspector-widget.css": {
+	                  url: __webpack_require__( 381 )
+	               }
+	            }
+	         }
 	      },
 	      {
 	         descriptor: {
@@ -663,14 +806,48 @@ webpackJsonp([0],[
 	            controls: [],
 	            compatibility: []
 	         },
-	         module: __webpack_require__( 266 ),
+	         module: __webpack_require__( 385 ),
 	         assets: {
 	            "default.theme": {
-	               "events-display-widget.html": {
-	                  content: __webpack_require__( 420 )
-	               },
 	               "css/events-display-widget.css": {
-	                  url: __webpack_require__( 421 )
+	                  url: __webpack_require__( 527 )
+	               }
+	            }
+	         }
+	      },
+	      {
+	         descriptor: {
+	            name: "log-display-widget",
+	            description: "Displays log messages to the user.",
+	            integration: { technology: "react", type: "widget" },
+	            features: {
+	               $schema: "http://json-schema.org/draft-04/schema#",
+	               type: "object",
+	               requires: [ "log" ],
+	               log: {
+	                  type: "object",
+	                  description: "Display log messages received through wrapper events.",
+	                  properties: {
+	                     stream: {
+	                        type: "string",
+	                        description: "The topic through which to gather log messages."
+	                     },
+	                     bufferSize: {
+	                        type: "integer",
+	                        description: "Maximum number of log message items to keep in memory.",
+	                        "default": 5000
+	                     }
+	                  }
+	               }
+	            },
+	            controls: [],
+	            compatibility: []
+	         },
+	         module: __webpack_require__( 530 ),
+	         assets: {
+	            "default.theme": {
+	               "css/log-display-widget.css": {
+	                  url: __webpack_require__( 531 )
 	               }
 	            }
 	         }
@@ -680,23 +857,23 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 245 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var resource = __webpack_require__( 246 );
+	var resource = __webpack_require__( 251 );
 	module.exports = typeof resource === 'string' ? resource : null;
 
 /***/ },
-/* 246 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(247);
+	var content = __webpack_require__(252);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(260)(content, {});
+	var update = __webpack_require__(265)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -713,21 +890,21 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 247 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(248)();
+	exports = module.exports = __webpack_require__(253)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, "@charset \"UTF-8\";\n/* FONT PATH\n * -------------------------- */\n@font-face {\n  font-family: 'FontAwesome';\n  /* IE < 9\n      The two src data are needed to circumvent a bug in IE for the rendering of the text.\n      IE9+ supports the type format *.woff. */\n  src: url(" + __webpack_require__(249) + ");\n  /* IE9 Compat Modes */\n  src: url(" + __webpack_require__(250) + "?#iefix&v=4.3.0) format(\"embedded-opentype\");\n  /* IE6-IE8 */\n  src: url(" + __webpack_require__(251) + "#fontawesomeregular) format(\"svg\"), url(" + __webpack_require__(252) + ") format(\"woff2\"), url(" + __webpack_require__(253) + ") format(\"woff\"), url(" + __webpack_require__(254) + ") format(\"truetype\");\n  /* Safari, Android, iOS */\n  /* To avoid a bug in Webkit-Browsers set all font-* properties to normal. */\n  font-weight: normal;\n  font-style: normal;\n  font-variant: normal;\n}\n\n.fa {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  font-size: inherit;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-transform: translate(0, 0);\n      -ms-transform: translate(0, 0);\n          transform: translate(0, 0);\n}\n\n/* makes the font 33% larger relative to the icon container */\n.fa-lg {\n  font-size: 1.3333333333em;\n  line-height: 0.75em;\n  vertical-align: -15%;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-fw {\n  width: 1.2857142857em;\n  text-align: center;\n}\n\n.fa-ul {\n  padding-left: 0;\n  margin-left: 2.1428571429em;\n  list-style-type: none;\n}\n\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  position: absolute;\n  left: -2.1428571429em;\n  width: 2.1428571429em;\n  top: 0.1428571429em;\n  text-align: center;\n}\n\n.fa-li.fa-lg {\n  left: -1.8571428571em;\n}\n\n.fa-border {\n  padding: .2em .25em .15em;\n  border: solid 0.08em #eee;\n  border-radius: .1em;\n}\n\n.pull-right {\n  float: right;\n}\n\n.pull-left {\n  float: left;\n}\n\n.fa.pull-left {\n  margin-right: .3em;\n}\n\n.fa.pull-right {\n  margin-left: .3em;\n}\n\n.fa-spin {\n  -webkit-animation: fa-spin 2s infinite linear;\n  animation: fa-spin 2s infinite linear;\n}\n\n.fa-pulse {\n  -webkit-animation: fa-spin 1s infinite steps(8);\n  animation: fa-spin 1s infinite steps(8);\n}\n\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n\n.fa-rotate-90 {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);\n  -webkit-transform: rotate(90deg);\n  -ms-transform: rotate(90deg);\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);\n  -webkit-transform: rotate(180deg);\n  -ms-transform: rotate(180deg);\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);\n  -webkit-transform: rotate(270deg);\n  -ms-transform: rotate(270deg);\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);\n  -webkit-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);\n  -webkit-transform: scale(1, -1);\n  -ms-transform: scale(1, -1);\n  transform: scale(1, -1);\n}\n\n:root .fa-rotate-90,\n:root .fa-rotate-180,\n:root .fa-rotate-270,\n:root .fa-flip-horizontal,\n:root .fa-flip-vertical {\n  -webkit-filter: none;\n          filter: none;\n}\n\n.fa-stack {\n  position: relative;\n  display: inline-block;\n  width: 2em;\n  height: 2em;\n  line-height: 2em;\n  vertical-align: middle;\n}\n\n.fa-stack-1x, .fa-stack-2x {\n  position: absolute;\n  left: 0;\n  width: 100%;\n  text-align: center;\n}\n\n.fa-stack-1x {\n  line-height: inherit;\n}\n\n.fa-stack-2x {\n  font-size: 2em;\n}\n\n.fa-inverse {\n  color: #fff;\n}\n\n/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen\n   readers do not read off random characters that represent icons */\n.fa-glass:before {\n  content: \"\\F000\";\n}\n\n.fa-music:before {\n  content: \"\\F001\";\n}\n\n.fa-search:before {\n  content: \"\\F002\";\n}\n\n.fa-envelope-o:before {\n  content: \"\\F003\";\n}\n\n.fa-heart:before {\n  content: \"\\F004\";\n}\n\n.fa-star:before {\n  content: \"\\F005\";\n}\n\n.fa-star-o:before {\n  content: \"\\F006\";\n}\n\n.fa-user:before {\n  content: \"\\F007\";\n}\n\n.fa-film:before {\n  content: \"\\F008\";\n}\n\n.fa-th-large:before {\n  content: \"\\F009\";\n}\n\n.fa-th:before {\n  content: \"\\F00A\";\n}\n\n.fa-th-list:before {\n  content: \"\\F00B\";\n}\n\n.fa-check:before {\n  content: \"\\F00C\";\n}\n\n.fa-remove:before,\n.fa-close:before,\n.fa-times:before {\n  content: \"\\F00D\";\n}\n\n.fa-search-plus:before {\n  content: \"\\F00E\";\n}\n\n.fa-search-minus:before {\n  content: \"\\F010\";\n}\n\n.fa-power-off:before {\n  content: \"\\F011\";\n}\n\n.fa-signal:before {\n  content: \"\\F012\";\n}\n\n.fa-gear:before,\n.fa-cog:before {\n  content: \"\\F013\";\n}\n\n.fa-trash-o:before {\n  content: \"\\F014\";\n}\n\n.fa-home:before {\n  content: \"\\F015\";\n}\n\n.fa-file-o:before {\n  content: \"\\F016\";\n}\n\n.fa-clock-o:before {\n  content: \"\\F017\";\n}\n\n.fa-road:before {\n  content: \"\\F018\";\n}\n\n.fa-download:before {\n  content: \"\\F019\";\n}\n\n.fa-arrow-circle-o-down:before {\n  content: \"\\F01A\";\n}\n\n.fa-arrow-circle-o-up:before {\n  content: \"\\F01B\";\n}\n\n.fa-inbox:before {\n  content: \"\\F01C\";\n}\n\n.fa-play-circle-o:before {\n  content: \"\\F01D\";\n}\n\n.fa-rotate-right:before,\n.fa-repeat:before {\n  content: \"\\F01E\";\n}\n\n.fa-refresh:before {\n  content: \"\\F021\";\n}\n\n.fa-list-alt:before {\n  content: \"\\F022\";\n}\n\n.fa-lock:before {\n  content: \"\\F023\";\n}\n\n.fa-flag:before {\n  content: \"\\F024\";\n}\n\n.fa-headphones:before {\n  content: \"\\F025\";\n}\n\n.fa-volume-off:before {\n  content: \"\\F026\";\n}\n\n.fa-volume-down:before {\n  content: \"\\F027\";\n}\n\n.fa-volume-up:before {\n  content: \"\\F028\";\n}\n\n.fa-qrcode:before {\n  content: \"\\F029\";\n}\n\n.fa-barcode:before {\n  content: \"\\F02A\";\n}\n\n.fa-tag:before {\n  content: \"\\F02B\";\n}\n\n.fa-tags:before {\n  content: \"\\F02C\";\n}\n\n.fa-book:before {\n  content: \"\\F02D\";\n}\n\n.fa-bookmark:before {\n  content: \"\\F02E\";\n}\n\n.fa-print:before {\n  content: \"\\F02F\";\n}\n\n.fa-camera:before {\n  content: \"\\F030\";\n}\n\n.fa-font:before {\n  content: \"\\F031\";\n}\n\n.fa-bold:before {\n  content: \"\\F032\";\n}\n\n.fa-italic:before {\n  content: \"\\F033\";\n}\n\n.fa-text-height:before {\n  content: \"\\F034\";\n}\n\n.fa-text-width:before {\n  content: \"\\F035\";\n}\n\n.fa-align-left:before {\n  content: \"\\F036\";\n}\n\n.fa-align-center:before {\n  content: \"\\F037\";\n}\n\n.fa-align-right:before {\n  content: \"\\F038\";\n}\n\n.fa-align-justify:before {\n  content: \"\\F039\";\n}\n\n.fa-list:before {\n  content: \"\\F03A\";\n}\n\n.fa-dedent:before,\n.fa-outdent:before {\n  content: \"\\F03B\";\n}\n\n.fa-indent:before {\n  content: \"\\F03C\";\n}\n\n.fa-video-camera:before {\n  content: \"\\F03D\";\n}\n\n.fa-photo:before,\n.fa-image:before,\n.fa-picture-o:before {\n  content: \"\\F03E\";\n}\n\n.fa-pencil:before {\n  content: \"\\F040\";\n}\n\n.fa-map-marker:before {\n  content: \"\\F041\";\n}\n\n.fa-adjust:before {\n  content: \"\\F042\";\n}\n\n.fa-tint:before {\n  content: \"\\F043\";\n}\n\n.fa-edit:before,\n.fa-pencil-square-o:before {\n  content: \"\\F044\";\n}\n\n.fa-share-square-o:before {\n  content: \"\\F045\";\n}\n\n.fa-check-square-o:before {\n  content: \"\\F046\";\n}\n\n.fa-arrows:before {\n  content: \"\\F047\";\n}\n\n.fa-step-backward:before {\n  content: \"\\F048\";\n}\n\n.fa-fast-backward:before {\n  content: \"\\F049\";\n}\n\n.fa-backward:before {\n  content: \"\\F04A\";\n}\n\n.fa-play:before {\n  content: \"\\F04B\";\n}\n\n.fa-pause:before {\n  content: \"\\F04C\";\n}\n\n.fa-stop:before {\n  content: \"\\F04D\";\n}\n\n.fa-forward:before {\n  content: \"\\F04E\";\n}\n\n.fa-fast-forward:before {\n  content: \"\\F050\";\n}\n\n.fa-step-forward:before {\n  content: \"\\F051\";\n}\n\n.fa-eject:before {\n  content: \"\\F052\";\n}\n\n.fa-chevron-left:before {\n  content: \"\\F053\";\n}\n\n.fa-chevron-right:before {\n  content: \"\\F054\";\n}\n\n.fa-plus-circle:before {\n  content: \"\\F055\";\n}\n\n.fa-minus-circle:before {\n  content: \"\\F056\";\n}\n\n.fa-times-circle:before {\n  content: \"\\F057\";\n}\n\n.fa-check-circle:before {\n  content: \"\\F058\";\n}\n\n.fa-question-circle:before {\n  content: \"\\F059\";\n}\n\n.fa-info-circle:before {\n  content: \"\\F05A\";\n}\n\n.fa-crosshairs:before {\n  content: \"\\F05B\";\n}\n\n.fa-times-circle-o:before {\n  content: \"\\F05C\";\n}\n\n.fa-check-circle-o:before {\n  content: \"\\F05D\";\n}\n\n.fa-ban:before {\n  content: \"\\F05E\";\n}\n\n.fa-arrow-left:before {\n  content: \"\\F060\";\n}\n\n.fa-arrow-right:before {\n  content: \"\\F061\";\n}\n\n.fa-arrow-up:before {\n  content: \"\\F062\";\n}\n\n.fa-arrow-down:before {\n  content: \"\\F063\";\n}\n\n.fa-mail-forward:before,\n.fa-share:before {\n  content: \"\\F064\";\n}\n\n.fa-expand:before {\n  content: \"\\F065\";\n}\n\n.fa-compress:before {\n  content: \"\\F066\";\n}\n\n.fa-plus:before {\n  content: \"\\F067\";\n}\n\n.fa-minus:before {\n  content: \"\\F068\";\n}\n\n.fa-asterisk:before {\n  content: \"\\F069\";\n}\n\n.fa-exclamation-circle:before {\n  content: \"\\F06A\";\n}\n\n.fa-gift:before {\n  content: \"\\F06B\";\n}\n\n.fa-leaf:before {\n  content: \"\\F06C\";\n}\n\n.fa-fire:before {\n  content: \"\\F06D\";\n}\n\n.fa-eye:before {\n  content: \"\\F06E\";\n}\n\n.fa-eye-slash:before {\n  content: \"\\F070\";\n}\n\n.fa-warning:before,\n.fa-exclamation-triangle:before {\n  content: \"\\F071\";\n}\n\n.fa-plane:before {\n  content: \"\\F072\";\n}\n\n.fa-calendar:before {\n  content: \"\\F073\";\n}\n\n.fa-random:before {\n  content: \"\\F074\";\n}\n\n.fa-comment:before {\n  content: \"\\F075\";\n}\n\n.fa-magnet:before {\n  content: \"\\F076\";\n}\n\n.fa-chevron-up:before {\n  content: \"\\F077\";\n}\n\n.fa-chevron-down:before {\n  content: \"\\F078\";\n}\n\n.fa-retweet:before {\n  content: \"\\F079\";\n}\n\n.fa-shopping-cart:before {\n  content: \"\\F07A\";\n}\n\n.fa-folder:before {\n  content: \"\\F07B\";\n}\n\n.fa-folder-open:before {\n  content: \"\\F07C\";\n}\n\n.fa-arrows-v:before {\n  content: \"\\F07D\";\n}\n\n.fa-arrows-h:before {\n  content: \"\\F07E\";\n}\n\n.fa-bar-chart-o:before,\n.fa-bar-chart:before {\n  content: \"\\F080\";\n}\n\n.fa-twitter-square:before {\n  content: \"\\F081\";\n}\n\n.fa-facebook-square:before {\n  content: \"\\F082\";\n}\n\n.fa-camera-retro:before {\n  content: \"\\F083\";\n}\n\n.fa-key:before {\n  content: \"\\F084\";\n}\n\n.fa-gears:before,\n.fa-cogs:before {\n  content: \"\\F085\";\n}\n\n.fa-comments:before {\n  content: \"\\F086\";\n}\n\n.fa-thumbs-o-up:before {\n  content: \"\\F087\";\n}\n\n.fa-thumbs-o-down:before {\n  content: \"\\F088\";\n}\n\n.fa-star-half:before {\n  content: \"\\F089\";\n}\n\n.fa-heart-o:before {\n  content: \"\\F08A\";\n}\n\n.fa-sign-out:before {\n  content: \"\\F08B\";\n}\n\n.fa-linkedin-square:before {\n  content: \"\\F08C\";\n}\n\n.fa-thumb-tack:before {\n  content: \"\\F08D\";\n}\n\n.fa-external-link:before {\n  content: \"\\F08E\";\n}\n\n.fa-sign-in:before {\n  content: \"\\F090\";\n}\n\n.fa-trophy:before {\n  content: \"\\F091\";\n}\n\n.fa-github-square:before {\n  content: \"\\F092\";\n}\n\n.fa-upload:before {\n  content: \"\\F093\";\n}\n\n.fa-lemon-o:before {\n  content: \"\\F094\";\n}\n\n.fa-phone:before {\n  content: \"\\F095\";\n}\n\n.fa-square-o:before {\n  content: \"\\F096\";\n}\n\n.fa-bookmark-o:before {\n  content: \"\\F097\";\n}\n\n.fa-phone-square:before {\n  content: \"\\F098\";\n}\n\n.fa-twitter:before {\n  content: \"\\F099\";\n}\n\n.fa-facebook-f:before,\n.fa-facebook:before {\n  content: \"\\F09A\";\n}\n\n.fa-github:before {\n  content: \"\\F09B\";\n}\n\n.fa-unlock:before {\n  content: \"\\F09C\";\n}\n\n.fa-credit-card:before {\n  content: \"\\F09D\";\n}\n\n.fa-rss:before {\n  content: \"\\F09E\";\n}\n\n.fa-hdd-o:before {\n  content: \"\\F0A0\";\n}\n\n.fa-bullhorn:before {\n  content: \"\\F0A1\";\n}\n\n.fa-bell:before {\n  content: \"\\F0F3\";\n}\n\n.fa-certificate:before {\n  content: \"\\F0A3\";\n}\n\n.fa-hand-o-right:before {\n  content: \"\\F0A4\";\n}\n\n.fa-hand-o-left:before {\n  content: \"\\F0A5\";\n}\n\n.fa-hand-o-up:before {\n  content: \"\\F0A6\";\n}\n\n.fa-hand-o-down:before {\n  content: \"\\F0A7\";\n}\n\n.fa-arrow-circle-left:before {\n  content: \"\\F0A8\";\n}\n\n.fa-arrow-circle-right:before {\n  content: \"\\F0A9\";\n}\n\n.fa-arrow-circle-up:before {\n  content: \"\\F0AA\";\n}\n\n.fa-arrow-circle-down:before {\n  content: \"\\F0AB\";\n}\n\n.fa-globe:before {\n  content: \"\\F0AC\";\n}\n\n.fa-wrench:before {\n  content: \"\\F0AD\";\n}\n\n.fa-tasks:before {\n  content: \"\\F0AE\";\n}\n\n.fa-filter:before {\n  content: \"\\F0B0\";\n}\n\n.fa-briefcase:before {\n  content: \"\\F0B1\";\n}\n\n.fa-arrows-alt:before {\n  content: \"\\F0B2\";\n}\n\n.fa-group:before,\n.fa-users:before {\n  content: \"\\F0C0\";\n}\n\n.fa-chain:before,\n.fa-link:before {\n  content: \"\\F0C1\";\n}\n\n.fa-cloud:before {\n  content: \"\\F0C2\";\n}\n\n.fa-flask:before {\n  content: \"\\F0C3\";\n}\n\n.fa-cut:before,\n.fa-scissors:before {\n  content: \"\\F0C4\";\n}\n\n.fa-copy:before,\n.fa-files-o:before {\n  content: \"\\F0C5\";\n}\n\n.fa-paperclip:before {\n  content: \"\\F0C6\";\n}\n\n.fa-save:before,\n.fa-floppy-o:before {\n  content: \"\\F0C7\";\n}\n\n.fa-square:before {\n  content: \"\\F0C8\";\n}\n\n.fa-navicon:before,\n.fa-reorder:before,\n.fa-bars:before {\n  content: \"\\F0C9\";\n}\n\n.fa-list-ul:before {\n  content: \"\\F0CA\";\n}\n\n.fa-list-ol:before {\n  content: \"\\F0CB\";\n}\n\n.fa-strikethrough:before {\n  content: \"\\F0CC\";\n}\n\n.fa-underline:before {\n  content: \"\\F0CD\";\n}\n\n.fa-table:before {\n  content: \"\\F0CE\";\n}\n\n.fa-magic:before {\n  content: \"\\F0D0\";\n}\n\n.fa-truck:before {\n  content: \"\\F0D1\";\n}\n\n.fa-pinterest:before {\n  content: \"\\F0D2\";\n}\n\n.fa-pinterest-square:before {\n  content: \"\\F0D3\";\n}\n\n.fa-google-plus-square:before {\n  content: \"\\F0D4\";\n}\n\n.fa-google-plus:before {\n  content: \"\\F0D5\";\n}\n\n.fa-money:before {\n  content: \"\\F0D6\";\n}\n\n.fa-caret-down:before {\n  content: \"\\F0D7\";\n}\n\n.fa-caret-up:before {\n  content: \"\\F0D8\";\n}\n\n.fa-caret-left:before {\n  content: \"\\F0D9\";\n}\n\n.fa-caret-right:before {\n  content: \"\\F0DA\";\n}\n\n.fa-columns:before {\n  content: \"\\F0DB\";\n}\n\n.fa-unsorted:before,\n.fa-sort:before {\n  content: \"\\F0DC\";\n}\n\n.fa-sort-down:before,\n.fa-sort-desc:before {\n  content: \"\\F0DD\";\n}\n\n.fa-sort-up:before,\n.fa-sort-asc:before {\n  content: \"\\F0DE\";\n}\n\n.fa-envelope:before {\n  content: \"\\F0E0\";\n}\n\n.fa-linkedin:before {\n  content: \"\\F0E1\";\n}\n\n.fa-rotate-left:before,\n.fa-undo:before {\n  content: \"\\F0E2\";\n}\n\n.fa-legal:before,\n.fa-gavel:before {\n  content: \"\\F0E3\";\n}\n\n.fa-dashboard:before,\n.fa-tachometer:before {\n  content: \"\\F0E4\";\n}\n\n.fa-comment-o:before {\n  content: \"\\F0E5\";\n}\n\n.fa-comments-o:before {\n  content: \"\\F0E6\";\n}\n\n.fa-flash:before,\n.fa-bolt:before {\n  content: \"\\F0E7\";\n}\n\n.fa-sitemap:before {\n  content: \"\\F0E8\";\n}\n\n.fa-umbrella:before {\n  content: \"\\F0E9\";\n}\n\n.fa-paste:before,\n.fa-clipboard:before {\n  content: \"\\F0EA\";\n}\n\n.fa-lightbulb-o:before {\n  content: \"\\F0EB\";\n}\n\n.fa-exchange:before {\n  content: \"\\F0EC\";\n}\n\n.fa-cloud-download:before {\n  content: \"\\F0ED\";\n}\n\n.fa-cloud-upload:before {\n  content: \"\\F0EE\";\n}\n\n.fa-user-md:before {\n  content: \"\\F0F0\";\n}\n\n.fa-stethoscope:before {\n  content: \"\\F0F1\";\n}\n\n.fa-suitcase:before {\n  content: \"\\F0F2\";\n}\n\n.fa-bell-o:before {\n  content: \"\\F0A2\";\n}\n\n.fa-coffee:before {\n  content: \"\\F0F4\";\n}\n\n.fa-cutlery:before {\n  content: \"\\F0F5\";\n}\n\n.fa-file-text-o:before {\n  content: \"\\F0F6\";\n}\n\n.fa-building-o:before {\n  content: \"\\F0F7\";\n}\n\n.fa-hospital-o:before {\n  content: \"\\F0F8\";\n}\n\n.fa-ambulance:before {\n  content: \"\\F0F9\";\n}\n\n.fa-medkit:before {\n  content: \"\\F0FA\";\n}\n\n.fa-fighter-jet:before {\n  content: \"\\F0FB\";\n}\n\n.fa-beer:before {\n  content: \"\\F0FC\";\n}\n\n.fa-h-square:before {\n  content: \"\\F0FD\";\n}\n\n.fa-plus-square:before {\n  content: \"\\F0FE\";\n}\n\n.fa-angle-double-left:before {\n  content: \"\\F100\";\n}\n\n.fa-angle-double-right:before {\n  content: \"\\F101\";\n}\n\n.fa-angle-double-up:before {\n  content: \"\\F102\";\n}\n\n.fa-angle-double-down:before {\n  content: \"\\F103\";\n}\n\n.fa-angle-left:before {\n  content: \"\\F104\";\n}\n\n.fa-angle-right:before {\n  content: \"\\F105\";\n}\n\n.fa-angle-up:before {\n  content: \"\\F106\";\n}\n\n.fa-angle-down:before {\n  content: \"\\F107\";\n}\n\n.fa-desktop:before {\n  content: \"\\F108\";\n}\n\n.fa-laptop:before {\n  content: \"\\F109\";\n}\n\n.fa-tablet:before {\n  content: \"\\F10A\";\n}\n\n.fa-mobile-phone:before,\n.fa-mobile:before {\n  content: \"\\F10B\";\n}\n\n.fa-circle-o:before {\n  content: \"\\F10C\";\n}\n\n.fa-quote-left:before {\n  content: \"\\F10D\";\n}\n\n.fa-quote-right:before {\n  content: \"\\F10E\";\n}\n\n.fa-spinner:before {\n  content: \"\\F110\";\n}\n\n.fa-circle:before {\n  content: \"\\F111\";\n}\n\n.fa-mail-reply:before,\n.fa-reply:before {\n  content: \"\\F112\";\n}\n\n.fa-github-alt:before {\n  content: \"\\F113\";\n}\n\n.fa-folder-o:before {\n  content: \"\\F114\";\n}\n\n.fa-folder-open-o:before {\n  content: \"\\F115\";\n}\n\n.fa-smile-o:before {\n  content: \"\\F118\";\n}\n\n.fa-frown-o:before {\n  content: \"\\F119\";\n}\n\n.fa-meh-o:before {\n  content: \"\\F11A\";\n}\n\n.fa-gamepad:before {\n  content: \"\\F11B\";\n}\n\n.fa-keyboard-o:before {\n  content: \"\\F11C\";\n}\n\n.fa-flag-o:before {\n  content: \"\\F11D\";\n}\n\n.fa-flag-checkered:before {\n  content: \"\\F11E\";\n}\n\n.fa-terminal:before {\n  content: \"\\F120\";\n}\n\n.fa-code:before {\n  content: \"\\F121\";\n}\n\n.fa-mail-reply-all:before,\n.fa-reply-all:before {\n  content: \"\\F122\";\n}\n\n.fa-star-half-empty:before,\n.fa-star-half-full:before,\n.fa-star-half-o:before {\n  content: \"\\F123\";\n}\n\n.fa-location-arrow:before {\n  content: \"\\F124\";\n}\n\n.fa-crop:before {\n  content: \"\\F125\";\n}\n\n.fa-code-fork:before {\n  content: \"\\F126\";\n}\n\n.fa-unlink:before,\n.fa-chain-broken:before {\n  content: \"\\F127\";\n}\n\n.fa-question:before {\n  content: \"\\F128\";\n}\n\n.fa-info:before {\n  content: \"\\F129\";\n}\n\n.fa-exclamation:before {\n  content: \"\\F12A\";\n}\n\n.fa-superscript:before {\n  content: \"\\F12B\";\n}\n\n.fa-subscript:before {\n  content: \"\\F12C\";\n}\n\n.fa-eraser:before {\n  content: \"\\F12D\";\n}\n\n.fa-puzzle-piece:before {\n  content: \"\\F12E\";\n}\n\n.fa-microphone:before {\n  content: \"\\F130\";\n}\n\n.fa-microphone-slash:before {\n  content: \"\\F131\";\n}\n\n.fa-shield:before {\n  content: \"\\F132\";\n}\n\n.fa-calendar-o:before {\n  content: \"\\F133\";\n}\n\n.fa-fire-extinguisher:before {\n  content: \"\\F134\";\n}\n\n.fa-rocket:before {\n  content: \"\\F135\";\n}\n\n.fa-maxcdn:before {\n  content: \"\\F136\";\n}\n\n.fa-chevron-circle-left:before {\n  content: \"\\F137\";\n}\n\n.fa-chevron-circle-right:before {\n  content: \"\\F138\";\n}\n\n.fa-chevron-circle-up:before {\n  content: \"\\F139\";\n}\n\n.fa-chevron-circle-down:before {\n  content: \"\\F13A\";\n}\n\n.fa-html5:before {\n  content: \"\\F13B\";\n}\n\n.fa-css3:before {\n  content: \"\\F13C\";\n}\n\n.fa-anchor:before {\n  content: \"\\F13D\";\n}\n\n.fa-unlock-alt:before {\n  content: \"\\F13E\";\n}\n\n.fa-bullseye:before {\n  content: \"\\F140\";\n}\n\n.fa-ellipsis-h:before {\n  content: \"\\F141\";\n}\n\n.fa-ellipsis-v:before {\n  content: \"\\F142\";\n}\n\n.fa-rss-square:before {\n  content: \"\\F143\";\n}\n\n.fa-play-circle:before {\n  content: \"\\F144\";\n}\n\n.fa-ticket:before {\n  content: \"\\F145\";\n}\n\n.fa-minus-square:before {\n  content: \"\\F146\";\n}\n\n.fa-minus-square-o:before {\n  content: \"\\F147\";\n}\n\n.fa-level-up:before {\n  content: \"\\F148\";\n}\n\n.fa-level-down:before {\n  content: \"\\F149\";\n}\n\n.fa-check-square:before {\n  content: \"\\F14A\";\n}\n\n.fa-pencil-square:before {\n  content: \"\\F14B\";\n}\n\n.fa-external-link-square:before {\n  content: \"\\F14C\";\n}\n\n.fa-share-square:before {\n  content: \"\\F14D\";\n}\n\n.fa-compass:before {\n  content: \"\\F14E\";\n}\n\n.fa-toggle-down:before,\n.fa-caret-square-o-down:before {\n  content: \"\\F150\";\n}\n\n.fa-toggle-up:before,\n.fa-caret-square-o-up:before {\n  content: \"\\F151\";\n}\n\n.fa-toggle-right:before,\n.fa-caret-square-o-right:before {\n  content: \"\\F152\";\n}\n\n.fa-euro:before,\n.fa-eur:before {\n  content: \"\\F153\";\n}\n\n.fa-gbp:before {\n  content: \"\\F154\";\n}\n\n.fa-dollar:before,\n.fa-usd:before {\n  content: \"\\F155\";\n}\n\n.fa-rupee:before,\n.fa-inr:before {\n  content: \"\\F156\";\n}\n\n.fa-cny:before,\n.fa-rmb:before,\n.fa-yen:before,\n.fa-jpy:before {\n  content: \"\\F157\";\n}\n\n.fa-ruble:before,\n.fa-rouble:before,\n.fa-rub:before {\n  content: \"\\F158\";\n}\n\n.fa-won:before,\n.fa-krw:before {\n  content: \"\\F159\";\n}\n\n.fa-bitcoin:before,\n.fa-btc:before {\n  content: \"\\F15A\";\n}\n\n.fa-file:before {\n  content: \"\\F15B\";\n}\n\n.fa-file-text:before {\n  content: \"\\F15C\";\n}\n\n.fa-sort-alpha-asc:before {\n  content: \"\\F15D\";\n}\n\n.fa-sort-alpha-desc:before {\n  content: \"\\F15E\";\n}\n\n.fa-sort-amount-asc:before {\n  content: \"\\F160\";\n}\n\n.fa-sort-amount-desc:before {\n  content: \"\\F161\";\n}\n\n.fa-sort-numeric-asc:before {\n  content: \"\\F162\";\n}\n\n.fa-sort-numeric-desc:before {\n  content: \"\\F163\";\n}\n\n.fa-thumbs-up:before {\n  content: \"\\F164\";\n}\n\n.fa-thumbs-down:before {\n  content: \"\\F165\";\n}\n\n.fa-youtube-square:before {\n  content: \"\\F166\";\n}\n\n.fa-youtube:before {\n  content: \"\\F167\";\n}\n\n.fa-xing:before {\n  content: \"\\F168\";\n}\n\n.fa-xing-square:before {\n  content: \"\\F169\";\n}\n\n.fa-youtube-play:before {\n  content: \"\\F16A\";\n}\n\n.fa-dropbox:before {\n  content: \"\\F16B\";\n}\n\n.fa-stack-overflow:before {\n  content: \"\\F16C\";\n}\n\n.fa-instagram:before {\n  content: \"\\F16D\";\n}\n\n.fa-flickr:before {\n  content: \"\\F16E\";\n}\n\n.fa-adn:before {\n  content: \"\\F170\";\n}\n\n.fa-bitbucket:before {\n  content: \"\\F171\";\n}\n\n.fa-bitbucket-square:before {\n  content: \"\\F172\";\n}\n\n.fa-tumblr:before {\n  content: \"\\F173\";\n}\n\n.fa-tumblr-square:before {\n  content: \"\\F174\";\n}\n\n.fa-long-arrow-down:before {\n  content: \"\\F175\";\n}\n\n.fa-long-arrow-up:before {\n  content: \"\\F176\";\n}\n\n.fa-long-arrow-left:before {\n  content: \"\\F177\";\n}\n\n.fa-long-arrow-right:before {\n  content: \"\\F178\";\n}\n\n.fa-apple:before {\n  content: \"\\F179\";\n}\n\n.fa-windows:before {\n  content: \"\\F17A\";\n}\n\n.fa-android:before {\n  content: \"\\F17B\";\n}\n\n.fa-linux:before {\n  content: \"\\F17C\";\n}\n\n.fa-dribbble:before {\n  content: \"\\F17D\";\n}\n\n.fa-skype:before {\n  content: \"\\F17E\";\n}\n\n.fa-foursquare:before {\n  content: \"\\F180\";\n}\n\n.fa-trello:before {\n  content: \"\\F181\";\n}\n\n.fa-female:before {\n  content: \"\\F182\";\n}\n\n.fa-male:before {\n  content: \"\\F183\";\n}\n\n.fa-gittip:before,\n.fa-gratipay:before {\n  content: \"\\F184\";\n}\n\n.fa-sun-o:before {\n  content: \"\\F185\";\n}\n\n.fa-moon-o:before {\n  content: \"\\F186\";\n}\n\n.fa-archive:before {\n  content: \"\\F187\";\n}\n\n.fa-bug:before {\n  content: \"\\F188\";\n}\n\n.fa-vk:before {\n  content: \"\\F189\";\n}\n\n.fa-weibo:before {\n  content: \"\\F18A\";\n}\n\n.fa-renren:before {\n  content: \"\\F18B\";\n}\n\n.fa-pagelines:before {\n  content: \"\\F18C\";\n}\n\n.fa-stack-exchange:before {\n  content: \"\\F18D\";\n}\n\n.fa-arrow-circle-o-right:before {\n  content: \"\\F18E\";\n}\n\n.fa-arrow-circle-o-left:before {\n  content: \"\\F190\";\n}\n\n.fa-toggle-left:before,\n.fa-caret-square-o-left:before {\n  content: \"\\F191\";\n}\n\n.fa-dot-circle-o:before {\n  content: \"\\F192\";\n}\n\n.fa-wheelchair:before {\n  content: \"\\F193\";\n}\n\n.fa-vimeo-square:before {\n  content: \"\\F194\";\n}\n\n.fa-turkish-lira:before,\n.fa-try:before {\n  content: \"\\F195\";\n}\n\n.fa-plus-square-o:before {\n  content: \"\\F196\";\n}\n\n.fa-space-shuttle:before {\n  content: \"\\F197\";\n}\n\n.fa-slack:before {\n  content: \"\\F198\";\n}\n\n.fa-envelope-square:before {\n  content: \"\\F199\";\n}\n\n.fa-wordpress:before {\n  content: \"\\F19A\";\n}\n\n.fa-openid:before {\n  content: \"\\F19B\";\n}\n\n.fa-institution:before,\n.fa-bank:before,\n.fa-university:before {\n  content: \"\\F19C\";\n}\n\n.fa-mortar-board:before,\n.fa-graduation-cap:before {\n  content: \"\\F19D\";\n}\n\n.fa-yahoo:before {\n  content: \"\\F19E\";\n}\n\n.fa-google:before {\n  content: \"\\F1A0\";\n}\n\n.fa-reddit:before {\n  content: \"\\F1A1\";\n}\n\n.fa-reddit-square:before {\n  content: \"\\F1A2\";\n}\n\n.fa-stumbleupon-circle:before {\n  content: \"\\F1A3\";\n}\n\n.fa-stumbleupon:before {\n  content: \"\\F1A4\";\n}\n\n.fa-delicious:before {\n  content: \"\\F1A5\";\n}\n\n.fa-digg:before {\n  content: \"\\F1A6\";\n}\n\n.fa-pied-piper:before {\n  content: \"\\F1A7\";\n}\n\n.fa-pied-piper-alt:before {\n  content: \"\\F1A8\";\n}\n\n.fa-drupal:before {\n  content: \"\\F1A9\";\n}\n\n.fa-joomla:before {\n  content: \"\\F1AA\";\n}\n\n.fa-language:before {\n  content: \"\\F1AB\";\n}\n\n.fa-fax:before {\n  content: \"\\F1AC\";\n}\n\n.fa-building:before {\n  content: \"\\F1AD\";\n}\n\n.fa-child:before {\n  content: \"\\F1AE\";\n}\n\n.fa-paw:before {\n  content: \"\\F1B0\";\n}\n\n.fa-spoon:before {\n  content: \"\\F1B1\";\n}\n\n.fa-cube:before {\n  content: \"\\F1B2\";\n}\n\n.fa-cubes:before {\n  content: \"\\F1B3\";\n}\n\n.fa-behance:before {\n  content: \"\\F1B4\";\n}\n\n.fa-behance-square:before {\n  content: \"\\F1B5\";\n}\n\n.fa-steam:before {\n  content: \"\\F1B6\";\n}\n\n.fa-steam-square:before {\n  content: \"\\F1B7\";\n}\n\n.fa-recycle:before {\n  content: \"\\F1B8\";\n}\n\n.fa-automobile:before,\n.fa-car:before {\n  content: \"\\F1B9\";\n}\n\n.fa-cab:before,\n.fa-taxi:before {\n  content: \"\\F1BA\";\n}\n\n.fa-tree:before {\n  content: \"\\F1BB\";\n}\n\n.fa-spotify:before {\n  content: \"\\F1BC\";\n}\n\n.fa-deviantart:before {\n  content: \"\\F1BD\";\n}\n\n.fa-soundcloud:before {\n  content: \"\\F1BE\";\n}\n\n.fa-database:before {\n  content: \"\\F1C0\";\n}\n\n.fa-file-pdf-o:before {\n  content: \"\\F1C1\";\n}\n\n.fa-file-word-o:before {\n  content: \"\\F1C2\";\n}\n\n.fa-file-excel-o:before {\n  content: \"\\F1C3\";\n}\n\n.fa-file-powerpoint-o:before {\n  content: \"\\F1C4\";\n}\n\n.fa-file-photo-o:before,\n.fa-file-picture-o:before,\n.fa-file-image-o:before {\n  content: \"\\F1C5\";\n}\n\n.fa-file-zip-o:before,\n.fa-file-archive-o:before {\n  content: \"\\F1C6\";\n}\n\n.fa-file-sound-o:before,\n.fa-file-audio-o:before {\n  content: \"\\F1C7\";\n}\n\n.fa-file-movie-o:before,\n.fa-file-video-o:before {\n  content: \"\\F1C8\";\n}\n\n.fa-file-code-o:before {\n  content: \"\\F1C9\";\n}\n\n.fa-vine:before {\n  content: \"\\F1CA\";\n}\n\n.fa-codepen:before {\n  content: \"\\F1CB\";\n}\n\n.fa-jsfiddle:before {\n  content: \"\\F1CC\";\n}\n\n.fa-life-bouy:before,\n.fa-life-buoy:before,\n.fa-life-saver:before,\n.fa-support:before,\n.fa-life-ring:before {\n  content: \"\\F1CD\";\n}\n\n.fa-circle-o-notch:before {\n  content: \"\\F1CE\";\n}\n\n.fa-ra:before,\n.fa-rebel:before {\n  content: \"\\F1D0\";\n}\n\n.fa-ge:before,\n.fa-empire:before {\n  content: \"\\F1D1\";\n}\n\n.fa-git-square:before {\n  content: \"\\F1D2\";\n}\n\n.fa-git:before {\n  content: \"\\F1D3\";\n}\n\n.fa-hacker-news:before {\n  content: \"\\F1D4\";\n}\n\n.fa-tencent-weibo:before {\n  content: \"\\F1D5\";\n}\n\n.fa-qq:before {\n  content: \"\\F1D6\";\n}\n\n.fa-wechat:before,\n.fa-weixin:before {\n  content: \"\\F1D7\";\n}\n\n.fa-send:before,\n.fa-paper-plane:before {\n  content: \"\\F1D8\";\n}\n\n.fa-send-o:before,\n.fa-paper-plane-o:before {\n  content: \"\\F1D9\";\n}\n\n.fa-history:before {\n  content: \"\\F1DA\";\n}\n\n.fa-genderless:before,\n.fa-circle-thin:before {\n  content: \"\\F1DB\";\n}\n\n.fa-header:before {\n  content: \"\\F1DC\";\n}\n\n.fa-paragraph:before {\n  content: \"\\F1DD\";\n}\n\n.fa-sliders:before {\n  content: \"\\F1DE\";\n}\n\n.fa-share-alt:before {\n  content: \"\\F1E0\";\n}\n\n.fa-share-alt-square:before {\n  content: \"\\F1E1\";\n}\n\n.fa-bomb:before {\n  content: \"\\F1E2\";\n}\n\n.fa-soccer-ball-o:before,\n.fa-futbol-o:before {\n  content: \"\\F1E3\";\n}\n\n.fa-tty:before {\n  content: \"\\F1E4\";\n}\n\n.fa-binoculars:before {\n  content: \"\\F1E5\";\n}\n\n.fa-plug:before {\n  content: \"\\F1E6\";\n}\n\n.fa-slideshare:before {\n  content: \"\\F1E7\";\n}\n\n.fa-twitch:before {\n  content: \"\\F1E8\";\n}\n\n.fa-yelp:before {\n  content: \"\\F1E9\";\n}\n\n.fa-newspaper-o:before {\n  content: \"\\F1EA\";\n}\n\n.fa-wifi:before {\n  content: \"\\F1EB\";\n}\n\n.fa-calculator:before {\n  content: \"\\F1EC\";\n}\n\n.fa-paypal:before {\n  content: \"\\F1ED\";\n}\n\n.fa-google-wallet:before {\n  content: \"\\F1EE\";\n}\n\n.fa-cc-visa:before {\n  content: \"\\F1F0\";\n}\n\n.fa-cc-mastercard:before {\n  content: \"\\F1F1\";\n}\n\n.fa-cc-discover:before {\n  content: \"\\F1F2\";\n}\n\n.fa-cc-amex:before {\n  content: \"\\F1F3\";\n}\n\n.fa-cc-paypal:before {\n  content: \"\\F1F4\";\n}\n\n.fa-cc-stripe:before {\n  content: \"\\F1F5\";\n}\n\n.fa-bell-slash:before {\n  content: \"\\F1F6\";\n}\n\n.fa-bell-slash-o:before {\n  content: \"\\F1F7\";\n}\n\n.fa-trash:before {\n  content: \"\\F1F8\";\n}\n\n.fa-copyright:before {\n  content: \"\\F1F9\";\n}\n\n.fa-at:before {\n  content: \"\\F1FA\";\n}\n\n.fa-eyedropper:before {\n  content: \"\\F1FB\";\n}\n\n.fa-paint-brush:before {\n  content: \"\\F1FC\";\n}\n\n.fa-birthday-cake:before {\n  content: \"\\F1FD\";\n}\n\n.fa-area-chart:before {\n  content: \"\\F1FE\";\n}\n\n.fa-pie-chart:before {\n  content: \"\\F200\";\n}\n\n.fa-line-chart:before {\n  content: \"\\F201\";\n}\n\n.fa-lastfm:before {\n  content: \"\\F202\";\n}\n\n.fa-lastfm-square:before {\n  content: \"\\F203\";\n}\n\n.fa-toggle-off:before {\n  content: \"\\F204\";\n}\n\n.fa-toggle-on:before {\n  content: \"\\F205\";\n}\n\n.fa-bicycle:before {\n  content: \"\\F206\";\n}\n\n.fa-bus:before {\n  content: \"\\F207\";\n}\n\n.fa-ioxhost:before {\n  content: \"\\F208\";\n}\n\n.fa-angellist:before {\n  content: \"\\F209\";\n}\n\n.fa-cc:before {\n  content: \"\\F20A\";\n}\n\n.fa-shekel:before,\n.fa-sheqel:before,\n.fa-ils:before {\n  content: \"\\F20B\";\n}\n\n.fa-meanpath:before {\n  content: \"\\F20C\";\n}\n\n.fa-buysellads:before {\n  content: \"\\F20D\";\n}\n\n.fa-connectdevelop:before {\n  content: \"\\F20E\";\n}\n\n.fa-dashcube:before {\n  content: \"\\F210\";\n}\n\n.fa-forumbee:before {\n  content: \"\\F211\";\n}\n\n.fa-leanpub:before {\n  content: \"\\F212\";\n}\n\n.fa-sellsy:before {\n  content: \"\\F213\";\n}\n\n.fa-shirtsinbulk:before {\n  content: \"\\F214\";\n}\n\n.fa-simplybuilt:before {\n  content: \"\\F215\";\n}\n\n.fa-skyatlas:before {\n  content: \"\\F216\";\n}\n\n.fa-cart-plus:before {\n  content: \"\\F217\";\n}\n\n.fa-cart-arrow-down:before {\n  content: \"\\F218\";\n}\n\n.fa-diamond:before {\n  content: \"\\F219\";\n}\n\n.fa-ship:before {\n  content: \"\\F21A\";\n}\n\n.fa-user-secret:before {\n  content: \"\\F21B\";\n}\n\n.fa-motorcycle:before {\n  content: \"\\F21C\";\n}\n\n.fa-street-view:before {\n  content: \"\\F21D\";\n}\n\n.fa-heartbeat:before {\n  content: \"\\F21E\";\n}\n\n.fa-venus:before {\n  content: \"\\F221\";\n}\n\n.fa-mars:before {\n  content: \"\\F222\";\n}\n\n.fa-mercury:before {\n  content: \"\\F223\";\n}\n\n.fa-transgender:before {\n  content: \"\\F224\";\n}\n\n.fa-transgender-alt:before {\n  content: \"\\F225\";\n}\n\n.fa-venus-double:before {\n  content: \"\\F226\";\n}\n\n.fa-mars-double:before {\n  content: \"\\F227\";\n}\n\n.fa-venus-mars:before {\n  content: \"\\F228\";\n}\n\n.fa-mars-stroke:before {\n  content: \"\\F229\";\n}\n\n.fa-mars-stroke-v:before {\n  content: \"\\F22A\";\n}\n\n.fa-mars-stroke-h:before {\n  content: \"\\F22B\";\n}\n\n.fa-neuter:before {\n  content: \"\\F22C\";\n}\n\n.fa-facebook-official:before {\n  content: \"\\F230\";\n}\n\n.fa-pinterest-p:before {\n  content: \"\\F231\";\n}\n\n.fa-whatsapp:before {\n  content: \"\\F232\";\n}\n\n.fa-server:before {\n  content: \"\\F233\";\n}\n\n.fa-user-plus:before {\n  content: \"\\F234\";\n}\n\n.fa-user-times:before {\n  content: \"\\F235\";\n}\n\n.fa-hotel:before,\n.fa-bed:before {\n  content: \"\\F236\";\n}\n\n.fa-viacoin:before {\n  content: \"\\F237\";\n}\n\n.fa-train:before {\n  content: \"\\F238\";\n}\n\n.fa-subway:before {\n  content: \"\\F239\";\n}\n\n.fa-medium:before {\n  content: \"\\F23A\";\n}\n\n/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\nhtml {\n  font-family: sans-serif;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%;\n}\n\nbody {\n  margin: 0;\n}\n\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmain,\nmenu,\nnav,\nsection,\nsummary {\n  display: block;\n}\n\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block;\n  vertical-align: baseline;\n}\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n[hidden],\ntemplate {\n  display: none;\n}\n\na {\n  background-color: transparent;\n}\n\na:active,\na:hover {\n  outline: 0;\n}\n\nabbr[title] {\n  border-bottom: 1px dotted;\n}\n\nb,\nstrong {\n  font-weight: bold;\n}\n\ndfn {\n  font-style: italic;\n}\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\nmark {\n  background: #ff0;\n  color: #000;\n}\n\nsmall {\n  font-size: 80%;\n}\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  top: -0.5em;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nimg {\n  border: 0;\n}\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\nfigure {\n  margin: 1em 40px;\n}\n\nhr {\n  -moz-box-sizing: content-box;\n       box-sizing: content-box;\n  height: 0;\n}\n\npre {\n  overflow: auto;\n}\n\ncode,\nkbd,\npre,\nsamp {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  color: inherit;\n  font: inherit;\n  margin: 0;\n}\n\nbutton {\n  overflow: visible;\n}\n\nbutton,\nselect {\n  text-transform: none;\n}\n\nbutton,\nhtml input[type=\"button\"],\ninput[type=\"reset\"],\ninput[type=\"submit\"] {\n  -webkit-appearance: button;\n  cursor: pointer;\n}\n\nbutton[disabled],\nhtml input[disabled] {\n  cursor: default;\n}\n\nbutton::-moz-focus-inner,\ninput::-moz-focus-inner {\n  border: 0;\n  padding: 0;\n}\n\ninput {\n  line-height: normal;\n}\n\ninput[type=\"checkbox\"],\ninput[type=\"radio\"] {\n  -moz-box-sizing: border-box;\n       box-sizing: border-box;\n  padding: 0;\n}\n\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield;\n  -moz-box-sizing: content-box;\n       box-sizing: content-box;\n}\n\ninput[type=\"search\"]::-webkit-search-cancel-button,\ninput[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n\nlegend {\n  border: 0;\n  padding: 0;\n}\n\ntextarea {\n  overflow: auto;\n}\n\noptgroup {\n  font-weight: bold;\n}\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntd,\nth {\n  padding: 0;\n}\n\n/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */\n@media print {\n  *,\n  *:before,\n  *:after {\n    background: transparent !important;\n    color: #000 !important;\n    box-shadow: none !important;\n    text-shadow: none !important;\n  }\n  a,\n  a:visited {\n    text-decoration: underline;\n  }\n  a[href]:after {\n    content: \" (\" attr(href) \")\";\n  }\n  abbr[title]:after {\n    content: \" (\" attr(title) \")\";\n  }\n  a[href^=\"#\"]:after,\n  a[href^=\"javascript:\"]:after {\n    content: \"\";\n  }\n  pre,\n  blockquote {\n    border: 1px solid #999;\n    page-break-inside: avoid;\n  }\n  thead {\n    display: table-header-group;\n  }\n  tr,\n  img {\n    page-break-inside: avoid;\n  }\n  img {\n    max-width: 100% !important;\n  }\n  p,\n  h2,\n  h3 {\n    orphans: 3;\n    widows: 3;\n  }\n  h2,\n  h3 {\n    page-break-after: avoid;\n  }\n  .navbar {\n    display: none;\n  }\n  .btn > .caret,\n  .dropup > .btn > .caret {\n    border-top-color: #000 !important;\n  }\n  .label {\n    border: 1px solid #000;\n  }\n  .table {\n    border-collapse: collapse !important;\n  }\n  .table td,\n  .table th {\n    background-color: #fff !important;\n  }\n  .table-bordered th,\n  .table-bordered td {\n    border: 1px solid #ddd !important;\n  }\n}\n\n* {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n*:before,\n*:after {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\nhtml {\n  font-size: 10px;\n  -webkit-tap-highlight-color: transparent;\n}\n\nbody {\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  line-height: 1.428571429;\n  color: #333333;\n  background-color: #fff;\n}\n\ninput,\nbutton,\nselect,\ntextarea {\n  font-family: inherit;\n  font-size: inherit;\n  line-height: inherit;\n}\n\na {\n  color: #337ab7;\n  text-decoration: none;\n}\n\na:hover, a:focus {\n  color: #23527c;\n  text-decoration: underline;\n}\n\na:focus {\n  outline: 5px auto -webkit-focus-ring-color;\n  outline-offset: -2px;\n}\n\nfigure {\n  margin: 0;\n}\n\nimg {\n  vertical-align: middle;\n}\n\n.img-responsive {\n  display: block;\n  max-width: 100%;\n  height: auto;\n}\n\n.img-rounded {\n  border-radius: 6px;\n}\n\n.img-thumbnail {\n  padding: 4px;\n  line-height: 1.428571429;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  -webkit-transition: all 0.2s ease-in-out;\n  transition: all 0.2s ease-in-out;\n  display: inline-block;\n  max-width: 100%;\n  height: auto;\n}\n\n.img-circle {\n  border-radius: 50%;\n}\n\nhr {\n  margin-top: 20px;\n  margin-bottom: 20px;\n  border: 0;\n  border-top: 1px solid #eeeeee;\n}\n\n.sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  padding: 0;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  border: 0;\n}\n\n.sr-only-focusable:active, .sr-only-focusable:focus {\n  position: static;\n  width: auto;\n  height: auto;\n  margin: 0;\n  overflow: visible;\n  clip: auto;\n}\n\n[role=\"button\"] {\n  cursor: pointer;\n}\n\nh1, h2, h3, h4, h5, h6,\n.h1, .h2, .h3, .h4, .h5, .h6 {\n  font-family: inherit;\n  font-weight: 500;\n  line-height: 1.1;\n  color: inherit;\n}\n\nh1 small,\nh1 .small, h2 small,\nh2 .small, h3 small,\nh3 .small, h4 small,\nh4 .small, h5 small,\nh5 .small, h6 small,\nh6 .small,\n.h1 small,\n.h1 .small, .h2 small,\n.h2 .small, .h3 small,\n.h3 .small, .h4 small,\n.h4 .small, .h5 small,\n.h5 .small, .h6 small,\n.h6 .small {\n  font-weight: normal;\n  line-height: 1;\n  color: #777777;\n}\n\nh1, .h1,\nh2, .h2,\nh3, .h3 {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n\nh1 small,\nh1 .small, .h1 small,\n.h1 .small,\nh2 small,\nh2 .small, .h2 small,\n.h2 .small,\nh3 small,\nh3 .small, .h3 small,\n.h3 .small {\n  font-size: 65%;\n}\n\nh4, .h4,\nh5, .h5,\nh6, .h6 {\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n\nh4 small,\nh4 .small, .h4 small,\n.h4 .small,\nh5 small,\nh5 .small, .h5 small,\n.h5 .small,\nh6 small,\nh6 .small, .h6 small,\n.h6 .small {\n  font-size: 75%;\n}\n\nh1, .h1 {\n  font-size: 36px;\n}\n\nh2, .h2 {\n  font-size: 30px;\n}\n\nh3, .h3 {\n  font-size: 24px;\n}\n\nh4, .h4 {\n  font-size: 18px;\n}\n\nh5, .h5 {\n  font-size: 14px;\n}\n\nh6, .h6 {\n  font-size: 12px;\n}\n\np {\n  margin: 0 0 10px;\n}\n\n.lead {\n  margin-bottom: 20px;\n  font-size: 16px;\n  font-weight: 300;\n  line-height: 1.4;\n}\n\n@media (min-width: 768px) {\n  .lead {\n    font-size: 21px;\n  }\n}\n\nsmall,\n.small {\n  font-size: 85%;\n}\n\nmark,\n.mark {\n  background-color: #fcf8e3;\n  padding: .2em;\n}\n\n.text-left {\n  text-align: left;\n}\n\n.text-right {\n  text-align: right;\n}\n\n.text-center {\n  text-align: center;\n}\n\n.text-justify {\n  text-align: justify;\n}\n\n.text-nowrap {\n  white-space: nowrap;\n}\n\n.text-lowercase {\n  text-transform: lowercase;\n}\n\n.text-uppercase, .initialism {\n  text-transform: uppercase;\n}\n\n.text-capitalize {\n  text-transform: capitalize;\n}\n\n.text-muted {\n  color: #777777;\n}\n\n.text-primary {\n  color: #337ab7;\n}\n\na.text-primary:hover,\na.text-primary:focus {\n  color: #286090;\n}\n\n.text-success {\n  color: #3c763d;\n}\n\na.text-success:hover,\na.text-success:focus {\n  color: #2b542c;\n}\n\n.text-info {\n  color: #31708f;\n}\n\na.text-info:hover,\na.text-info:focus {\n  color: #245269;\n}\n\n.text-warning {\n  color: #8a6d3b;\n}\n\na.text-warning:hover,\na.text-warning:focus {\n  color: #66512c;\n}\n\n.text-danger {\n  color: #a94442;\n}\n\na.text-danger:hover,\na.text-danger:focus {\n  color: #843534;\n}\n\n.bg-primary {\n  color: #fff;\n}\n\n.bg-primary {\n  background-color: #337ab7;\n}\n\na.bg-primary:hover,\na.bg-primary:focus {\n  background-color: #286090;\n}\n\n.bg-success {\n  background-color: #dff0d8;\n}\n\na.bg-success:hover,\na.bg-success:focus {\n  background-color: #c1e2b3;\n}\n\n.bg-info {\n  background-color: #d9edf7;\n}\n\na.bg-info:hover,\na.bg-info:focus {\n  background-color: #afd9ee;\n}\n\n.bg-warning {\n  background-color: #fcf8e3;\n}\n\na.bg-warning:hover,\na.bg-warning:focus {\n  background-color: #f7ecb5;\n}\n\n.bg-danger {\n  background-color: #f2dede;\n}\n\na.bg-danger:hover,\na.bg-danger:focus {\n  background-color: #e4b9b9;\n}\n\n.page-header {\n  padding-bottom: 9px;\n  margin: 40px 0 20px;\n  border-bottom: 1px solid #eeeeee;\n}\n\nul,\nol {\n  margin-top: 0;\n  margin-bottom: 10px;\n}\n\nul ul,\nul ol,\nol ul,\nol ol {\n  margin-bottom: 0;\n}\n\n.list-unstyled {\n  padding-left: 0;\n  list-style: none;\n}\n\n.list-inline {\n  padding-left: 0;\n  list-style: none;\n  margin-left: -5px;\n}\n\n.list-inline > li {\n  display: inline-block;\n  padding-left: 5px;\n  padding-right: 5px;\n}\n\ndl {\n  margin-top: 0;\n  margin-bottom: 20px;\n}\n\ndt,\ndd {\n  line-height: 1.428571429;\n}\n\ndt {\n  font-weight: bold;\n}\n\ndd {\n  margin-left: 0;\n}\n\n.dl-horizontal dd:before, .dl-horizontal dd:after {\n  content: \" \";\n  display: table;\n}\n\n.dl-horizontal dd:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .dl-horizontal dt {\n    float: left;\n    width: 160px;\n    clear: left;\n    text-align: right;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n  .dl-horizontal dd {\n    margin-left: 180px;\n  }\n}\n\nabbr[title],\nabbr[data-original-title] {\n  cursor: help;\n  border-bottom: 1px dotted #777777;\n}\n\n.initialism {\n  font-size: 90%;\n}\n\nblockquote {\n  padding: 10px 20px;\n  margin: 0 0 20px;\n  font-size: 17.5px;\n  border-left: 5px solid #eeeeee;\n}\n\nblockquote p:last-child,\nblockquote ul:last-child,\nblockquote ol:last-child {\n  margin-bottom: 0;\n}\n\nblockquote footer,\nblockquote small,\nblockquote .small {\n  display: block;\n  font-size: 80%;\n  line-height: 1.428571429;\n  color: #777777;\n}\n\nblockquote footer:before,\nblockquote small:before,\nblockquote .small:before {\n  content: '\\2014   \\A0';\n}\n\n.blockquote-reverse,\nblockquote.pull-right {\n  padding-right: 15px;\n  padding-left: 0;\n  border-right: 5px solid #eeeeee;\n  border-left: 0;\n  text-align: right;\n}\n\n.blockquote-reverse footer:before,\n.blockquote-reverse small:before,\n.blockquote-reverse .small:before,\nblockquote.pull-right footer:before,\nblockquote.pull-right small:before,\nblockquote.pull-right .small:before {\n  content: '';\n}\n\n.blockquote-reverse footer:after,\n.blockquote-reverse small:after,\n.blockquote-reverse .small:after,\nblockquote.pull-right footer:after,\nblockquote.pull-right small:after,\nblockquote.pull-right .small:after {\n  content: '\\A0   \\2014';\n}\n\naddress {\n  margin-bottom: 20px;\n  font-style: normal;\n  line-height: 1.428571429;\n}\n\ncode,\nkbd,\npre,\nsamp {\n  font-family: Menlo, Monaco, Consolas, \"Courier New\", monospace;\n}\n\ncode {\n  padding: 2px 4px;\n  font-size: 90%;\n  color: #c7254e;\n  background-color: #f9f2f4;\n  border-radius: 4px;\n}\n\nkbd {\n  padding: 2px 4px;\n  font-size: 90%;\n  color: #fff;\n  background-color: #333;\n  border-radius: 3px;\n  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);\n}\n\nkbd kbd {\n  padding: 0;\n  font-size: 100%;\n  font-weight: bold;\n  box-shadow: none;\n}\n\npre {\n  display: block;\n  padding: 9.5px;\n  margin: 0 0 10px;\n  font-size: 13px;\n  line-height: 1.428571429;\n  word-break: break-all;\n  word-wrap: break-word;\n  color: #333333;\n  background-color: #f5f5f5;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n\npre code {\n  padding: 0;\n  font-size: inherit;\n  color: inherit;\n  white-space: pre-wrap;\n  background-color: transparent;\n  border-radius: 0;\n}\n\n.pre-scrollable {\n  max-height: 340px;\n  overflow-y: scroll;\n}\n\n.container {\n  margin-right: auto;\n  margin-left: auto;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.container:before, .container:after {\n  content: \" \";\n  display: table;\n}\n\n.container:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px;\n  }\n}\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px;\n  }\n}\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px;\n  }\n}\n\n.container-fluid {\n  margin-right: auto;\n  margin-left: auto;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.container-fluid:before, .container-fluid:after {\n  content: \" \";\n  display: table;\n}\n\n.container-fluid:after {\n  clear: both;\n}\n\n.row {\n  margin-left: -15px;\n  margin-right: -15px;\n}\n\n.row:before, .row:after {\n  content: \" \";\n  display: table;\n}\n\n.row:after {\n  clear: both;\n}\n\n.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {\n  position: relative;\n  min-height: 1px;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {\n  float: left;\n}\n\n.col-xs-1 {\n  width: 8.3333333333%;\n}\n\n.col-xs-2 {\n  width: 16.6666666667%;\n}\n\n.col-xs-3 {\n  width: 25%;\n}\n\n.col-xs-4 {\n  width: 33.3333333333%;\n}\n\n.col-xs-5 {\n  width: 41.6666666667%;\n}\n\n.col-xs-6 {\n  width: 50%;\n}\n\n.col-xs-7 {\n  width: 58.3333333333%;\n}\n\n.col-xs-8 {\n  width: 66.6666666667%;\n}\n\n.col-xs-9 {\n  width: 75%;\n}\n\n.col-xs-10 {\n  width: 83.3333333333%;\n}\n\n.col-xs-11 {\n  width: 91.6666666667%;\n}\n\n.col-xs-12 {\n  width: 100%;\n}\n\n.col-xs-pull-0 {\n  right: auto;\n}\n\n.col-xs-pull-1 {\n  right: 8.3333333333%;\n}\n\n.col-xs-pull-2 {\n  right: 16.6666666667%;\n}\n\n.col-xs-pull-3 {\n  right: 25%;\n}\n\n.col-xs-pull-4 {\n  right: 33.3333333333%;\n}\n\n.col-xs-pull-5 {\n  right: 41.6666666667%;\n}\n\n.col-xs-pull-6 {\n  right: 50%;\n}\n\n.col-xs-pull-7 {\n  right: 58.3333333333%;\n}\n\n.col-xs-pull-8 {\n  right: 66.6666666667%;\n}\n\n.col-xs-pull-9 {\n  right: 75%;\n}\n\n.col-xs-pull-10 {\n  right: 83.3333333333%;\n}\n\n.col-xs-pull-11 {\n  right: 91.6666666667%;\n}\n\n.col-xs-pull-12 {\n  right: 100%;\n}\n\n.col-xs-push-0 {\n  left: auto;\n}\n\n.col-xs-push-1 {\n  left: 8.3333333333%;\n}\n\n.col-xs-push-2 {\n  left: 16.6666666667%;\n}\n\n.col-xs-push-3 {\n  left: 25%;\n}\n\n.col-xs-push-4 {\n  left: 33.3333333333%;\n}\n\n.col-xs-push-5 {\n  left: 41.6666666667%;\n}\n\n.col-xs-push-6 {\n  left: 50%;\n}\n\n.col-xs-push-7 {\n  left: 58.3333333333%;\n}\n\n.col-xs-push-8 {\n  left: 66.6666666667%;\n}\n\n.col-xs-push-9 {\n  left: 75%;\n}\n\n.col-xs-push-10 {\n  left: 83.3333333333%;\n}\n\n.col-xs-push-11 {\n  left: 91.6666666667%;\n}\n\n.col-xs-push-12 {\n  left: 100%;\n}\n\n.col-xs-offset-0 {\n  margin-left: 0%;\n}\n\n.col-xs-offset-1 {\n  margin-left: 8.3333333333%;\n}\n\n.col-xs-offset-2 {\n  margin-left: 16.6666666667%;\n}\n\n.col-xs-offset-3 {\n  margin-left: 25%;\n}\n\n.col-xs-offset-4 {\n  margin-left: 33.3333333333%;\n}\n\n.col-xs-offset-5 {\n  margin-left: 41.6666666667%;\n}\n\n.col-xs-offset-6 {\n  margin-left: 50%;\n}\n\n.col-xs-offset-7 {\n  margin-left: 58.3333333333%;\n}\n\n.col-xs-offset-8 {\n  margin-left: 66.6666666667%;\n}\n\n.col-xs-offset-9 {\n  margin-left: 75%;\n}\n\n.col-xs-offset-10 {\n  margin-left: 83.3333333333%;\n}\n\n.col-xs-offset-11 {\n  margin-left: 91.6666666667%;\n}\n\n.col-xs-offset-12 {\n  margin-left: 100%;\n}\n\n@media (min-width: 768px) {\n  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {\n    float: left;\n  }\n  .col-sm-1 {\n    width: 8.3333333333%;\n  }\n  .col-sm-2 {\n    width: 16.6666666667%;\n  }\n  .col-sm-3 {\n    width: 25%;\n  }\n  .col-sm-4 {\n    width: 33.3333333333%;\n  }\n  .col-sm-5 {\n    width: 41.6666666667%;\n  }\n  .col-sm-6 {\n    width: 50%;\n  }\n  .col-sm-7 {\n    width: 58.3333333333%;\n  }\n  .col-sm-8 {\n    width: 66.6666666667%;\n  }\n  .col-sm-9 {\n    width: 75%;\n  }\n  .col-sm-10 {\n    width: 83.3333333333%;\n  }\n  .col-sm-11 {\n    width: 91.6666666667%;\n  }\n  .col-sm-12 {\n    width: 100%;\n  }\n  .col-sm-pull-0 {\n    right: auto;\n  }\n  .col-sm-pull-1 {\n    right: 8.3333333333%;\n  }\n  .col-sm-pull-2 {\n    right: 16.6666666667%;\n  }\n  .col-sm-pull-3 {\n    right: 25%;\n  }\n  .col-sm-pull-4 {\n    right: 33.3333333333%;\n  }\n  .col-sm-pull-5 {\n    right: 41.6666666667%;\n  }\n  .col-sm-pull-6 {\n    right: 50%;\n  }\n  .col-sm-pull-7 {\n    right: 58.3333333333%;\n  }\n  .col-sm-pull-8 {\n    right: 66.6666666667%;\n  }\n  .col-sm-pull-9 {\n    right: 75%;\n  }\n  .col-sm-pull-10 {\n    right: 83.3333333333%;\n  }\n  .col-sm-pull-11 {\n    right: 91.6666666667%;\n  }\n  .col-sm-pull-12 {\n    right: 100%;\n  }\n  .col-sm-push-0 {\n    left: auto;\n  }\n  .col-sm-push-1 {\n    left: 8.3333333333%;\n  }\n  .col-sm-push-2 {\n    left: 16.6666666667%;\n  }\n  .col-sm-push-3 {\n    left: 25%;\n  }\n  .col-sm-push-4 {\n    left: 33.3333333333%;\n  }\n  .col-sm-push-5 {\n    left: 41.6666666667%;\n  }\n  .col-sm-push-6 {\n    left: 50%;\n  }\n  .col-sm-push-7 {\n    left: 58.3333333333%;\n  }\n  .col-sm-push-8 {\n    left: 66.6666666667%;\n  }\n  .col-sm-push-9 {\n    left: 75%;\n  }\n  .col-sm-push-10 {\n    left: 83.3333333333%;\n  }\n  .col-sm-push-11 {\n    left: 91.6666666667%;\n  }\n  .col-sm-push-12 {\n    left: 100%;\n  }\n  .col-sm-offset-0 {\n    margin-left: 0%;\n  }\n  .col-sm-offset-1 {\n    margin-left: 8.3333333333%;\n  }\n  .col-sm-offset-2 {\n    margin-left: 16.6666666667%;\n  }\n  .col-sm-offset-3 {\n    margin-left: 25%;\n  }\n  .col-sm-offset-4 {\n    margin-left: 33.3333333333%;\n  }\n  .col-sm-offset-5 {\n    margin-left: 41.6666666667%;\n  }\n  .col-sm-offset-6 {\n    margin-left: 50%;\n  }\n  .col-sm-offset-7 {\n    margin-left: 58.3333333333%;\n  }\n  .col-sm-offset-8 {\n    margin-left: 66.6666666667%;\n  }\n  .col-sm-offset-9 {\n    margin-left: 75%;\n  }\n  .col-sm-offset-10 {\n    margin-left: 83.3333333333%;\n  }\n  .col-sm-offset-11 {\n    margin-left: 91.6666666667%;\n  }\n  .col-sm-offset-12 {\n    margin-left: 100%;\n  }\n}\n\n@media (min-width: 992px) {\n  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {\n    float: left;\n  }\n  .col-md-1 {\n    width: 8.3333333333%;\n  }\n  .col-md-2 {\n    width: 16.6666666667%;\n  }\n  .col-md-3 {\n    width: 25%;\n  }\n  .col-md-4 {\n    width: 33.3333333333%;\n  }\n  .col-md-5 {\n    width: 41.6666666667%;\n  }\n  .col-md-6 {\n    width: 50%;\n  }\n  .col-md-7 {\n    width: 58.3333333333%;\n  }\n  .col-md-8 {\n    width: 66.6666666667%;\n  }\n  .col-md-9 {\n    width: 75%;\n  }\n  .col-md-10 {\n    width: 83.3333333333%;\n  }\n  .col-md-11 {\n    width: 91.6666666667%;\n  }\n  .col-md-12 {\n    width: 100%;\n  }\n  .col-md-pull-0 {\n    right: auto;\n  }\n  .col-md-pull-1 {\n    right: 8.3333333333%;\n  }\n  .col-md-pull-2 {\n    right: 16.6666666667%;\n  }\n  .col-md-pull-3 {\n    right: 25%;\n  }\n  .col-md-pull-4 {\n    right: 33.3333333333%;\n  }\n  .col-md-pull-5 {\n    right: 41.6666666667%;\n  }\n  .col-md-pull-6 {\n    right: 50%;\n  }\n  .col-md-pull-7 {\n    right: 58.3333333333%;\n  }\n  .col-md-pull-8 {\n    right: 66.6666666667%;\n  }\n  .col-md-pull-9 {\n    right: 75%;\n  }\n  .col-md-pull-10 {\n    right: 83.3333333333%;\n  }\n  .col-md-pull-11 {\n    right: 91.6666666667%;\n  }\n  .col-md-pull-12 {\n    right: 100%;\n  }\n  .col-md-push-0 {\n    left: auto;\n  }\n  .col-md-push-1 {\n    left: 8.3333333333%;\n  }\n  .col-md-push-2 {\n    left: 16.6666666667%;\n  }\n  .col-md-push-3 {\n    left: 25%;\n  }\n  .col-md-push-4 {\n    left: 33.3333333333%;\n  }\n  .col-md-push-5 {\n    left: 41.6666666667%;\n  }\n  .col-md-push-6 {\n    left: 50%;\n  }\n  .col-md-push-7 {\n    left: 58.3333333333%;\n  }\n  .col-md-push-8 {\n    left: 66.6666666667%;\n  }\n  .col-md-push-9 {\n    left: 75%;\n  }\n  .col-md-push-10 {\n    left: 83.3333333333%;\n  }\n  .col-md-push-11 {\n    left: 91.6666666667%;\n  }\n  .col-md-push-12 {\n    left: 100%;\n  }\n  .col-md-offset-0 {\n    margin-left: 0%;\n  }\n  .col-md-offset-1 {\n    margin-left: 8.3333333333%;\n  }\n  .col-md-offset-2 {\n    margin-left: 16.6666666667%;\n  }\n  .col-md-offset-3 {\n    margin-left: 25%;\n  }\n  .col-md-offset-4 {\n    margin-left: 33.3333333333%;\n  }\n  .col-md-offset-5 {\n    margin-left: 41.6666666667%;\n  }\n  .col-md-offset-6 {\n    margin-left: 50%;\n  }\n  .col-md-offset-7 {\n    margin-left: 58.3333333333%;\n  }\n  .col-md-offset-8 {\n    margin-left: 66.6666666667%;\n  }\n  .col-md-offset-9 {\n    margin-left: 75%;\n  }\n  .col-md-offset-10 {\n    margin-left: 83.3333333333%;\n  }\n  .col-md-offset-11 {\n    margin-left: 91.6666666667%;\n  }\n  .col-md-offset-12 {\n    margin-left: 100%;\n  }\n}\n\n@media (min-width: 1200px) {\n  .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {\n    float: left;\n  }\n  .col-lg-1 {\n    width: 8.3333333333%;\n  }\n  .col-lg-2 {\n    width: 16.6666666667%;\n  }\n  .col-lg-3 {\n    width: 25%;\n  }\n  .col-lg-4 {\n    width: 33.3333333333%;\n  }\n  .col-lg-5 {\n    width: 41.6666666667%;\n  }\n  .col-lg-6 {\n    width: 50%;\n  }\n  .col-lg-7 {\n    width: 58.3333333333%;\n  }\n  .col-lg-8 {\n    width: 66.6666666667%;\n  }\n  .col-lg-9 {\n    width: 75%;\n  }\n  .col-lg-10 {\n    width: 83.3333333333%;\n  }\n  .col-lg-11 {\n    width: 91.6666666667%;\n  }\n  .col-lg-12 {\n    width: 100%;\n  }\n  .col-lg-pull-0 {\n    right: auto;\n  }\n  .col-lg-pull-1 {\n    right: 8.3333333333%;\n  }\n  .col-lg-pull-2 {\n    right: 16.6666666667%;\n  }\n  .col-lg-pull-3 {\n    right: 25%;\n  }\n  .col-lg-pull-4 {\n    right: 33.3333333333%;\n  }\n  .col-lg-pull-5 {\n    right: 41.6666666667%;\n  }\n  .col-lg-pull-6 {\n    right: 50%;\n  }\n  .col-lg-pull-7 {\n    right: 58.3333333333%;\n  }\n  .col-lg-pull-8 {\n    right: 66.6666666667%;\n  }\n  .col-lg-pull-9 {\n    right: 75%;\n  }\n  .col-lg-pull-10 {\n    right: 83.3333333333%;\n  }\n  .col-lg-pull-11 {\n    right: 91.6666666667%;\n  }\n  .col-lg-pull-12 {\n    right: 100%;\n  }\n  .col-lg-push-0 {\n    left: auto;\n  }\n  .col-lg-push-1 {\n    left: 8.3333333333%;\n  }\n  .col-lg-push-2 {\n    left: 16.6666666667%;\n  }\n  .col-lg-push-3 {\n    left: 25%;\n  }\n  .col-lg-push-4 {\n    left: 33.3333333333%;\n  }\n  .col-lg-push-5 {\n    left: 41.6666666667%;\n  }\n  .col-lg-push-6 {\n    left: 50%;\n  }\n  .col-lg-push-7 {\n    left: 58.3333333333%;\n  }\n  .col-lg-push-8 {\n    left: 66.6666666667%;\n  }\n  .col-lg-push-9 {\n    left: 75%;\n  }\n  .col-lg-push-10 {\n    left: 83.3333333333%;\n  }\n  .col-lg-push-11 {\n    left: 91.6666666667%;\n  }\n  .col-lg-push-12 {\n    left: 100%;\n  }\n  .col-lg-offset-0 {\n    margin-left: 0%;\n  }\n  .col-lg-offset-1 {\n    margin-left: 8.3333333333%;\n  }\n  .col-lg-offset-2 {\n    margin-left: 16.6666666667%;\n  }\n  .col-lg-offset-3 {\n    margin-left: 25%;\n  }\n  .col-lg-offset-4 {\n    margin-left: 33.3333333333%;\n  }\n  .col-lg-offset-5 {\n    margin-left: 41.6666666667%;\n  }\n  .col-lg-offset-6 {\n    margin-left: 50%;\n  }\n  .col-lg-offset-7 {\n    margin-left: 58.3333333333%;\n  }\n  .col-lg-offset-8 {\n    margin-left: 66.6666666667%;\n  }\n  .col-lg-offset-9 {\n    margin-left: 75%;\n  }\n  .col-lg-offset-10 {\n    margin-left: 83.3333333333%;\n  }\n  .col-lg-offset-11 {\n    margin-left: 91.6666666667%;\n  }\n  .col-lg-offset-12 {\n    margin-left: 100%;\n  }\n}\n\ntable {\n  background-color: transparent;\n}\n\ncaption {\n  padding-top: 8px;\n  padding-bottom: 8px;\n  color: #777777;\n  text-align: left;\n}\n\nth {\n  text-align: left;\n}\n\n.table {\n  width: 100%;\n  max-width: 100%;\n  margin-bottom: 20px;\n}\n\n.table > thead > tr > th,\n.table > thead > tr > td,\n.table > tbody > tr > th,\n.table > tbody > tr > td,\n.table > tfoot > tr > th,\n.table > tfoot > tr > td {\n  padding: 8px;\n  line-height: 1.428571429;\n  vertical-align: top;\n  border-top: 1px solid #ddd;\n}\n\n.table > thead > tr > th {\n  vertical-align: bottom;\n  border-bottom: 2px solid #ddd;\n}\n\n.table > caption + thead > tr:first-child > th,\n.table > caption + thead > tr:first-child > td,\n.table > colgroup + thead > tr:first-child > th,\n.table > colgroup + thead > tr:first-child > td,\n.table > thead:first-child > tr:first-child > th,\n.table > thead:first-child > tr:first-child > td {\n  border-top: 0;\n}\n\n.table > tbody + tbody {\n  border-top: 2px solid #ddd;\n}\n\n.table .table {\n  background-color: #fff;\n}\n\n.table-condensed > thead > tr > th,\n.table-condensed > thead > tr > td,\n.table-condensed > tbody > tr > th,\n.table-condensed > tbody > tr > td,\n.table-condensed > tfoot > tr > th,\n.table-condensed > tfoot > tr > td {\n  padding: 5px;\n}\n\n.table-bordered {\n  border: 1px solid #ddd;\n}\n\n.table-bordered > thead > tr > th,\n.table-bordered > thead > tr > td,\n.table-bordered > tbody > tr > th,\n.table-bordered > tbody > tr > td,\n.table-bordered > tfoot > tr > th,\n.table-bordered > tfoot > tr > td {\n  border: 1px solid #ddd;\n}\n\n.table-bordered > thead > tr > th,\n.table-bordered > thead > tr > td {\n  border-bottom-width: 2px;\n}\n\n.table-striped > tbody > tr:nth-of-type(odd) {\n  background-color: #f9f9f9;\n}\n\n.table-hover > tbody > tr:hover {\n  background-color: #f5f5f5;\n}\n\ntable col[class*=\"col-\"] {\n  position: static;\n  float: none;\n  display: table-column;\n}\n\ntable td[class*=\"col-\"],\ntable th[class*=\"col-\"] {\n  position: static;\n  float: none;\n  display: table-cell;\n}\n\n.table > thead > tr > td.active, .table > thead > tr > td.ax-active,\n.table > thead > tr > th.active,\n.table > thead > tr > th.ax-active,\n.table > thead > tr.active > td,\n.table > thead > tr.ax-active > td,\n.table > thead > tr.active > th,\n.table > thead > tr.ax-active > th,\n.table > tbody > tr > td.active,\n.table > tbody > tr > td.ax-active,\n.table > tbody > tr > th.active,\n.table > tbody > tr > th.ax-active,\n.table > tbody > tr.active > td,\n.table > tbody > tr.ax-active > td,\n.table > tbody > tr.active > th,\n.table > tbody > tr.ax-active > th,\n.table > tfoot > tr > td.active,\n.table > tfoot > tr > td.ax-active,\n.table > tfoot > tr > th.active,\n.table > tfoot > tr > th.ax-active,\n.table > tfoot > tr.active > td,\n.table > tfoot > tr.ax-active > td,\n.table > tfoot > tr.active > th,\n.table > tfoot > tr.ax-active > th {\n  background-color: #f5f5f5;\n}\n\n.table-hover > tbody > tr > td.active:hover, .table-hover > tbody > tr > td.ax-active:hover,\n.table-hover > tbody > tr > th.active:hover,\n.table-hover > tbody > tr > th.ax-active:hover,\n.table-hover > tbody > tr.active:hover > td,\n.table-hover > tbody > tr.ax-active:hover > td,\n.table-hover > tbody > tr:hover > .active,\n.table-hover > tbody > tr:hover > .ax-active,\n.table-hover > tbody > tr.active:hover > th,\n.table-hover > tbody > tr.ax-active:hover > th {\n  background-color: #e8e8e8;\n}\n\n.table > thead > tr > td.success,\n.table > thead > tr > th.success,\n.table > thead > tr.success > td,\n.table > thead > tr.success > th,\n.table > tbody > tr > td.success,\n.table > tbody > tr > th.success,\n.table > tbody > tr.success > td,\n.table > tbody > tr.success > th,\n.table > tfoot > tr > td.success,\n.table > tfoot > tr > th.success,\n.table > tfoot > tr.success > td,\n.table > tfoot > tr.success > th {\n  background-color: #dff0d8;\n}\n\n.table-hover > tbody > tr > td.success:hover,\n.table-hover > tbody > tr > th.success:hover,\n.table-hover > tbody > tr.success:hover > td,\n.table-hover > tbody > tr:hover > .success,\n.table-hover > tbody > tr.success:hover > th {\n  background-color: #d0e9c6;\n}\n\n.table > thead > tr > td.info,\n.table > thead > tr > th.info,\n.table > thead > tr.info > td,\n.table > thead > tr.info > th,\n.table > tbody > tr > td.info,\n.table > tbody > tr > th.info,\n.table > tbody > tr.info > td,\n.table > tbody > tr.info > th,\n.table > tfoot > tr > td.info,\n.table > tfoot > tr > th.info,\n.table > tfoot > tr.info > td,\n.table > tfoot > tr.info > th {\n  background-color: #d9edf7;\n}\n\n.table-hover > tbody > tr > td.info:hover,\n.table-hover > tbody > tr > th.info:hover,\n.table-hover > tbody > tr.info:hover > td,\n.table-hover > tbody > tr:hover > .info,\n.table-hover > tbody > tr.info:hover > th {\n  background-color: #c4e3f3;\n}\n\n.table > thead > tr > td.warning,\n.table > thead > tr > th.warning,\n.table > thead > tr.warning > td,\n.table > thead > tr.warning > th,\n.table > tbody > tr > td.warning,\n.table > tbody > tr > th.warning,\n.table > tbody > tr.warning > td,\n.table > tbody > tr.warning > th,\n.table > tfoot > tr > td.warning,\n.table > tfoot > tr > th.warning,\n.table > tfoot > tr.warning > td,\n.table > tfoot > tr.warning > th {\n  background-color: #fcf8e3;\n}\n\n.table-hover > tbody > tr > td.warning:hover,\n.table-hover > tbody > tr > th.warning:hover,\n.table-hover > tbody > tr.warning:hover > td,\n.table-hover > tbody > tr:hover > .warning,\n.table-hover > tbody > tr.warning:hover > th {\n  background-color: #faf2cc;\n}\n\n.table > thead > tr > td.danger,\n.table > thead > tr > th.danger,\n.table > thead > tr.danger > td,\n.table > thead > tr.danger > th,\n.table > tbody > tr > td.danger,\n.table > tbody > tr > th.danger,\n.table > tbody > tr.danger > td,\n.table > tbody > tr.danger > th,\n.table > tfoot > tr > td.danger,\n.table > tfoot > tr > th.danger,\n.table > tfoot > tr.danger > td,\n.table > tfoot > tr.danger > th {\n  background-color: #f2dede;\n}\n\n.table-hover > tbody > tr > td.danger:hover,\n.table-hover > tbody > tr > th.danger:hover,\n.table-hover > tbody > tr.danger:hover > td,\n.table-hover > tbody > tr:hover > .danger,\n.table-hover > tbody > tr.danger:hover > th {\n  background-color: #ebcccc;\n}\n\n.table-responsive {\n  overflow-x: auto;\n  min-height: 0.01%;\n}\n\n@media screen and (max-width: 767px) {\n  .table-responsive {\n    width: 100%;\n    margin-bottom: 15px;\n    overflow-y: hidden;\n    -ms-overflow-style: -ms-autohiding-scrollbar;\n    border: 1px solid #ddd;\n  }\n  .table-responsive > .table {\n    margin-bottom: 0;\n  }\n  .table-responsive > .table > thead > tr > th,\n  .table-responsive > .table > thead > tr > td,\n  .table-responsive > .table > tbody > tr > th,\n  .table-responsive > .table > tbody > tr > td,\n  .table-responsive > .table > tfoot > tr > th,\n  .table-responsive > .table > tfoot > tr > td {\n    white-space: nowrap;\n  }\n  .table-responsive > .table-bordered {\n    border: 0;\n  }\n  .table-responsive > .table-bordered > thead > tr > th:first-child,\n  .table-responsive > .table-bordered > thead > tr > td:first-child,\n  .table-responsive > .table-bordered > tbody > tr > th:first-child,\n  .table-responsive > .table-bordered > tbody > tr > td:first-child,\n  .table-responsive > .table-bordered > tfoot > tr > th:first-child,\n  .table-responsive > .table-bordered > tfoot > tr > td:first-child {\n    border-left: 0;\n  }\n  .table-responsive > .table-bordered > thead > tr > th:last-child,\n  .table-responsive > .table-bordered > thead > tr > td:last-child,\n  .table-responsive > .table-bordered > tbody > tr > th:last-child,\n  .table-responsive > .table-bordered > tbody > tr > td:last-child,\n  .table-responsive > .table-bordered > tfoot > tr > th:last-child,\n  .table-responsive > .table-bordered > tfoot > tr > td:last-child {\n    border-right: 0;\n  }\n  .table-responsive > .table-bordered > tbody > tr:last-child > th,\n  .table-responsive > .table-bordered > tbody > tr:last-child > td,\n  .table-responsive > .table-bordered > tfoot > tr:last-child > th,\n  .table-responsive > .table-bordered > tfoot > tr:last-child > td {\n    border-bottom: 0;\n  }\n}\n\nfieldset {\n  padding: 0;\n  margin: 0;\n  border: 0;\n  min-width: 0;\n}\n\nlegend {\n  display: block;\n  width: 100%;\n  padding: 0;\n  margin-bottom: 20px;\n  font-size: 21px;\n  line-height: inherit;\n  color: #333333;\n  border: 0;\n  border-bottom: 1px solid #e5e5e5;\n}\n\nlabel {\n  display: inline-block;\n  max-width: 100%;\n  margin-bottom: 5px;\n  font-weight: bold;\n}\n\ninput[type=\"search\"] {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\ninput[type=\"radio\"],\ninput[type=\"checkbox\"] {\n  margin: 4px 0 0;\n  margin-top: 1px \\9;\n  line-height: normal;\n}\n\ninput[type=\"file\"] {\n  display: block;\n}\n\ninput[type=\"range\"] {\n  display: block;\n  width: 100%;\n}\n\nselect[multiple],\nselect[size] {\n  height: auto;\n}\n\ninput[type=\"file\"]:focus,\ninput[type=\"radio\"]:focus,\ninput[type=\"checkbox\"]:focus {\n  outline: 5px auto -webkit-focus-ring-color;\n  outline-offset: -2px;\n}\n\noutput {\n  display: block;\n  padding-top: 7px;\n  font-size: 14px;\n  line-height: 1.428571429;\n  color: #555555;\n}\n\n.form-control {\n  display: block;\n  width: 100%;\n  height: 34px;\n  padding: 6px 12px;\n  font-size: 14px;\n  line-height: 1.428571429;\n  color: #555555;\n  background-color: #fff;\n  background-image: none;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;\n  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;\n}\n\n.form-control:focus {\n  border-color: #66afe9;\n  outline: 0;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);\n}\n\n.form-control::-moz-placeholder {\n  color: #999;\n  opacity: 1;\n}\n\n.form-control:-ms-input-placeholder {\n  color: #999;\n}\n\n.form-control::-webkit-input-placeholder {\n  color: #999;\n}\n\n.form-control::-ms-expand {\n  border: 0;\n  background-color: transparent;\n}\n\n.form-control[disabled], .form-control[readonly],\nfieldset[disabled] .form-control {\n  background-color: #eeeeee;\n  opacity: 1;\n}\n\n.form-control[disabled],\nfieldset[disabled] .form-control {\n  cursor: not-allowed;\n}\n\ntextarea.form-control {\n  height: auto;\n}\n\ninput[type=\"search\"] {\n  -webkit-appearance: none;\n}\n\n@media screen and (-webkit-min-device-pixel-ratio: 0) {\n  input[type=\"date\"].form-control,\n  input[type=\"time\"].form-control,\n  input[type=\"datetime-local\"].form-control,\n  input[type=\"month\"].form-control {\n    line-height: 34px;\n  }\n  input[type=\"date\"].input-sm, .input-group-sm > input[type=\"date\"].form-control,\n  .input-group-sm > input[type=\"date\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"date\"].btn,\n  .input-group-sm input[type=\"date\"],\n  input[type=\"time\"].input-sm,\n  .input-group-sm > input[type=\"time\"].form-control,\n  .input-group-sm > input[type=\"time\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"time\"].btn,\n  .input-group-sm\n  input[type=\"time\"],\n  input[type=\"datetime-local\"].input-sm,\n  .input-group-sm > input[type=\"datetime-local\"].form-control,\n  .input-group-sm > input[type=\"datetime-local\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"datetime-local\"].btn,\n  .input-group-sm\n  input[type=\"datetime-local\"],\n  input[type=\"month\"].input-sm,\n  .input-group-sm > input[type=\"month\"].form-control,\n  .input-group-sm > input[type=\"month\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"month\"].btn,\n  .input-group-sm\n  input[type=\"month\"] {\n    line-height: 30px;\n  }\n  input[type=\"date\"].input-lg, .input-group-lg > input[type=\"date\"].form-control,\n  .input-group-lg > input[type=\"date\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"date\"].btn,\n  .input-group-lg input[type=\"date\"],\n  input[type=\"time\"].input-lg,\n  .input-group-lg > input[type=\"time\"].form-control,\n  .input-group-lg > input[type=\"time\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"time\"].btn,\n  .input-group-lg\n  input[type=\"time\"],\n  input[type=\"datetime-local\"].input-lg,\n  .input-group-lg > input[type=\"datetime-local\"].form-control,\n  .input-group-lg > input[type=\"datetime-local\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"datetime-local\"].btn,\n  .input-group-lg\n  input[type=\"datetime-local\"],\n  input[type=\"month\"].input-lg,\n  .input-group-lg > input[type=\"month\"].form-control,\n  .input-group-lg > input[type=\"month\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"month\"].btn,\n  .input-group-lg\n  input[type=\"month\"] {\n    line-height: 46px;\n  }\n}\n\n.form-group {\n  margin-bottom: 15px;\n}\n\n.radio,\n.checkbox {\n  position: relative;\n  display: block;\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n\n.radio label,\n.checkbox label {\n  min-height: 20px;\n  padding-left: 20px;\n  margin-bottom: 0;\n  font-weight: normal;\n  cursor: pointer;\n}\n\n.radio input[type=\"radio\"],\n.radio-inline input[type=\"radio\"],\n.checkbox input[type=\"checkbox\"],\n.checkbox-inline input[type=\"checkbox\"] {\n  position: absolute;\n  margin-left: -20px;\n  margin-top: 4px \\9;\n}\n\n.radio + .radio,\n.checkbox + .checkbox {\n  margin-top: -5px;\n}\n\n.radio-inline,\n.checkbox-inline {\n  position: relative;\n  display: inline-block;\n  padding-left: 20px;\n  margin-bottom: 0;\n  vertical-align: middle;\n  font-weight: normal;\n  cursor: pointer;\n}\n\n.radio-inline + .radio-inline,\n.checkbox-inline + .checkbox-inline {\n  margin-top: 0;\n  margin-left: 10px;\n}\n\ninput[type=\"radio\"][disabled], input[type=\"radio\"].disabled, input[type=\"radio\"][disabled],\ninput[type=\"radio\"].ax-disabled,\nfieldset[disabled] input[type=\"radio\"],\ninput[type=\"checkbox\"][disabled],\ninput[type=\"checkbox\"].disabled,\ninput[type=\"checkbox\"][disabled],\ninput[type=\"checkbox\"].ax-disabled,\nfieldset[disabled]\ninput[type=\"checkbox\"] {\n  cursor: not-allowed;\n}\n\n.radio-inline.disabled, .radio-inline[disabled],\n.radio-inline.ax-disabled,\nfieldset[disabled] .radio-inline,\n.checkbox-inline.disabled,\n.checkbox-inline[disabled],\n.checkbox-inline.ax-disabled,\nfieldset[disabled]\n.checkbox-inline {\n  cursor: not-allowed;\n}\n\n.radio.disabled label, .radio[disabled] label,\n.radio.ax-disabled label,\nfieldset[disabled] .radio label,\n.checkbox.disabled label, .checkbox[disabled] label,\n.checkbox.ax-disabled label,\nfieldset[disabled]\n.checkbox label {\n  cursor: not-allowed;\n}\n\n.form-control-static {\n  padding-top: 7px;\n  padding-bottom: 7px;\n  margin-bottom: 0;\n  min-height: 34px;\n}\n\n.form-control-static.input-lg, .input-group-lg > .form-control-static.form-control,\n.input-group-lg > .form-control-static.input-group-addon,\n.input-group-lg > .input-group-btn > .form-control-static.btn, .form-control-static.input-sm, .input-group-sm > .form-control-static.form-control,\n.input-group-sm > .form-control-static.input-group-addon,\n.input-group-sm > .input-group-btn > .form-control-static.btn {\n  padding-left: 0;\n  padding-right: 0;\n}\n\n.input-sm, .input-group-sm > .form-control,\n.input-group-sm > .input-group-addon,\n.input-group-sm > .input-group-btn > .btn {\n  height: 30px;\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\nselect.input-sm, .input-group-sm > select.form-control,\n.input-group-sm > select.input-group-addon,\n.input-group-sm > .input-group-btn > select.btn {\n  height: 30px;\n  line-height: 30px;\n}\n\ntextarea.input-sm, .input-group-sm > textarea.form-control,\n.input-group-sm > textarea.input-group-addon,\n.input-group-sm > .input-group-btn > textarea.btn,\nselect[multiple].input-sm,\n.input-group-sm > select[multiple].form-control,\n.input-group-sm > select[multiple].input-group-addon,\n.input-group-sm > .input-group-btn > select[multiple].btn {\n  height: auto;\n}\n\n.form-group-sm .form-control {\n  height: 30px;\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\n.form-group-sm select.form-control {\n  height: 30px;\n  line-height: 30px;\n}\n\n.form-group-sm textarea.form-control,\n.form-group-sm select[multiple].form-control {\n  height: auto;\n}\n\n.form-group-sm .form-control-static {\n  height: 30px;\n  min-height: 32px;\n  padding: 6px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.input-lg, .input-group-lg > .form-control,\n.input-group-lg > .input-group-addon,\n.input-group-lg > .input-group-btn > .btn {\n  height: 46px;\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n  border-radius: 6px;\n}\n\nselect.input-lg, .input-group-lg > select.form-control,\n.input-group-lg > select.input-group-addon,\n.input-group-lg > .input-group-btn > select.btn {\n  height: 46px;\n  line-height: 46px;\n}\n\ntextarea.input-lg, .input-group-lg > textarea.form-control,\n.input-group-lg > textarea.input-group-addon,\n.input-group-lg > .input-group-btn > textarea.btn,\nselect[multiple].input-lg,\n.input-group-lg > select[multiple].form-control,\n.input-group-lg > select[multiple].input-group-addon,\n.input-group-lg > .input-group-btn > select[multiple].btn {\n  height: auto;\n}\n\n.form-group-lg .form-control {\n  height: 46px;\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n  border-radius: 6px;\n}\n\n.form-group-lg select.form-control {\n  height: 46px;\n  line-height: 46px;\n}\n\n.form-group-lg textarea.form-control,\n.form-group-lg select[multiple].form-control {\n  height: auto;\n}\n\n.form-group-lg .form-control-static {\n  height: 46px;\n  min-height: 38px;\n  padding: 11px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n}\n\n.has-feedback {\n  position: relative;\n}\n\n.has-feedback .form-control {\n  padding-right: 42.5px;\n}\n\n.form-control-feedback {\n  position: absolute;\n  top: 0;\n  right: 0;\n  z-index: 2;\n  display: block;\n  width: 34px;\n  height: 34px;\n  line-height: 34px;\n  text-align: center;\n  pointer-events: none;\n}\n\n.input-lg + .form-control-feedback, .input-group-lg > .form-control + .form-control-feedback,\n.input-group-lg > .input-group-addon + .form-control-feedback,\n.input-group-lg > .input-group-btn > .btn + .form-control-feedback,\n.input-group-lg + .form-control-feedback,\n.form-group-lg .form-control + .form-control-feedback {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n}\n\n.input-sm + .form-control-feedback, .input-group-sm > .form-control + .form-control-feedback,\n.input-group-sm > .input-group-addon + .form-control-feedback,\n.input-group-sm > .input-group-btn > .btn + .form-control-feedback,\n.input-group-sm + .form-control-feedback,\n.form-group-sm .form-control + .form-control-feedback {\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n}\n\n.has-success .help-block,\n.has-success .control-label,\n.has-success .radio,\n.has-success .checkbox,\n.has-success .radio-inline,\n.has-success .checkbox-inline,\n.has-success.radio label,\n.has-success.checkbox label,\n.has-success.radio-inline label,\n.has-success.checkbox-inline label {\n  color: #3c763d;\n}\n\n.has-success .form-control {\n  border-color: #3c763d;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n}\n\n.has-success .form-control:focus {\n  border-color: #2b542c;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;\n}\n\n.has-success .input-group-addon {\n  color: #3c763d;\n  border-color: #3c763d;\n  background-color: #dff0d8;\n}\n\n.has-success .form-control-feedback {\n  color: #3c763d;\n}\n\n.has-warning .help-block,\n.has-warning .control-label,\n.has-warning .radio,\n.has-warning .checkbox,\n.has-warning .radio-inline,\n.has-warning .checkbox-inline,\n.has-warning.radio label,\n.has-warning.checkbox label,\n.has-warning.radio-inline label,\n.has-warning.checkbox-inline label {\n  color: #8a6d3b;\n}\n\n.has-warning .form-control {\n  border-color: #8a6d3b;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n}\n\n.has-warning .form-control:focus {\n  border-color: #66512c;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;\n}\n\n.has-warning .input-group-addon {\n  color: #8a6d3b;\n  border-color: #8a6d3b;\n  background-color: #fcf8e3;\n}\n\n.has-warning .form-control-feedback {\n  color: #8a6d3b;\n}\n\n.has-error .help-block,\n.has-error .control-label,\n.has-error .radio,\n.has-error .checkbox,\n.has-error .radio-inline,\n.has-error .checkbox-inline,\n.has-error.radio label,\n.has-error.checkbox label,\n.has-error.radio-inline label,\n.has-error.checkbox-inline label {\n  color: #a94442;\n}\n\n.has-error .form-control {\n  border-color: #a94442;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n}\n\n.has-error .form-control:focus {\n  border-color: #843534;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;\n}\n\n.has-error .input-group-addon {\n  color: #a94442;\n  border-color: #a94442;\n  background-color: #f2dede;\n}\n\n.has-error .form-control-feedback {\n  color: #a94442;\n}\n\n.has-feedback label ~ .form-control-feedback {\n  top: 25px;\n}\n\n.has-feedback label.sr-only ~ .form-control-feedback {\n  top: 0;\n}\n\n.help-block {\n  display: block;\n  margin-top: 5px;\n  margin-bottom: 10px;\n  color: #737373;\n}\n\n@media (min-width: 768px) {\n  .form-inline .form-group {\n    display: inline-block;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .form-inline .form-control {\n    display: inline-block;\n    width: auto;\n    vertical-align: middle;\n  }\n  .form-inline .form-control-static {\n    display: inline-block;\n  }\n  .form-inline .input-group {\n    display: inline-table;\n    vertical-align: middle;\n  }\n  .form-inline .input-group .input-group-addon,\n  .form-inline .input-group .input-group-btn,\n  .form-inline .input-group .form-control {\n    width: auto;\n  }\n  .form-inline .input-group > .form-control {\n    width: 100%;\n  }\n  .form-inline .control-label {\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .form-inline .radio,\n  .form-inline .checkbox {\n    display: inline-block;\n    margin-top: 0;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .form-inline .radio label,\n  .form-inline .checkbox label {\n    padding-left: 0;\n  }\n  .form-inline .radio input[type=\"radio\"],\n  .form-inline .checkbox input[type=\"checkbox\"] {\n    position: relative;\n    margin-left: 0;\n  }\n  .form-inline .has-feedback .form-control-feedback {\n    top: 0;\n  }\n}\n\n.form-horizontal .radio,\n.form-horizontal .checkbox,\n.form-horizontal .radio-inline,\n.form-horizontal .checkbox-inline {\n  margin-top: 0;\n  margin-bottom: 0;\n  padding-top: 7px;\n}\n\n.form-horizontal .radio,\n.form-horizontal .checkbox {\n  min-height: 27px;\n}\n\n.form-horizontal .form-group {\n  margin-left: -15px;\n  margin-right: -15px;\n}\n\n.form-horizontal .form-group:before, .form-horizontal .form-group:after {\n  content: \" \";\n  display: table;\n}\n\n.form-horizontal .form-group:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .form-horizontal .control-label {\n    text-align: right;\n    margin-bottom: 0;\n    padding-top: 7px;\n  }\n}\n\n.form-horizontal .has-feedback .form-control-feedback {\n  right: 15px;\n}\n\n@media (min-width: 768px) {\n  .form-horizontal .form-group-lg .control-label {\n    padding-top: 11px;\n    font-size: 18px;\n  }\n}\n\n@media (min-width: 768px) {\n  .form-horizontal .form-group-sm .control-label {\n    padding-top: 6px;\n    font-size: 12px;\n  }\n}\n\n.btn {\n  display: inline-block;\n  margin-bottom: 0;\n  font-weight: normal;\n  text-align: center;\n  vertical-align: middle;\n  -ms-touch-action: manipulation;\n      touch-action: manipulation;\n  cursor: pointer;\n  background-image: none;\n  border: 1px solid transparent;\n  white-space: nowrap;\n  padding: 6px 12px;\n  font-size: 14px;\n  line-height: 1.428571429;\n  border-radius: 4px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n.btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.ax-active:focus, .btn.active.focus, .btn.focus.ax-active {\n  outline: 5px auto -webkit-focus-ring-color;\n  outline-offset: -2px;\n}\n\n.btn:hover, .btn:focus, .btn.focus {\n  color: #333;\n  text-decoration: none;\n}\n\n.btn:active, .btn.active, .btn.ax-active {\n  outline: 0;\n  background-image: none;\n  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n}\n\n.btn.disabled, .btn[disabled],\n.btn.ax-disabled, .btn[disabled],\nfieldset[disabled] .btn {\n  cursor: not-allowed;\n  opacity: 0.65;\n  filter: alpha(opacity=65);\n  box-shadow: none;\n}\n\na.btn.disabled, a.btn[disabled],\na.btn.ax-disabled,\nfieldset[disabled] a.btn {\n  pointer-events: none;\n}\n\n.btn-default {\n  color: #333;\n  background-color: #fff;\n  border-color: #ccc;\n}\n\n.btn-default:focus, .btn-default.focus {\n  color: #333;\n  background-color: #e6e6e6;\n  border-color: #8c8c8c;\n}\n\n.btn-default:hover {\n  color: #333;\n  background-color: #e6e6e6;\n  border-color: #adadad;\n}\n\n.btn-default:active, .btn-default.active, .btn-default.ax-active,\n.open > .btn-default.dropdown-toggle {\n  color: #333;\n  background-color: #e6e6e6;\n  border-color: #adadad;\n}\n\n.btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.ax-active:hover, .btn-default.active:focus, .btn-default.ax-active:focus, .btn-default.active.focus, .btn-default.focus.ax-active,\n.open > .btn-default.dropdown-toggle:hover,\n.open > .btn-default.dropdown-toggle:focus,\n.open > .btn-default.dropdown-toggle.focus {\n  color: #333;\n  background-color: #d4d4d4;\n  border-color: #8c8c8c;\n}\n\n.btn-default:active, .btn-default.active, .btn-default.ax-active,\n.open > .btn-default.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-default.disabled:hover, .btn-default[disabled]:hover,\n.btn-default.ax-disabled:hover, .btn-default.disabled:focus, .btn-default[disabled]:focus,\n.btn-default.ax-disabled:focus, .btn-default.disabled.focus, .btn-default.focus[disabled],\n.btn-default.focus.ax-disabled, .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled].focus,\nfieldset[disabled] .btn-default:hover,\nfieldset[disabled] .btn-default:focus,\nfieldset[disabled] .btn-default.focus {\n  background-color: #fff;\n  border-color: #ccc;\n}\n\n.btn-default .badge {\n  color: #fff;\n  background-color: #333;\n}\n\n.btn-primary {\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #2e6da4;\n}\n\n.btn-primary:focus, .btn-primary.focus {\n  color: #fff;\n  background-color: #286090;\n  border-color: #122b40;\n}\n\n.btn-primary:hover {\n  color: #fff;\n  background-color: #286090;\n  border-color: #204d74;\n}\n\n.btn-primary:active, .btn-primary.active, .btn-primary.ax-active,\n.open > .btn-primary.dropdown-toggle {\n  color: #fff;\n  background-color: #286090;\n  border-color: #204d74;\n}\n\n.btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary.active:hover, .btn-primary.ax-active:hover, .btn-primary.active:focus, .btn-primary.ax-active:focus, .btn-primary.active.focus, .btn-primary.focus.ax-active,\n.open > .btn-primary.dropdown-toggle:hover,\n.open > .btn-primary.dropdown-toggle:focus,\n.open > .btn-primary.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #204d74;\n  border-color: #122b40;\n}\n\n.btn-primary:active, .btn-primary.active, .btn-primary.ax-active,\n.open > .btn-primary.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-primary.disabled:hover, .btn-primary[disabled]:hover,\n.btn-primary.ax-disabled:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus,\n.btn-primary.ax-disabled:focus, .btn-primary.disabled.focus, .btn-primary.focus[disabled],\n.btn-primary.focus.ax-disabled, .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus,\nfieldset[disabled] .btn-primary:hover,\nfieldset[disabled] .btn-primary:focus,\nfieldset[disabled] .btn-primary.focus {\n  background-color: #337ab7;\n  border-color: #2e6da4;\n}\n\n.btn-primary .badge {\n  color: #337ab7;\n  background-color: #fff;\n}\n\n.btn-success {\n  color: #fff;\n  background-color: #5cb85c;\n  border-color: #4cae4c;\n}\n\n.btn-success:focus, .btn-success.focus {\n  color: #fff;\n  background-color: #449d44;\n  border-color: #255625;\n}\n\n.btn-success:hover {\n  color: #fff;\n  background-color: #449d44;\n  border-color: #398439;\n}\n\n.btn-success:active, .btn-success.active, .btn-success.ax-active,\n.open > .btn-success.dropdown-toggle {\n  color: #fff;\n  background-color: #449d44;\n  border-color: #398439;\n}\n\n.btn-success:active:hover, .btn-success:active:focus, .btn-success:active.focus, .btn-success.active:hover, .btn-success.ax-active:hover, .btn-success.active:focus, .btn-success.ax-active:focus, .btn-success.active.focus, .btn-success.focus.ax-active,\n.open > .btn-success.dropdown-toggle:hover,\n.open > .btn-success.dropdown-toggle:focus,\n.open > .btn-success.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #398439;\n  border-color: #255625;\n}\n\n.btn-success:active, .btn-success.active, .btn-success.ax-active,\n.open > .btn-success.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-success.disabled:hover, .btn-success[disabled]:hover,\n.btn-success.ax-disabled:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus,\n.btn-success.ax-disabled:focus, .btn-success.disabled.focus, .btn-success.focus[disabled],\n.btn-success.focus.ax-disabled, .btn-success[disabled]:hover, .btn-success[disabled]:focus, .btn-success[disabled].focus,\nfieldset[disabled] .btn-success:hover,\nfieldset[disabled] .btn-success:focus,\nfieldset[disabled] .btn-success.focus {\n  background-color: #5cb85c;\n  border-color: #4cae4c;\n}\n\n.btn-success .badge {\n  color: #5cb85c;\n  background-color: #fff;\n}\n\n.btn-info {\n  color: #fff;\n  background-color: #5bc0de;\n  border-color: #46b8da;\n}\n\n.btn-info:focus, .btn-info.focus {\n  color: #fff;\n  background-color: #31b0d5;\n  border-color: #1b6d85;\n}\n\n.btn-info:hover {\n  color: #fff;\n  background-color: #31b0d5;\n  border-color: #269abc;\n}\n\n.btn-info:active, .btn-info.active, .btn-info.ax-active,\n.open > .btn-info.dropdown-toggle {\n  color: #fff;\n  background-color: #31b0d5;\n  border-color: #269abc;\n}\n\n.btn-info:active:hover, .btn-info:active:focus, .btn-info:active.focus, .btn-info.active:hover, .btn-info.ax-active:hover, .btn-info.active:focus, .btn-info.ax-active:focus, .btn-info.active.focus, .btn-info.focus.ax-active,\n.open > .btn-info.dropdown-toggle:hover,\n.open > .btn-info.dropdown-toggle:focus,\n.open > .btn-info.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #269abc;\n  border-color: #1b6d85;\n}\n\n.btn-info:active, .btn-info.active, .btn-info.ax-active,\n.open > .btn-info.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-info.disabled:hover, .btn-info[disabled]:hover,\n.btn-info.ax-disabled:hover, .btn-info.disabled:focus, .btn-info[disabled]:focus,\n.btn-info.ax-disabled:focus, .btn-info.disabled.focus, .btn-info.focus[disabled],\n.btn-info.focus.ax-disabled, .btn-info[disabled]:hover, .btn-info[disabled]:focus, .btn-info[disabled].focus,\nfieldset[disabled] .btn-info:hover,\nfieldset[disabled] .btn-info:focus,\nfieldset[disabled] .btn-info.focus {\n  background-color: #5bc0de;\n  border-color: #46b8da;\n}\n\n.btn-info .badge {\n  color: #5bc0de;\n  background-color: #fff;\n}\n\n.btn-warning {\n  color: #fff;\n  background-color: #f0ad4e;\n  border-color: #eea236;\n}\n\n.btn-warning:focus, .btn-warning.focus {\n  color: #fff;\n  background-color: #ec971f;\n  border-color: #985f0d;\n}\n\n.btn-warning:hover {\n  color: #fff;\n  background-color: #ec971f;\n  border-color: #d58512;\n}\n\n.btn-warning:active, .btn-warning.active, .btn-warning.ax-active,\n.open > .btn-warning.dropdown-toggle {\n  color: #fff;\n  background-color: #ec971f;\n  border-color: #d58512;\n}\n\n.btn-warning:active:hover, .btn-warning:active:focus, .btn-warning:active.focus, .btn-warning.active:hover, .btn-warning.ax-active:hover, .btn-warning.active:focus, .btn-warning.ax-active:focus, .btn-warning.active.focus, .btn-warning.focus.ax-active,\n.open > .btn-warning.dropdown-toggle:hover,\n.open > .btn-warning.dropdown-toggle:focus,\n.open > .btn-warning.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #d58512;\n  border-color: #985f0d;\n}\n\n.btn-warning:active, .btn-warning.active, .btn-warning.ax-active,\n.open > .btn-warning.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-warning.disabled:hover, .btn-warning[disabled]:hover,\n.btn-warning.ax-disabled:hover, .btn-warning.disabled:focus, .btn-warning[disabled]:focus,\n.btn-warning.ax-disabled:focus, .btn-warning.disabled.focus, .btn-warning.focus[disabled],\n.btn-warning.focus.ax-disabled, .btn-warning[disabled]:hover, .btn-warning[disabled]:focus, .btn-warning[disabled].focus,\nfieldset[disabled] .btn-warning:hover,\nfieldset[disabled] .btn-warning:focus,\nfieldset[disabled] .btn-warning.focus {\n  background-color: #f0ad4e;\n  border-color: #eea236;\n}\n\n.btn-warning .badge {\n  color: #f0ad4e;\n  background-color: #fff;\n}\n\n.btn-danger {\n  color: #fff;\n  background-color: #d9534f;\n  border-color: #d43f3a;\n}\n\n.btn-danger:focus, .btn-danger.focus {\n  color: #fff;\n  background-color: #c9302c;\n  border-color: #761c19;\n}\n\n.btn-danger:hover {\n  color: #fff;\n  background-color: #c9302c;\n  border-color: #ac2925;\n}\n\n.btn-danger:active, .btn-danger.active, .btn-danger.ax-active,\n.open > .btn-danger.dropdown-toggle {\n  color: #fff;\n  background-color: #c9302c;\n  border-color: #ac2925;\n}\n\n.btn-danger:active:hover, .btn-danger:active:focus, .btn-danger:active.focus, .btn-danger.active:hover, .btn-danger.ax-active:hover, .btn-danger.active:focus, .btn-danger.ax-active:focus, .btn-danger.active.focus, .btn-danger.focus.ax-active,\n.open > .btn-danger.dropdown-toggle:hover,\n.open > .btn-danger.dropdown-toggle:focus,\n.open > .btn-danger.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #ac2925;\n  border-color: #761c19;\n}\n\n.btn-danger:active, .btn-danger.active, .btn-danger.ax-active,\n.open > .btn-danger.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-danger.disabled:hover, .btn-danger[disabled]:hover,\n.btn-danger.ax-disabled:hover, .btn-danger.disabled:focus, .btn-danger[disabled]:focus,\n.btn-danger.ax-disabled:focus, .btn-danger.disabled.focus, .btn-danger.focus[disabled],\n.btn-danger.focus.ax-disabled, .btn-danger[disabled]:hover, .btn-danger[disabled]:focus, .btn-danger[disabled].focus,\nfieldset[disabled] .btn-danger:hover,\nfieldset[disabled] .btn-danger:focus,\nfieldset[disabled] .btn-danger.focus {\n  background-color: #d9534f;\n  border-color: #d43f3a;\n}\n\n.btn-danger .badge {\n  color: #d9534f;\n  background-color: #fff;\n}\n\n.btn-link {\n  color: #337ab7;\n  font-weight: normal;\n  border-radius: 0;\n}\n\n.btn-link, .btn-link:active, .btn-link.active, .btn-link.ax-active, .btn-link[disabled],\nfieldset[disabled] .btn-link {\n  background-color: transparent;\n  box-shadow: none;\n}\n\n.btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {\n  border-color: transparent;\n}\n\n.btn-link:hover, .btn-link:focus {\n  color: #23527c;\n  text-decoration: underline;\n  background-color: transparent;\n}\n\n.btn-link[disabled]:hover, .btn-link[disabled]:focus,\nfieldset[disabled] .btn-link:hover,\nfieldset[disabled] .btn-link:focus {\n  color: #777777;\n  text-decoration: none;\n}\n\n.btn-lg, .btn-group-lg > .btn {\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n  border-radius: 6px;\n}\n\n.btn-sm, .btn-group-sm > .btn {\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\n.btn-xs, .btn-group-xs > .btn {\n  padding: 1px 5px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\n.btn-block {\n  display: block;\n  width: 100%;\n}\n\n.btn-block + .btn-block {\n  margin-top: 5px;\n}\n\ninput[type=\"submit\"].btn-block,\ninput[type=\"reset\"].btn-block,\ninput[type=\"button\"].btn-block {\n  width: 100%;\n}\n\n.fade {\n  opacity: 0;\n  -webkit-transition: opacity 0.15s linear;\n  transition: opacity 0.15s linear;\n}\n\n.fade.in {\n  opacity: 1;\n}\n\n.collapse {\n  display: none;\n}\n\n.collapse.in {\n  display: block;\n}\n\ntr.collapse.in {\n  display: table-row;\n}\n\ntbody.collapse.in {\n  display: table-row-group;\n}\n\n.collapsing {\n  position: relative;\n  height: 0;\n  overflow: hidden;\n  -webkit-transition-property: height, visibility;\n  transition-property: height, visibility;\n  -webkit-transition-duration: 0.35s;\n  transition-duration: 0.35s;\n  -webkit-transition-timing-function: ease;\n  transition-timing-function: ease;\n}\n\n@font-face {\n  font-family: 'Glyphicons Halflings';\n  src: url(" + __webpack_require__(255) + ");\n  src: url(" + __webpack_require__(255) + "?#iefix) format(\"embedded-opentype\"), url(" + __webpack_require__(256) + ") format(\"woff2\"), url(" + __webpack_require__(257) + ") format(\"woff\"), url(" + __webpack_require__(258) + ") format(\"truetype\"), url(" + __webpack_require__(259) + "#glyphicons_halflingsregular) format(\"svg\");\n}\n\n.glyphicon {\n  position: relative;\n  top: 1px;\n  display: inline-block;\n  font-family: 'Glyphicons Halflings';\n  font-style: normal;\n  font-weight: normal;\n  line-height: 1;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.glyphicon-asterisk:before {\n  content: \"*\";\n}\n\n.glyphicon-plus:before {\n  content: \"+\";\n}\n\n.glyphicon-euro:before,\n.glyphicon-eur:before {\n  content: \"\\20AC\";\n}\n\n.glyphicon-minus:before {\n  content: \"\\2212\";\n}\n\n.glyphicon-cloud:before {\n  content: \"\\2601\";\n}\n\n.glyphicon-envelope:before {\n  content: \"\\2709\";\n}\n\n.glyphicon-pencil:before {\n  content: \"\\270F\";\n}\n\n.glyphicon-glass:before {\n  content: \"\\E001\";\n}\n\n.glyphicon-music:before {\n  content: \"\\E002\";\n}\n\n.glyphicon-search:before {\n  content: \"\\E003\";\n}\n\n.glyphicon-heart:before {\n  content: \"\\E005\";\n}\n\n.glyphicon-star:before {\n  content: \"\\E006\";\n}\n\n.glyphicon-star-empty:before {\n  content: \"\\E007\";\n}\n\n.glyphicon-user:before {\n  content: \"\\E008\";\n}\n\n.glyphicon-film:before {\n  content: \"\\E009\";\n}\n\n.glyphicon-th-large:before {\n  content: \"\\E010\";\n}\n\n.glyphicon-th:before {\n  content: \"\\E011\";\n}\n\n.glyphicon-th-list:before {\n  content: \"\\E012\";\n}\n\n.glyphicon-ok:before {\n  content: \"\\E013\";\n}\n\n.glyphicon-remove:before {\n  content: \"\\E014\";\n}\n\n.glyphicon-zoom-in:before {\n  content: \"\\E015\";\n}\n\n.glyphicon-zoom-out:before {\n  content: \"\\E016\";\n}\n\n.glyphicon-off:before {\n  content: \"\\E017\";\n}\n\n.glyphicon-signal:before {\n  content: \"\\E018\";\n}\n\n.glyphicon-cog:before {\n  content: \"\\E019\";\n}\n\n.glyphicon-trash:before {\n  content: \"\\E020\";\n}\n\n.glyphicon-home:before {\n  content: \"\\E021\";\n}\n\n.glyphicon-file:before {\n  content: \"\\E022\";\n}\n\n.glyphicon-time:before {\n  content: \"\\E023\";\n}\n\n.glyphicon-road:before {\n  content: \"\\E024\";\n}\n\n.glyphicon-download-alt:before {\n  content: \"\\E025\";\n}\n\n.glyphicon-download:before {\n  content: \"\\E026\";\n}\n\n.glyphicon-upload:before {\n  content: \"\\E027\";\n}\n\n.glyphicon-inbox:before {\n  content: \"\\E028\";\n}\n\n.glyphicon-play-circle:before {\n  content: \"\\E029\";\n}\n\n.glyphicon-repeat:before {\n  content: \"\\E030\";\n}\n\n.glyphicon-refresh:before {\n  content: \"\\E031\";\n}\n\n.glyphicon-list-alt:before {\n  content: \"\\E032\";\n}\n\n.glyphicon-lock:before {\n  content: \"\\E033\";\n}\n\n.glyphicon-flag:before {\n  content: \"\\E034\";\n}\n\n.glyphicon-headphones:before {\n  content: \"\\E035\";\n}\n\n.glyphicon-volume-off:before {\n  content: \"\\E036\";\n}\n\n.glyphicon-volume-down:before {\n  content: \"\\E037\";\n}\n\n.glyphicon-volume-up:before {\n  content: \"\\E038\";\n}\n\n.glyphicon-qrcode:before {\n  content: \"\\E039\";\n}\n\n.glyphicon-barcode:before {\n  content: \"\\E040\";\n}\n\n.glyphicon-tag:before {\n  content: \"\\E041\";\n}\n\n.glyphicon-tags:before {\n  content: \"\\E042\";\n}\n\n.glyphicon-book:before {\n  content: \"\\E043\";\n}\n\n.glyphicon-bookmark:before {\n  content: \"\\E044\";\n}\n\n.glyphicon-print:before {\n  content: \"\\E045\";\n}\n\n.glyphicon-camera:before {\n  content: \"\\E046\";\n}\n\n.glyphicon-font:before {\n  content: \"\\E047\";\n}\n\n.glyphicon-bold:before {\n  content: \"\\E048\";\n}\n\n.glyphicon-italic:before {\n  content: \"\\E049\";\n}\n\n.glyphicon-text-height:before {\n  content: \"\\E050\";\n}\n\n.glyphicon-text-width:before {\n  content: \"\\E051\";\n}\n\n.glyphicon-align-left:before {\n  content: \"\\E052\";\n}\n\n.glyphicon-align-center:before {\n  content: \"\\E053\";\n}\n\n.glyphicon-align-right:before {\n  content: \"\\E054\";\n}\n\n.glyphicon-align-justify:before {\n  content: \"\\E055\";\n}\n\n.glyphicon-list:before {\n  content: \"\\E056\";\n}\n\n.glyphicon-indent-left:before {\n  content: \"\\E057\";\n}\n\n.glyphicon-indent-right:before {\n  content: \"\\E058\";\n}\n\n.glyphicon-facetime-video:before {\n  content: \"\\E059\";\n}\n\n.glyphicon-picture:before {\n  content: \"\\E060\";\n}\n\n.glyphicon-map-marker:before {\n  content: \"\\E062\";\n}\n\n.glyphicon-adjust:before {\n  content: \"\\E063\";\n}\n\n.glyphicon-tint:before {\n  content: \"\\E064\";\n}\n\n.glyphicon-edit:before {\n  content: \"\\E065\";\n}\n\n.glyphicon-share:before {\n  content: \"\\E066\";\n}\n\n.glyphicon-check:before {\n  content: \"\\E067\";\n}\n\n.glyphicon-move:before {\n  content: \"\\E068\";\n}\n\n.glyphicon-step-backward:before {\n  content: \"\\E069\";\n}\n\n.glyphicon-fast-backward:before {\n  content: \"\\E070\";\n}\n\n.glyphicon-backward:before {\n  content: \"\\E071\";\n}\n\n.glyphicon-play:before {\n  content: \"\\E072\";\n}\n\n.glyphicon-pause:before {\n  content: \"\\E073\";\n}\n\n.glyphicon-stop:before {\n  content: \"\\E074\";\n}\n\n.glyphicon-forward:before {\n  content: \"\\E075\";\n}\n\n.glyphicon-fast-forward:before {\n  content: \"\\E076\";\n}\n\n.glyphicon-step-forward:before {\n  content: \"\\E077\";\n}\n\n.glyphicon-eject:before {\n  content: \"\\E078\";\n}\n\n.glyphicon-chevron-left:before {\n  content: \"\\E079\";\n}\n\n.glyphicon-chevron-right:before {\n  content: \"\\E080\";\n}\n\n.glyphicon-plus-sign:before {\n  content: \"\\E081\";\n}\n\n.glyphicon-minus-sign:before {\n  content: \"\\E082\";\n}\n\n.glyphicon-remove-sign:before {\n  content: \"\\E083\";\n}\n\n.glyphicon-ok-sign:before {\n  content: \"\\E084\";\n}\n\n.glyphicon-question-sign:before {\n  content: \"\\E085\";\n}\n\n.glyphicon-info-sign:before {\n  content: \"\\E086\";\n}\n\n.glyphicon-screenshot:before {\n  content: \"\\E087\";\n}\n\n.glyphicon-remove-circle:before {\n  content: \"\\E088\";\n}\n\n.glyphicon-ok-circle:before {\n  content: \"\\E089\";\n}\n\n.glyphicon-ban-circle:before {\n  content: \"\\E090\";\n}\n\n.glyphicon-arrow-left:before {\n  content: \"\\E091\";\n}\n\n.glyphicon-arrow-right:before {\n  content: \"\\E092\";\n}\n\n.glyphicon-arrow-up:before {\n  content: \"\\E093\";\n}\n\n.glyphicon-arrow-down:before {\n  content: \"\\E094\";\n}\n\n.glyphicon-share-alt:before {\n  content: \"\\E095\";\n}\n\n.glyphicon-resize-full:before {\n  content: \"\\E096\";\n}\n\n.glyphicon-resize-small:before {\n  content: \"\\E097\";\n}\n\n.glyphicon-exclamation-sign:before {\n  content: \"\\E101\";\n}\n\n.glyphicon-gift:before {\n  content: \"\\E102\";\n}\n\n.glyphicon-leaf:before {\n  content: \"\\E103\";\n}\n\n.glyphicon-fire:before {\n  content: \"\\E104\";\n}\n\n.glyphicon-eye-open:before {\n  content: \"\\E105\";\n}\n\n.glyphicon-eye-close:before {\n  content: \"\\E106\";\n}\n\n.glyphicon-warning-sign:before {\n  content: \"\\E107\";\n}\n\n.glyphicon-plane:before {\n  content: \"\\E108\";\n}\n\n.glyphicon-calendar:before {\n  content: \"\\E109\";\n}\n\n.glyphicon-random:before {\n  content: \"\\E110\";\n}\n\n.glyphicon-comment:before {\n  content: \"\\E111\";\n}\n\n.glyphicon-magnet:before {\n  content: \"\\E112\";\n}\n\n.glyphicon-chevron-up:before {\n  content: \"\\E113\";\n}\n\n.glyphicon-chevron-down:before {\n  content: \"\\E114\";\n}\n\n.glyphicon-retweet:before {\n  content: \"\\E115\";\n}\n\n.glyphicon-shopping-cart:before {\n  content: \"\\E116\";\n}\n\n.glyphicon-folder-close:before {\n  content: \"\\E117\";\n}\n\n.glyphicon-folder-open:before {\n  content: \"\\E118\";\n}\n\n.glyphicon-resize-vertical:before {\n  content: \"\\E119\";\n}\n\n.glyphicon-resize-horizontal:before {\n  content: \"\\E120\";\n}\n\n.glyphicon-hdd:before {\n  content: \"\\E121\";\n}\n\n.glyphicon-bullhorn:before {\n  content: \"\\E122\";\n}\n\n.glyphicon-bell:before {\n  content: \"\\E123\";\n}\n\n.glyphicon-certificate:before {\n  content: \"\\E124\";\n}\n\n.glyphicon-thumbs-up:before {\n  content: \"\\E125\";\n}\n\n.glyphicon-thumbs-down:before {\n  content: \"\\E126\";\n}\n\n.glyphicon-hand-right:before {\n  content: \"\\E127\";\n}\n\n.glyphicon-hand-left:before {\n  content: \"\\E128\";\n}\n\n.glyphicon-hand-up:before {\n  content: \"\\E129\";\n}\n\n.glyphicon-hand-down:before {\n  content: \"\\E130\";\n}\n\n.glyphicon-circle-arrow-right:before {\n  content: \"\\E131\";\n}\n\n.glyphicon-circle-arrow-left:before {\n  content: \"\\E132\";\n}\n\n.glyphicon-circle-arrow-up:before {\n  content: \"\\E133\";\n}\n\n.glyphicon-circle-arrow-down:before {\n  content: \"\\E134\";\n}\n\n.glyphicon-globe:before {\n  content: \"\\E135\";\n}\n\n.glyphicon-wrench:before {\n  content: \"\\E136\";\n}\n\n.glyphicon-tasks:before {\n  content: \"\\E137\";\n}\n\n.glyphicon-filter:before {\n  content: \"\\E138\";\n}\n\n.glyphicon-briefcase:before {\n  content: \"\\E139\";\n}\n\n.glyphicon-fullscreen:before {\n  content: \"\\E140\";\n}\n\n.glyphicon-dashboard:before {\n  content: \"\\E141\";\n}\n\n.glyphicon-paperclip:before {\n  content: \"\\E142\";\n}\n\n.glyphicon-heart-empty:before {\n  content: \"\\E143\";\n}\n\n.glyphicon-link:before {\n  content: \"\\E144\";\n}\n\n.glyphicon-phone:before {\n  content: \"\\E145\";\n}\n\n.glyphicon-pushpin:before {\n  content: \"\\E146\";\n}\n\n.glyphicon-usd:before {\n  content: \"\\E148\";\n}\n\n.glyphicon-gbp:before {\n  content: \"\\E149\";\n}\n\n.glyphicon-sort:before {\n  content: \"\\E150\";\n}\n\n.glyphicon-sort-by-alphabet:before {\n  content: \"\\E151\";\n}\n\n.glyphicon-sort-by-alphabet-alt:before {\n  content: \"\\E152\";\n}\n\n.glyphicon-sort-by-order:before {\n  content: \"\\E153\";\n}\n\n.glyphicon-sort-by-order-alt:before {\n  content: \"\\E154\";\n}\n\n.glyphicon-sort-by-attributes:before {\n  content: \"\\E155\";\n}\n\n.glyphicon-sort-by-attributes-alt:before {\n  content: \"\\E156\";\n}\n\n.glyphicon-unchecked:before {\n  content: \"\\E157\";\n}\n\n.glyphicon-expand:before {\n  content: \"\\E158\";\n}\n\n.glyphicon-collapse-down:before {\n  content: \"\\E159\";\n}\n\n.glyphicon-collapse-up:before {\n  content: \"\\E160\";\n}\n\n.glyphicon-log-in:before {\n  content: \"\\E161\";\n}\n\n.glyphicon-flash:before {\n  content: \"\\E162\";\n}\n\n.glyphicon-log-out:before {\n  content: \"\\E163\";\n}\n\n.glyphicon-new-window:before {\n  content: \"\\E164\";\n}\n\n.glyphicon-record:before {\n  content: \"\\E165\";\n}\n\n.glyphicon-save:before {\n  content: \"\\E166\";\n}\n\n.glyphicon-open:before {\n  content: \"\\E167\";\n}\n\n.glyphicon-saved:before {\n  content: \"\\E168\";\n}\n\n.glyphicon-import:before {\n  content: \"\\E169\";\n}\n\n.glyphicon-export:before {\n  content: \"\\E170\";\n}\n\n.glyphicon-send:before {\n  content: \"\\E171\";\n}\n\n.glyphicon-floppy-disk:before {\n  content: \"\\E172\";\n}\n\n.glyphicon-floppy-saved:before {\n  content: \"\\E173\";\n}\n\n.glyphicon-floppy-remove:before {\n  content: \"\\E174\";\n}\n\n.glyphicon-floppy-save:before {\n  content: \"\\E175\";\n}\n\n.glyphicon-floppy-open:before {\n  content: \"\\E176\";\n}\n\n.glyphicon-credit-card:before {\n  content: \"\\E177\";\n}\n\n.glyphicon-transfer:before {\n  content: \"\\E178\";\n}\n\n.glyphicon-cutlery:before {\n  content: \"\\E179\";\n}\n\n.glyphicon-header:before {\n  content: \"\\E180\";\n}\n\n.glyphicon-compressed:before {\n  content: \"\\E181\";\n}\n\n.glyphicon-earphone:before {\n  content: \"\\E182\";\n}\n\n.glyphicon-phone-alt:before {\n  content: \"\\E183\";\n}\n\n.glyphicon-tower:before {\n  content: \"\\E184\";\n}\n\n.glyphicon-stats:before {\n  content: \"\\E185\";\n}\n\n.glyphicon-sd-video:before {\n  content: \"\\E186\";\n}\n\n.glyphicon-hd-video:before {\n  content: \"\\E187\";\n}\n\n.glyphicon-subtitles:before {\n  content: \"\\E188\";\n}\n\n.glyphicon-sound-stereo:before {\n  content: \"\\E189\";\n}\n\n.glyphicon-sound-dolby:before {\n  content: \"\\E190\";\n}\n\n.glyphicon-sound-5-1:before {\n  content: \"\\E191\";\n}\n\n.glyphicon-sound-6-1:before {\n  content: \"\\E192\";\n}\n\n.glyphicon-sound-7-1:before {\n  content: \"\\E193\";\n}\n\n.glyphicon-copyright-mark:before {\n  content: \"\\E194\";\n}\n\n.glyphicon-registration-mark:before {\n  content: \"\\E195\";\n}\n\n.glyphicon-cloud-download:before {\n  content: \"\\E197\";\n}\n\n.glyphicon-cloud-upload:before {\n  content: \"\\E198\";\n}\n\n.glyphicon-tree-conifer:before {\n  content: \"\\E199\";\n}\n\n.glyphicon-tree-deciduous:before {\n  content: \"\\E200\";\n}\n\n.glyphicon-cd:before {\n  content: \"\\E201\";\n}\n\n.glyphicon-save-file:before {\n  content: \"\\E202\";\n}\n\n.glyphicon-open-file:before {\n  content: \"\\E203\";\n}\n\n.glyphicon-level-up:before {\n  content: \"\\E204\";\n}\n\n.glyphicon-copy:before {\n  content: \"\\E205\";\n}\n\n.glyphicon-paste:before {\n  content: \"\\E206\";\n}\n\n.glyphicon-alert:before {\n  content: \"\\E209\";\n}\n\n.glyphicon-equalizer:before {\n  content: \"\\E210\";\n}\n\n.glyphicon-king:before {\n  content: \"\\E211\";\n}\n\n.glyphicon-queen:before {\n  content: \"\\E212\";\n}\n\n.glyphicon-pawn:before {\n  content: \"\\E213\";\n}\n\n.glyphicon-bishop:before {\n  content: \"\\E214\";\n}\n\n.glyphicon-knight:before {\n  content: \"\\E215\";\n}\n\n.glyphicon-baby-formula:before {\n  content: \"\\E216\";\n}\n\n.glyphicon-tent:before {\n  content: \"\\26FA\";\n}\n\n.glyphicon-blackboard:before {\n  content: \"\\E218\";\n}\n\n.glyphicon-bed:before {\n  content: \"\\E219\";\n}\n\n.glyphicon-apple:before {\n  content: \"\\F8FF\";\n}\n\n.glyphicon-erase:before {\n  content: \"\\E221\";\n}\n\n.glyphicon-hourglass:before {\n  content: \"\\231B\";\n}\n\n.glyphicon-lamp:before {\n  content: \"\\E223\";\n}\n\n.glyphicon-duplicate:before {\n  content: \"\\E224\";\n}\n\n.glyphicon-piggy-bank:before {\n  content: \"\\E225\";\n}\n\n.glyphicon-scissors:before {\n  content: \"\\E226\";\n}\n\n.glyphicon-bitcoin:before {\n  content: \"\\E227\";\n}\n\n.glyphicon-btc:before {\n  content: \"\\E227\";\n}\n\n.glyphicon-xbt:before {\n  content: \"\\E227\";\n}\n\n.glyphicon-yen:before {\n  content: \"\\A5\";\n}\n\n.glyphicon-jpy:before {\n  content: \"\\A5\";\n}\n\n.glyphicon-ruble:before {\n  content: \"\\20BD\";\n}\n\n.glyphicon-rub:before {\n  content: \"\\20BD\";\n}\n\n.glyphicon-scale:before {\n  content: \"\\E230\";\n}\n\n.glyphicon-ice-lolly:before {\n  content: \"\\E231\";\n}\n\n.glyphicon-ice-lolly-tasted:before {\n  content: \"\\E232\";\n}\n\n.glyphicon-education:before {\n  content: \"\\E233\";\n}\n\n.glyphicon-option-horizontal:before {\n  content: \"\\E234\";\n}\n\n.glyphicon-option-vertical:before {\n  content: \"\\E235\";\n}\n\n.glyphicon-menu-hamburger:before {\n  content: \"\\E236\";\n}\n\n.glyphicon-modal-window:before {\n  content: \"\\E237\";\n}\n\n.glyphicon-oil:before {\n  content: \"\\E238\";\n}\n\n.glyphicon-grain:before {\n  content: \"\\E239\";\n}\n\n.glyphicon-sunglasses:before {\n  content: \"\\E240\";\n}\n\n.glyphicon-text-size:before {\n  content: \"\\E241\";\n}\n\n.glyphicon-text-color:before {\n  content: \"\\E242\";\n}\n\n.glyphicon-text-background:before {\n  content: \"\\E243\";\n}\n\n.glyphicon-object-align-top:before {\n  content: \"\\E244\";\n}\n\n.glyphicon-object-align-bottom:before {\n  content: \"\\E245\";\n}\n\n.glyphicon-object-align-horizontal:before {\n  content: \"\\E246\";\n}\n\n.glyphicon-object-align-left:before {\n  content: \"\\E247\";\n}\n\n.glyphicon-object-align-vertical:before {\n  content: \"\\E248\";\n}\n\n.glyphicon-object-align-right:before {\n  content: \"\\E249\";\n}\n\n.glyphicon-triangle-right:before {\n  content: \"\\E250\";\n}\n\n.glyphicon-triangle-left:before {\n  content: \"\\E251\";\n}\n\n.glyphicon-triangle-bottom:before {\n  content: \"\\E252\";\n}\n\n.glyphicon-triangle-top:before {\n  content: \"\\E253\";\n}\n\n.glyphicon-console:before {\n  content: \"\\E254\";\n}\n\n.glyphicon-superscript:before {\n  content: \"\\E255\";\n}\n\n.glyphicon-subscript:before {\n  content: \"\\E256\";\n}\n\n.glyphicon-menu-left:before {\n  content: \"\\E257\";\n}\n\n.glyphicon-menu-right:before {\n  content: \"\\E258\";\n}\n\n.glyphicon-menu-down:before {\n  content: \"\\E259\";\n}\n\n.glyphicon-menu-up:before {\n  content: \"\\E260\";\n}\n\n.caret {\n  display: inline-block;\n  width: 0;\n  height: 0;\n  margin-left: 2px;\n  vertical-align: middle;\n  border-top: 4px dashed;\n  border-top: 4px solid \\9;\n  border-right: 4px solid transparent;\n  border-left: 4px solid transparent;\n}\n\n.dropup,\n.dropdown {\n  position: relative;\n}\n\n.dropdown-toggle:focus {\n  outline: 0;\n}\n\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  min-width: 160px;\n  padding: 5px 0;\n  margin: 2px 0 0;\n  list-style: none;\n  font-size: 14px;\n  text-align: left;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.15);\n  border-radius: 4px;\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);\n  background-clip: padding-box;\n}\n\n.dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n\n.dropdown-menu .divider {\n  height: 1px;\n  margin: 9px 0;\n  overflow: hidden;\n  background-color: #e5e5e5;\n}\n\n.dropdown-menu > li > a {\n  display: block;\n  padding: 3px 20px;\n  clear: both;\n  font-weight: normal;\n  line-height: 1.428571429;\n  color: #333333;\n  white-space: nowrap;\n}\n\n.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {\n  text-decoration: none;\n  color: #262626;\n  background-color: #f5f5f5;\n}\n\n.dropdown-menu > .active > a, .dropdown-menu > .ax-active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .ax-active > a:hover, .dropdown-menu > .active > a:focus, .dropdown-menu > .ax-active > a:focus {\n  color: #fff;\n  text-decoration: none;\n  outline: 0;\n  background-color: #337ab7;\n}\n\n.dropdown-menu > .disabled > a, .dropdown-menu > [disabled] > a, .dropdown-menu >\n.ax-disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > [disabled] > a:hover, .dropdown-menu >\n.ax-disabled > a:hover, .dropdown-menu > .disabled > a:focus, .dropdown-menu > [disabled] > a:focus, .dropdown-menu >\n.ax-disabled > a:focus {\n  color: #777777;\n}\n\n.dropdown-menu > .disabled > a:hover, .dropdown-menu > [disabled] > a:hover, .dropdown-menu >\n.ax-disabled > a:hover, .dropdown-menu > .disabled > a:focus, .dropdown-menu > [disabled] > a:focus, .dropdown-menu >\n.ax-disabled > a:focus {\n  text-decoration: none;\n  background-color: transparent;\n  background-image: none;\n  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\n  cursor: not-allowed;\n}\n\n.open > .dropdown-menu {\n  display: block;\n}\n\n.open > a {\n  outline: 0;\n}\n\n.dropdown-menu-right {\n  left: auto;\n  right: 0;\n}\n\n.dropdown-menu-left {\n  left: 0;\n  right: auto;\n}\n\n.dropdown-header {\n  display: block;\n  padding: 3px 20px;\n  font-size: 12px;\n  line-height: 1.428571429;\n  color: #777777;\n  white-space: nowrap;\n}\n\n.dropdown-backdrop {\n  position: fixed;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n  z-index: 990;\n}\n\n.pull-right > .dropdown-menu {\n  right: 0;\n  left: auto;\n}\n\n.dropup .caret,\n.navbar-fixed-bottom .dropdown .caret {\n  border-top: 0;\n  border-bottom: 4px dashed;\n  border-bottom: 4px solid \\9;\n  content: \"\";\n}\n\n.dropup .dropdown-menu,\n.navbar-fixed-bottom .dropdown .dropdown-menu {\n  top: auto;\n  bottom: 100%;\n  margin-bottom: 2px;\n}\n\n@media (min-width: 768px) {\n  .navbar-right .dropdown-menu {\n    right: 0;\n    left: auto;\n  }\n  .navbar-right .dropdown-menu-left {\n    left: 0;\n    right: auto;\n  }\n}\n\n.btn-group,\n.btn-group-vertical {\n  position: relative;\n  display: inline-block;\n  vertical-align: middle;\n}\n\n.btn-group > .btn,\n.btn-group-vertical > .btn {\n  position: relative;\n  float: left;\n}\n\n.btn-group > .btn:hover, .btn-group > .btn:focus, .btn-group > .btn:active, .btn-group > .btn.active, .btn-group > .btn.ax-active,\n.btn-group-vertical > .btn:hover,\n.btn-group-vertical > .btn:focus,\n.btn-group-vertical > .btn:active,\n.btn-group-vertical > .btn.active,\n.btn-group-vertical > .btn.ax-active {\n  z-index: 2;\n}\n\n.btn-group .btn + .btn,\n.btn-group .btn + .btn-group,\n.btn-group .btn-group + .btn,\n.btn-group .btn-group + .btn-group {\n  margin-left: -1px;\n}\n\n.btn-toolbar {\n  margin-left: -5px;\n}\n\n.btn-toolbar:before, .btn-toolbar:after {\n  content: \" \";\n  display: table;\n}\n\n.btn-toolbar:after {\n  clear: both;\n}\n\n.btn-toolbar .btn,\n.btn-toolbar .btn-group,\n.btn-toolbar .input-group {\n  float: left;\n}\n\n.btn-toolbar > .btn,\n.btn-toolbar > .btn-group,\n.btn-toolbar > .input-group {\n  margin-left: 5px;\n}\n\n.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {\n  border-radius: 0;\n}\n\n.btn-group > .btn:first-child {\n  margin-left: 0;\n}\n\n.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n}\n\n.btn-group > .btn:last-child:not(:first-child),\n.btn-group > .dropdown-toggle:not(:first-child) {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.btn-group > .btn-group {\n  float: left;\n}\n\n.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {\n  border-radius: 0;\n}\n\n.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,\n.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n}\n\n.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.btn-group .dropdown-toggle:active,\n.btn-group.open .dropdown-toggle {\n  outline: 0;\n}\n\n.btn-group > .btn + .dropdown-toggle {\n  padding-left: 8px;\n  padding-right: 8px;\n}\n\n.btn-group > .btn-lg + .dropdown-toggle, .btn-group-lg.btn-group > .btn + .dropdown-toggle {\n  padding-left: 12px;\n  padding-right: 12px;\n}\n\n.btn-group.open .dropdown-toggle {\n  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n}\n\n.btn-group.open .dropdown-toggle.btn-link {\n  box-shadow: none;\n}\n\n.btn .caret {\n  margin-left: 0;\n}\n\n.btn-lg .caret, .btn-group-lg > .btn .caret {\n  border-width: 5px 5px 0;\n  border-bottom-width: 0;\n}\n\n.dropup .btn-lg .caret, .dropup .btn-group-lg > .btn .caret {\n  border-width: 0 5px 5px;\n}\n\n.btn-group-vertical > .btn,\n.btn-group-vertical > .btn-group,\n.btn-group-vertical > .btn-group > .btn {\n  display: block;\n  float: none;\n  width: 100%;\n  max-width: 100%;\n}\n\n.btn-group-vertical > .btn-group:before, .btn-group-vertical > .btn-group:after {\n  content: \" \";\n  display: table;\n}\n\n.btn-group-vertical > .btn-group:after {\n  clear: both;\n}\n\n.btn-group-vertical > .btn-group > .btn {\n  float: none;\n}\n\n.btn-group-vertical > .btn + .btn,\n.btn-group-vertical > .btn + .btn-group,\n.btn-group-vertical > .btn-group + .btn,\n.btn-group-vertical > .btn-group + .btn-group {\n  margin-top: -1px;\n  margin-left: 0;\n}\n\n.btn-group-vertical > .btn:not(:first-child):not(:last-child) {\n  border-radius: 0;\n}\n\n.btn-group-vertical > .btn:first-child:not(:last-child) {\n  border-top-right-radius: 4px;\n  border-top-left-radius: 4px;\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n}\n\n.btn-group-vertical > .btn:last-child:not(:first-child) {\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n\n.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {\n  border-radius: 0;\n}\n\n.btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child,\n.btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n}\n\n.btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.btn-group-justified {\n  display: table;\n  width: 100%;\n  table-layout: fixed;\n  border-collapse: separate;\n}\n\n.btn-group-justified > .btn,\n.btn-group-justified > .btn-group {\n  float: none;\n  display: table-cell;\n  width: 1%;\n}\n\n.btn-group-justified > .btn-group .btn {\n  width: 100%;\n}\n\n.btn-group-justified > .btn-group .dropdown-menu {\n  left: auto;\n}\n\n[data-toggle=\"buttons\"] > .btn input[type=\"radio\"],\n[data-toggle=\"buttons\"] > .btn input[type=\"checkbox\"],\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"radio\"],\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"checkbox\"] {\n  position: absolute;\n  clip: rect(0, 0, 0, 0);\n  pointer-events: none;\n}\n\n.input-group {\n  position: relative;\n  display: table;\n  border-collapse: separate;\n}\n\n.input-group[class*=\"col-\"] {\n  float: none;\n  padding-left: 0;\n  padding-right: 0;\n}\n\n.input-group .form-control {\n  position: relative;\n  z-index: 2;\n  float: left;\n  width: 100%;\n  margin-bottom: 0;\n}\n\n.input-group .form-control:focus {\n  z-index: 3;\n}\n\n.input-group-addon,\n.input-group-btn,\n.input-group .form-control {\n  display: table-cell;\n}\n\n.input-group-addon:not(:first-child):not(:last-child),\n.input-group-btn:not(:first-child):not(:last-child),\n.input-group .form-control:not(:first-child):not(:last-child) {\n  border-radius: 0;\n}\n\n.input-group-addon,\n.input-group-btn {\n  width: 1%;\n  white-space: nowrap;\n  vertical-align: middle;\n}\n\n.input-group-addon {\n  padding: 6px 12px;\n  font-size: 14px;\n  font-weight: normal;\n  line-height: 1;\n  color: #555555;\n  text-align: center;\n  background-color: #eeeeee;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n\n.input-group-addon.input-sm,\n.input-group-sm > .input-group-addon,\n.input-group-sm > .input-group-btn > .input-group-addon.btn {\n  padding: 5px 10px;\n  font-size: 12px;\n  border-radius: 3px;\n}\n\n.input-group-addon.input-lg,\n.input-group-lg > .input-group-addon,\n.input-group-lg > .input-group-btn > .input-group-addon.btn {\n  padding: 10px 16px;\n  font-size: 18px;\n  border-radius: 6px;\n}\n\n.input-group-addon input[type=\"radio\"],\n.input-group-addon input[type=\"checkbox\"] {\n  margin-top: 0;\n}\n\n.input-group .form-control:first-child,\n.input-group-addon:first-child,\n.input-group-btn:first-child > .btn,\n.input-group-btn:first-child > .btn-group > .btn,\n.input-group-btn:first-child > .dropdown-toggle,\n.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),\n.input-group-btn:last-child > .btn-group:not(:last-child) > .btn {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n}\n\n.input-group-addon:first-child {\n  border-right: 0;\n}\n\n.input-group .form-control:last-child,\n.input-group-addon:last-child,\n.input-group-btn:last-child > .btn,\n.input-group-btn:last-child > .btn-group > .btn,\n.input-group-btn:last-child > .dropdown-toggle,\n.input-group-btn:first-child > .btn:not(:first-child),\n.input-group-btn:first-child > .btn-group:not(:first-child) > .btn {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.input-group-addon:last-child {\n  border-left: 0;\n}\n\n.input-group-btn {\n  position: relative;\n  font-size: 0;\n  white-space: nowrap;\n}\n\n.input-group-btn > .btn {\n  position: relative;\n}\n\n.input-group-btn > .btn + .btn {\n  margin-left: -1px;\n}\n\n.input-group-btn > .btn:hover, .input-group-btn > .btn:focus, .input-group-btn > .btn:active {\n  z-index: 2;\n}\n\n.input-group-btn:first-child > .btn,\n.input-group-btn:first-child > .btn-group {\n  margin-right: -1px;\n}\n\n.input-group-btn:last-child > .btn,\n.input-group-btn:last-child > .btn-group {\n  z-index: 2;\n  margin-left: -1px;\n}\n\n.nav {\n  margin-bottom: 0;\n  padding-left: 0;\n  list-style: none;\n}\n\n.nav:before, .nav:after {\n  content: \" \";\n  display: table;\n}\n\n.nav:after {\n  clear: both;\n}\n\n.nav > li {\n  position: relative;\n  display: block;\n}\n\n.nav > li > a {\n  position: relative;\n  display: block;\n  padding: 10px 15px;\n}\n\n.nav > li > a:hover, .nav > li > a:focus {\n  text-decoration: none;\n  background-color: #eeeeee;\n}\n\n.nav > li.disabled > a, .nav > li[disabled] > a, .nav >\nli.ax-disabled > a {\n  color: #777777;\n}\n\n.nav > li.disabled > a:hover, .nav > li[disabled] > a:hover, .nav >\nli.ax-disabled > a:hover, .nav > li.disabled > a:focus, .nav > li[disabled] > a:focus, .nav >\nli.ax-disabled > a:focus {\n  color: #777777;\n  text-decoration: none;\n  background-color: transparent;\n  cursor: not-allowed;\n}\n\n.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {\n  background-color: #eeeeee;\n  border-color: #337ab7;\n}\n\n.nav .nav-divider {\n  height: 1px;\n  margin: 9px 0;\n  overflow: hidden;\n  background-color: #e5e5e5;\n}\n\n.nav > li > a > img {\n  max-width: none;\n}\n\n.nav-tabs {\n  border-bottom: 1px solid #ddd;\n}\n\n.nav-tabs > li {\n  float: left;\n  margin-bottom: -1px;\n}\n\n.nav-tabs > li > a {\n  margin-right: 2px;\n  line-height: 1.428571429;\n  border: 1px solid transparent;\n  border-radius: 4px 4px 0 0;\n}\n\n.nav-tabs > li > a:hover {\n  border-color: #eeeeee #eeeeee #ddd;\n}\n\n.nav-tabs > li.active > a, .nav-tabs > li.ax-active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.ax-active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs > li.ax-active > a:focus {\n  color: #555555;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-bottom-color: transparent;\n  cursor: default;\n}\n\n.nav-pills > li {\n  float: left;\n}\n\n.nav-pills > li > a {\n  border-radius: 4px;\n}\n\n.nav-pills > li + li {\n  margin-left: 2px;\n}\n\n.nav-pills > li.active > a, .nav-pills > li.ax-active > a, .nav-pills > li.active > a:hover, .nav-pills > li.ax-active > a:hover, .nav-pills > li.active > a:focus, .nav-pills > li.ax-active > a:focus {\n  color: #fff;\n  background-color: #337ab7;\n}\n\n.nav-stacked > li {\n  float: none;\n}\n\n.nav-stacked > li + li {\n  margin-top: 2px;\n  margin-left: 0;\n}\n\n.nav-justified, .nav-tabs.nav-justified {\n  width: 100%;\n}\n\n.nav-justified > li, .nav-tabs.nav-justified > li {\n  float: none;\n}\n\n.nav-justified > li > a, .nav-tabs.nav-justified > li > a {\n  text-align: center;\n  margin-bottom: 5px;\n}\n\n.nav-justified > .dropdown .dropdown-menu {\n  top: auto;\n  left: auto;\n}\n\n@media (min-width: 768px) {\n  .nav-justified > li, .nav-tabs.nav-justified > li {\n    display: table-cell;\n    width: 1%;\n  }\n  .nav-justified > li > a, .nav-tabs.nav-justified > li > a {\n    margin-bottom: 0;\n  }\n}\n\n.nav-tabs-justified, .nav-tabs.nav-justified {\n  border-bottom: 0;\n}\n\n.nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a {\n  margin-right: 0;\n  border-radius: 4px;\n}\n\n.nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a, .nav-tabs-justified > .ax-active > a, .nav-tabs.nav-justified > .ax-active > a,\n.nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,\n.nav-tabs-justified > .ax-active > a:hover, .nav-tabs.nav-justified > .ax-active > a:hover,\n.nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus,\n.nav-tabs-justified > .ax-active > a:focus, .nav-tabs.nav-justified > .ax-active > a:focus {\n  border: 1px solid #ddd;\n}\n\n@media (min-width: 768px) {\n  .nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a {\n    border-bottom: 1px solid #ddd;\n    border-radius: 4px 4px 0 0;\n  }\n  .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a, .nav-tabs-justified > .ax-active > a, .nav-tabs.nav-justified > .ax-active > a,\n  .nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,\n  .nav-tabs-justified > .ax-active > a:hover, .nav-tabs.nav-justified > .ax-active > a:hover,\n  .nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus,\n  .nav-tabs-justified > .ax-active > a:focus, .nav-tabs.nav-justified > .ax-active > a:focus {\n    border-bottom-color: #fff;\n  }\n}\n\n.tab-content > .tab-pane {\n  display: none;\n}\n\n.tab-content > .active, .tab-content > .ax-active {\n  display: block;\n}\n\n.nav-tabs .dropdown-menu {\n  margin-top: -1px;\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.navbar {\n  position: relative;\n  min-height: 50px;\n  margin-bottom: 20px;\n  border: 1px solid transparent;\n}\n\n.navbar:before, .navbar:after {\n  content: \" \";\n  display: table;\n}\n\n.navbar:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .navbar {\n    border-radius: 4px;\n  }\n}\n\n.navbar-header:before, .navbar-header:after {\n  content: \" \";\n  display: table;\n}\n\n.navbar-header:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .navbar-header {\n    float: left;\n  }\n}\n\n.navbar-collapse {\n  overflow-x: visible;\n  padding-right: 15px;\n  padding-left: 15px;\n  border-top: 1px solid transparent;\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);\n  -webkit-overflow-scrolling: touch;\n}\n\n.navbar-collapse:before, .navbar-collapse:after {\n  content: \" \";\n  display: table;\n}\n\n.navbar-collapse:after {\n  clear: both;\n}\n\n.navbar-collapse.in {\n  overflow-y: auto;\n}\n\n@media (min-width: 768px) {\n  .navbar-collapse {\n    width: auto;\n    border-top: 0;\n    box-shadow: none;\n  }\n  .navbar-collapse.collapse {\n    display: block !important;\n    height: auto !important;\n    padding-bottom: 0;\n    overflow: visible !important;\n  }\n  .navbar-collapse.in {\n    overflow-y: visible;\n  }\n  .navbar-fixed-top .navbar-collapse,\n  .navbar-static-top .navbar-collapse,\n  .navbar-fixed-bottom .navbar-collapse {\n    padding-left: 0;\n    padding-right: 0;\n  }\n}\n\n.navbar-fixed-top .navbar-collapse,\n.navbar-fixed-bottom .navbar-collapse {\n  max-height: 340px;\n}\n\n@media (max-device-width: 480px) and (orientation: landscape) {\n  .navbar-fixed-top .navbar-collapse,\n  .navbar-fixed-bottom .navbar-collapse {\n    max-height: 200px;\n  }\n}\n\n.container > .navbar-header,\n.container > .navbar-collapse,\n.container-fluid > .navbar-header,\n.container-fluid > .navbar-collapse {\n  margin-right: -15px;\n  margin-left: -15px;\n}\n\n@media (min-width: 768px) {\n  .container > .navbar-header,\n  .container > .navbar-collapse,\n  .container-fluid > .navbar-header,\n  .container-fluid > .navbar-collapse {\n    margin-right: 0;\n    margin-left: 0;\n  }\n}\n\n.navbar-static-top {\n  z-index: 1000;\n  border-width: 0 0 1px;\n}\n\n@media (min-width: 768px) {\n  .navbar-static-top {\n    border-radius: 0;\n  }\n}\n\n.navbar-fixed-top,\n.navbar-fixed-bottom {\n  position: fixed;\n  right: 0;\n  left: 0;\n  z-index: 1030;\n}\n\n@media (min-width: 768px) {\n  .navbar-fixed-top,\n  .navbar-fixed-bottom {\n    border-radius: 0;\n  }\n}\n\n.navbar-fixed-top {\n  top: 0;\n  border-width: 0 0 1px;\n}\n\n.navbar-fixed-bottom {\n  bottom: 0;\n  margin-bottom: 0;\n  border-width: 1px 0 0;\n}\n\n.navbar-brand {\n  float: left;\n  padding: 15px 15px;\n  font-size: 18px;\n  line-height: 20px;\n  height: 50px;\n}\n\n.navbar-brand:hover, .navbar-brand:focus {\n  text-decoration: none;\n}\n\n.navbar-brand > img {\n  display: block;\n}\n\n@media (min-width: 768px) {\n  .navbar > .container .navbar-brand,\n  .navbar > .container-fluid .navbar-brand {\n    margin-left: -15px;\n  }\n}\n\n.navbar-toggle {\n  position: relative;\n  float: right;\n  margin-right: 15px;\n  padding: 9px 10px;\n  margin-top: 8px;\n  margin-bottom: 8px;\n  background-color: transparent;\n  background-image: none;\n  border: 1px solid transparent;\n  border-radius: 4px;\n}\n\n.navbar-toggle:focus {\n  outline: 0;\n}\n\n.navbar-toggle .icon-bar {\n  display: block;\n  width: 22px;\n  height: 2px;\n  border-radius: 1px;\n}\n\n.navbar-toggle .icon-bar + .icon-bar {\n  margin-top: 4px;\n}\n\n@media (min-width: 768px) {\n  .navbar-toggle {\n    display: none;\n  }\n}\n\n.navbar-nav {\n  margin: 7.5px -15px;\n}\n\n.navbar-nav > li > a {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  line-height: 20px;\n}\n\n@media (max-width: 767px) {\n  .navbar-nav .open .dropdown-menu {\n    position: static;\n    float: none;\n    width: auto;\n    margin-top: 0;\n    background-color: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n  .navbar-nav .open .dropdown-menu > li > a,\n  .navbar-nav .open .dropdown-menu .dropdown-header {\n    padding: 5px 15px 5px 25px;\n  }\n  .navbar-nav .open .dropdown-menu > li > a {\n    line-height: 20px;\n  }\n  .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-nav .open .dropdown-menu > li > a:focus {\n    background-image: none;\n  }\n}\n\n@media (min-width: 768px) {\n  .navbar-nav {\n    float: left;\n    margin: 0;\n  }\n  .navbar-nav > li {\n    float: left;\n  }\n  .navbar-nav > li > a {\n    padding-top: 15px;\n    padding-bottom: 15px;\n  }\n}\n\n.navbar-form {\n  margin-left: -15px;\n  margin-right: -15px;\n  padding: 10px 15px;\n  border-top: 1px solid transparent;\n  border-bottom: 1px solid transparent;\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);\n  margin-top: 8px;\n  margin-bottom: 8px;\n}\n\n@media (min-width: 768px) {\n  .navbar-form .form-group {\n    display: inline-block;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .navbar-form .form-control {\n    display: inline-block;\n    width: auto;\n    vertical-align: middle;\n  }\n  .navbar-form .form-control-static {\n    display: inline-block;\n  }\n  .navbar-form .input-group {\n    display: inline-table;\n    vertical-align: middle;\n  }\n  .navbar-form .input-group .input-group-addon,\n  .navbar-form .input-group .input-group-btn,\n  .navbar-form .input-group .form-control {\n    width: auto;\n  }\n  .navbar-form .input-group > .form-control {\n    width: 100%;\n  }\n  .navbar-form .control-label {\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .navbar-form .radio,\n  .navbar-form .checkbox {\n    display: inline-block;\n    margin-top: 0;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .navbar-form .radio label,\n  .navbar-form .checkbox label {\n    padding-left: 0;\n  }\n  .navbar-form .radio input[type=\"radio\"],\n  .navbar-form .checkbox input[type=\"checkbox\"] {\n    position: relative;\n    margin-left: 0;\n  }\n  .navbar-form .has-feedback .form-control-feedback {\n    top: 0;\n  }\n}\n\n@media (max-width: 767px) {\n  .navbar-form .form-group {\n    margin-bottom: 5px;\n  }\n  .navbar-form .form-group:last-child {\n    margin-bottom: 0;\n  }\n}\n\n@media (min-width: 768px) {\n  .navbar-form {\n    width: auto;\n    border: 0;\n    margin-left: 0;\n    margin-right: 0;\n    padding-top: 0;\n    padding-bottom: 0;\n    box-shadow: none;\n  }\n}\n\n.navbar-nav > li > .dropdown-menu {\n  margin-top: 0;\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.navbar-fixed-bottom .navbar-nav > li > .dropdown-menu {\n  margin-bottom: 0;\n  border-top-right-radius: 4px;\n  border-top-left-radius: 4px;\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n}\n\n.navbar-btn {\n  margin-top: 8px;\n  margin-bottom: 8px;\n}\n\n.navbar-btn.btn-sm, .btn-group-sm > .navbar-btn.btn {\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n\n.navbar-btn.btn-xs, .btn-group-xs > .navbar-btn.btn {\n  margin-top: 14px;\n  margin-bottom: 14px;\n}\n\n.navbar-text {\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n\n@media (min-width: 768px) {\n  .navbar-text {\n    float: left;\n    margin-left: 15px;\n    margin-right: 15px;\n  }\n}\n\n@media (min-width: 768px) {\n  .navbar-left {\n    float: left !important;\n  }\n  .navbar-right {\n    float: right !important;\n    margin-right: -15px;\n  }\n  .navbar-right ~ .navbar-right {\n    margin-right: 0;\n  }\n}\n\n.navbar-default {\n  background-color: #f8f8f8;\n  border-color: #e7e7e7;\n}\n\n.navbar-default .navbar-brand {\n  color: #777;\n}\n\n.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {\n  color: #5e5e5e;\n  background-color: transparent;\n}\n\n.navbar-default .navbar-text {\n  color: #777;\n}\n\n.navbar-default .navbar-nav > li > a {\n  color: #777;\n}\n\n.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {\n  color: #333;\n  background-color: transparent;\n}\n\n.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .ax-active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .ax-active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .ax-active > a:focus {\n  color: #555;\n  background-color: #e7e7e7;\n}\n\n.navbar-default .navbar-nav > .disabled > a, .navbar-default .navbar-nav > [disabled] > a, .navbar-default .navbar-nav >\n.ax-disabled > a, .navbar-default .navbar-nav > .disabled > a:hover, .navbar-default .navbar-nav > [disabled] > a:hover, .navbar-default .navbar-nav >\n.ax-disabled > a:hover, .navbar-default .navbar-nav > .disabled > a:focus, .navbar-default .navbar-nav > [disabled] > a:focus, .navbar-default .navbar-nav >\n.ax-disabled > a:focus {\n  color: #ccc;\n  background-color: transparent;\n}\n\n.navbar-default .navbar-toggle {\n  border-color: #ddd;\n}\n\n.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {\n  background-color: #ddd;\n}\n\n.navbar-default .navbar-toggle .icon-bar {\n  background-color: #888;\n}\n\n.navbar-default .navbar-collapse,\n.navbar-default .navbar-form {\n  border-color: #e7e7e7;\n}\n\n.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {\n  background-color: #e7e7e7;\n  color: #555;\n}\n\n@media (max-width: 767px) {\n  .navbar-default .navbar-nav .open .dropdown-menu > li > a {\n    color: #777;\n  }\n  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {\n    color: #333;\n    background-color: transparent;\n  }\n  .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .ax-active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .ax-active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus, .navbar-default .navbar-nav .open .dropdown-menu > .ax-active > a:focus {\n    color: #555;\n    background-color: #e7e7e7;\n  }\n  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a, .navbar-default .navbar-nav .open .dropdown-menu > [disabled] > a, .navbar-default .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > [disabled] > a:hover, .navbar-default .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus, .navbar-default .navbar-nav .open .dropdown-menu > [disabled] > a:focus, .navbar-default .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:focus {\n    color: #ccc;\n    background-color: transparent;\n  }\n}\n\n.navbar-default .navbar-link {\n  color: #777;\n}\n\n.navbar-default .navbar-link:hover {\n  color: #333;\n}\n\n.navbar-default .btn-link {\n  color: #777;\n}\n\n.navbar-default .btn-link:hover, .navbar-default .btn-link:focus {\n  color: #333;\n}\n\n.navbar-default .btn-link[disabled]:hover, .navbar-default .btn-link[disabled]:focus,\nfieldset[disabled] .navbar-default .btn-link:hover,\nfieldset[disabled] .navbar-default .btn-link:focus {\n  color: #ccc;\n}\n\n.navbar-inverse {\n  background-color: #222;\n  border-color: #090909;\n}\n\n.navbar-inverse .navbar-brand {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {\n  color: #fff;\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-text {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-nav > li > a {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {\n  color: #fff;\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .ax-active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .ax-active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .ax-active > a:focus {\n  color: #fff;\n  background-color: #090909;\n}\n\n.navbar-inverse .navbar-nav > .disabled > a, .navbar-inverse .navbar-nav > [disabled] > a, .navbar-inverse .navbar-nav >\n.ax-disabled > a, .navbar-inverse .navbar-nav > .disabled > a:hover, .navbar-inverse .navbar-nav > [disabled] > a:hover, .navbar-inverse .navbar-nav >\n.ax-disabled > a:hover, .navbar-inverse .navbar-nav > .disabled > a:focus, .navbar-inverse .navbar-nav > [disabled] > a:focus, .navbar-inverse .navbar-nav >\n.ax-disabled > a:focus {\n  color: #444;\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-toggle {\n  border-color: #333;\n}\n\n.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {\n  background-color: #333;\n}\n\n.navbar-inverse .navbar-toggle .icon-bar {\n  background-color: #fff;\n}\n\n.navbar-inverse .navbar-collapse,\n.navbar-inverse .navbar-form {\n  border-color: #101010;\n}\n\n.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {\n  background-color: #090909;\n  color: #fff;\n}\n\n@media (max-width: 767px) {\n  .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {\n    border-color: #090909;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu .divider {\n    background-color: #090909;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {\n    color: #9d9d9d;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {\n    color: #fff;\n    background-color: transparent;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .ax-active > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .ax-active > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus, .navbar-inverse .navbar-nav .open .dropdown-menu > .ax-active > a:focus {\n    color: #fff;\n    background-color: #090909;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a, .navbar-inverse .navbar-nav .open .dropdown-menu > [disabled] > a, .navbar-inverse .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > [disabled] > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus, .navbar-inverse .navbar-nav .open .dropdown-menu > [disabled] > a:focus, .navbar-inverse .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:focus {\n    color: #444;\n    background-color: transparent;\n  }\n}\n\n.navbar-inverse .navbar-link {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-link:hover {\n  color: #fff;\n}\n\n.navbar-inverse .btn-link {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .btn-link:hover, .navbar-inverse .btn-link:focus {\n  color: #fff;\n}\n\n.navbar-inverse .btn-link[disabled]:hover, .navbar-inverse .btn-link[disabled]:focus,\nfieldset[disabled] .navbar-inverse .btn-link:hover,\nfieldset[disabled] .navbar-inverse .btn-link:focus {\n  color: #444;\n}\n\n.breadcrumb {\n  padding: 8px 15px;\n  margin-bottom: 20px;\n  list-style: none;\n  background-color: #f5f5f5;\n  border-radius: 4px;\n}\n\n.breadcrumb > li {\n  display: inline-block;\n}\n\n.breadcrumb > li + li:before {\n  content: \"/\\A0\";\n  padding: 0 5px;\n  color: #ccc;\n}\n\n.breadcrumb > .active, .breadcrumb > .ax-active {\n  color: #777777;\n}\n\n.pagination {\n  display: inline-block;\n  padding-left: 0;\n  margin: 20px 0;\n  border-radius: 4px;\n}\n\n.pagination > li {\n  display: inline;\n}\n\n.pagination > li > a,\n.pagination > li > span {\n  position: relative;\n  float: left;\n  padding: 6px 12px;\n  line-height: 1.428571429;\n  text-decoration: none;\n  color: #337ab7;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  margin-left: -1px;\n}\n\n.pagination > li:first-child > a,\n.pagination > li:first-child > span {\n  margin-left: 0;\n  border-bottom-left-radius: 4px;\n  border-top-left-radius: 4px;\n}\n\n.pagination > li:last-child > a,\n.pagination > li:last-child > span {\n  border-bottom-right-radius: 4px;\n  border-top-right-radius: 4px;\n}\n\n.pagination > li > a:hover, .pagination > li > a:focus,\n.pagination > li > span:hover,\n.pagination > li > span:focus {\n  z-index: 2;\n  color: #23527c;\n  background-color: #eeeeee;\n  border-color: #ddd;\n}\n\n.pagination > .active > a, .pagination > .ax-active > a, .pagination > .active > a:hover, .pagination > .ax-active > a:hover, .pagination > .active > a:focus, .pagination > .ax-active > a:focus,\n.pagination > .active > span,\n.pagination > .ax-active > span,\n.pagination > .active > span:hover,\n.pagination > .ax-active > span:hover,\n.pagination > .active > span:focus,\n.pagination > .ax-active > span:focus {\n  z-index: 3;\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #337ab7;\n  cursor: default;\n}\n\n.pagination > .disabled > span, .pagination > [disabled] > span, .pagination >\n.ax-disabled > span,\n.pagination > .disabled > span:hover,\n.pagination > [disabled] > span:hover,\n.pagination >\n.ax-disabled > span:hover,\n.pagination > .disabled > span:focus,\n.pagination > [disabled] > span:focus,\n.pagination >\n.ax-disabled > span:focus,\n.pagination > .disabled > a,\n.pagination > [disabled] > a,\n.pagination >\n.ax-disabled > a,\n.pagination > .disabled > a:hover,\n.pagination > [disabled] > a:hover,\n.pagination >\n.ax-disabled > a:hover,\n.pagination > .disabled > a:focus,\n.pagination > [disabled] > a:focus,\n.pagination >\n.ax-disabled > a:focus {\n  color: #777777;\n  background-color: #fff;\n  border-color: #ddd;\n  cursor: not-allowed;\n}\n\n.pagination-lg > li > a,\n.pagination-lg > li > span {\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n}\n\n.pagination-lg > li:first-child > a,\n.pagination-lg > li:first-child > span {\n  border-bottom-left-radius: 6px;\n  border-top-left-radius: 6px;\n}\n\n.pagination-lg > li:last-child > a,\n.pagination-lg > li:last-child > span {\n  border-bottom-right-radius: 6px;\n  border-top-right-radius: 6px;\n}\n\n.pagination-sm > li > a,\n.pagination-sm > li > span {\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.pagination-sm > li:first-child > a,\n.pagination-sm > li:first-child > span {\n  border-bottom-left-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.pagination-sm > li:last-child > a,\n.pagination-sm > li:last-child > span {\n  border-bottom-right-radius: 3px;\n  border-top-right-radius: 3px;\n}\n\n.pager {\n  padding-left: 0;\n  margin: 20px 0;\n  list-style: none;\n  text-align: center;\n}\n\n.pager:before, .pager:after {\n  content: \" \";\n  display: table;\n}\n\n.pager:after {\n  clear: both;\n}\n\n.pager li {\n  display: inline;\n}\n\n.pager li > a,\n.pager li > span {\n  display: inline-block;\n  padding: 5px 14px;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-radius: 15px;\n}\n\n.pager li > a:hover,\n.pager li > a:focus {\n  text-decoration: none;\n  background-color: #eeeeee;\n}\n\n.pager .next > a,\n.pager .next > span {\n  float: right;\n}\n\n.pager .previous > a,\n.pager .previous > span {\n  float: left;\n}\n\n.pager .disabled > a, .pager [disabled] > a, .pager\n.ax-disabled > a,\n.pager .disabled > a:hover,\n.pager [disabled] > a:hover,\n.pager\n.ax-disabled > a:hover,\n.pager .disabled > a:focus,\n.pager [disabled] > a:focus,\n.pager\n.ax-disabled > a:focus,\n.pager .disabled > span,\n.pager [disabled] > span,\n.pager\n.ax-disabled > span {\n  color: #777777;\n  background-color: #fff;\n  cursor: not-allowed;\n}\n\n.label {\n  display: inline;\n  padding: .2em .6em .3em;\n  font-size: 75%;\n  font-weight: bold;\n  line-height: 1;\n  color: #fff;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: baseline;\n  border-radius: .25em;\n}\n\n.label:empty {\n  display: none;\n}\n\n.btn .label {\n  position: relative;\n  top: -1px;\n}\n\na.label:hover, a.label:focus {\n  color: #fff;\n  text-decoration: none;\n  cursor: pointer;\n}\n\n.label-default {\n  background-color: #777777;\n}\n\n.label-default[href]:hover, .label-default[href]:focus {\n  background-color: #5e5e5e;\n}\n\n.label-primary {\n  background-color: #337ab7;\n}\n\n.label-primary[href]:hover, .label-primary[href]:focus {\n  background-color: #286090;\n}\n\n.label-success {\n  background-color: #5cb85c;\n}\n\n.label-success[href]:hover, .label-success[href]:focus {\n  background-color: #449d44;\n}\n\n.label-info {\n  background-color: #5bc0de;\n}\n\n.label-info[href]:hover, .label-info[href]:focus {\n  background-color: #31b0d5;\n}\n\n.label-warning {\n  background-color: #f0ad4e;\n}\n\n.label-warning[href]:hover, .label-warning[href]:focus {\n  background-color: #ec971f;\n}\n\n.label-danger {\n  background-color: #d9534f;\n}\n\n.label-danger[href]:hover, .label-danger[href]:focus {\n  background-color: #c9302c;\n}\n\n.badge {\n  display: inline-block;\n  min-width: 10px;\n  padding: 3px 7px;\n  font-size: 12px;\n  font-weight: bold;\n  color: #fff;\n  line-height: 1;\n  vertical-align: middle;\n  white-space: nowrap;\n  text-align: center;\n  background-color: #777777;\n  border-radius: 10px;\n}\n\n.badge:empty {\n  display: none;\n}\n\n.btn .badge {\n  position: relative;\n  top: -1px;\n}\n\n.btn-xs .badge, .btn-group-xs > .btn .badge,\n.btn-group-xs > .btn .badge {\n  top: 0;\n  padding: 1px 5px;\n}\n\n.list-group-item.active > .badge, .list-group-item.ax-active > .badge,\n.nav-pills > .active > a > .badge,\n.nav-pills > .ax-active > a > .badge {\n  color: #337ab7;\n  background-color: #fff;\n}\n\n.list-group-item > .badge {\n  float: right;\n}\n\n.list-group-item > .badge + .badge {\n  margin-right: 5px;\n}\n\n.nav-pills > li > a > .badge {\n  margin-left: 3px;\n}\n\na.badge:hover, a.badge:focus {\n  color: #fff;\n  text-decoration: none;\n  cursor: pointer;\n}\n\n.jumbotron {\n  padding-top: 30px;\n  padding-bottom: 30px;\n  margin-bottom: 30px;\n  color: inherit;\n  background-color: #eeeeee;\n}\n\n.jumbotron h1,\n.jumbotron .h1 {\n  color: inherit;\n}\n\n.jumbotron p {\n  margin-bottom: 15px;\n  font-size: 21px;\n  font-weight: 200;\n}\n\n.jumbotron > hr {\n  border-top-color: #d5d5d5;\n}\n\n.container .jumbotron,\n.container-fluid .jumbotron {\n  border-radius: 6px;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.jumbotron .container {\n  max-width: 100%;\n}\n\n@media screen and (min-width: 768px) {\n  .jumbotron {\n    padding-top: 48px;\n    padding-bottom: 48px;\n  }\n  .container .jumbotron,\n  .container-fluid .jumbotron {\n    padding-left: 60px;\n    padding-right: 60px;\n  }\n  .jumbotron h1,\n  .jumbotron .h1 {\n    font-size: 63px;\n  }\n}\n\n.thumbnail {\n  display: block;\n  padding: 4px;\n  margin-bottom: 20px;\n  line-height: 1.428571429;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  -webkit-transition: border 0.2s ease-in-out;\n  transition: border 0.2s ease-in-out;\n}\n\n.thumbnail > img,\n.thumbnail a > img {\n  display: block;\n  max-width: 100%;\n  height: auto;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.thumbnail .caption {\n  padding: 9px;\n  color: #333333;\n}\n\na.thumbnail:hover,\na.thumbnail:focus,\na.thumbnail.active,\na.thumbnail.ax-active {\n  border-color: #337ab7;\n}\n\n@-webkit-keyframes progress-bar-stripes {\n  from {\n    background-position: 40px 0;\n  }\n  to {\n    background-position: 0 0;\n  }\n}\n\n@keyframes progress-bar-stripes {\n  from {\n    background-position: 40px 0;\n  }\n  to {\n    background-position: 0 0;\n  }\n}\n\n.progress {\n  overflow: hidden;\n  height: 20px;\n  margin-bottom: 20px;\n  background-color: #f5f5f5;\n  border-radius: 4px;\n  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.progress-bar {\n  float: left;\n  width: 0%;\n  height: 100%;\n  font-size: 12px;\n  line-height: 20px;\n  color: #fff;\n  text-align: center;\n  background-color: #337ab7;\n  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);\n  -webkit-transition: width 0.6s ease;\n  transition: width 0.6s ease;\n}\n\n.progress-striped .progress-bar,\n.progress-bar-striped {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-size: 40px 40px;\n}\n\n.progress.active .progress-bar, .progress.ax-active .progress-bar,\n.progress-bar.active,\n.progress-bar.ax-active {\n  -webkit-animation: progress-bar-stripes 2s linear infinite;\n  animation: progress-bar-stripes 2s linear infinite;\n}\n\n.progress-bar-success {\n  background-color: #5cb85c;\n}\n\n.progress-striped .progress-bar-success {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.progress-bar-info {\n  background-color: #5bc0de;\n}\n\n.progress-striped .progress-bar-info {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.progress-bar-warning {\n  background-color: #f0ad4e;\n}\n\n.progress-striped .progress-bar-warning {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.progress-bar-danger {\n  background-color: #d9534f;\n}\n\n.progress-striped .progress-bar-danger {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.media {\n  margin-top: 15px;\n}\n\n.media:first-child {\n  margin-top: 0;\n}\n\n.media,\n.media-body {\n  zoom: 1;\n  overflow: hidden;\n}\n\n.media-body {\n  width: 10000px;\n}\n\n.media-object {\n  display: block;\n}\n\n.media-object.img-thumbnail {\n  max-width: none;\n}\n\n.media-right,\n.media > .pull-right {\n  padding-left: 10px;\n}\n\n.media-left,\n.media > .pull-left {\n  padding-right: 10px;\n}\n\n.media-left,\n.media-right,\n.media-body {\n  display: table-cell;\n  vertical-align: top;\n}\n\n.media-middle {\n  vertical-align: middle;\n}\n\n.media-bottom {\n  vertical-align: bottom;\n}\n\n.media-heading {\n  margin-top: 0;\n  margin-bottom: 5px;\n}\n\n.media-list {\n  padding-left: 0;\n  list-style: none;\n}\n\n.list-group {\n  margin-bottom: 20px;\n  padding-left: 0;\n}\n\n.list-group-item {\n  position: relative;\n  display: block;\n  padding: 10px 15px;\n  margin-bottom: -1px;\n  background-color: #fff;\n  border: 1px solid #ddd;\n}\n\n.list-group-item:first-child {\n  border-top-right-radius: 4px;\n  border-top-left-radius: 4px;\n}\n\n.list-group-item:last-child {\n  margin-bottom: 0;\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n\na.list-group-item,\nbutton.list-group-item {\n  color: #555;\n}\n\na.list-group-item .list-group-item-heading,\nbutton.list-group-item .list-group-item-heading {\n  color: #333;\n}\n\na.list-group-item:hover, a.list-group-item:focus,\nbutton.list-group-item:hover,\nbutton.list-group-item:focus {\n  text-decoration: none;\n  color: #555;\n  background-color: #f5f5f5;\n}\n\nbutton.list-group-item {\n  width: 100%;\n  text-align: left;\n}\n\n.list-group-item.disabled, .list-group-item[disabled],\n.list-group-item.ax-disabled, .list-group-item.disabled:hover, .list-group-item[disabled]:hover,\n.list-group-item.ax-disabled:hover, .list-group-item.disabled:focus, .list-group-item[disabled]:focus,\n.list-group-item.ax-disabled:focus {\n  background-color: #eeeeee;\n  color: #777777;\n  cursor: not-allowed;\n}\n\n.list-group-item.disabled .list-group-item-heading, .list-group-item[disabled] .list-group-item-heading,\n.list-group-item.ax-disabled .list-group-item-heading, .list-group-item.disabled:hover .list-group-item-heading, .list-group-item[disabled]:hover .list-group-item-heading,\n.list-group-item.ax-disabled:hover .list-group-item-heading, .list-group-item.disabled:focus .list-group-item-heading, .list-group-item[disabled]:focus .list-group-item-heading,\n.list-group-item.ax-disabled:focus .list-group-item-heading {\n  color: inherit;\n}\n\n.list-group-item.disabled .list-group-item-text, .list-group-item[disabled] .list-group-item-text,\n.list-group-item.ax-disabled .list-group-item-text, .list-group-item.disabled:hover .list-group-item-text, .list-group-item[disabled]:hover .list-group-item-text,\n.list-group-item.ax-disabled:hover .list-group-item-text, .list-group-item.disabled:focus .list-group-item-text, .list-group-item[disabled]:focus .list-group-item-text,\n.list-group-item.ax-disabled:focus .list-group-item-text {\n  color: #777777;\n}\n\n.list-group-item.active, .list-group-item.ax-active, .list-group-item.active:hover, .list-group-item.ax-active:hover, .list-group-item.active:focus, .list-group-item.ax-active:focus {\n  z-index: 2;\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #337ab7;\n}\n\n.list-group-item.active .list-group-item-heading, .list-group-item.ax-active .list-group-item-heading,\n.list-group-item.active .list-group-item-heading > small, .list-group-item.ax-active .list-group-item-heading > small,\n.list-group-item.active .list-group-item-heading > .small, .list-group-item.ax-active .list-group-item-heading > .small, .list-group-item.active:hover .list-group-item-heading, .list-group-item.ax-active:hover .list-group-item-heading,\n.list-group-item.active:hover .list-group-item-heading > small, .list-group-item.ax-active:hover .list-group-item-heading > small,\n.list-group-item.active:hover .list-group-item-heading > .small, .list-group-item.ax-active:hover .list-group-item-heading > .small, .list-group-item.active:focus .list-group-item-heading, .list-group-item.ax-active:focus .list-group-item-heading,\n.list-group-item.active:focus .list-group-item-heading > small, .list-group-item.ax-active:focus .list-group-item-heading > small,\n.list-group-item.active:focus .list-group-item-heading > .small, .list-group-item.ax-active:focus .list-group-item-heading > .small {\n  color: inherit;\n}\n\n.list-group-item.active .list-group-item-text, .list-group-item.ax-active .list-group-item-text, .list-group-item.active:hover .list-group-item-text, .list-group-item.ax-active:hover .list-group-item-text, .list-group-item.active:focus .list-group-item-text, .list-group-item.ax-active:focus .list-group-item-text {\n  color: #c7ddef;\n}\n\n.list-group-item-success {\n  color: #3c763d;\n  background-color: #dff0d8;\n}\n\na.list-group-item-success,\nbutton.list-group-item-success {\n  color: #3c763d;\n}\n\na.list-group-item-success .list-group-item-heading,\nbutton.list-group-item-success .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-success:hover, a.list-group-item-success:focus,\nbutton.list-group-item-success:hover,\nbutton.list-group-item-success:focus {\n  color: #3c763d;\n  background-color: #d0e9c6;\n}\n\na.list-group-item-success.active, a.list-group-item-success.ax-active, a.list-group-item-success.active:hover, a.list-group-item-success.ax-active:hover, a.list-group-item-success.active:focus, a.list-group-item-success.ax-active:focus,\nbutton.list-group-item-success.active,\nbutton.list-group-item-success.ax-active,\nbutton.list-group-item-success.active:hover,\nbutton.list-group-item-success.ax-active:hover,\nbutton.list-group-item-success.active:focus,\nbutton.list-group-item-success.ax-active:focus {\n  color: #fff;\n  background-color: #3c763d;\n  border-color: #3c763d;\n}\n\n.list-group-item-info {\n  color: #31708f;\n  background-color: #d9edf7;\n}\n\na.list-group-item-info,\nbutton.list-group-item-info {\n  color: #31708f;\n}\n\na.list-group-item-info .list-group-item-heading,\nbutton.list-group-item-info .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-info:hover, a.list-group-item-info:focus,\nbutton.list-group-item-info:hover,\nbutton.list-group-item-info:focus {\n  color: #31708f;\n  background-color: #c4e3f3;\n}\n\na.list-group-item-info.active, a.list-group-item-info.ax-active, a.list-group-item-info.active:hover, a.list-group-item-info.ax-active:hover, a.list-group-item-info.active:focus, a.list-group-item-info.ax-active:focus,\nbutton.list-group-item-info.active,\nbutton.list-group-item-info.ax-active,\nbutton.list-group-item-info.active:hover,\nbutton.list-group-item-info.ax-active:hover,\nbutton.list-group-item-info.active:focus,\nbutton.list-group-item-info.ax-active:focus {\n  color: #fff;\n  background-color: #31708f;\n  border-color: #31708f;\n}\n\n.list-group-item-warning {\n  color: #8a6d3b;\n  background-color: #fcf8e3;\n}\n\na.list-group-item-warning,\nbutton.list-group-item-warning {\n  color: #8a6d3b;\n}\n\na.list-group-item-warning .list-group-item-heading,\nbutton.list-group-item-warning .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-warning:hover, a.list-group-item-warning:focus,\nbutton.list-group-item-warning:hover,\nbutton.list-group-item-warning:focus {\n  color: #8a6d3b;\n  background-color: #faf2cc;\n}\n\na.list-group-item-warning.active, a.list-group-item-warning.ax-active, a.list-group-item-warning.active:hover, a.list-group-item-warning.ax-active:hover, a.list-group-item-warning.active:focus, a.list-group-item-warning.ax-active:focus,\nbutton.list-group-item-warning.active,\nbutton.list-group-item-warning.ax-active,\nbutton.list-group-item-warning.active:hover,\nbutton.list-group-item-warning.ax-active:hover,\nbutton.list-group-item-warning.active:focus,\nbutton.list-group-item-warning.ax-active:focus {\n  color: #fff;\n  background-color: #8a6d3b;\n  border-color: #8a6d3b;\n}\n\n.list-group-item-danger {\n  color: #a94442;\n  background-color: #f2dede;\n}\n\na.list-group-item-danger,\nbutton.list-group-item-danger {\n  color: #a94442;\n}\n\na.list-group-item-danger .list-group-item-heading,\nbutton.list-group-item-danger .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-danger:hover, a.list-group-item-danger:focus,\nbutton.list-group-item-danger:hover,\nbutton.list-group-item-danger:focus {\n  color: #a94442;\n  background-color: #ebcccc;\n}\n\na.list-group-item-danger.active, a.list-group-item-danger.ax-active, a.list-group-item-danger.active:hover, a.list-group-item-danger.ax-active:hover, a.list-group-item-danger.active:focus, a.list-group-item-danger.ax-active:focus,\nbutton.list-group-item-danger.active,\nbutton.list-group-item-danger.ax-active,\nbutton.list-group-item-danger.active:hover,\nbutton.list-group-item-danger.ax-active:hover,\nbutton.list-group-item-danger.active:focus,\nbutton.list-group-item-danger.ax-active:focus {\n  color: #fff;\n  background-color: #a94442;\n  border-color: #a94442;\n}\n\n.list-group-item-heading {\n  margin-top: 0;\n  margin-bottom: 5px;\n}\n\n.list-group-item-text {\n  margin-bottom: 0;\n  line-height: 1.3;\n}\n\n.panel {\n  margin-bottom: 20px;\n  background-color: #fff;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);\n}\n\n.panel-body {\n  padding: 15px;\n}\n\n.panel-body:before, .panel-body:after {\n  content: \" \";\n  display: table;\n}\n\n.panel-body:after {\n  clear: both;\n}\n\n.panel-heading {\n  padding: 10px 15px;\n  border-bottom: 1px solid transparent;\n  border-top-right-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.panel-heading > .dropdown .dropdown-toggle {\n  color: inherit;\n}\n\n.panel-title {\n  margin-top: 0;\n  margin-bottom: 0;\n  font-size: 16px;\n  color: inherit;\n}\n\n.panel-title > a,\n.panel-title > small,\n.panel-title > .small,\n.panel-title > small > a,\n.panel-title > .small > a {\n  color: inherit;\n}\n\n.panel-footer {\n  padding: 10px 15px;\n  background-color: #f5f5f5;\n  border-top: 1px solid #ddd;\n  border-bottom-right-radius: 3px;\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .list-group,\n.panel > .panel-collapse > .list-group {\n  margin-bottom: 0;\n}\n\n.panel > .list-group .list-group-item,\n.panel > .panel-collapse > .list-group .list-group-item {\n  border-width: 1px 0;\n  border-radius: 0;\n}\n\n.panel > .list-group:first-child .list-group-item:first-child,\n.panel > .panel-collapse > .list-group:first-child .list-group-item:first-child {\n  border-top: 0;\n  border-top-right-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.panel > .list-group:last-child .list-group-item:last-child,\n.panel > .panel-collapse > .list-group:last-child .list-group-item:last-child {\n  border-bottom: 0;\n  border-bottom-right-radius: 3px;\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child {\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.panel-heading + .list-group .list-group-item:first-child {\n  border-top-width: 0;\n}\n\n.list-group + .panel-footer {\n  border-top-width: 0;\n}\n\n.panel > .table,\n.panel > .table-responsive > .table,\n.panel > .panel-collapse > .table {\n  margin-bottom: 0;\n}\n\n.panel > .table caption,\n.panel > .table-responsive > .table caption,\n.panel > .panel-collapse > .table caption {\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.panel > .table:first-child,\n.panel > .table-responsive:first-child > .table:first-child {\n  border-top-right-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.panel > .table:first-child > thead:first-child > tr:first-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child {\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n}\n\n.panel > .table:first-child > thead:first-child > tr:first-child td:first-child,\n.panel > .table:first-child > thead:first-child > tr:first-child th:first-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child td:first-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child th:first-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:first-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:first-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:first-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child {\n  border-top-left-radius: 3px;\n}\n\n.panel > .table:first-child > thead:first-child > tr:first-child td:last-child,\n.panel > .table:first-child > thead:first-child > tr:first-child th:last-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child td:last-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child th:last-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:last-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:last-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:last-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child {\n  border-top-right-radius: 3px;\n}\n\n.panel > .table:last-child,\n.panel > .table-responsive:last-child > .table:last-child {\n  border-bottom-right-radius: 3px;\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .table:last-child > tbody:last-child > tr:last-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child {\n  border-bottom-left-radius: 3px;\n  border-bottom-right-radius: 3px;\n}\n\n.panel > .table:last-child > tbody:last-child > tr:last-child td:first-child,\n.panel > .table:last-child > tbody:last-child > tr:last-child th:first-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child th:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child {\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .table:last-child > tbody:last-child > tr:last-child td:last-child,\n.panel > .table:last-child > tbody:last-child > tr:last-child th:last-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child th:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child {\n  border-bottom-right-radius: 3px;\n}\n\n.panel > .panel-body + .table,\n.panel > .panel-body + .table-responsive,\n.panel > .table + .panel-body,\n.panel > .table-responsive + .panel-body {\n  border-top: 1px solid #ddd;\n}\n\n.panel > .table > tbody:first-child > tr:first-child th,\n.panel > .table > tbody:first-child > tr:first-child td {\n  border-top: 0;\n}\n\n.panel > .table-bordered,\n.panel > .table-responsive > .table-bordered {\n  border: 0;\n}\n\n.panel > .table-bordered > thead > tr > th:first-child,\n.panel > .table-bordered > thead > tr > td:first-child,\n.panel > .table-bordered > tbody > tr > th:first-child,\n.panel > .table-bordered > tbody > tr > td:first-child,\n.panel > .table-bordered > tfoot > tr > th:first-child,\n.panel > .table-bordered > tfoot > tr > td:first-child,\n.panel > .table-responsive > .table-bordered > thead > tr > th:first-child,\n.panel > .table-responsive > .table-bordered > thead > tr > td:first-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > th:first-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > td:first-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > th:first-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > td:first-child {\n  border-left: 0;\n}\n\n.panel > .table-bordered > thead > tr > th:last-child,\n.panel > .table-bordered > thead > tr > td:last-child,\n.panel > .table-bordered > tbody > tr > th:last-child,\n.panel > .table-bordered > tbody > tr > td:last-child,\n.panel > .table-bordered > tfoot > tr > th:last-child,\n.panel > .table-bordered > tfoot > tr > td:last-child,\n.panel > .table-responsive > .table-bordered > thead > tr > th:last-child,\n.panel > .table-responsive > .table-bordered > thead > tr > td:last-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > th:last-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > td:last-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > th:last-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > td:last-child {\n  border-right: 0;\n}\n\n.panel > .table-bordered > thead > tr:first-child > td,\n.panel > .table-bordered > thead > tr:first-child > th,\n.panel > .table-bordered > tbody > tr:first-child > td,\n.panel > .table-bordered > tbody > tr:first-child > th,\n.panel > .table-responsive > .table-bordered > thead > tr:first-child > td,\n.panel > .table-responsive > .table-bordered > thead > tr:first-child > th,\n.panel > .table-responsive > .table-bordered > tbody > tr:first-child > td,\n.panel > .table-responsive > .table-bordered > tbody > tr:first-child > th {\n  border-bottom: 0;\n}\n\n.panel > .table-bordered > tbody > tr:last-child > td,\n.panel > .table-bordered > tbody > tr:last-child > th,\n.panel > .table-bordered > tfoot > tr:last-child > td,\n.panel > .table-bordered > tfoot > tr:last-child > th,\n.panel > .table-responsive > .table-bordered > tbody > tr:last-child > td,\n.panel > .table-responsive > .table-bordered > tbody > tr:last-child > th,\n.panel > .table-responsive > .table-bordered > tfoot > tr:last-child > td,\n.panel > .table-responsive > .table-bordered > tfoot > tr:last-child > th {\n  border-bottom: 0;\n}\n\n.panel > .table-responsive {\n  border: 0;\n  margin-bottom: 0;\n}\n\n.panel-group {\n  margin-bottom: 20px;\n}\n\n.panel-group .panel {\n  margin-bottom: 0;\n  border-radius: 4px;\n}\n\n.panel-group .panel + .panel {\n  margin-top: 5px;\n}\n\n.panel-group .panel-heading {\n  border-bottom: 0;\n}\n\n.panel-group .panel-heading + .panel-collapse > .panel-body,\n.panel-group .panel-heading + .panel-collapse > .list-group {\n  border-top: 1px solid #ddd;\n}\n\n.panel-group .panel-footer {\n  border-top: 0;\n}\n\n.panel-group .panel-footer + .panel-collapse .panel-body {\n  border-bottom: 1px solid #ddd;\n}\n\n.panel-default {\n  border-color: #ddd;\n}\n\n.panel-default > .panel-heading {\n  color: #333333;\n  background-color: #f5f5f5;\n  border-color: #ddd;\n}\n\n.panel-default > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #ddd;\n}\n\n.panel-default > .panel-heading .badge {\n  color: #f5f5f5;\n  background-color: #333333;\n}\n\n.panel-default > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #ddd;\n}\n\n.panel-primary {\n  border-color: #337ab7;\n}\n\n.panel-primary > .panel-heading {\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #337ab7;\n}\n\n.panel-primary > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #337ab7;\n}\n\n.panel-primary > .panel-heading .badge {\n  color: #337ab7;\n  background-color: #fff;\n}\n\n.panel-primary > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #337ab7;\n}\n\n.panel-success {\n  border-color: #d6e9c6;\n}\n\n.panel-success > .panel-heading {\n  color: #3c763d;\n  background-color: #dff0d8;\n  border-color: #d6e9c6;\n}\n\n.panel-success > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #d6e9c6;\n}\n\n.panel-success > .panel-heading .badge {\n  color: #dff0d8;\n  background-color: #3c763d;\n}\n\n.panel-success > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #d6e9c6;\n}\n\n.panel-info {\n  border-color: #bce8f1;\n}\n\n.panel-info > .panel-heading {\n  color: #31708f;\n  background-color: #d9edf7;\n  border-color: #bce8f1;\n}\n\n.panel-info > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #bce8f1;\n}\n\n.panel-info > .panel-heading .badge {\n  color: #d9edf7;\n  background-color: #31708f;\n}\n\n.panel-info > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #bce8f1;\n}\n\n.panel-warning {\n  border-color: #faebcc;\n}\n\n.panel-warning > .panel-heading {\n  color: #8a6d3b;\n  background-color: #fcf8e3;\n  border-color: #faebcc;\n}\n\n.panel-warning > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #faebcc;\n}\n\n.panel-warning > .panel-heading .badge {\n  color: #fcf8e3;\n  background-color: #8a6d3b;\n}\n\n.panel-warning > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #faebcc;\n}\n\n.panel-danger {\n  border-color: #ebccd1;\n}\n\n.panel-danger > .panel-heading {\n  color: #a94442;\n  background-color: #f2dede;\n  border-color: #ebccd1;\n}\n\n.panel-danger > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #ebccd1;\n}\n\n.panel-danger > .panel-heading .badge {\n  color: #f2dede;\n  background-color: #a94442;\n}\n\n.panel-danger > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #ebccd1;\n}\n\n.well {\n  min-height: 20px;\n  padding: 19px;\n  margin-bottom: 20px;\n  background-color: #f5f5f5;\n  border: 1px solid #e3e3e3;\n  border-radius: 4px;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);\n}\n\n.well blockquote {\n  border-color: #ddd;\n  border-color: rgba(0, 0, 0, 0.15);\n}\n\n.well-lg {\n  padding: 24px;\n  border-radius: 6px;\n}\n\n.well-sm {\n  padding: 9px;\n  border-radius: 3px;\n}\n\n.close {\n  float: right;\n  font-size: 21px;\n  font-weight: bold;\n  line-height: 1;\n  color: #000;\n  text-shadow: 0 1px 0 #fff;\n  opacity: 0.2;\n  filter: alpha(opacity=20);\n}\n\n.close:hover, .close:focus {\n  color: #000;\n  text-decoration: none;\n  cursor: pointer;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n}\n\nbutton.close {\n  padding: 0;\n  cursor: pointer;\n  background: transparent;\n  border: 0;\n  -webkit-appearance: none;\n}\n\n.alert {\n  padding: 15px;\n  margin-bottom: 20px;\n  border: 1px solid transparent;\n  border-radius: 4px;\n}\n\n.alert h4 {\n  margin-top: 0;\n  color: inherit;\n}\n\n.alert .alert-link {\n  font-weight: bold;\n}\n\n.alert > p,\n.alert > ul {\n  margin-bottom: 0;\n}\n\n.alert > p + p {\n  margin-top: 5px;\n}\n\n.alert-dismissable,\n.alert-dismissible {\n  padding-right: 35px;\n}\n\n.alert-dismissable .close,\n.alert-dismissible .close {\n  position: relative;\n  top: -2px;\n  right: -21px;\n  color: inherit;\n}\n\n.alert-success {\n  background-color: #dff0d8;\n  border-color: #d6e9c6;\n  color: #3c763d;\n}\n\n.alert-success hr {\n  border-top-color: #c9e2b3;\n}\n\n.alert-success .alert-link {\n  color: #2b542c;\n}\n\n.alert-info {\n  background-color: #d9edf7;\n  border-color: #bce8f1;\n  color: #31708f;\n}\n\n.alert-info hr {\n  border-top-color: #a6e1ec;\n}\n\n.alert-info .alert-link {\n  color: #245269;\n}\n\n.alert-warning {\n  background-color: #fcf8e3;\n  border-color: #faebcc;\n  color: #8a6d3b;\n}\n\n.alert-warning hr {\n  border-top-color: #f7e1b5;\n}\n\n.alert-warning .alert-link {\n  color: #66512c;\n}\n\n.alert-danger {\n  background-color: #f2dede;\n  border-color: #ebccd1;\n  color: #a94442;\n}\n\n.alert-danger hr {\n  border-top-color: #e4b9c0;\n}\n\n.alert-danger .alert-link {\n  color: #843534;\n}\n\n.modal-open {\n  overflow: hidden;\n}\n\n.modal {\n  display: none;\n  overflow: hidden;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 1050;\n  -webkit-overflow-scrolling: touch;\n  outline: 0;\n}\n\n.modal.fade .modal-dialog {\n  -webkit-transform: translate(0, -25%);\n  -ms-transform: translate(0, -25%);\n  transform: translate(0, -25%);\n  -webkit-transition: -webkit-transform 0.3s ease-out;\n  transition: -webkit-transform 0.3s ease-out;\n  transition: transform 0.3s ease-out;\n  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;\n}\n\n.modal.in .modal-dialog {\n  -webkit-transform: translate(0, 0);\n  -ms-transform: translate(0, 0);\n  transform: translate(0, 0);\n}\n\n.modal-open .modal {\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n\n.modal-dialog {\n  position: relative;\n  width: auto;\n  margin: 10px;\n}\n\n.modal-content {\n  position: relative;\n  background-color: #fff;\n  border: 1px solid #999;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 6px;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  background-clip: padding-box;\n  outline: 0;\n}\n\n.modal-backdrop {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 1040;\n  background-color: #000;\n}\n\n.modal-backdrop.fade {\n  opacity: 0;\n  filter: alpha(opacity=0);\n}\n\n.modal-backdrop.in {\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n}\n\n.modal-header {\n  padding: 15px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.modal-header:before, .modal-header:after {\n  content: \" \";\n  display: table;\n}\n\n.modal-header:after {\n  clear: both;\n}\n\n.modal-header .close {\n  margin-top: -2px;\n}\n\n.modal-title {\n  margin: 0;\n  line-height: 1.428571429;\n}\n\n.modal-body {\n  position: relative;\n  padding: 15px;\n}\n\n.modal-footer {\n  padding: 15px;\n  text-align: right;\n  border-top: 1px solid #e5e5e5;\n}\n\n.modal-footer:before, .modal-footer:after {\n  content: \" \";\n  display: table;\n}\n\n.modal-footer:after {\n  clear: both;\n}\n\n.modal-footer .btn + .btn {\n  margin-left: 5px;\n  margin-bottom: 0;\n}\n\n.modal-footer .btn-group .btn + .btn {\n  margin-left: -1px;\n}\n\n.modal-footer .btn-block + .btn-block {\n  margin-left: 0;\n}\n\n.modal-scrollbar-measure {\n  position: absolute;\n  top: -9999px;\n  width: 50px;\n  height: 50px;\n  overflow: scroll;\n}\n\n@media (min-width: 768px) {\n  .modal-dialog {\n    width: 600px;\n    margin: 30px auto;\n  }\n  .modal-content {\n    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);\n  }\n  .modal-sm {\n    width: 300px;\n  }\n}\n\n@media (min-width: 992px) {\n  .modal-lg {\n    width: 900px;\n  }\n}\n\n.tooltip {\n  position: absolute;\n  z-index: 1070;\n  display: block;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-style: normal;\n  font-weight: normal;\n  letter-spacing: normal;\n  line-break: auto;\n  line-height: 1.428571429;\n  text-align: left;\n  text-align: start;\n  text-decoration: none;\n  text-shadow: none;\n  text-transform: none;\n  white-space: normal;\n  word-break: normal;\n  word-spacing: normal;\n  word-wrap: normal;\n  font-size: 12px;\n  opacity: 0;\n  filter: alpha(opacity=0);\n}\n\n.tooltip.in {\n  opacity: 0.9;\n  filter: alpha(opacity=90);\n}\n\n.tooltip.top {\n  margin-top: -3px;\n  padding: 5px 0;\n}\n\n.tooltip.right {\n  margin-left: 3px;\n  padding: 0 5px;\n}\n\n.tooltip.bottom {\n  margin-top: 3px;\n  padding: 5px 0;\n}\n\n.tooltip.left {\n  margin-left: -3px;\n  padding: 0 5px;\n}\n\n.tooltip-inner {\n  max-width: 200px;\n  padding: 3px 8px;\n  color: #fff;\n  text-align: center;\n  background-color: #000;\n  border-radius: 4px;\n}\n\n.tooltip-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border-color: transparent;\n  border-style: solid;\n}\n\n.tooltip.top .tooltip-arrow {\n  bottom: 0;\n  left: 50%;\n  margin-left: -5px;\n  border-width: 5px 5px 0;\n  border-top-color: #000;\n}\n\n.tooltip.top-left .tooltip-arrow {\n  bottom: 0;\n  right: 5px;\n  margin-bottom: -5px;\n  border-width: 5px 5px 0;\n  border-top-color: #000;\n}\n\n.tooltip.top-right .tooltip-arrow {\n  bottom: 0;\n  left: 5px;\n  margin-bottom: -5px;\n  border-width: 5px 5px 0;\n  border-top-color: #000;\n}\n\n.tooltip.right .tooltip-arrow {\n  top: 50%;\n  left: 0;\n  margin-top: -5px;\n  border-width: 5px 5px 5px 0;\n  border-right-color: #000;\n}\n\n.tooltip.left .tooltip-arrow {\n  top: 50%;\n  right: 0;\n  margin-top: -5px;\n  border-width: 5px 0 5px 5px;\n  border-left-color: #000;\n}\n\n.tooltip.bottom .tooltip-arrow {\n  top: 0;\n  left: 50%;\n  margin-left: -5px;\n  border-width: 0 5px 5px;\n  border-bottom-color: #000;\n}\n\n.tooltip.bottom-left .tooltip-arrow {\n  top: 0;\n  right: 5px;\n  margin-top: -5px;\n  border-width: 0 5px 5px;\n  border-bottom-color: #000;\n}\n\n.tooltip.bottom-right .tooltip-arrow {\n  top: 0;\n  left: 5px;\n  margin-top: -5px;\n  border-width: 0 5px 5px;\n  border-bottom-color: #000;\n}\n\n.popover {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1060;\n  display: none;\n  max-width: 276px;\n  padding: 1px;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-style: normal;\n  font-weight: normal;\n  letter-spacing: normal;\n  line-break: auto;\n  line-height: 1.428571429;\n  text-align: left;\n  text-align: start;\n  text-decoration: none;\n  text-shadow: none;\n  text-transform: none;\n  white-space: normal;\n  word-break: normal;\n  word-spacing: normal;\n  word-wrap: normal;\n  font-size: 14px;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 6px;\n  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\n}\n\n.popover.top {\n  margin-top: -10px;\n}\n\n.popover.right {\n  margin-left: 10px;\n}\n\n.popover.bottom {\n  margin-top: 10px;\n}\n\n.popover.left {\n  margin-left: -10px;\n}\n\n.popover-title {\n  margin: 0;\n  padding: 8px 14px;\n  font-size: 14px;\n  background-color: #f7f7f7;\n  border-bottom: 1px solid #ebebeb;\n  border-radius: 5px 5px 0 0;\n}\n\n.popover-content {\n  padding: 9px 14px;\n}\n\n.popover > .arrow, .popover > .arrow:after {\n  position: absolute;\n  display: block;\n  width: 0;\n  height: 0;\n  border-color: transparent;\n  border-style: solid;\n}\n\n.popover > .arrow {\n  border-width: 11px;\n}\n\n.popover > .arrow:after {\n  border-width: 10px;\n  content: \"\";\n}\n\n.popover.top > .arrow {\n  left: 50%;\n  margin-left: -11px;\n  border-bottom-width: 0;\n  border-top-color: #999999;\n  border-top-color: rgba(0, 0, 0, 0.25);\n  bottom: -11px;\n}\n\n.popover.top > .arrow:after {\n  content: \" \";\n  bottom: 1px;\n  margin-left: -10px;\n  border-bottom-width: 0;\n  border-top-color: #fff;\n}\n\n.popover.right > .arrow {\n  top: 50%;\n  left: -11px;\n  margin-top: -11px;\n  border-left-width: 0;\n  border-right-color: #999999;\n  border-right-color: rgba(0, 0, 0, 0.25);\n}\n\n.popover.right > .arrow:after {\n  content: \" \";\n  left: 1px;\n  bottom: -10px;\n  border-left-width: 0;\n  border-right-color: #fff;\n}\n\n.popover.bottom > .arrow {\n  left: 50%;\n  margin-left: -11px;\n  border-top-width: 0;\n  border-bottom-color: #999999;\n  border-bottom-color: rgba(0, 0, 0, 0.25);\n  top: -11px;\n}\n\n.popover.bottom > .arrow:after {\n  content: \" \";\n  top: 1px;\n  margin-left: -10px;\n  border-top-width: 0;\n  border-bottom-color: #fff;\n}\n\n.popover.left > .arrow {\n  top: 50%;\n  right: -11px;\n  margin-top: -11px;\n  border-right-width: 0;\n  border-left-color: #999999;\n  border-left-color: rgba(0, 0, 0, 0.25);\n}\n\n.popover.left > .arrow:after {\n  content: \" \";\n  right: 1px;\n  border-right-width: 0;\n  border-left-color: #fff;\n  bottom: -10px;\n}\n\n.carousel {\n  position: relative;\n}\n\n.carousel-inner {\n  position: relative;\n  overflow: hidden;\n  width: 100%;\n}\n\n.carousel-inner > .item {\n  display: none;\n  position: relative;\n  -webkit-transition: 0.6s ease-in-out left;\n  transition: 0.6s ease-in-out left;\n}\n\n.carousel-inner > .item > img,\n.carousel-inner > .item > a > img {\n  display: block;\n  max-width: 100%;\n  height: auto;\n  line-height: 1;\n}\n\n@media all and (transform-3d), (-webkit-transform-3d) {\n  .carousel-inner > .item {\n    -webkit-transition: -webkit-transform 0.6s ease-in-out;\n    transition: -webkit-transform 0.6s ease-in-out;\n    transition: transform 0.6s ease-in-out;\n    transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out;\n    -webkit-backface-visibility: hidden;\n    backface-visibility: hidden;\n    -webkit-perspective: 1000px;\n    perspective: 1000px;\n  }\n  .carousel-inner > .item.next, .carousel-inner > .item.active.right, .carousel-inner > .item.right.ax-active {\n    -webkit-transform: translate3d(100%, 0, 0);\n    transform: translate3d(100%, 0, 0);\n    left: 0;\n  }\n  .carousel-inner > .item.prev, .carousel-inner > .item.active.left, .carousel-inner > .item.left.ax-active {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    left: 0;\n  }\n  .carousel-inner > .item.next.left, .carousel-inner > .item.prev.right, .carousel-inner > .item.active, .carousel-inner > .item.ax-active {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    left: 0;\n  }\n}\n\n.carousel-inner > .active, .carousel-inner > .ax-active,\n.carousel-inner > .next,\n.carousel-inner > .prev {\n  display: block;\n}\n\n.carousel-inner > .active, .carousel-inner > .ax-active {\n  left: 0;\n}\n\n.carousel-inner > .next,\n.carousel-inner > .prev {\n  position: absolute;\n  top: 0;\n  width: 100%;\n}\n\n.carousel-inner > .next {\n  left: 100%;\n}\n\n.carousel-inner > .prev {\n  left: -100%;\n}\n\n.carousel-inner > .next.left,\n.carousel-inner > .prev.right {\n  left: 0;\n}\n\n.carousel-inner > .active.left, .carousel-inner > .left.ax-active {\n  left: -100%;\n}\n\n.carousel-inner > .active.right, .carousel-inner > .right.ax-active {\n  left: 100%;\n}\n\n.carousel-control {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 15%;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n  font-size: 20px;\n  color: #fff;\n  text-align: center;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);\n  background-color: transparent;\n}\n\n.carousel-control.left {\n  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);\n  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);\n  background-repeat: repeat-x;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);\n}\n\n.carousel-control.right {\n  left: auto;\n  right: 0;\n  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);\n  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);\n  background-repeat: repeat-x;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);\n}\n\n.carousel-control:hover, .carousel-control:focus {\n  outline: 0;\n  color: #fff;\n  text-decoration: none;\n  opacity: 0.9;\n  filter: alpha(opacity=90);\n}\n\n.carousel-control .icon-prev,\n.carousel-control .icon-next,\n.carousel-control .glyphicon-chevron-left,\n.carousel-control .glyphicon-chevron-right {\n  position: absolute;\n  top: 50%;\n  margin-top: -10px;\n  z-index: 5;\n  display: inline-block;\n}\n\n.carousel-control .icon-prev,\n.carousel-control .glyphicon-chevron-left {\n  left: 50%;\n  margin-left: -10px;\n}\n\n.carousel-control .icon-next,\n.carousel-control .glyphicon-chevron-right {\n  right: 50%;\n  margin-right: -10px;\n}\n\n.carousel-control .icon-prev,\n.carousel-control .icon-next {\n  width: 20px;\n  height: 20px;\n  line-height: 1;\n  font-family: serif;\n}\n\n.carousel-control .icon-prev:before {\n  content: '\\2039';\n}\n\n.carousel-control .icon-next:before {\n  content: '\\203A';\n}\n\n.carousel-indicators {\n  position: absolute;\n  bottom: 10px;\n  left: 50%;\n  z-index: 15;\n  width: 60%;\n  margin-left: -30%;\n  padding-left: 0;\n  list-style: none;\n  text-align: center;\n}\n\n.carousel-indicators li {\n  display: inline-block;\n  width: 10px;\n  height: 10px;\n  margin: 1px;\n  text-indent: -999px;\n  border: 1px solid #fff;\n  border-radius: 10px;\n  cursor: pointer;\n  background-color: #000 \\9;\n  background-color: transparent;\n}\n\n.carousel-indicators .active, .carousel-indicators .ax-active {\n  margin: 0;\n  width: 12px;\n  height: 12px;\n  background-color: #fff;\n}\n\n.carousel-caption {\n  position: absolute;\n  left: 15%;\n  right: 15%;\n  bottom: 20px;\n  z-index: 10;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  color: #fff;\n  text-align: center;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);\n}\n\n.carousel-caption .btn {\n  text-shadow: none;\n}\n\n@media screen and (min-width: 768px) {\n  .carousel-control .glyphicon-chevron-left,\n  .carousel-control .glyphicon-chevron-right,\n  .carousel-control .icon-prev,\n  .carousel-control .icon-next {\n    width: 30px;\n    height: 30px;\n    margin-top: -10px;\n    font-size: 30px;\n  }\n  .carousel-control .glyphicon-chevron-left,\n  .carousel-control .icon-prev {\n    margin-left: -10px;\n  }\n  .carousel-control .glyphicon-chevron-right,\n  .carousel-control .icon-next {\n    margin-right: -10px;\n  }\n  .carousel-caption {\n    left: 20%;\n    right: 20%;\n    padding-bottom: 30px;\n  }\n  .carousel-indicators {\n    bottom: 20px;\n  }\n}\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: table;\n}\n\n.clearfix:after {\n  clear: both;\n}\n\n.center-block {\n  display: block;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.pull-right {\n  float: right !important;\n}\n\n.pull-left {\n  float: left !important;\n}\n\n.hide {\n  display: none !important;\n}\n\n.show, .ax-show {\n  display: block !important;\n}\n\n.invisible, .ax-invisible {\n  visibility: hidden;\n}\n\n.text-hide, .ax-text-hide {\n  font: 0/0 a;\n  color: transparent;\n  text-shadow: none;\n  background-color: transparent;\n  border: 0;\n}\n\n.hidden, .ax-hide, .ax-omitted {\n  display: none !important;\n}\n\n.affix {\n  position: fixed;\n}\n\n@-ms-viewport {\n  width: device-width;\n}\n\n.visible-xs {\n  display: none !important;\n}\n\n.visible-sm {\n  display: none !important;\n}\n\n.visible-md {\n  display: none !important;\n}\n\n.visible-lg {\n  display: none !important;\n}\n\n.visible-xs-block,\n.visible-xs-inline,\n.visible-xs-inline-block,\n.visible-sm-block,\n.visible-sm-inline,\n.visible-sm-inline-block,\n.visible-md-block,\n.visible-md-inline,\n.visible-md-inline-block,\n.visible-lg-block,\n.visible-lg-inline,\n.visible-lg-inline-block {\n  display: none !important;\n}\n\n@media (max-width: 767px) {\n  .visible-xs {\n    display: block !important;\n  }\n  table.visible-xs {\n    display: table !important;\n  }\n  tr.visible-xs {\n    display: table-row !important;\n  }\n  th.visible-xs,\n  td.visible-xs {\n    display: table-cell !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .visible-xs-block {\n    display: block !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .visible-xs-inline {\n    display: inline !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .visible-xs-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm {\n    display: block !important;\n  }\n  table.visible-sm {\n    display: table !important;\n  }\n  tr.visible-sm {\n    display: table-row !important;\n  }\n  th.visible-sm,\n  td.visible-sm {\n    display: table-cell !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm-block {\n    display: block !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm-inline {\n    display: inline !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md {\n    display: block !important;\n  }\n  table.visible-md {\n    display: table !important;\n  }\n  tr.visible-md {\n    display: table-row !important;\n  }\n  th.visible-md,\n  td.visible-md {\n    display: table-cell !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md-block {\n    display: block !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md-inline {\n    display: inline !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg {\n    display: block !important;\n  }\n  table.visible-lg {\n    display: table !important;\n  }\n  tr.visible-lg {\n    display: table-row !important;\n  }\n  th.visible-lg,\n  td.visible-lg {\n    display: table-cell !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg-block {\n    display: block !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg-inline {\n    display: inline !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .hidden-xs {\n    display: none !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .hidden-sm {\n    display: none !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .hidden-md {\n    display: none !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .hidden-lg {\n    display: none !important;\n  }\n}\n\n.visible-print {\n  display: none !important;\n}\n\n@media print {\n  .visible-print {\n    display: block !important;\n  }\n  table.visible-print {\n    display: table !important;\n  }\n  tr.visible-print {\n    display: table-row !important;\n  }\n  th.visible-print,\n  td.visible-print {\n    display: table-cell !important;\n  }\n}\n\n.visible-print-block {\n  display: none !important;\n}\n\n@media print {\n  .visible-print-block {\n    display: block !important;\n  }\n}\n\n.visible-print-inline {\n  display: none !important;\n}\n\n@media print {\n  .visible-print-inline {\n    display: inline !important;\n  }\n}\n\n.visible-print-inline-block {\n  display: none !important;\n}\n\n@media print {\n  .visible-print-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media print {\n  .hidden-print {\n    display: none !important;\n  }\n}\n\n@-webkit-keyframes ax-spin-around {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n\n@keyframes ax-spin-around {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n\n.ax-invisible {\n  visibility: hidden !important;\n}\n\n[readonly],\n.ax-readonly {\n  color: #555555 !important;\n  cursor: default !important;\n}\n\n[disabled],\n.ax-disabled {\n  cursor: default !important;\n  pointer-events: none;\n  color: #555555 !important;\n}\n\n.ax-error {\n  color: #a94442 !important;\n}\n\nselect[readonly], select.ax-readonly,\ntextarea[readonly],\ntextarea.ax-readonly,\ninput[type=\"text\"][readonly],\ninput[type=\"text\"].ax-readonly {\n  background: #777777;\n  border-color: #555555;\n}\n\nselect[disabled], select.ax-disabled,\ntextarea[disabled],\ntextarea.ax-disabled,\ninput[type=\"text\"][disabled],\ninput[type=\"text\"].ax-disabled {\n  background: #777777;\n  border-color: #555555;\n}\n\nselect.ax-error,\ntextarea.ax-error,\ninput[type=\"text\"].ax-error {\n  background: transparent;\n  border-color: #a94442;\n}\n\n.table .ax-error {\n  color: #a94442 !important;\n}\n\n.table input[type=\"text\"][readonly],\n.table input[type=\"text\"][readonly] .ax-error, .table input[type=\"text\"].ax-readonly,\n.table input[type=\"text\"].ax-readonly .ax-error, .table input[type=\"text\"][disabled],\n.table input[type=\"text\"][disabled] .ax-error, .table input[type=\"text\"].ax-disabled,\n.table input[type=\"text\"].ax-disabled .ax-error {\n  border-color: transparent !important;\n}\n\n.ax-icon-previous:before {\n  content: \"\\F0A8\";\n}\n\n.ax-icon-previous-primary:before {\n  content: \"\\F0A8\";\n}\n\n.ax-icon-next:before {\n  content: \"\\F0A9\";\n}\n\n.ax-icon-next-primary:before {\n  content: \"\\F0A9\";\n}\n\n.ax-icon-add:before {\n  content: \"\\F067\";\n}\n\n.ax-icon-delete:before {\n  content: \"\\F057\";\n}\n\n.ax-icon-ok:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-apply:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-cancel:before {\n  content: \"\\F057\";\n}\n\n.ax-icon-yes:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-no:before {\n  content: \"\\F057\";\n}\n\n.ax-icon-finish:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-info:before {\n  content: \"\\F05A\";\n}\n\n.ax-icon-warn:before {\n  content: \"\\F071\";\n}\n\n.ax-icon-help:before {\n  content: \"\\F059\";\n}\n\n.ax-icon-print:before {\n  content: \"\\F02F\";\n}\n\n.ax-text-ellipsis {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n/*# sourceMappingURL=theme.css.map */", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\n/* FONT PATH\n * -------------------------- */\n@font-face {\n  font-family: 'FontAwesome';\n  /* IE < 9\n      The two src data are needed to circumvent a bug in IE for the rendering of the text.\n      IE9+ supports the type format *.woff. */\n  src: url(" + __webpack_require__(254) + ");\n  /* IE9 Compat Modes */\n  src: url(" + __webpack_require__(255) + "?#iefix&v=4.3.0) format(\"embedded-opentype\");\n  /* IE6-IE8 */\n  src: url(" + __webpack_require__(256) + "#fontawesomeregular) format(\"svg\"), url(" + __webpack_require__(257) + ") format(\"woff2\"), url(" + __webpack_require__(258) + ") format(\"woff\"), url(" + __webpack_require__(259) + ") format(\"truetype\");\n  /* Safari, Android, iOS */\n  /* To avoid a bug in Webkit-Browsers set all font-* properties to normal. */\n  font-weight: normal;\n  font-style: normal;\n  font-variant: normal;\n}\n\n.fa {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  font-size: inherit;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-transform: translate(0, 0);\n      -ms-transform: translate(0, 0);\n          transform: translate(0, 0);\n}\n\n/* makes the font 33% larger relative to the icon container */\n.fa-lg {\n  font-size: 1.3333333333em;\n  line-height: 0.75em;\n  vertical-align: -15%;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-fw {\n  width: 1.2857142857em;\n  text-align: center;\n}\n\n.fa-ul {\n  padding-left: 0;\n  margin-left: 2.1428571429em;\n  list-style-type: none;\n}\n\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  position: absolute;\n  left: -2.1428571429em;\n  width: 2.1428571429em;\n  top: 0.1428571429em;\n  text-align: center;\n}\n\n.fa-li.fa-lg {\n  left: -1.8571428571em;\n}\n\n.fa-border {\n  padding: .2em .25em .15em;\n  border: solid 0.08em #eee;\n  border-radius: .1em;\n}\n\n.pull-right {\n  float: right;\n}\n\n.pull-left {\n  float: left;\n}\n\n.fa.pull-left {\n  margin-right: .3em;\n}\n\n.fa.pull-right {\n  margin-left: .3em;\n}\n\n.fa-spin {\n  -webkit-animation: fa-spin 2s infinite linear;\n  animation: fa-spin 2s infinite linear;\n}\n\n.fa-pulse {\n  -webkit-animation: fa-spin 1s infinite steps(8);\n  animation: fa-spin 1s infinite steps(8);\n}\n\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n\n.fa-rotate-90 {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);\n  -webkit-transform: rotate(90deg);\n  -ms-transform: rotate(90deg);\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);\n  -webkit-transform: rotate(180deg);\n  -ms-transform: rotate(180deg);\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);\n  -webkit-transform: rotate(270deg);\n  -ms-transform: rotate(270deg);\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);\n  -webkit-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);\n  -webkit-transform: scale(1, -1);\n  -ms-transform: scale(1, -1);\n  transform: scale(1, -1);\n}\n\n:root .fa-rotate-90,\n:root .fa-rotate-180,\n:root .fa-rotate-270,\n:root .fa-flip-horizontal,\n:root .fa-flip-vertical {\n  -webkit-filter: none;\n          filter: none;\n}\n\n.fa-stack {\n  position: relative;\n  display: inline-block;\n  width: 2em;\n  height: 2em;\n  line-height: 2em;\n  vertical-align: middle;\n}\n\n.fa-stack-1x, .fa-stack-2x {\n  position: absolute;\n  left: 0;\n  width: 100%;\n  text-align: center;\n}\n\n.fa-stack-1x {\n  line-height: inherit;\n}\n\n.fa-stack-2x {\n  font-size: 2em;\n}\n\n.fa-inverse {\n  color: #fff;\n}\n\n/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen\n   readers do not read off random characters that represent icons */\n.fa-glass:before {\n  content: \"\\F000\";\n}\n\n.fa-music:before {\n  content: \"\\F001\";\n}\n\n.fa-search:before {\n  content: \"\\F002\";\n}\n\n.fa-envelope-o:before {\n  content: \"\\F003\";\n}\n\n.fa-heart:before {\n  content: \"\\F004\";\n}\n\n.fa-star:before {\n  content: \"\\F005\";\n}\n\n.fa-star-o:before {\n  content: \"\\F006\";\n}\n\n.fa-user:before {\n  content: \"\\F007\";\n}\n\n.fa-film:before {\n  content: \"\\F008\";\n}\n\n.fa-th-large:before {\n  content: \"\\F009\";\n}\n\n.fa-th:before {\n  content: \"\\F00A\";\n}\n\n.fa-th-list:before {\n  content: \"\\F00B\";\n}\n\n.fa-check:before {\n  content: \"\\F00C\";\n}\n\n.fa-remove:before,\n.fa-close:before,\n.fa-times:before {\n  content: \"\\F00D\";\n}\n\n.fa-search-plus:before {\n  content: \"\\F00E\";\n}\n\n.fa-search-minus:before {\n  content: \"\\F010\";\n}\n\n.fa-power-off:before {\n  content: \"\\F011\";\n}\n\n.fa-signal:before {\n  content: \"\\F012\";\n}\n\n.fa-gear:before,\n.fa-cog:before {\n  content: \"\\F013\";\n}\n\n.fa-trash-o:before {\n  content: \"\\F014\";\n}\n\n.fa-home:before {\n  content: \"\\F015\";\n}\n\n.fa-file-o:before {\n  content: \"\\F016\";\n}\n\n.fa-clock-o:before {\n  content: \"\\F017\";\n}\n\n.fa-road:before {\n  content: \"\\F018\";\n}\n\n.fa-download:before {\n  content: \"\\F019\";\n}\n\n.fa-arrow-circle-o-down:before {\n  content: \"\\F01A\";\n}\n\n.fa-arrow-circle-o-up:before {\n  content: \"\\F01B\";\n}\n\n.fa-inbox:before {\n  content: \"\\F01C\";\n}\n\n.fa-play-circle-o:before {\n  content: \"\\F01D\";\n}\n\n.fa-rotate-right:before,\n.fa-repeat:before {\n  content: \"\\F01E\";\n}\n\n.fa-refresh:before {\n  content: \"\\F021\";\n}\n\n.fa-list-alt:before {\n  content: \"\\F022\";\n}\n\n.fa-lock:before {\n  content: \"\\F023\";\n}\n\n.fa-flag:before {\n  content: \"\\F024\";\n}\n\n.fa-headphones:before {\n  content: \"\\F025\";\n}\n\n.fa-volume-off:before {\n  content: \"\\F026\";\n}\n\n.fa-volume-down:before {\n  content: \"\\F027\";\n}\n\n.fa-volume-up:before {\n  content: \"\\F028\";\n}\n\n.fa-qrcode:before {\n  content: \"\\F029\";\n}\n\n.fa-barcode:before {\n  content: \"\\F02A\";\n}\n\n.fa-tag:before {\n  content: \"\\F02B\";\n}\n\n.fa-tags:before {\n  content: \"\\F02C\";\n}\n\n.fa-book:before {\n  content: \"\\F02D\";\n}\n\n.fa-bookmark:before {\n  content: \"\\F02E\";\n}\n\n.fa-print:before {\n  content: \"\\F02F\";\n}\n\n.fa-camera:before {\n  content: \"\\F030\";\n}\n\n.fa-font:before {\n  content: \"\\F031\";\n}\n\n.fa-bold:before {\n  content: \"\\F032\";\n}\n\n.fa-italic:before {\n  content: \"\\F033\";\n}\n\n.fa-text-height:before {\n  content: \"\\F034\";\n}\n\n.fa-text-width:before {\n  content: \"\\F035\";\n}\n\n.fa-align-left:before {\n  content: \"\\F036\";\n}\n\n.fa-align-center:before {\n  content: \"\\F037\";\n}\n\n.fa-align-right:before {\n  content: \"\\F038\";\n}\n\n.fa-align-justify:before {\n  content: \"\\F039\";\n}\n\n.fa-list:before {\n  content: \"\\F03A\";\n}\n\n.fa-dedent:before,\n.fa-outdent:before {\n  content: \"\\F03B\";\n}\n\n.fa-indent:before {\n  content: \"\\F03C\";\n}\n\n.fa-video-camera:before {\n  content: \"\\F03D\";\n}\n\n.fa-photo:before,\n.fa-image:before,\n.fa-picture-o:before {\n  content: \"\\F03E\";\n}\n\n.fa-pencil:before {\n  content: \"\\F040\";\n}\n\n.fa-map-marker:before {\n  content: \"\\F041\";\n}\n\n.fa-adjust:before {\n  content: \"\\F042\";\n}\n\n.fa-tint:before {\n  content: \"\\F043\";\n}\n\n.fa-edit:before,\n.fa-pencil-square-o:before {\n  content: \"\\F044\";\n}\n\n.fa-share-square-o:before {\n  content: \"\\F045\";\n}\n\n.fa-check-square-o:before {\n  content: \"\\F046\";\n}\n\n.fa-arrows:before {\n  content: \"\\F047\";\n}\n\n.fa-step-backward:before {\n  content: \"\\F048\";\n}\n\n.fa-fast-backward:before {\n  content: \"\\F049\";\n}\n\n.fa-backward:before {\n  content: \"\\F04A\";\n}\n\n.fa-play:before {\n  content: \"\\F04B\";\n}\n\n.fa-pause:before {\n  content: \"\\F04C\";\n}\n\n.fa-stop:before {\n  content: \"\\F04D\";\n}\n\n.fa-forward:before {\n  content: \"\\F04E\";\n}\n\n.fa-fast-forward:before {\n  content: \"\\F050\";\n}\n\n.fa-step-forward:before {\n  content: \"\\F051\";\n}\n\n.fa-eject:before {\n  content: \"\\F052\";\n}\n\n.fa-chevron-left:before {\n  content: \"\\F053\";\n}\n\n.fa-chevron-right:before {\n  content: \"\\F054\";\n}\n\n.fa-plus-circle:before {\n  content: \"\\F055\";\n}\n\n.fa-minus-circle:before {\n  content: \"\\F056\";\n}\n\n.fa-times-circle:before {\n  content: \"\\F057\";\n}\n\n.fa-check-circle:before {\n  content: \"\\F058\";\n}\n\n.fa-question-circle:before {\n  content: \"\\F059\";\n}\n\n.fa-info-circle:before {\n  content: \"\\F05A\";\n}\n\n.fa-crosshairs:before {\n  content: \"\\F05B\";\n}\n\n.fa-times-circle-o:before {\n  content: \"\\F05C\";\n}\n\n.fa-check-circle-o:before {\n  content: \"\\F05D\";\n}\n\n.fa-ban:before {\n  content: \"\\F05E\";\n}\n\n.fa-arrow-left:before {\n  content: \"\\F060\";\n}\n\n.fa-arrow-right:before {\n  content: \"\\F061\";\n}\n\n.fa-arrow-up:before {\n  content: \"\\F062\";\n}\n\n.fa-arrow-down:before {\n  content: \"\\F063\";\n}\n\n.fa-mail-forward:before,\n.fa-share:before {\n  content: \"\\F064\";\n}\n\n.fa-expand:before {\n  content: \"\\F065\";\n}\n\n.fa-compress:before {\n  content: \"\\F066\";\n}\n\n.fa-plus:before {\n  content: \"\\F067\";\n}\n\n.fa-minus:before {\n  content: \"\\F068\";\n}\n\n.fa-asterisk:before {\n  content: \"\\F069\";\n}\n\n.fa-exclamation-circle:before {\n  content: \"\\F06A\";\n}\n\n.fa-gift:before {\n  content: \"\\F06B\";\n}\n\n.fa-leaf:before {\n  content: \"\\F06C\";\n}\n\n.fa-fire:before {\n  content: \"\\F06D\";\n}\n\n.fa-eye:before {\n  content: \"\\F06E\";\n}\n\n.fa-eye-slash:before {\n  content: \"\\F070\";\n}\n\n.fa-warning:before,\n.fa-exclamation-triangle:before {\n  content: \"\\F071\";\n}\n\n.fa-plane:before {\n  content: \"\\F072\";\n}\n\n.fa-calendar:before {\n  content: \"\\F073\";\n}\n\n.fa-random:before {\n  content: \"\\F074\";\n}\n\n.fa-comment:before {\n  content: \"\\F075\";\n}\n\n.fa-magnet:before {\n  content: \"\\F076\";\n}\n\n.fa-chevron-up:before {\n  content: \"\\F077\";\n}\n\n.fa-chevron-down:before {\n  content: \"\\F078\";\n}\n\n.fa-retweet:before {\n  content: \"\\F079\";\n}\n\n.fa-shopping-cart:before {\n  content: \"\\F07A\";\n}\n\n.fa-folder:before {\n  content: \"\\F07B\";\n}\n\n.fa-folder-open:before {\n  content: \"\\F07C\";\n}\n\n.fa-arrows-v:before {\n  content: \"\\F07D\";\n}\n\n.fa-arrows-h:before {\n  content: \"\\F07E\";\n}\n\n.fa-bar-chart-o:before,\n.fa-bar-chart:before {\n  content: \"\\F080\";\n}\n\n.fa-twitter-square:before {\n  content: \"\\F081\";\n}\n\n.fa-facebook-square:before {\n  content: \"\\F082\";\n}\n\n.fa-camera-retro:before {\n  content: \"\\F083\";\n}\n\n.fa-key:before {\n  content: \"\\F084\";\n}\n\n.fa-gears:before,\n.fa-cogs:before {\n  content: \"\\F085\";\n}\n\n.fa-comments:before {\n  content: \"\\F086\";\n}\n\n.fa-thumbs-o-up:before {\n  content: \"\\F087\";\n}\n\n.fa-thumbs-o-down:before {\n  content: \"\\F088\";\n}\n\n.fa-star-half:before {\n  content: \"\\F089\";\n}\n\n.fa-heart-o:before {\n  content: \"\\F08A\";\n}\n\n.fa-sign-out:before {\n  content: \"\\F08B\";\n}\n\n.fa-linkedin-square:before {\n  content: \"\\F08C\";\n}\n\n.fa-thumb-tack:before {\n  content: \"\\F08D\";\n}\n\n.fa-external-link:before {\n  content: \"\\F08E\";\n}\n\n.fa-sign-in:before {\n  content: \"\\F090\";\n}\n\n.fa-trophy:before {\n  content: \"\\F091\";\n}\n\n.fa-github-square:before {\n  content: \"\\F092\";\n}\n\n.fa-upload:before {\n  content: \"\\F093\";\n}\n\n.fa-lemon-o:before {\n  content: \"\\F094\";\n}\n\n.fa-phone:before {\n  content: \"\\F095\";\n}\n\n.fa-square-o:before {\n  content: \"\\F096\";\n}\n\n.fa-bookmark-o:before {\n  content: \"\\F097\";\n}\n\n.fa-phone-square:before {\n  content: \"\\F098\";\n}\n\n.fa-twitter:before {\n  content: \"\\F099\";\n}\n\n.fa-facebook-f:before,\n.fa-facebook:before {\n  content: \"\\F09A\";\n}\n\n.fa-github:before {\n  content: \"\\F09B\";\n}\n\n.fa-unlock:before {\n  content: \"\\F09C\";\n}\n\n.fa-credit-card:before {\n  content: \"\\F09D\";\n}\n\n.fa-rss:before {\n  content: \"\\F09E\";\n}\n\n.fa-hdd-o:before {\n  content: \"\\F0A0\";\n}\n\n.fa-bullhorn:before {\n  content: \"\\F0A1\";\n}\n\n.fa-bell:before {\n  content: \"\\F0F3\";\n}\n\n.fa-certificate:before {\n  content: \"\\F0A3\";\n}\n\n.fa-hand-o-right:before {\n  content: \"\\F0A4\";\n}\n\n.fa-hand-o-left:before {\n  content: \"\\F0A5\";\n}\n\n.fa-hand-o-up:before {\n  content: \"\\F0A6\";\n}\n\n.fa-hand-o-down:before {\n  content: \"\\F0A7\";\n}\n\n.fa-arrow-circle-left:before {\n  content: \"\\F0A8\";\n}\n\n.fa-arrow-circle-right:before {\n  content: \"\\F0A9\";\n}\n\n.fa-arrow-circle-up:before {\n  content: \"\\F0AA\";\n}\n\n.fa-arrow-circle-down:before {\n  content: \"\\F0AB\";\n}\n\n.fa-globe:before {\n  content: \"\\F0AC\";\n}\n\n.fa-wrench:before {\n  content: \"\\F0AD\";\n}\n\n.fa-tasks:before {\n  content: \"\\F0AE\";\n}\n\n.fa-filter:before {\n  content: \"\\F0B0\";\n}\n\n.fa-briefcase:before {\n  content: \"\\F0B1\";\n}\n\n.fa-arrows-alt:before {\n  content: \"\\F0B2\";\n}\n\n.fa-group:before,\n.fa-users:before {\n  content: \"\\F0C0\";\n}\n\n.fa-chain:before,\n.fa-link:before {\n  content: \"\\F0C1\";\n}\n\n.fa-cloud:before {\n  content: \"\\F0C2\";\n}\n\n.fa-flask:before {\n  content: \"\\F0C3\";\n}\n\n.fa-cut:before,\n.fa-scissors:before {\n  content: \"\\F0C4\";\n}\n\n.fa-copy:before,\n.fa-files-o:before {\n  content: \"\\F0C5\";\n}\n\n.fa-paperclip:before {\n  content: \"\\F0C6\";\n}\n\n.fa-save:before,\n.fa-floppy-o:before {\n  content: \"\\F0C7\";\n}\n\n.fa-square:before {\n  content: \"\\F0C8\";\n}\n\n.fa-navicon:before,\n.fa-reorder:before,\n.fa-bars:before {\n  content: \"\\F0C9\";\n}\n\n.fa-list-ul:before {\n  content: \"\\F0CA\";\n}\n\n.fa-list-ol:before {\n  content: \"\\F0CB\";\n}\n\n.fa-strikethrough:before {\n  content: \"\\F0CC\";\n}\n\n.fa-underline:before {\n  content: \"\\F0CD\";\n}\n\n.fa-table:before {\n  content: \"\\F0CE\";\n}\n\n.fa-magic:before {\n  content: \"\\F0D0\";\n}\n\n.fa-truck:before {\n  content: \"\\F0D1\";\n}\n\n.fa-pinterest:before {\n  content: \"\\F0D2\";\n}\n\n.fa-pinterest-square:before {\n  content: \"\\F0D3\";\n}\n\n.fa-google-plus-square:before {\n  content: \"\\F0D4\";\n}\n\n.fa-google-plus:before {\n  content: \"\\F0D5\";\n}\n\n.fa-money:before {\n  content: \"\\F0D6\";\n}\n\n.fa-caret-down:before {\n  content: \"\\F0D7\";\n}\n\n.fa-caret-up:before {\n  content: \"\\F0D8\";\n}\n\n.fa-caret-left:before {\n  content: \"\\F0D9\";\n}\n\n.fa-caret-right:before {\n  content: \"\\F0DA\";\n}\n\n.fa-columns:before {\n  content: \"\\F0DB\";\n}\n\n.fa-unsorted:before,\n.fa-sort:before {\n  content: \"\\F0DC\";\n}\n\n.fa-sort-down:before,\n.fa-sort-desc:before {\n  content: \"\\F0DD\";\n}\n\n.fa-sort-up:before,\n.fa-sort-asc:before {\n  content: \"\\F0DE\";\n}\n\n.fa-envelope:before {\n  content: \"\\F0E0\";\n}\n\n.fa-linkedin:before {\n  content: \"\\F0E1\";\n}\n\n.fa-rotate-left:before,\n.fa-undo:before {\n  content: \"\\F0E2\";\n}\n\n.fa-legal:before,\n.fa-gavel:before {\n  content: \"\\F0E3\";\n}\n\n.fa-dashboard:before,\n.fa-tachometer:before {\n  content: \"\\F0E4\";\n}\n\n.fa-comment-o:before {\n  content: \"\\F0E5\";\n}\n\n.fa-comments-o:before {\n  content: \"\\F0E6\";\n}\n\n.fa-flash:before,\n.fa-bolt:before {\n  content: \"\\F0E7\";\n}\n\n.fa-sitemap:before {\n  content: \"\\F0E8\";\n}\n\n.fa-umbrella:before {\n  content: \"\\F0E9\";\n}\n\n.fa-paste:before,\n.fa-clipboard:before {\n  content: \"\\F0EA\";\n}\n\n.fa-lightbulb-o:before {\n  content: \"\\F0EB\";\n}\n\n.fa-exchange:before {\n  content: \"\\F0EC\";\n}\n\n.fa-cloud-download:before {\n  content: \"\\F0ED\";\n}\n\n.fa-cloud-upload:before {\n  content: \"\\F0EE\";\n}\n\n.fa-user-md:before {\n  content: \"\\F0F0\";\n}\n\n.fa-stethoscope:before {\n  content: \"\\F0F1\";\n}\n\n.fa-suitcase:before {\n  content: \"\\F0F2\";\n}\n\n.fa-bell-o:before {\n  content: \"\\F0A2\";\n}\n\n.fa-coffee:before {\n  content: \"\\F0F4\";\n}\n\n.fa-cutlery:before {\n  content: \"\\F0F5\";\n}\n\n.fa-file-text-o:before {\n  content: \"\\F0F6\";\n}\n\n.fa-building-o:before {\n  content: \"\\F0F7\";\n}\n\n.fa-hospital-o:before {\n  content: \"\\F0F8\";\n}\n\n.fa-ambulance:before {\n  content: \"\\F0F9\";\n}\n\n.fa-medkit:before {\n  content: \"\\F0FA\";\n}\n\n.fa-fighter-jet:before {\n  content: \"\\F0FB\";\n}\n\n.fa-beer:before {\n  content: \"\\F0FC\";\n}\n\n.fa-h-square:before {\n  content: \"\\F0FD\";\n}\n\n.fa-plus-square:before {\n  content: \"\\F0FE\";\n}\n\n.fa-angle-double-left:before {\n  content: \"\\F100\";\n}\n\n.fa-angle-double-right:before {\n  content: \"\\F101\";\n}\n\n.fa-angle-double-up:before {\n  content: \"\\F102\";\n}\n\n.fa-angle-double-down:before {\n  content: \"\\F103\";\n}\n\n.fa-angle-left:before {\n  content: \"\\F104\";\n}\n\n.fa-angle-right:before {\n  content: \"\\F105\";\n}\n\n.fa-angle-up:before {\n  content: \"\\F106\";\n}\n\n.fa-angle-down:before {\n  content: \"\\F107\";\n}\n\n.fa-desktop:before {\n  content: \"\\F108\";\n}\n\n.fa-laptop:before {\n  content: \"\\F109\";\n}\n\n.fa-tablet:before {\n  content: \"\\F10A\";\n}\n\n.fa-mobile-phone:before,\n.fa-mobile:before {\n  content: \"\\F10B\";\n}\n\n.fa-circle-o:before {\n  content: \"\\F10C\";\n}\n\n.fa-quote-left:before {\n  content: \"\\F10D\";\n}\n\n.fa-quote-right:before {\n  content: \"\\F10E\";\n}\n\n.fa-spinner:before {\n  content: \"\\F110\";\n}\n\n.fa-circle:before {\n  content: \"\\F111\";\n}\n\n.fa-mail-reply:before,\n.fa-reply:before {\n  content: \"\\F112\";\n}\n\n.fa-github-alt:before {\n  content: \"\\F113\";\n}\n\n.fa-folder-o:before {\n  content: \"\\F114\";\n}\n\n.fa-folder-open-o:before {\n  content: \"\\F115\";\n}\n\n.fa-smile-o:before {\n  content: \"\\F118\";\n}\n\n.fa-frown-o:before {\n  content: \"\\F119\";\n}\n\n.fa-meh-o:before {\n  content: \"\\F11A\";\n}\n\n.fa-gamepad:before {\n  content: \"\\F11B\";\n}\n\n.fa-keyboard-o:before {\n  content: \"\\F11C\";\n}\n\n.fa-flag-o:before {\n  content: \"\\F11D\";\n}\n\n.fa-flag-checkered:before {\n  content: \"\\F11E\";\n}\n\n.fa-terminal:before {\n  content: \"\\F120\";\n}\n\n.fa-code:before {\n  content: \"\\F121\";\n}\n\n.fa-mail-reply-all:before,\n.fa-reply-all:before {\n  content: \"\\F122\";\n}\n\n.fa-star-half-empty:before,\n.fa-star-half-full:before,\n.fa-star-half-o:before {\n  content: \"\\F123\";\n}\n\n.fa-location-arrow:before {\n  content: \"\\F124\";\n}\n\n.fa-crop:before {\n  content: \"\\F125\";\n}\n\n.fa-code-fork:before {\n  content: \"\\F126\";\n}\n\n.fa-unlink:before,\n.fa-chain-broken:before {\n  content: \"\\F127\";\n}\n\n.fa-question:before {\n  content: \"\\F128\";\n}\n\n.fa-info:before {\n  content: \"\\F129\";\n}\n\n.fa-exclamation:before {\n  content: \"\\F12A\";\n}\n\n.fa-superscript:before {\n  content: \"\\F12B\";\n}\n\n.fa-subscript:before {\n  content: \"\\F12C\";\n}\n\n.fa-eraser:before {\n  content: \"\\F12D\";\n}\n\n.fa-puzzle-piece:before {\n  content: \"\\F12E\";\n}\n\n.fa-microphone:before {\n  content: \"\\F130\";\n}\n\n.fa-microphone-slash:before {\n  content: \"\\F131\";\n}\n\n.fa-shield:before {\n  content: \"\\F132\";\n}\n\n.fa-calendar-o:before {\n  content: \"\\F133\";\n}\n\n.fa-fire-extinguisher:before {\n  content: \"\\F134\";\n}\n\n.fa-rocket:before {\n  content: \"\\F135\";\n}\n\n.fa-maxcdn:before {\n  content: \"\\F136\";\n}\n\n.fa-chevron-circle-left:before {\n  content: \"\\F137\";\n}\n\n.fa-chevron-circle-right:before {\n  content: \"\\F138\";\n}\n\n.fa-chevron-circle-up:before {\n  content: \"\\F139\";\n}\n\n.fa-chevron-circle-down:before {\n  content: \"\\F13A\";\n}\n\n.fa-html5:before {\n  content: \"\\F13B\";\n}\n\n.fa-css3:before {\n  content: \"\\F13C\";\n}\n\n.fa-anchor:before {\n  content: \"\\F13D\";\n}\n\n.fa-unlock-alt:before {\n  content: \"\\F13E\";\n}\n\n.fa-bullseye:before {\n  content: \"\\F140\";\n}\n\n.fa-ellipsis-h:before {\n  content: \"\\F141\";\n}\n\n.fa-ellipsis-v:before {\n  content: \"\\F142\";\n}\n\n.fa-rss-square:before {\n  content: \"\\F143\";\n}\n\n.fa-play-circle:before {\n  content: \"\\F144\";\n}\n\n.fa-ticket:before {\n  content: \"\\F145\";\n}\n\n.fa-minus-square:before {\n  content: \"\\F146\";\n}\n\n.fa-minus-square-o:before {\n  content: \"\\F147\";\n}\n\n.fa-level-up:before {\n  content: \"\\F148\";\n}\n\n.fa-level-down:before {\n  content: \"\\F149\";\n}\n\n.fa-check-square:before {\n  content: \"\\F14A\";\n}\n\n.fa-pencil-square:before {\n  content: \"\\F14B\";\n}\n\n.fa-external-link-square:before {\n  content: \"\\F14C\";\n}\n\n.fa-share-square:before {\n  content: \"\\F14D\";\n}\n\n.fa-compass:before {\n  content: \"\\F14E\";\n}\n\n.fa-toggle-down:before,\n.fa-caret-square-o-down:before {\n  content: \"\\F150\";\n}\n\n.fa-toggle-up:before,\n.fa-caret-square-o-up:before {\n  content: \"\\F151\";\n}\n\n.fa-toggle-right:before,\n.fa-caret-square-o-right:before {\n  content: \"\\F152\";\n}\n\n.fa-euro:before,\n.fa-eur:before {\n  content: \"\\F153\";\n}\n\n.fa-gbp:before {\n  content: \"\\F154\";\n}\n\n.fa-dollar:before,\n.fa-usd:before {\n  content: \"\\F155\";\n}\n\n.fa-rupee:before,\n.fa-inr:before {\n  content: \"\\F156\";\n}\n\n.fa-cny:before,\n.fa-rmb:before,\n.fa-yen:before,\n.fa-jpy:before {\n  content: \"\\F157\";\n}\n\n.fa-ruble:before,\n.fa-rouble:before,\n.fa-rub:before {\n  content: \"\\F158\";\n}\n\n.fa-won:before,\n.fa-krw:before {\n  content: \"\\F159\";\n}\n\n.fa-bitcoin:before,\n.fa-btc:before {\n  content: \"\\F15A\";\n}\n\n.fa-file:before {\n  content: \"\\F15B\";\n}\n\n.fa-file-text:before {\n  content: \"\\F15C\";\n}\n\n.fa-sort-alpha-asc:before {\n  content: \"\\F15D\";\n}\n\n.fa-sort-alpha-desc:before {\n  content: \"\\F15E\";\n}\n\n.fa-sort-amount-asc:before {\n  content: \"\\F160\";\n}\n\n.fa-sort-amount-desc:before {\n  content: \"\\F161\";\n}\n\n.fa-sort-numeric-asc:before {\n  content: \"\\F162\";\n}\n\n.fa-sort-numeric-desc:before {\n  content: \"\\F163\";\n}\n\n.fa-thumbs-up:before {\n  content: \"\\F164\";\n}\n\n.fa-thumbs-down:before {\n  content: \"\\F165\";\n}\n\n.fa-youtube-square:before {\n  content: \"\\F166\";\n}\n\n.fa-youtube:before {\n  content: \"\\F167\";\n}\n\n.fa-xing:before {\n  content: \"\\F168\";\n}\n\n.fa-xing-square:before {\n  content: \"\\F169\";\n}\n\n.fa-youtube-play:before {\n  content: \"\\F16A\";\n}\n\n.fa-dropbox:before {\n  content: \"\\F16B\";\n}\n\n.fa-stack-overflow:before {\n  content: \"\\F16C\";\n}\n\n.fa-instagram:before {\n  content: \"\\F16D\";\n}\n\n.fa-flickr:before {\n  content: \"\\F16E\";\n}\n\n.fa-adn:before {\n  content: \"\\F170\";\n}\n\n.fa-bitbucket:before {\n  content: \"\\F171\";\n}\n\n.fa-bitbucket-square:before {\n  content: \"\\F172\";\n}\n\n.fa-tumblr:before {\n  content: \"\\F173\";\n}\n\n.fa-tumblr-square:before {\n  content: \"\\F174\";\n}\n\n.fa-long-arrow-down:before {\n  content: \"\\F175\";\n}\n\n.fa-long-arrow-up:before {\n  content: \"\\F176\";\n}\n\n.fa-long-arrow-left:before {\n  content: \"\\F177\";\n}\n\n.fa-long-arrow-right:before {\n  content: \"\\F178\";\n}\n\n.fa-apple:before {\n  content: \"\\F179\";\n}\n\n.fa-windows:before {\n  content: \"\\F17A\";\n}\n\n.fa-android:before {\n  content: \"\\F17B\";\n}\n\n.fa-linux:before {\n  content: \"\\F17C\";\n}\n\n.fa-dribbble:before {\n  content: \"\\F17D\";\n}\n\n.fa-skype:before {\n  content: \"\\F17E\";\n}\n\n.fa-foursquare:before {\n  content: \"\\F180\";\n}\n\n.fa-trello:before {\n  content: \"\\F181\";\n}\n\n.fa-female:before {\n  content: \"\\F182\";\n}\n\n.fa-male:before {\n  content: \"\\F183\";\n}\n\n.fa-gittip:before,\n.fa-gratipay:before {\n  content: \"\\F184\";\n}\n\n.fa-sun-o:before {\n  content: \"\\F185\";\n}\n\n.fa-moon-o:before {\n  content: \"\\F186\";\n}\n\n.fa-archive:before {\n  content: \"\\F187\";\n}\n\n.fa-bug:before {\n  content: \"\\F188\";\n}\n\n.fa-vk:before {\n  content: \"\\F189\";\n}\n\n.fa-weibo:before {\n  content: \"\\F18A\";\n}\n\n.fa-renren:before {\n  content: \"\\F18B\";\n}\n\n.fa-pagelines:before {\n  content: \"\\F18C\";\n}\n\n.fa-stack-exchange:before {\n  content: \"\\F18D\";\n}\n\n.fa-arrow-circle-o-right:before {\n  content: \"\\F18E\";\n}\n\n.fa-arrow-circle-o-left:before {\n  content: \"\\F190\";\n}\n\n.fa-toggle-left:before,\n.fa-caret-square-o-left:before {\n  content: \"\\F191\";\n}\n\n.fa-dot-circle-o:before {\n  content: \"\\F192\";\n}\n\n.fa-wheelchair:before {\n  content: \"\\F193\";\n}\n\n.fa-vimeo-square:before {\n  content: \"\\F194\";\n}\n\n.fa-turkish-lira:before,\n.fa-try:before {\n  content: \"\\F195\";\n}\n\n.fa-plus-square-o:before {\n  content: \"\\F196\";\n}\n\n.fa-space-shuttle:before {\n  content: \"\\F197\";\n}\n\n.fa-slack:before {\n  content: \"\\F198\";\n}\n\n.fa-envelope-square:before {\n  content: \"\\F199\";\n}\n\n.fa-wordpress:before {\n  content: \"\\F19A\";\n}\n\n.fa-openid:before {\n  content: \"\\F19B\";\n}\n\n.fa-institution:before,\n.fa-bank:before,\n.fa-university:before {\n  content: \"\\F19C\";\n}\n\n.fa-mortar-board:before,\n.fa-graduation-cap:before {\n  content: \"\\F19D\";\n}\n\n.fa-yahoo:before {\n  content: \"\\F19E\";\n}\n\n.fa-google:before {\n  content: \"\\F1A0\";\n}\n\n.fa-reddit:before {\n  content: \"\\F1A1\";\n}\n\n.fa-reddit-square:before {\n  content: \"\\F1A2\";\n}\n\n.fa-stumbleupon-circle:before {\n  content: \"\\F1A3\";\n}\n\n.fa-stumbleupon:before {\n  content: \"\\F1A4\";\n}\n\n.fa-delicious:before {\n  content: \"\\F1A5\";\n}\n\n.fa-digg:before {\n  content: \"\\F1A6\";\n}\n\n.fa-pied-piper:before {\n  content: \"\\F1A7\";\n}\n\n.fa-pied-piper-alt:before {\n  content: \"\\F1A8\";\n}\n\n.fa-drupal:before {\n  content: \"\\F1A9\";\n}\n\n.fa-joomla:before {\n  content: \"\\F1AA\";\n}\n\n.fa-language:before {\n  content: \"\\F1AB\";\n}\n\n.fa-fax:before {\n  content: \"\\F1AC\";\n}\n\n.fa-building:before {\n  content: \"\\F1AD\";\n}\n\n.fa-child:before {\n  content: \"\\F1AE\";\n}\n\n.fa-paw:before {\n  content: \"\\F1B0\";\n}\n\n.fa-spoon:before {\n  content: \"\\F1B1\";\n}\n\n.fa-cube:before {\n  content: \"\\F1B2\";\n}\n\n.fa-cubes:before {\n  content: \"\\F1B3\";\n}\n\n.fa-behance:before {\n  content: \"\\F1B4\";\n}\n\n.fa-behance-square:before {\n  content: \"\\F1B5\";\n}\n\n.fa-steam:before {\n  content: \"\\F1B6\";\n}\n\n.fa-steam-square:before {\n  content: \"\\F1B7\";\n}\n\n.fa-recycle:before {\n  content: \"\\F1B8\";\n}\n\n.fa-automobile:before,\n.fa-car:before {\n  content: \"\\F1B9\";\n}\n\n.fa-cab:before,\n.fa-taxi:before {\n  content: \"\\F1BA\";\n}\n\n.fa-tree:before {\n  content: \"\\F1BB\";\n}\n\n.fa-spotify:before {\n  content: \"\\F1BC\";\n}\n\n.fa-deviantart:before {\n  content: \"\\F1BD\";\n}\n\n.fa-soundcloud:before {\n  content: \"\\F1BE\";\n}\n\n.fa-database:before {\n  content: \"\\F1C0\";\n}\n\n.fa-file-pdf-o:before {\n  content: \"\\F1C1\";\n}\n\n.fa-file-word-o:before {\n  content: \"\\F1C2\";\n}\n\n.fa-file-excel-o:before {\n  content: \"\\F1C3\";\n}\n\n.fa-file-powerpoint-o:before {\n  content: \"\\F1C4\";\n}\n\n.fa-file-photo-o:before,\n.fa-file-picture-o:before,\n.fa-file-image-o:before {\n  content: \"\\F1C5\";\n}\n\n.fa-file-zip-o:before,\n.fa-file-archive-o:before {\n  content: \"\\F1C6\";\n}\n\n.fa-file-sound-o:before,\n.fa-file-audio-o:before {\n  content: \"\\F1C7\";\n}\n\n.fa-file-movie-o:before,\n.fa-file-video-o:before {\n  content: \"\\F1C8\";\n}\n\n.fa-file-code-o:before {\n  content: \"\\F1C9\";\n}\n\n.fa-vine:before {\n  content: \"\\F1CA\";\n}\n\n.fa-codepen:before {\n  content: \"\\F1CB\";\n}\n\n.fa-jsfiddle:before {\n  content: \"\\F1CC\";\n}\n\n.fa-life-bouy:before,\n.fa-life-buoy:before,\n.fa-life-saver:before,\n.fa-support:before,\n.fa-life-ring:before {\n  content: \"\\F1CD\";\n}\n\n.fa-circle-o-notch:before {\n  content: \"\\F1CE\";\n}\n\n.fa-ra:before,\n.fa-rebel:before {\n  content: \"\\F1D0\";\n}\n\n.fa-ge:before,\n.fa-empire:before {\n  content: \"\\F1D1\";\n}\n\n.fa-git-square:before {\n  content: \"\\F1D2\";\n}\n\n.fa-git:before {\n  content: \"\\F1D3\";\n}\n\n.fa-hacker-news:before {\n  content: \"\\F1D4\";\n}\n\n.fa-tencent-weibo:before {\n  content: \"\\F1D5\";\n}\n\n.fa-qq:before {\n  content: \"\\F1D6\";\n}\n\n.fa-wechat:before,\n.fa-weixin:before {\n  content: \"\\F1D7\";\n}\n\n.fa-send:before,\n.fa-paper-plane:before {\n  content: \"\\F1D8\";\n}\n\n.fa-send-o:before,\n.fa-paper-plane-o:before {\n  content: \"\\F1D9\";\n}\n\n.fa-history:before {\n  content: \"\\F1DA\";\n}\n\n.fa-genderless:before,\n.fa-circle-thin:before {\n  content: \"\\F1DB\";\n}\n\n.fa-header:before {\n  content: \"\\F1DC\";\n}\n\n.fa-paragraph:before {\n  content: \"\\F1DD\";\n}\n\n.fa-sliders:before {\n  content: \"\\F1DE\";\n}\n\n.fa-share-alt:before {\n  content: \"\\F1E0\";\n}\n\n.fa-share-alt-square:before {\n  content: \"\\F1E1\";\n}\n\n.fa-bomb:before {\n  content: \"\\F1E2\";\n}\n\n.fa-soccer-ball-o:before,\n.fa-futbol-o:before {\n  content: \"\\F1E3\";\n}\n\n.fa-tty:before {\n  content: \"\\F1E4\";\n}\n\n.fa-binoculars:before {\n  content: \"\\F1E5\";\n}\n\n.fa-plug:before {\n  content: \"\\F1E6\";\n}\n\n.fa-slideshare:before {\n  content: \"\\F1E7\";\n}\n\n.fa-twitch:before {\n  content: \"\\F1E8\";\n}\n\n.fa-yelp:before {\n  content: \"\\F1E9\";\n}\n\n.fa-newspaper-o:before {\n  content: \"\\F1EA\";\n}\n\n.fa-wifi:before {\n  content: \"\\F1EB\";\n}\n\n.fa-calculator:before {\n  content: \"\\F1EC\";\n}\n\n.fa-paypal:before {\n  content: \"\\F1ED\";\n}\n\n.fa-google-wallet:before {\n  content: \"\\F1EE\";\n}\n\n.fa-cc-visa:before {\n  content: \"\\F1F0\";\n}\n\n.fa-cc-mastercard:before {\n  content: \"\\F1F1\";\n}\n\n.fa-cc-discover:before {\n  content: \"\\F1F2\";\n}\n\n.fa-cc-amex:before {\n  content: \"\\F1F3\";\n}\n\n.fa-cc-paypal:before {\n  content: \"\\F1F4\";\n}\n\n.fa-cc-stripe:before {\n  content: \"\\F1F5\";\n}\n\n.fa-bell-slash:before {\n  content: \"\\F1F6\";\n}\n\n.fa-bell-slash-o:before {\n  content: \"\\F1F7\";\n}\n\n.fa-trash:before {\n  content: \"\\F1F8\";\n}\n\n.fa-copyright:before {\n  content: \"\\F1F9\";\n}\n\n.fa-at:before {\n  content: \"\\F1FA\";\n}\n\n.fa-eyedropper:before {\n  content: \"\\F1FB\";\n}\n\n.fa-paint-brush:before {\n  content: \"\\F1FC\";\n}\n\n.fa-birthday-cake:before {\n  content: \"\\F1FD\";\n}\n\n.fa-area-chart:before {\n  content: \"\\F1FE\";\n}\n\n.fa-pie-chart:before {\n  content: \"\\F200\";\n}\n\n.fa-line-chart:before {\n  content: \"\\F201\";\n}\n\n.fa-lastfm:before {\n  content: \"\\F202\";\n}\n\n.fa-lastfm-square:before {\n  content: \"\\F203\";\n}\n\n.fa-toggle-off:before {\n  content: \"\\F204\";\n}\n\n.fa-toggle-on:before {\n  content: \"\\F205\";\n}\n\n.fa-bicycle:before {\n  content: \"\\F206\";\n}\n\n.fa-bus:before {\n  content: \"\\F207\";\n}\n\n.fa-ioxhost:before {\n  content: \"\\F208\";\n}\n\n.fa-angellist:before {\n  content: \"\\F209\";\n}\n\n.fa-cc:before {\n  content: \"\\F20A\";\n}\n\n.fa-shekel:before,\n.fa-sheqel:before,\n.fa-ils:before {\n  content: \"\\F20B\";\n}\n\n.fa-meanpath:before {\n  content: \"\\F20C\";\n}\n\n.fa-buysellads:before {\n  content: \"\\F20D\";\n}\n\n.fa-connectdevelop:before {\n  content: \"\\F20E\";\n}\n\n.fa-dashcube:before {\n  content: \"\\F210\";\n}\n\n.fa-forumbee:before {\n  content: \"\\F211\";\n}\n\n.fa-leanpub:before {\n  content: \"\\F212\";\n}\n\n.fa-sellsy:before {\n  content: \"\\F213\";\n}\n\n.fa-shirtsinbulk:before {\n  content: \"\\F214\";\n}\n\n.fa-simplybuilt:before {\n  content: \"\\F215\";\n}\n\n.fa-skyatlas:before {\n  content: \"\\F216\";\n}\n\n.fa-cart-plus:before {\n  content: \"\\F217\";\n}\n\n.fa-cart-arrow-down:before {\n  content: \"\\F218\";\n}\n\n.fa-diamond:before {\n  content: \"\\F219\";\n}\n\n.fa-ship:before {\n  content: \"\\F21A\";\n}\n\n.fa-user-secret:before {\n  content: \"\\F21B\";\n}\n\n.fa-motorcycle:before {\n  content: \"\\F21C\";\n}\n\n.fa-street-view:before {\n  content: \"\\F21D\";\n}\n\n.fa-heartbeat:before {\n  content: \"\\F21E\";\n}\n\n.fa-venus:before {\n  content: \"\\F221\";\n}\n\n.fa-mars:before {\n  content: \"\\F222\";\n}\n\n.fa-mercury:before {\n  content: \"\\F223\";\n}\n\n.fa-transgender:before {\n  content: \"\\F224\";\n}\n\n.fa-transgender-alt:before {\n  content: \"\\F225\";\n}\n\n.fa-venus-double:before {\n  content: \"\\F226\";\n}\n\n.fa-mars-double:before {\n  content: \"\\F227\";\n}\n\n.fa-venus-mars:before {\n  content: \"\\F228\";\n}\n\n.fa-mars-stroke:before {\n  content: \"\\F229\";\n}\n\n.fa-mars-stroke-v:before {\n  content: \"\\F22A\";\n}\n\n.fa-mars-stroke-h:before {\n  content: \"\\F22B\";\n}\n\n.fa-neuter:before {\n  content: \"\\F22C\";\n}\n\n.fa-facebook-official:before {\n  content: \"\\F230\";\n}\n\n.fa-pinterest-p:before {\n  content: \"\\F231\";\n}\n\n.fa-whatsapp:before {\n  content: \"\\F232\";\n}\n\n.fa-server:before {\n  content: \"\\F233\";\n}\n\n.fa-user-plus:before {\n  content: \"\\F234\";\n}\n\n.fa-user-times:before {\n  content: \"\\F235\";\n}\n\n.fa-hotel:before,\n.fa-bed:before {\n  content: \"\\F236\";\n}\n\n.fa-viacoin:before {\n  content: \"\\F237\";\n}\n\n.fa-train:before {\n  content: \"\\F238\";\n}\n\n.fa-subway:before {\n  content: \"\\F239\";\n}\n\n.fa-medium:before {\n  content: \"\\F23A\";\n}\n\n/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\nhtml {\n  font-family: sans-serif;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%;\n}\n\nbody {\n  margin: 0;\n}\n\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmain,\nmenu,\nnav,\nsection,\nsummary {\n  display: block;\n}\n\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block;\n  vertical-align: baseline;\n}\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n[hidden],\ntemplate {\n  display: none;\n}\n\na {\n  background-color: transparent;\n}\n\na:active,\na:hover {\n  outline: 0;\n}\n\nabbr[title] {\n  border-bottom: 1px dotted;\n}\n\nb,\nstrong {\n  font-weight: bold;\n}\n\ndfn {\n  font-style: italic;\n}\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\nmark {\n  background: #ff0;\n  color: #000;\n}\n\nsmall {\n  font-size: 80%;\n}\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  top: -0.5em;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nimg {\n  border: 0;\n}\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\nfigure {\n  margin: 1em 40px;\n}\n\nhr {\n  -moz-box-sizing: content-box;\n       box-sizing: content-box;\n  height: 0;\n}\n\npre {\n  overflow: auto;\n}\n\ncode,\nkbd,\npre,\nsamp {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  color: inherit;\n  font: inherit;\n  margin: 0;\n}\n\nbutton {\n  overflow: visible;\n}\n\nbutton,\nselect {\n  text-transform: none;\n}\n\nbutton,\nhtml input[type=\"button\"],\ninput[type=\"reset\"],\ninput[type=\"submit\"] {\n  -webkit-appearance: button;\n  cursor: pointer;\n}\n\nbutton[disabled],\nhtml input[disabled] {\n  cursor: default;\n}\n\nbutton::-moz-focus-inner,\ninput::-moz-focus-inner {\n  border: 0;\n  padding: 0;\n}\n\ninput {\n  line-height: normal;\n}\n\ninput[type=\"checkbox\"],\ninput[type=\"radio\"] {\n  -moz-box-sizing: border-box;\n       box-sizing: border-box;\n  padding: 0;\n}\n\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield;\n  -moz-box-sizing: content-box;\n       box-sizing: content-box;\n}\n\ninput[type=\"search\"]::-webkit-search-cancel-button,\ninput[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n\nlegend {\n  border: 0;\n  padding: 0;\n}\n\ntextarea {\n  overflow: auto;\n}\n\noptgroup {\n  font-weight: bold;\n}\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntd,\nth {\n  padding: 0;\n}\n\n/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */\n@media print {\n  *,\n  *:before,\n  *:after {\n    background: transparent !important;\n    color: #000 !important;\n    box-shadow: none !important;\n    text-shadow: none !important;\n  }\n  a,\n  a:visited {\n    text-decoration: underline;\n  }\n  a[href]:after {\n    content: \" (\" attr(href) \")\";\n  }\n  abbr[title]:after {\n    content: \" (\" attr(title) \")\";\n  }\n  a[href^=\"#\"]:after,\n  a[href^=\"javascript:\"]:after {\n    content: \"\";\n  }\n  pre,\n  blockquote {\n    border: 1px solid #999;\n    page-break-inside: avoid;\n  }\n  thead {\n    display: table-header-group;\n  }\n  tr,\n  img {\n    page-break-inside: avoid;\n  }\n  img {\n    max-width: 100% !important;\n  }\n  p,\n  h2,\n  h3 {\n    orphans: 3;\n    widows: 3;\n  }\n  h2,\n  h3 {\n    page-break-after: avoid;\n  }\n  .navbar {\n    display: none;\n  }\n  .btn > .caret,\n  .dropup > .btn > .caret {\n    border-top-color: #000 !important;\n  }\n  .label {\n    border: 1px solid #000;\n  }\n  .table {\n    border-collapse: collapse !important;\n  }\n  .table td,\n  .table th {\n    background-color: #fff !important;\n  }\n  .table-bordered th,\n  .table-bordered td {\n    border: 1px solid #ddd !important;\n  }\n}\n\n* {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n*:before,\n*:after {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\nhtml {\n  font-size: 10px;\n  -webkit-tap-highlight-color: transparent;\n}\n\nbody {\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  line-height: 1.428571429;\n  color: #333333;\n  background-color: #fff;\n}\n\ninput,\nbutton,\nselect,\ntextarea {\n  font-family: inherit;\n  font-size: inherit;\n  line-height: inherit;\n}\n\na {\n  color: #337ab7;\n  text-decoration: none;\n}\n\na:hover, a:focus {\n  color: #23527c;\n  text-decoration: underline;\n}\n\na:focus {\n  outline: 5px auto -webkit-focus-ring-color;\n  outline-offset: -2px;\n}\n\nfigure {\n  margin: 0;\n}\n\nimg {\n  vertical-align: middle;\n}\n\n.img-responsive {\n  display: block;\n  max-width: 100%;\n  height: auto;\n}\n\n.img-rounded {\n  border-radius: 6px;\n}\n\n.img-thumbnail {\n  padding: 4px;\n  line-height: 1.428571429;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  -webkit-transition: all 0.2s ease-in-out;\n  transition: all 0.2s ease-in-out;\n  display: inline-block;\n  max-width: 100%;\n  height: auto;\n}\n\n.img-circle {\n  border-radius: 50%;\n}\n\nhr {\n  margin-top: 20px;\n  margin-bottom: 20px;\n  border: 0;\n  border-top: 1px solid #eeeeee;\n}\n\n.sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  padding: 0;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  border: 0;\n}\n\n.sr-only-focusable:active, .sr-only-focusable:focus {\n  position: static;\n  width: auto;\n  height: auto;\n  margin: 0;\n  overflow: visible;\n  clip: auto;\n}\n\n[role=\"button\"] {\n  cursor: pointer;\n}\n\nh1, h2, h3, h4, h5, h6,\n.h1, .h2, .h3, .h4, .h5, .h6 {\n  font-family: inherit;\n  font-weight: 500;\n  line-height: 1.1;\n  color: inherit;\n}\n\nh1 small,\nh1 .small, h2 small,\nh2 .small, h3 small,\nh3 .small, h4 small,\nh4 .small, h5 small,\nh5 .small, h6 small,\nh6 .small,\n.h1 small,\n.h1 .small, .h2 small,\n.h2 .small, .h3 small,\n.h3 .small, .h4 small,\n.h4 .small, .h5 small,\n.h5 .small, .h6 small,\n.h6 .small {\n  font-weight: normal;\n  line-height: 1;\n  color: #777777;\n}\n\nh1, .h1,\nh2, .h2,\nh3, .h3 {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n\nh1 small,\nh1 .small, .h1 small,\n.h1 .small,\nh2 small,\nh2 .small, .h2 small,\n.h2 .small,\nh3 small,\nh3 .small, .h3 small,\n.h3 .small {\n  font-size: 65%;\n}\n\nh4, .h4,\nh5, .h5,\nh6, .h6 {\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n\nh4 small,\nh4 .small, .h4 small,\n.h4 .small,\nh5 small,\nh5 .small, .h5 small,\n.h5 .small,\nh6 small,\nh6 .small, .h6 small,\n.h6 .small {\n  font-size: 75%;\n}\n\nh1, .h1 {\n  font-size: 36px;\n}\n\nh2, .h2 {\n  font-size: 30px;\n}\n\nh3, .h3 {\n  font-size: 24px;\n}\n\nh4, .h4 {\n  font-size: 18px;\n}\n\nh5, .h5 {\n  font-size: 14px;\n}\n\nh6, .h6 {\n  font-size: 12px;\n}\n\np {\n  margin: 0 0 10px;\n}\n\n.lead {\n  margin-bottom: 20px;\n  font-size: 16px;\n  font-weight: 300;\n  line-height: 1.4;\n}\n\n@media (min-width: 768px) {\n  .lead {\n    font-size: 21px;\n  }\n}\n\nsmall,\n.small {\n  font-size: 85%;\n}\n\nmark,\n.mark {\n  background-color: #fcf8e3;\n  padding: .2em;\n}\n\n.text-left {\n  text-align: left;\n}\n\n.text-right {\n  text-align: right;\n}\n\n.text-center {\n  text-align: center;\n}\n\n.text-justify {\n  text-align: justify;\n}\n\n.text-nowrap {\n  white-space: nowrap;\n}\n\n.text-lowercase {\n  text-transform: lowercase;\n}\n\n.text-uppercase, .initialism {\n  text-transform: uppercase;\n}\n\n.text-capitalize {\n  text-transform: capitalize;\n}\n\n.text-muted {\n  color: #777777;\n}\n\n.text-primary {\n  color: #337ab7;\n}\n\na.text-primary:hover,\na.text-primary:focus {\n  color: #286090;\n}\n\n.text-success {\n  color: #3c763d;\n}\n\na.text-success:hover,\na.text-success:focus {\n  color: #2b542c;\n}\n\n.text-info {\n  color: #31708f;\n}\n\na.text-info:hover,\na.text-info:focus {\n  color: #245269;\n}\n\n.text-warning {\n  color: #8a6d3b;\n}\n\na.text-warning:hover,\na.text-warning:focus {\n  color: #66512c;\n}\n\n.text-danger {\n  color: #a94442;\n}\n\na.text-danger:hover,\na.text-danger:focus {\n  color: #843534;\n}\n\n.bg-primary {\n  color: #fff;\n}\n\n.bg-primary {\n  background-color: #337ab7;\n}\n\na.bg-primary:hover,\na.bg-primary:focus {\n  background-color: #286090;\n}\n\n.bg-success {\n  background-color: #dff0d8;\n}\n\na.bg-success:hover,\na.bg-success:focus {\n  background-color: #c1e2b3;\n}\n\n.bg-info {\n  background-color: #d9edf7;\n}\n\na.bg-info:hover,\na.bg-info:focus {\n  background-color: #afd9ee;\n}\n\n.bg-warning {\n  background-color: #fcf8e3;\n}\n\na.bg-warning:hover,\na.bg-warning:focus {\n  background-color: #f7ecb5;\n}\n\n.bg-danger {\n  background-color: #f2dede;\n}\n\na.bg-danger:hover,\na.bg-danger:focus {\n  background-color: #e4b9b9;\n}\n\n.page-header {\n  padding-bottom: 9px;\n  margin: 40px 0 20px;\n  border-bottom: 1px solid #eeeeee;\n}\n\nul,\nol {\n  margin-top: 0;\n  margin-bottom: 10px;\n}\n\nul ul,\nul ol,\nol ul,\nol ol {\n  margin-bottom: 0;\n}\n\n.list-unstyled {\n  padding-left: 0;\n  list-style: none;\n}\n\n.list-inline {\n  padding-left: 0;\n  list-style: none;\n  margin-left: -5px;\n}\n\n.list-inline > li {\n  display: inline-block;\n  padding-left: 5px;\n  padding-right: 5px;\n}\n\ndl {\n  margin-top: 0;\n  margin-bottom: 20px;\n}\n\ndt,\ndd {\n  line-height: 1.428571429;\n}\n\ndt {\n  font-weight: bold;\n}\n\ndd {\n  margin-left: 0;\n}\n\n.dl-horizontal dd:before, .dl-horizontal dd:after {\n  content: \" \";\n  display: table;\n}\n\n.dl-horizontal dd:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .dl-horizontal dt {\n    float: left;\n    width: 160px;\n    clear: left;\n    text-align: right;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n  .dl-horizontal dd {\n    margin-left: 180px;\n  }\n}\n\nabbr[title],\nabbr[data-original-title] {\n  cursor: help;\n  border-bottom: 1px dotted #777777;\n}\n\n.initialism {\n  font-size: 90%;\n}\n\nblockquote {\n  padding: 10px 20px;\n  margin: 0 0 20px;\n  font-size: 17.5px;\n  border-left: 5px solid #eeeeee;\n}\n\nblockquote p:last-child,\nblockquote ul:last-child,\nblockquote ol:last-child {\n  margin-bottom: 0;\n}\n\nblockquote footer,\nblockquote small,\nblockquote .small {\n  display: block;\n  font-size: 80%;\n  line-height: 1.428571429;\n  color: #777777;\n}\n\nblockquote footer:before,\nblockquote small:before,\nblockquote .small:before {\n  content: '\\2014   \\A0';\n}\n\n.blockquote-reverse,\nblockquote.pull-right {\n  padding-right: 15px;\n  padding-left: 0;\n  border-right: 5px solid #eeeeee;\n  border-left: 0;\n  text-align: right;\n}\n\n.blockquote-reverse footer:before,\n.blockquote-reverse small:before,\n.blockquote-reverse .small:before,\nblockquote.pull-right footer:before,\nblockquote.pull-right small:before,\nblockquote.pull-right .small:before {\n  content: '';\n}\n\n.blockquote-reverse footer:after,\n.blockquote-reverse small:after,\n.blockquote-reverse .small:after,\nblockquote.pull-right footer:after,\nblockquote.pull-right small:after,\nblockquote.pull-right .small:after {\n  content: '\\A0   \\2014';\n}\n\naddress {\n  margin-bottom: 20px;\n  font-style: normal;\n  line-height: 1.428571429;\n}\n\ncode,\nkbd,\npre,\nsamp {\n  font-family: Menlo, Monaco, Consolas, \"Courier New\", monospace;\n}\n\ncode {\n  padding: 2px 4px;\n  font-size: 90%;\n  color: #c7254e;\n  background-color: #f9f2f4;\n  border-radius: 4px;\n}\n\nkbd {\n  padding: 2px 4px;\n  font-size: 90%;\n  color: #fff;\n  background-color: #333;\n  border-radius: 3px;\n  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);\n}\n\nkbd kbd {\n  padding: 0;\n  font-size: 100%;\n  font-weight: bold;\n  box-shadow: none;\n}\n\npre {\n  display: block;\n  padding: 9.5px;\n  margin: 0 0 10px;\n  font-size: 13px;\n  line-height: 1.428571429;\n  word-break: break-all;\n  word-wrap: break-word;\n  color: #333333;\n  background-color: #f5f5f5;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n\npre code {\n  padding: 0;\n  font-size: inherit;\n  color: inherit;\n  white-space: pre-wrap;\n  background-color: transparent;\n  border-radius: 0;\n}\n\n.pre-scrollable {\n  max-height: 340px;\n  overflow-y: scroll;\n}\n\n.container {\n  margin-right: auto;\n  margin-left: auto;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.container:before, .container:after {\n  content: \" \";\n  display: table;\n}\n\n.container:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .container {\n    width: 750px;\n  }\n}\n\n@media (min-width: 992px) {\n  .container {\n    width: 970px;\n  }\n}\n\n@media (min-width: 1200px) {\n  .container {\n    width: 1170px;\n  }\n}\n\n.container-fluid {\n  margin-right: auto;\n  margin-left: auto;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.container-fluid:before, .container-fluid:after {\n  content: \" \";\n  display: table;\n}\n\n.container-fluid:after {\n  clear: both;\n}\n\n.row {\n  margin-left: -15px;\n  margin-right: -15px;\n}\n\n.row:before, .row:after {\n  content: \" \";\n  display: table;\n}\n\n.row:after {\n  clear: both;\n}\n\n.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {\n  position: relative;\n  min-height: 1px;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {\n  float: left;\n}\n\n.col-xs-1 {\n  width: 8.3333333333%;\n}\n\n.col-xs-2 {\n  width: 16.6666666667%;\n}\n\n.col-xs-3 {\n  width: 25%;\n}\n\n.col-xs-4 {\n  width: 33.3333333333%;\n}\n\n.col-xs-5 {\n  width: 41.6666666667%;\n}\n\n.col-xs-6 {\n  width: 50%;\n}\n\n.col-xs-7 {\n  width: 58.3333333333%;\n}\n\n.col-xs-8 {\n  width: 66.6666666667%;\n}\n\n.col-xs-9 {\n  width: 75%;\n}\n\n.col-xs-10 {\n  width: 83.3333333333%;\n}\n\n.col-xs-11 {\n  width: 91.6666666667%;\n}\n\n.col-xs-12 {\n  width: 100%;\n}\n\n.col-xs-pull-0 {\n  right: auto;\n}\n\n.col-xs-pull-1 {\n  right: 8.3333333333%;\n}\n\n.col-xs-pull-2 {\n  right: 16.6666666667%;\n}\n\n.col-xs-pull-3 {\n  right: 25%;\n}\n\n.col-xs-pull-4 {\n  right: 33.3333333333%;\n}\n\n.col-xs-pull-5 {\n  right: 41.6666666667%;\n}\n\n.col-xs-pull-6 {\n  right: 50%;\n}\n\n.col-xs-pull-7 {\n  right: 58.3333333333%;\n}\n\n.col-xs-pull-8 {\n  right: 66.6666666667%;\n}\n\n.col-xs-pull-9 {\n  right: 75%;\n}\n\n.col-xs-pull-10 {\n  right: 83.3333333333%;\n}\n\n.col-xs-pull-11 {\n  right: 91.6666666667%;\n}\n\n.col-xs-pull-12 {\n  right: 100%;\n}\n\n.col-xs-push-0 {\n  left: auto;\n}\n\n.col-xs-push-1 {\n  left: 8.3333333333%;\n}\n\n.col-xs-push-2 {\n  left: 16.6666666667%;\n}\n\n.col-xs-push-3 {\n  left: 25%;\n}\n\n.col-xs-push-4 {\n  left: 33.3333333333%;\n}\n\n.col-xs-push-5 {\n  left: 41.6666666667%;\n}\n\n.col-xs-push-6 {\n  left: 50%;\n}\n\n.col-xs-push-7 {\n  left: 58.3333333333%;\n}\n\n.col-xs-push-8 {\n  left: 66.6666666667%;\n}\n\n.col-xs-push-9 {\n  left: 75%;\n}\n\n.col-xs-push-10 {\n  left: 83.3333333333%;\n}\n\n.col-xs-push-11 {\n  left: 91.6666666667%;\n}\n\n.col-xs-push-12 {\n  left: 100%;\n}\n\n.col-xs-offset-0 {\n  margin-left: 0%;\n}\n\n.col-xs-offset-1 {\n  margin-left: 8.3333333333%;\n}\n\n.col-xs-offset-2 {\n  margin-left: 16.6666666667%;\n}\n\n.col-xs-offset-3 {\n  margin-left: 25%;\n}\n\n.col-xs-offset-4 {\n  margin-left: 33.3333333333%;\n}\n\n.col-xs-offset-5 {\n  margin-left: 41.6666666667%;\n}\n\n.col-xs-offset-6 {\n  margin-left: 50%;\n}\n\n.col-xs-offset-7 {\n  margin-left: 58.3333333333%;\n}\n\n.col-xs-offset-8 {\n  margin-left: 66.6666666667%;\n}\n\n.col-xs-offset-9 {\n  margin-left: 75%;\n}\n\n.col-xs-offset-10 {\n  margin-left: 83.3333333333%;\n}\n\n.col-xs-offset-11 {\n  margin-left: 91.6666666667%;\n}\n\n.col-xs-offset-12 {\n  margin-left: 100%;\n}\n\n@media (min-width: 768px) {\n  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {\n    float: left;\n  }\n  .col-sm-1 {\n    width: 8.3333333333%;\n  }\n  .col-sm-2 {\n    width: 16.6666666667%;\n  }\n  .col-sm-3 {\n    width: 25%;\n  }\n  .col-sm-4 {\n    width: 33.3333333333%;\n  }\n  .col-sm-5 {\n    width: 41.6666666667%;\n  }\n  .col-sm-6 {\n    width: 50%;\n  }\n  .col-sm-7 {\n    width: 58.3333333333%;\n  }\n  .col-sm-8 {\n    width: 66.6666666667%;\n  }\n  .col-sm-9 {\n    width: 75%;\n  }\n  .col-sm-10 {\n    width: 83.3333333333%;\n  }\n  .col-sm-11 {\n    width: 91.6666666667%;\n  }\n  .col-sm-12 {\n    width: 100%;\n  }\n  .col-sm-pull-0 {\n    right: auto;\n  }\n  .col-sm-pull-1 {\n    right: 8.3333333333%;\n  }\n  .col-sm-pull-2 {\n    right: 16.6666666667%;\n  }\n  .col-sm-pull-3 {\n    right: 25%;\n  }\n  .col-sm-pull-4 {\n    right: 33.3333333333%;\n  }\n  .col-sm-pull-5 {\n    right: 41.6666666667%;\n  }\n  .col-sm-pull-6 {\n    right: 50%;\n  }\n  .col-sm-pull-7 {\n    right: 58.3333333333%;\n  }\n  .col-sm-pull-8 {\n    right: 66.6666666667%;\n  }\n  .col-sm-pull-9 {\n    right: 75%;\n  }\n  .col-sm-pull-10 {\n    right: 83.3333333333%;\n  }\n  .col-sm-pull-11 {\n    right: 91.6666666667%;\n  }\n  .col-sm-pull-12 {\n    right: 100%;\n  }\n  .col-sm-push-0 {\n    left: auto;\n  }\n  .col-sm-push-1 {\n    left: 8.3333333333%;\n  }\n  .col-sm-push-2 {\n    left: 16.6666666667%;\n  }\n  .col-sm-push-3 {\n    left: 25%;\n  }\n  .col-sm-push-4 {\n    left: 33.3333333333%;\n  }\n  .col-sm-push-5 {\n    left: 41.6666666667%;\n  }\n  .col-sm-push-6 {\n    left: 50%;\n  }\n  .col-sm-push-7 {\n    left: 58.3333333333%;\n  }\n  .col-sm-push-8 {\n    left: 66.6666666667%;\n  }\n  .col-sm-push-9 {\n    left: 75%;\n  }\n  .col-sm-push-10 {\n    left: 83.3333333333%;\n  }\n  .col-sm-push-11 {\n    left: 91.6666666667%;\n  }\n  .col-sm-push-12 {\n    left: 100%;\n  }\n  .col-sm-offset-0 {\n    margin-left: 0%;\n  }\n  .col-sm-offset-1 {\n    margin-left: 8.3333333333%;\n  }\n  .col-sm-offset-2 {\n    margin-left: 16.6666666667%;\n  }\n  .col-sm-offset-3 {\n    margin-left: 25%;\n  }\n  .col-sm-offset-4 {\n    margin-left: 33.3333333333%;\n  }\n  .col-sm-offset-5 {\n    margin-left: 41.6666666667%;\n  }\n  .col-sm-offset-6 {\n    margin-left: 50%;\n  }\n  .col-sm-offset-7 {\n    margin-left: 58.3333333333%;\n  }\n  .col-sm-offset-8 {\n    margin-left: 66.6666666667%;\n  }\n  .col-sm-offset-9 {\n    margin-left: 75%;\n  }\n  .col-sm-offset-10 {\n    margin-left: 83.3333333333%;\n  }\n  .col-sm-offset-11 {\n    margin-left: 91.6666666667%;\n  }\n  .col-sm-offset-12 {\n    margin-left: 100%;\n  }\n}\n\n@media (min-width: 992px) {\n  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {\n    float: left;\n  }\n  .col-md-1 {\n    width: 8.3333333333%;\n  }\n  .col-md-2 {\n    width: 16.6666666667%;\n  }\n  .col-md-3 {\n    width: 25%;\n  }\n  .col-md-4 {\n    width: 33.3333333333%;\n  }\n  .col-md-5 {\n    width: 41.6666666667%;\n  }\n  .col-md-6 {\n    width: 50%;\n  }\n  .col-md-7 {\n    width: 58.3333333333%;\n  }\n  .col-md-8 {\n    width: 66.6666666667%;\n  }\n  .col-md-9 {\n    width: 75%;\n  }\n  .col-md-10 {\n    width: 83.3333333333%;\n  }\n  .col-md-11 {\n    width: 91.6666666667%;\n  }\n  .col-md-12 {\n    width: 100%;\n  }\n  .col-md-pull-0 {\n    right: auto;\n  }\n  .col-md-pull-1 {\n    right: 8.3333333333%;\n  }\n  .col-md-pull-2 {\n    right: 16.6666666667%;\n  }\n  .col-md-pull-3 {\n    right: 25%;\n  }\n  .col-md-pull-4 {\n    right: 33.3333333333%;\n  }\n  .col-md-pull-5 {\n    right: 41.6666666667%;\n  }\n  .col-md-pull-6 {\n    right: 50%;\n  }\n  .col-md-pull-7 {\n    right: 58.3333333333%;\n  }\n  .col-md-pull-8 {\n    right: 66.6666666667%;\n  }\n  .col-md-pull-9 {\n    right: 75%;\n  }\n  .col-md-pull-10 {\n    right: 83.3333333333%;\n  }\n  .col-md-pull-11 {\n    right: 91.6666666667%;\n  }\n  .col-md-pull-12 {\n    right: 100%;\n  }\n  .col-md-push-0 {\n    left: auto;\n  }\n  .col-md-push-1 {\n    left: 8.3333333333%;\n  }\n  .col-md-push-2 {\n    left: 16.6666666667%;\n  }\n  .col-md-push-3 {\n    left: 25%;\n  }\n  .col-md-push-4 {\n    left: 33.3333333333%;\n  }\n  .col-md-push-5 {\n    left: 41.6666666667%;\n  }\n  .col-md-push-6 {\n    left: 50%;\n  }\n  .col-md-push-7 {\n    left: 58.3333333333%;\n  }\n  .col-md-push-8 {\n    left: 66.6666666667%;\n  }\n  .col-md-push-9 {\n    left: 75%;\n  }\n  .col-md-push-10 {\n    left: 83.3333333333%;\n  }\n  .col-md-push-11 {\n    left: 91.6666666667%;\n  }\n  .col-md-push-12 {\n    left: 100%;\n  }\n  .col-md-offset-0 {\n    margin-left: 0%;\n  }\n  .col-md-offset-1 {\n    margin-left: 8.3333333333%;\n  }\n  .col-md-offset-2 {\n    margin-left: 16.6666666667%;\n  }\n  .col-md-offset-3 {\n    margin-left: 25%;\n  }\n  .col-md-offset-4 {\n    margin-left: 33.3333333333%;\n  }\n  .col-md-offset-5 {\n    margin-left: 41.6666666667%;\n  }\n  .col-md-offset-6 {\n    margin-left: 50%;\n  }\n  .col-md-offset-7 {\n    margin-left: 58.3333333333%;\n  }\n  .col-md-offset-8 {\n    margin-left: 66.6666666667%;\n  }\n  .col-md-offset-9 {\n    margin-left: 75%;\n  }\n  .col-md-offset-10 {\n    margin-left: 83.3333333333%;\n  }\n  .col-md-offset-11 {\n    margin-left: 91.6666666667%;\n  }\n  .col-md-offset-12 {\n    margin-left: 100%;\n  }\n}\n\n@media (min-width: 1200px) {\n  .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {\n    float: left;\n  }\n  .col-lg-1 {\n    width: 8.3333333333%;\n  }\n  .col-lg-2 {\n    width: 16.6666666667%;\n  }\n  .col-lg-3 {\n    width: 25%;\n  }\n  .col-lg-4 {\n    width: 33.3333333333%;\n  }\n  .col-lg-5 {\n    width: 41.6666666667%;\n  }\n  .col-lg-6 {\n    width: 50%;\n  }\n  .col-lg-7 {\n    width: 58.3333333333%;\n  }\n  .col-lg-8 {\n    width: 66.6666666667%;\n  }\n  .col-lg-9 {\n    width: 75%;\n  }\n  .col-lg-10 {\n    width: 83.3333333333%;\n  }\n  .col-lg-11 {\n    width: 91.6666666667%;\n  }\n  .col-lg-12 {\n    width: 100%;\n  }\n  .col-lg-pull-0 {\n    right: auto;\n  }\n  .col-lg-pull-1 {\n    right: 8.3333333333%;\n  }\n  .col-lg-pull-2 {\n    right: 16.6666666667%;\n  }\n  .col-lg-pull-3 {\n    right: 25%;\n  }\n  .col-lg-pull-4 {\n    right: 33.3333333333%;\n  }\n  .col-lg-pull-5 {\n    right: 41.6666666667%;\n  }\n  .col-lg-pull-6 {\n    right: 50%;\n  }\n  .col-lg-pull-7 {\n    right: 58.3333333333%;\n  }\n  .col-lg-pull-8 {\n    right: 66.6666666667%;\n  }\n  .col-lg-pull-9 {\n    right: 75%;\n  }\n  .col-lg-pull-10 {\n    right: 83.3333333333%;\n  }\n  .col-lg-pull-11 {\n    right: 91.6666666667%;\n  }\n  .col-lg-pull-12 {\n    right: 100%;\n  }\n  .col-lg-push-0 {\n    left: auto;\n  }\n  .col-lg-push-1 {\n    left: 8.3333333333%;\n  }\n  .col-lg-push-2 {\n    left: 16.6666666667%;\n  }\n  .col-lg-push-3 {\n    left: 25%;\n  }\n  .col-lg-push-4 {\n    left: 33.3333333333%;\n  }\n  .col-lg-push-5 {\n    left: 41.6666666667%;\n  }\n  .col-lg-push-6 {\n    left: 50%;\n  }\n  .col-lg-push-7 {\n    left: 58.3333333333%;\n  }\n  .col-lg-push-8 {\n    left: 66.6666666667%;\n  }\n  .col-lg-push-9 {\n    left: 75%;\n  }\n  .col-lg-push-10 {\n    left: 83.3333333333%;\n  }\n  .col-lg-push-11 {\n    left: 91.6666666667%;\n  }\n  .col-lg-push-12 {\n    left: 100%;\n  }\n  .col-lg-offset-0 {\n    margin-left: 0%;\n  }\n  .col-lg-offset-1 {\n    margin-left: 8.3333333333%;\n  }\n  .col-lg-offset-2 {\n    margin-left: 16.6666666667%;\n  }\n  .col-lg-offset-3 {\n    margin-left: 25%;\n  }\n  .col-lg-offset-4 {\n    margin-left: 33.3333333333%;\n  }\n  .col-lg-offset-5 {\n    margin-left: 41.6666666667%;\n  }\n  .col-lg-offset-6 {\n    margin-left: 50%;\n  }\n  .col-lg-offset-7 {\n    margin-left: 58.3333333333%;\n  }\n  .col-lg-offset-8 {\n    margin-left: 66.6666666667%;\n  }\n  .col-lg-offset-9 {\n    margin-left: 75%;\n  }\n  .col-lg-offset-10 {\n    margin-left: 83.3333333333%;\n  }\n  .col-lg-offset-11 {\n    margin-left: 91.6666666667%;\n  }\n  .col-lg-offset-12 {\n    margin-left: 100%;\n  }\n}\n\ntable {\n  background-color: transparent;\n}\n\ncaption {\n  padding-top: 8px;\n  padding-bottom: 8px;\n  color: #777777;\n  text-align: left;\n}\n\nth {\n  text-align: left;\n}\n\n.table {\n  width: 100%;\n  max-width: 100%;\n  margin-bottom: 20px;\n}\n\n.table > thead > tr > th,\n.table > thead > tr > td,\n.table > tbody > tr > th,\n.table > tbody > tr > td,\n.table > tfoot > tr > th,\n.table > tfoot > tr > td {\n  padding: 8px;\n  line-height: 1.428571429;\n  vertical-align: top;\n  border-top: 1px solid #ddd;\n}\n\n.table > thead > tr > th {\n  vertical-align: bottom;\n  border-bottom: 2px solid #ddd;\n}\n\n.table > caption + thead > tr:first-child > th,\n.table > caption + thead > tr:first-child > td,\n.table > colgroup + thead > tr:first-child > th,\n.table > colgroup + thead > tr:first-child > td,\n.table > thead:first-child > tr:first-child > th,\n.table > thead:first-child > tr:first-child > td {\n  border-top: 0;\n}\n\n.table > tbody + tbody {\n  border-top: 2px solid #ddd;\n}\n\n.table .table {\n  background-color: #fff;\n}\n\n.table-condensed > thead > tr > th,\n.table-condensed > thead > tr > td,\n.table-condensed > tbody > tr > th,\n.table-condensed > tbody > tr > td,\n.table-condensed > tfoot > tr > th,\n.table-condensed > tfoot > tr > td {\n  padding: 5px;\n}\n\n.table-bordered {\n  border: 1px solid #ddd;\n}\n\n.table-bordered > thead > tr > th,\n.table-bordered > thead > tr > td,\n.table-bordered > tbody > tr > th,\n.table-bordered > tbody > tr > td,\n.table-bordered > tfoot > tr > th,\n.table-bordered > tfoot > tr > td {\n  border: 1px solid #ddd;\n}\n\n.table-bordered > thead > tr > th,\n.table-bordered > thead > tr > td {\n  border-bottom-width: 2px;\n}\n\n.table-striped > tbody > tr:nth-of-type(odd) {\n  background-color: #f9f9f9;\n}\n\n.table-hover > tbody > tr:hover {\n  background-color: #f5f5f5;\n}\n\ntable col[class*=\"col-\"] {\n  position: static;\n  float: none;\n  display: table-column;\n}\n\ntable td[class*=\"col-\"],\ntable th[class*=\"col-\"] {\n  position: static;\n  float: none;\n  display: table-cell;\n}\n\n.table > thead > tr > td.active, .table > thead > tr > td.ax-active,\n.table > thead > tr > th.active,\n.table > thead > tr > th.ax-active,\n.table > thead > tr.active > td,\n.table > thead > tr.ax-active > td,\n.table > thead > tr.active > th,\n.table > thead > tr.ax-active > th,\n.table > tbody > tr > td.active,\n.table > tbody > tr > td.ax-active,\n.table > tbody > tr > th.active,\n.table > tbody > tr > th.ax-active,\n.table > tbody > tr.active > td,\n.table > tbody > tr.ax-active > td,\n.table > tbody > tr.active > th,\n.table > tbody > tr.ax-active > th,\n.table > tfoot > tr > td.active,\n.table > tfoot > tr > td.ax-active,\n.table > tfoot > tr > th.active,\n.table > tfoot > tr > th.ax-active,\n.table > tfoot > tr.active > td,\n.table > tfoot > tr.ax-active > td,\n.table > tfoot > tr.active > th,\n.table > tfoot > tr.ax-active > th {\n  background-color: #f5f5f5;\n}\n\n.table-hover > tbody > tr > td.active:hover, .table-hover > tbody > tr > td.ax-active:hover,\n.table-hover > tbody > tr > th.active:hover,\n.table-hover > tbody > tr > th.ax-active:hover,\n.table-hover > tbody > tr.active:hover > td,\n.table-hover > tbody > tr.ax-active:hover > td,\n.table-hover > tbody > tr:hover > .active,\n.table-hover > tbody > tr:hover > .ax-active,\n.table-hover > tbody > tr.active:hover > th,\n.table-hover > tbody > tr.ax-active:hover > th {\n  background-color: #e8e8e8;\n}\n\n.table > thead > tr > td.success,\n.table > thead > tr > th.success,\n.table > thead > tr.success > td,\n.table > thead > tr.success > th,\n.table > tbody > tr > td.success,\n.table > tbody > tr > th.success,\n.table > tbody > tr.success > td,\n.table > tbody > tr.success > th,\n.table > tfoot > tr > td.success,\n.table > tfoot > tr > th.success,\n.table > tfoot > tr.success > td,\n.table > tfoot > tr.success > th {\n  background-color: #dff0d8;\n}\n\n.table-hover > tbody > tr > td.success:hover,\n.table-hover > tbody > tr > th.success:hover,\n.table-hover > tbody > tr.success:hover > td,\n.table-hover > tbody > tr:hover > .success,\n.table-hover > tbody > tr.success:hover > th {\n  background-color: #d0e9c6;\n}\n\n.table > thead > tr > td.info,\n.table > thead > tr > th.info,\n.table > thead > tr.info > td,\n.table > thead > tr.info > th,\n.table > tbody > tr > td.info,\n.table > tbody > tr > th.info,\n.table > tbody > tr.info > td,\n.table > tbody > tr.info > th,\n.table > tfoot > tr > td.info,\n.table > tfoot > tr > th.info,\n.table > tfoot > tr.info > td,\n.table > tfoot > tr.info > th {\n  background-color: #d9edf7;\n}\n\n.table-hover > tbody > tr > td.info:hover,\n.table-hover > tbody > tr > th.info:hover,\n.table-hover > tbody > tr.info:hover > td,\n.table-hover > tbody > tr:hover > .info,\n.table-hover > tbody > tr.info:hover > th {\n  background-color: #c4e3f3;\n}\n\n.table > thead > tr > td.warning,\n.table > thead > tr > th.warning,\n.table > thead > tr.warning > td,\n.table > thead > tr.warning > th,\n.table > tbody > tr > td.warning,\n.table > tbody > tr > th.warning,\n.table > tbody > tr.warning > td,\n.table > tbody > tr.warning > th,\n.table > tfoot > tr > td.warning,\n.table > tfoot > tr > th.warning,\n.table > tfoot > tr.warning > td,\n.table > tfoot > tr.warning > th {\n  background-color: #fcf8e3;\n}\n\n.table-hover > tbody > tr > td.warning:hover,\n.table-hover > tbody > tr > th.warning:hover,\n.table-hover > tbody > tr.warning:hover > td,\n.table-hover > tbody > tr:hover > .warning,\n.table-hover > tbody > tr.warning:hover > th {\n  background-color: #faf2cc;\n}\n\n.table > thead > tr > td.danger,\n.table > thead > tr > th.danger,\n.table > thead > tr.danger > td,\n.table > thead > tr.danger > th,\n.table > tbody > tr > td.danger,\n.table > tbody > tr > th.danger,\n.table > tbody > tr.danger > td,\n.table > tbody > tr.danger > th,\n.table > tfoot > tr > td.danger,\n.table > tfoot > tr > th.danger,\n.table > tfoot > tr.danger > td,\n.table > tfoot > tr.danger > th {\n  background-color: #f2dede;\n}\n\n.table-hover > tbody > tr > td.danger:hover,\n.table-hover > tbody > tr > th.danger:hover,\n.table-hover > tbody > tr.danger:hover > td,\n.table-hover > tbody > tr:hover > .danger,\n.table-hover > tbody > tr.danger:hover > th {\n  background-color: #ebcccc;\n}\n\n.table-responsive {\n  overflow-x: auto;\n  min-height: 0.01%;\n}\n\n@media screen and (max-width: 767px) {\n  .table-responsive {\n    width: 100%;\n    margin-bottom: 15px;\n    overflow-y: hidden;\n    -ms-overflow-style: -ms-autohiding-scrollbar;\n    border: 1px solid #ddd;\n  }\n  .table-responsive > .table {\n    margin-bottom: 0;\n  }\n  .table-responsive > .table > thead > tr > th,\n  .table-responsive > .table > thead > tr > td,\n  .table-responsive > .table > tbody > tr > th,\n  .table-responsive > .table > tbody > tr > td,\n  .table-responsive > .table > tfoot > tr > th,\n  .table-responsive > .table > tfoot > tr > td {\n    white-space: nowrap;\n  }\n  .table-responsive > .table-bordered {\n    border: 0;\n  }\n  .table-responsive > .table-bordered > thead > tr > th:first-child,\n  .table-responsive > .table-bordered > thead > tr > td:first-child,\n  .table-responsive > .table-bordered > tbody > tr > th:first-child,\n  .table-responsive > .table-bordered > tbody > tr > td:first-child,\n  .table-responsive > .table-bordered > tfoot > tr > th:first-child,\n  .table-responsive > .table-bordered > tfoot > tr > td:first-child {\n    border-left: 0;\n  }\n  .table-responsive > .table-bordered > thead > tr > th:last-child,\n  .table-responsive > .table-bordered > thead > tr > td:last-child,\n  .table-responsive > .table-bordered > tbody > tr > th:last-child,\n  .table-responsive > .table-bordered > tbody > tr > td:last-child,\n  .table-responsive > .table-bordered > tfoot > tr > th:last-child,\n  .table-responsive > .table-bordered > tfoot > tr > td:last-child {\n    border-right: 0;\n  }\n  .table-responsive > .table-bordered > tbody > tr:last-child > th,\n  .table-responsive > .table-bordered > tbody > tr:last-child > td,\n  .table-responsive > .table-bordered > tfoot > tr:last-child > th,\n  .table-responsive > .table-bordered > tfoot > tr:last-child > td {\n    border-bottom: 0;\n  }\n}\n\nfieldset {\n  padding: 0;\n  margin: 0;\n  border: 0;\n  min-width: 0;\n}\n\nlegend {\n  display: block;\n  width: 100%;\n  padding: 0;\n  margin-bottom: 20px;\n  font-size: 21px;\n  line-height: inherit;\n  color: #333333;\n  border: 0;\n  border-bottom: 1px solid #e5e5e5;\n}\n\nlabel {\n  display: inline-block;\n  max-width: 100%;\n  margin-bottom: 5px;\n  font-weight: bold;\n}\n\ninput[type=\"search\"] {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\ninput[type=\"radio\"],\ninput[type=\"checkbox\"] {\n  margin: 4px 0 0;\n  margin-top: 1px \\9;\n  line-height: normal;\n}\n\ninput[type=\"file\"] {\n  display: block;\n}\n\ninput[type=\"range\"] {\n  display: block;\n  width: 100%;\n}\n\nselect[multiple],\nselect[size] {\n  height: auto;\n}\n\ninput[type=\"file\"]:focus,\ninput[type=\"radio\"]:focus,\ninput[type=\"checkbox\"]:focus {\n  outline: 5px auto -webkit-focus-ring-color;\n  outline-offset: -2px;\n}\n\noutput {\n  display: block;\n  padding-top: 7px;\n  font-size: 14px;\n  line-height: 1.428571429;\n  color: #555555;\n}\n\n.form-control {\n  display: block;\n  width: 100%;\n  height: 34px;\n  padding: 6px 12px;\n  font-size: 14px;\n  line-height: 1.428571429;\n  color: #555555;\n  background-color: #fff;\n  background-image: none;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;\n  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;\n}\n\n.form-control:focus {\n  border-color: #66afe9;\n  outline: 0;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);\n}\n\n.form-control::-moz-placeholder {\n  color: #999;\n  opacity: 1;\n}\n\n.form-control:-ms-input-placeholder {\n  color: #999;\n}\n\n.form-control::-webkit-input-placeholder {\n  color: #999;\n}\n\n.form-control::-ms-expand {\n  border: 0;\n  background-color: transparent;\n}\n\n.form-control[disabled], .form-control[readonly],\nfieldset[disabled] .form-control {\n  background-color: #eeeeee;\n  opacity: 1;\n}\n\n.form-control[disabled],\nfieldset[disabled] .form-control {\n  cursor: not-allowed;\n}\n\ntextarea.form-control {\n  height: auto;\n}\n\ninput[type=\"search\"] {\n  -webkit-appearance: none;\n}\n\n@media screen and (-webkit-min-device-pixel-ratio: 0) {\n  input[type=\"date\"].form-control,\n  input[type=\"time\"].form-control,\n  input[type=\"datetime-local\"].form-control,\n  input[type=\"month\"].form-control {\n    line-height: 34px;\n  }\n  input[type=\"date\"].input-sm, .input-group-sm > input[type=\"date\"].form-control,\n  .input-group-sm > input[type=\"date\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"date\"].btn,\n  .input-group-sm input[type=\"date\"],\n  input[type=\"time\"].input-sm,\n  .input-group-sm > input[type=\"time\"].form-control,\n  .input-group-sm > input[type=\"time\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"time\"].btn,\n  .input-group-sm\n  input[type=\"time\"],\n  input[type=\"datetime-local\"].input-sm,\n  .input-group-sm > input[type=\"datetime-local\"].form-control,\n  .input-group-sm > input[type=\"datetime-local\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"datetime-local\"].btn,\n  .input-group-sm\n  input[type=\"datetime-local\"],\n  input[type=\"month\"].input-sm,\n  .input-group-sm > input[type=\"month\"].form-control,\n  .input-group-sm > input[type=\"month\"].input-group-addon,\n  .input-group-sm > .input-group-btn > input[type=\"month\"].btn,\n  .input-group-sm\n  input[type=\"month\"] {\n    line-height: 30px;\n  }\n  input[type=\"date\"].input-lg, .input-group-lg > input[type=\"date\"].form-control,\n  .input-group-lg > input[type=\"date\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"date\"].btn,\n  .input-group-lg input[type=\"date\"],\n  input[type=\"time\"].input-lg,\n  .input-group-lg > input[type=\"time\"].form-control,\n  .input-group-lg > input[type=\"time\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"time\"].btn,\n  .input-group-lg\n  input[type=\"time\"],\n  input[type=\"datetime-local\"].input-lg,\n  .input-group-lg > input[type=\"datetime-local\"].form-control,\n  .input-group-lg > input[type=\"datetime-local\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"datetime-local\"].btn,\n  .input-group-lg\n  input[type=\"datetime-local\"],\n  input[type=\"month\"].input-lg,\n  .input-group-lg > input[type=\"month\"].form-control,\n  .input-group-lg > input[type=\"month\"].input-group-addon,\n  .input-group-lg > .input-group-btn > input[type=\"month\"].btn,\n  .input-group-lg\n  input[type=\"month\"] {\n    line-height: 46px;\n  }\n}\n\n.form-group {\n  margin-bottom: 15px;\n}\n\n.radio,\n.checkbox {\n  position: relative;\n  display: block;\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n\n.radio label,\n.checkbox label {\n  min-height: 20px;\n  padding-left: 20px;\n  margin-bottom: 0;\n  font-weight: normal;\n  cursor: pointer;\n}\n\n.radio input[type=\"radio\"],\n.radio-inline input[type=\"radio\"],\n.checkbox input[type=\"checkbox\"],\n.checkbox-inline input[type=\"checkbox\"] {\n  position: absolute;\n  margin-left: -20px;\n  margin-top: 4px \\9;\n}\n\n.radio + .radio,\n.checkbox + .checkbox {\n  margin-top: -5px;\n}\n\n.radio-inline,\n.checkbox-inline {\n  position: relative;\n  display: inline-block;\n  padding-left: 20px;\n  margin-bottom: 0;\n  vertical-align: middle;\n  font-weight: normal;\n  cursor: pointer;\n}\n\n.radio-inline + .radio-inline,\n.checkbox-inline + .checkbox-inline {\n  margin-top: 0;\n  margin-left: 10px;\n}\n\ninput[type=\"radio\"][disabled], input[type=\"radio\"].disabled, input[type=\"radio\"][disabled],\ninput[type=\"radio\"].ax-disabled,\nfieldset[disabled] input[type=\"radio\"],\ninput[type=\"checkbox\"][disabled],\ninput[type=\"checkbox\"].disabled,\ninput[type=\"checkbox\"][disabled],\ninput[type=\"checkbox\"].ax-disabled,\nfieldset[disabled]\ninput[type=\"checkbox\"] {\n  cursor: not-allowed;\n}\n\n.radio-inline.disabled, .radio-inline[disabled],\n.radio-inline.ax-disabled,\nfieldset[disabled] .radio-inline,\n.checkbox-inline.disabled,\n.checkbox-inline[disabled],\n.checkbox-inline.ax-disabled,\nfieldset[disabled]\n.checkbox-inline {\n  cursor: not-allowed;\n}\n\n.radio.disabled label, .radio[disabled] label,\n.radio.ax-disabled label,\nfieldset[disabled] .radio label,\n.checkbox.disabled label, .checkbox[disabled] label,\n.checkbox.ax-disabled label,\nfieldset[disabled]\n.checkbox label {\n  cursor: not-allowed;\n}\n\n.form-control-static {\n  padding-top: 7px;\n  padding-bottom: 7px;\n  margin-bottom: 0;\n  min-height: 34px;\n}\n\n.form-control-static.input-lg, .input-group-lg > .form-control-static.form-control,\n.input-group-lg > .form-control-static.input-group-addon,\n.input-group-lg > .input-group-btn > .form-control-static.btn, .form-control-static.input-sm, .input-group-sm > .form-control-static.form-control,\n.input-group-sm > .form-control-static.input-group-addon,\n.input-group-sm > .input-group-btn > .form-control-static.btn {\n  padding-left: 0;\n  padding-right: 0;\n}\n\n.input-sm, .input-group-sm > .form-control,\n.input-group-sm > .input-group-addon,\n.input-group-sm > .input-group-btn > .btn {\n  height: 30px;\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\nselect.input-sm, .input-group-sm > select.form-control,\n.input-group-sm > select.input-group-addon,\n.input-group-sm > .input-group-btn > select.btn {\n  height: 30px;\n  line-height: 30px;\n}\n\ntextarea.input-sm, .input-group-sm > textarea.form-control,\n.input-group-sm > textarea.input-group-addon,\n.input-group-sm > .input-group-btn > textarea.btn,\nselect[multiple].input-sm,\n.input-group-sm > select[multiple].form-control,\n.input-group-sm > select[multiple].input-group-addon,\n.input-group-sm > .input-group-btn > select[multiple].btn {\n  height: auto;\n}\n\n.form-group-sm .form-control {\n  height: 30px;\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\n.form-group-sm select.form-control {\n  height: 30px;\n  line-height: 30px;\n}\n\n.form-group-sm textarea.form-control,\n.form-group-sm select[multiple].form-control {\n  height: auto;\n}\n\n.form-group-sm .form-control-static {\n  height: 30px;\n  min-height: 32px;\n  padding: 6px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.input-lg, .input-group-lg > .form-control,\n.input-group-lg > .input-group-addon,\n.input-group-lg > .input-group-btn > .btn {\n  height: 46px;\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n  border-radius: 6px;\n}\n\nselect.input-lg, .input-group-lg > select.form-control,\n.input-group-lg > select.input-group-addon,\n.input-group-lg > .input-group-btn > select.btn {\n  height: 46px;\n  line-height: 46px;\n}\n\ntextarea.input-lg, .input-group-lg > textarea.form-control,\n.input-group-lg > textarea.input-group-addon,\n.input-group-lg > .input-group-btn > textarea.btn,\nselect[multiple].input-lg,\n.input-group-lg > select[multiple].form-control,\n.input-group-lg > select[multiple].input-group-addon,\n.input-group-lg > .input-group-btn > select[multiple].btn {\n  height: auto;\n}\n\n.form-group-lg .form-control {\n  height: 46px;\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n  border-radius: 6px;\n}\n\n.form-group-lg select.form-control {\n  height: 46px;\n  line-height: 46px;\n}\n\n.form-group-lg textarea.form-control,\n.form-group-lg select[multiple].form-control {\n  height: auto;\n}\n\n.form-group-lg .form-control-static {\n  height: 46px;\n  min-height: 38px;\n  padding: 11px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n}\n\n.has-feedback {\n  position: relative;\n}\n\n.has-feedback .form-control {\n  padding-right: 42.5px;\n}\n\n.form-control-feedback {\n  position: absolute;\n  top: 0;\n  right: 0;\n  z-index: 2;\n  display: block;\n  width: 34px;\n  height: 34px;\n  line-height: 34px;\n  text-align: center;\n  pointer-events: none;\n}\n\n.input-lg + .form-control-feedback, .input-group-lg > .form-control + .form-control-feedback,\n.input-group-lg > .input-group-addon + .form-control-feedback,\n.input-group-lg > .input-group-btn > .btn + .form-control-feedback,\n.input-group-lg + .form-control-feedback,\n.form-group-lg .form-control + .form-control-feedback {\n  width: 46px;\n  height: 46px;\n  line-height: 46px;\n}\n\n.input-sm + .form-control-feedback, .input-group-sm > .form-control + .form-control-feedback,\n.input-group-sm > .input-group-addon + .form-control-feedback,\n.input-group-sm > .input-group-btn > .btn + .form-control-feedback,\n.input-group-sm + .form-control-feedback,\n.form-group-sm .form-control + .form-control-feedback {\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n}\n\n.has-success .help-block,\n.has-success .control-label,\n.has-success .radio,\n.has-success .checkbox,\n.has-success .radio-inline,\n.has-success .checkbox-inline,\n.has-success.radio label,\n.has-success.checkbox label,\n.has-success.radio-inline label,\n.has-success.checkbox-inline label {\n  color: #3c763d;\n}\n\n.has-success .form-control {\n  border-color: #3c763d;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n}\n\n.has-success .form-control:focus {\n  border-color: #2b542c;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;\n}\n\n.has-success .input-group-addon {\n  color: #3c763d;\n  border-color: #3c763d;\n  background-color: #dff0d8;\n}\n\n.has-success .form-control-feedback {\n  color: #3c763d;\n}\n\n.has-warning .help-block,\n.has-warning .control-label,\n.has-warning .radio,\n.has-warning .checkbox,\n.has-warning .radio-inline,\n.has-warning .checkbox-inline,\n.has-warning.radio label,\n.has-warning.checkbox label,\n.has-warning.radio-inline label,\n.has-warning.checkbox-inline label {\n  color: #8a6d3b;\n}\n\n.has-warning .form-control {\n  border-color: #8a6d3b;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n}\n\n.has-warning .form-control:focus {\n  border-color: #66512c;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;\n}\n\n.has-warning .input-group-addon {\n  color: #8a6d3b;\n  border-color: #8a6d3b;\n  background-color: #fcf8e3;\n}\n\n.has-warning .form-control-feedback {\n  color: #8a6d3b;\n}\n\n.has-error .help-block,\n.has-error .control-label,\n.has-error .radio,\n.has-error .checkbox,\n.has-error .radio-inline,\n.has-error .checkbox-inline,\n.has-error.radio label,\n.has-error.checkbox label,\n.has-error.radio-inline label,\n.has-error.checkbox-inline label {\n  color: #a94442;\n}\n\n.has-error .form-control {\n  border-color: #a94442;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n}\n\n.has-error .form-control:focus {\n  border-color: #843534;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;\n}\n\n.has-error .input-group-addon {\n  color: #a94442;\n  border-color: #a94442;\n  background-color: #f2dede;\n}\n\n.has-error .form-control-feedback {\n  color: #a94442;\n}\n\n.has-feedback label ~ .form-control-feedback {\n  top: 25px;\n}\n\n.has-feedback label.sr-only ~ .form-control-feedback {\n  top: 0;\n}\n\n.help-block {\n  display: block;\n  margin-top: 5px;\n  margin-bottom: 10px;\n  color: #737373;\n}\n\n@media (min-width: 768px) {\n  .form-inline .form-group {\n    display: inline-block;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .form-inline .form-control {\n    display: inline-block;\n    width: auto;\n    vertical-align: middle;\n  }\n  .form-inline .form-control-static {\n    display: inline-block;\n  }\n  .form-inline .input-group {\n    display: inline-table;\n    vertical-align: middle;\n  }\n  .form-inline .input-group .input-group-addon,\n  .form-inline .input-group .input-group-btn,\n  .form-inline .input-group .form-control {\n    width: auto;\n  }\n  .form-inline .input-group > .form-control {\n    width: 100%;\n  }\n  .form-inline .control-label {\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .form-inline .radio,\n  .form-inline .checkbox {\n    display: inline-block;\n    margin-top: 0;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .form-inline .radio label,\n  .form-inline .checkbox label {\n    padding-left: 0;\n  }\n  .form-inline .radio input[type=\"radio\"],\n  .form-inline .checkbox input[type=\"checkbox\"] {\n    position: relative;\n    margin-left: 0;\n  }\n  .form-inline .has-feedback .form-control-feedback {\n    top: 0;\n  }\n}\n\n.form-horizontal .radio,\n.form-horizontal .checkbox,\n.form-horizontal .radio-inline,\n.form-horizontal .checkbox-inline {\n  margin-top: 0;\n  margin-bottom: 0;\n  padding-top: 7px;\n}\n\n.form-horizontal .radio,\n.form-horizontal .checkbox {\n  min-height: 27px;\n}\n\n.form-horizontal .form-group {\n  margin-left: -15px;\n  margin-right: -15px;\n}\n\n.form-horizontal .form-group:before, .form-horizontal .form-group:after {\n  content: \" \";\n  display: table;\n}\n\n.form-horizontal .form-group:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .form-horizontal .control-label {\n    text-align: right;\n    margin-bottom: 0;\n    padding-top: 7px;\n  }\n}\n\n.form-horizontal .has-feedback .form-control-feedback {\n  right: 15px;\n}\n\n@media (min-width: 768px) {\n  .form-horizontal .form-group-lg .control-label {\n    padding-top: 11px;\n    font-size: 18px;\n  }\n}\n\n@media (min-width: 768px) {\n  .form-horizontal .form-group-sm .control-label {\n    padding-top: 6px;\n    font-size: 12px;\n  }\n}\n\n.btn {\n  display: inline-block;\n  margin-bottom: 0;\n  font-weight: normal;\n  text-align: center;\n  vertical-align: middle;\n  -ms-touch-action: manipulation;\n      touch-action: manipulation;\n  cursor: pointer;\n  background-image: none;\n  border: 1px solid transparent;\n  white-space: nowrap;\n  padding: 6px 12px;\n  font-size: 14px;\n  line-height: 1.428571429;\n  border-radius: 4px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n.btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.ax-active:focus, .btn.active.focus, .btn.focus.ax-active {\n  outline: 5px auto -webkit-focus-ring-color;\n  outline-offset: -2px;\n}\n\n.btn:hover, .btn:focus, .btn.focus {\n  color: #333;\n  text-decoration: none;\n}\n\n.btn:active, .btn.active, .btn.ax-active {\n  outline: 0;\n  background-image: none;\n  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n}\n\n.btn.disabled, .btn[disabled],\n.btn.ax-disabled, .btn[disabled],\nfieldset[disabled] .btn {\n  cursor: not-allowed;\n  opacity: 0.65;\n  filter: alpha(opacity=65);\n  box-shadow: none;\n}\n\na.btn.disabled, a.btn[disabled],\na.btn.ax-disabled,\nfieldset[disabled] a.btn {\n  pointer-events: none;\n}\n\n.btn-default {\n  color: #333;\n  background-color: #fff;\n  border-color: #ccc;\n}\n\n.btn-default:focus, .btn-default.focus {\n  color: #333;\n  background-color: #e6e6e6;\n  border-color: #8c8c8c;\n}\n\n.btn-default:hover {\n  color: #333;\n  background-color: #e6e6e6;\n  border-color: #adadad;\n}\n\n.btn-default:active, .btn-default.active, .btn-default.ax-active,\n.open > .btn-default.dropdown-toggle {\n  color: #333;\n  background-color: #e6e6e6;\n  border-color: #adadad;\n}\n\n.btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.ax-active:hover, .btn-default.active:focus, .btn-default.ax-active:focus, .btn-default.active.focus, .btn-default.focus.ax-active,\n.open > .btn-default.dropdown-toggle:hover,\n.open > .btn-default.dropdown-toggle:focus,\n.open > .btn-default.dropdown-toggle.focus {\n  color: #333;\n  background-color: #d4d4d4;\n  border-color: #8c8c8c;\n}\n\n.btn-default:active, .btn-default.active, .btn-default.ax-active,\n.open > .btn-default.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-default.disabled:hover, .btn-default[disabled]:hover,\n.btn-default.ax-disabled:hover, .btn-default.disabled:focus, .btn-default[disabled]:focus,\n.btn-default.ax-disabled:focus, .btn-default.disabled.focus, .btn-default.focus[disabled],\n.btn-default.focus.ax-disabled, .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled].focus,\nfieldset[disabled] .btn-default:hover,\nfieldset[disabled] .btn-default:focus,\nfieldset[disabled] .btn-default.focus {\n  background-color: #fff;\n  border-color: #ccc;\n}\n\n.btn-default .badge {\n  color: #fff;\n  background-color: #333;\n}\n\n.btn-primary {\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #2e6da4;\n}\n\n.btn-primary:focus, .btn-primary.focus {\n  color: #fff;\n  background-color: #286090;\n  border-color: #122b40;\n}\n\n.btn-primary:hover {\n  color: #fff;\n  background-color: #286090;\n  border-color: #204d74;\n}\n\n.btn-primary:active, .btn-primary.active, .btn-primary.ax-active,\n.open > .btn-primary.dropdown-toggle {\n  color: #fff;\n  background-color: #286090;\n  border-color: #204d74;\n}\n\n.btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary.active:hover, .btn-primary.ax-active:hover, .btn-primary.active:focus, .btn-primary.ax-active:focus, .btn-primary.active.focus, .btn-primary.focus.ax-active,\n.open > .btn-primary.dropdown-toggle:hover,\n.open > .btn-primary.dropdown-toggle:focus,\n.open > .btn-primary.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #204d74;\n  border-color: #122b40;\n}\n\n.btn-primary:active, .btn-primary.active, .btn-primary.ax-active,\n.open > .btn-primary.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-primary.disabled:hover, .btn-primary[disabled]:hover,\n.btn-primary.ax-disabled:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus,\n.btn-primary.ax-disabled:focus, .btn-primary.disabled.focus, .btn-primary.focus[disabled],\n.btn-primary.focus.ax-disabled, .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus,\nfieldset[disabled] .btn-primary:hover,\nfieldset[disabled] .btn-primary:focus,\nfieldset[disabled] .btn-primary.focus {\n  background-color: #337ab7;\n  border-color: #2e6da4;\n}\n\n.btn-primary .badge {\n  color: #337ab7;\n  background-color: #fff;\n}\n\n.btn-success {\n  color: #fff;\n  background-color: #5cb85c;\n  border-color: #4cae4c;\n}\n\n.btn-success:focus, .btn-success.focus {\n  color: #fff;\n  background-color: #449d44;\n  border-color: #255625;\n}\n\n.btn-success:hover {\n  color: #fff;\n  background-color: #449d44;\n  border-color: #398439;\n}\n\n.btn-success:active, .btn-success.active, .btn-success.ax-active,\n.open > .btn-success.dropdown-toggle {\n  color: #fff;\n  background-color: #449d44;\n  border-color: #398439;\n}\n\n.btn-success:active:hover, .btn-success:active:focus, .btn-success:active.focus, .btn-success.active:hover, .btn-success.ax-active:hover, .btn-success.active:focus, .btn-success.ax-active:focus, .btn-success.active.focus, .btn-success.focus.ax-active,\n.open > .btn-success.dropdown-toggle:hover,\n.open > .btn-success.dropdown-toggle:focus,\n.open > .btn-success.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #398439;\n  border-color: #255625;\n}\n\n.btn-success:active, .btn-success.active, .btn-success.ax-active,\n.open > .btn-success.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-success.disabled:hover, .btn-success[disabled]:hover,\n.btn-success.ax-disabled:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus,\n.btn-success.ax-disabled:focus, .btn-success.disabled.focus, .btn-success.focus[disabled],\n.btn-success.focus.ax-disabled, .btn-success[disabled]:hover, .btn-success[disabled]:focus, .btn-success[disabled].focus,\nfieldset[disabled] .btn-success:hover,\nfieldset[disabled] .btn-success:focus,\nfieldset[disabled] .btn-success.focus {\n  background-color: #5cb85c;\n  border-color: #4cae4c;\n}\n\n.btn-success .badge {\n  color: #5cb85c;\n  background-color: #fff;\n}\n\n.btn-info {\n  color: #fff;\n  background-color: #5bc0de;\n  border-color: #46b8da;\n}\n\n.btn-info:focus, .btn-info.focus {\n  color: #fff;\n  background-color: #31b0d5;\n  border-color: #1b6d85;\n}\n\n.btn-info:hover {\n  color: #fff;\n  background-color: #31b0d5;\n  border-color: #269abc;\n}\n\n.btn-info:active, .btn-info.active, .btn-info.ax-active,\n.open > .btn-info.dropdown-toggle {\n  color: #fff;\n  background-color: #31b0d5;\n  border-color: #269abc;\n}\n\n.btn-info:active:hover, .btn-info:active:focus, .btn-info:active.focus, .btn-info.active:hover, .btn-info.ax-active:hover, .btn-info.active:focus, .btn-info.ax-active:focus, .btn-info.active.focus, .btn-info.focus.ax-active,\n.open > .btn-info.dropdown-toggle:hover,\n.open > .btn-info.dropdown-toggle:focus,\n.open > .btn-info.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #269abc;\n  border-color: #1b6d85;\n}\n\n.btn-info:active, .btn-info.active, .btn-info.ax-active,\n.open > .btn-info.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-info.disabled:hover, .btn-info[disabled]:hover,\n.btn-info.ax-disabled:hover, .btn-info.disabled:focus, .btn-info[disabled]:focus,\n.btn-info.ax-disabled:focus, .btn-info.disabled.focus, .btn-info.focus[disabled],\n.btn-info.focus.ax-disabled, .btn-info[disabled]:hover, .btn-info[disabled]:focus, .btn-info[disabled].focus,\nfieldset[disabled] .btn-info:hover,\nfieldset[disabled] .btn-info:focus,\nfieldset[disabled] .btn-info.focus {\n  background-color: #5bc0de;\n  border-color: #46b8da;\n}\n\n.btn-info .badge {\n  color: #5bc0de;\n  background-color: #fff;\n}\n\n.btn-warning {\n  color: #fff;\n  background-color: #f0ad4e;\n  border-color: #eea236;\n}\n\n.btn-warning:focus, .btn-warning.focus {\n  color: #fff;\n  background-color: #ec971f;\n  border-color: #985f0d;\n}\n\n.btn-warning:hover {\n  color: #fff;\n  background-color: #ec971f;\n  border-color: #d58512;\n}\n\n.btn-warning:active, .btn-warning.active, .btn-warning.ax-active,\n.open > .btn-warning.dropdown-toggle {\n  color: #fff;\n  background-color: #ec971f;\n  border-color: #d58512;\n}\n\n.btn-warning:active:hover, .btn-warning:active:focus, .btn-warning:active.focus, .btn-warning.active:hover, .btn-warning.ax-active:hover, .btn-warning.active:focus, .btn-warning.ax-active:focus, .btn-warning.active.focus, .btn-warning.focus.ax-active,\n.open > .btn-warning.dropdown-toggle:hover,\n.open > .btn-warning.dropdown-toggle:focus,\n.open > .btn-warning.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #d58512;\n  border-color: #985f0d;\n}\n\n.btn-warning:active, .btn-warning.active, .btn-warning.ax-active,\n.open > .btn-warning.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-warning.disabled:hover, .btn-warning[disabled]:hover,\n.btn-warning.ax-disabled:hover, .btn-warning.disabled:focus, .btn-warning[disabled]:focus,\n.btn-warning.ax-disabled:focus, .btn-warning.disabled.focus, .btn-warning.focus[disabled],\n.btn-warning.focus.ax-disabled, .btn-warning[disabled]:hover, .btn-warning[disabled]:focus, .btn-warning[disabled].focus,\nfieldset[disabled] .btn-warning:hover,\nfieldset[disabled] .btn-warning:focus,\nfieldset[disabled] .btn-warning.focus {\n  background-color: #f0ad4e;\n  border-color: #eea236;\n}\n\n.btn-warning .badge {\n  color: #f0ad4e;\n  background-color: #fff;\n}\n\n.btn-danger {\n  color: #fff;\n  background-color: #d9534f;\n  border-color: #d43f3a;\n}\n\n.btn-danger:focus, .btn-danger.focus {\n  color: #fff;\n  background-color: #c9302c;\n  border-color: #761c19;\n}\n\n.btn-danger:hover {\n  color: #fff;\n  background-color: #c9302c;\n  border-color: #ac2925;\n}\n\n.btn-danger:active, .btn-danger.active, .btn-danger.ax-active,\n.open > .btn-danger.dropdown-toggle {\n  color: #fff;\n  background-color: #c9302c;\n  border-color: #ac2925;\n}\n\n.btn-danger:active:hover, .btn-danger:active:focus, .btn-danger:active.focus, .btn-danger.active:hover, .btn-danger.ax-active:hover, .btn-danger.active:focus, .btn-danger.ax-active:focus, .btn-danger.active.focus, .btn-danger.focus.ax-active,\n.open > .btn-danger.dropdown-toggle:hover,\n.open > .btn-danger.dropdown-toggle:focus,\n.open > .btn-danger.dropdown-toggle.focus {\n  color: #fff;\n  background-color: #ac2925;\n  border-color: #761c19;\n}\n\n.btn-danger:active, .btn-danger.active, .btn-danger.ax-active,\n.open > .btn-danger.dropdown-toggle {\n  background-image: none;\n}\n\n.btn-danger.disabled:hover, .btn-danger[disabled]:hover,\n.btn-danger.ax-disabled:hover, .btn-danger.disabled:focus, .btn-danger[disabled]:focus,\n.btn-danger.ax-disabled:focus, .btn-danger.disabled.focus, .btn-danger.focus[disabled],\n.btn-danger.focus.ax-disabled, .btn-danger[disabled]:hover, .btn-danger[disabled]:focus, .btn-danger[disabled].focus,\nfieldset[disabled] .btn-danger:hover,\nfieldset[disabled] .btn-danger:focus,\nfieldset[disabled] .btn-danger.focus {\n  background-color: #d9534f;\n  border-color: #d43f3a;\n}\n\n.btn-danger .badge {\n  color: #d9534f;\n  background-color: #fff;\n}\n\n.btn-link {\n  color: #337ab7;\n  font-weight: normal;\n  border-radius: 0;\n}\n\n.btn-link, .btn-link:active, .btn-link.active, .btn-link.ax-active, .btn-link[disabled],\nfieldset[disabled] .btn-link {\n  background-color: transparent;\n  box-shadow: none;\n}\n\n.btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {\n  border-color: transparent;\n}\n\n.btn-link:hover, .btn-link:focus {\n  color: #23527c;\n  text-decoration: underline;\n  background-color: transparent;\n}\n\n.btn-link[disabled]:hover, .btn-link[disabled]:focus,\nfieldset[disabled] .btn-link:hover,\nfieldset[disabled] .btn-link:focus {\n  color: #777777;\n  text-decoration: none;\n}\n\n.btn-lg, .btn-group-lg > .btn {\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n  border-radius: 6px;\n}\n\n.btn-sm, .btn-group-sm > .btn {\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\n.btn-xs, .btn-group-xs > .btn {\n  padding: 1px 5px;\n  font-size: 12px;\n  line-height: 1.5;\n  border-radius: 3px;\n}\n\n.btn-block {\n  display: block;\n  width: 100%;\n}\n\n.btn-block + .btn-block {\n  margin-top: 5px;\n}\n\ninput[type=\"submit\"].btn-block,\ninput[type=\"reset\"].btn-block,\ninput[type=\"button\"].btn-block {\n  width: 100%;\n}\n\n.fade {\n  opacity: 0;\n  -webkit-transition: opacity 0.15s linear;\n  transition: opacity 0.15s linear;\n}\n\n.fade.in {\n  opacity: 1;\n}\n\n.collapse {\n  display: none;\n}\n\n.collapse.in {\n  display: block;\n}\n\ntr.collapse.in {\n  display: table-row;\n}\n\ntbody.collapse.in {\n  display: table-row-group;\n}\n\n.collapsing {\n  position: relative;\n  height: 0;\n  overflow: hidden;\n  -webkit-transition-property: height, visibility;\n  transition-property: height, visibility;\n  -webkit-transition-duration: 0.35s;\n  transition-duration: 0.35s;\n  -webkit-transition-timing-function: ease;\n  transition-timing-function: ease;\n}\n\n@font-face {\n  font-family: 'Glyphicons Halflings';\n  src: url(" + __webpack_require__(260) + ");\n  src: url(" + __webpack_require__(260) + "?#iefix) format(\"embedded-opentype\"), url(" + __webpack_require__(261) + ") format(\"woff2\"), url(" + __webpack_require__(262) + ") format(\"woff\"), url(" + __webpack_require__(263) + ") format(\"truetype\"), url(" + __webpack_require__(264) + "#glyphicons_halflingsregular) format(\"svg\");\n}\n\n.glyphicon {\n  position: relative;\n  top: 1px;\n  display: inline-block;\n  font-family: 'Glyphicons Halflings';\n  font-style: normal;\n  font-weight: normal;\n  line-height: 1;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.glyphicon-asterisk:before {\n  content: \"*\";\n}\n\n.glyphicon-plus:before {\n  content: \"+\";\n}\n\n.glyphicon-euro:before,\n.glyphicon-eur:before {\n  content: \"\\20AC\";\n}\n\n.glyphicon-minus:before {\n  content: \"\\2212\";\n}\n\n.glyphicon-cloud:before {\n  content: \"\\2601\";\n}\n\n.glyphicon-envelope:before {\n  content: \"\\2709\";\n}\n\n.glyphicon-pencil:before {\n  content: \"\\270F\";\n}\n\n.glyphicon-glass:before {\n  content: \"\\E001\";\n}\n\n.glyphicon-music:before {\n  content: \"\\E002\";\n}\n\n.glyphicon-search:before {\n  content: \"\\E003\";\n}\n\n.glyphicon-heart:before {\n  content: \"\\E005\";\n}\n\n.glyphicon-star:before {\n  content: \"\\E006\";\n}\n\n.glyphicon-star-empty:before {\n  content: \"\\E007\";\n}\n\n.glyphicon-user:before {\n  content: \"\\E008\";\n}\n\n.glyphicon-film:before {\n  content: \"\\E009\";\n}\n\n.glyphicon-th-large:before {\n  content: \"\\E010\";\n}\n\n.glyphicon-th:before {\n  content: \"\\E011\";\n}\n\n.glyphicon-th-list:before {\n  content: \"\\E012\";\n}\n\n.glyphicon-ok:before {\n  content: \"\\E013\";\n}\n\n.glyphicon-remove:before {\n  content: \"\\E014\";\n}\n\n.glyphicon-zoom-in:before {\n  content: \"\\E015\";\n}\n\n.glyphicon-zoom-out:before {\n  content: \"\\E016\";\n}\n\n.glyphicon-off:before {\n  content: \"\\E017\";\n}\n\n.glyphicon-signal:before {\n  content: \"\\E018\";\n}\n\n.glyphicon-cog:before {\n  content: \"\\E019\";\n}\n\n.glyphicon-trash:before {\n  content: \"\\E020\";\n}\n\n.glyphicon-home:before {\n  content: \"\\E021\";\n}\n\n.glyphicon-file:before {\n  content: \"\\E022\";\n}\n\n.glyphicon-time:before {\n  content: \"\\E023\";\n}\n\n.glyphicon-road:before {\n  content: \"\\E024\";\n}\n\n.glyphicon-download-alt:before {\n  content: \"\\E025\";\n}\n\n.glyphicon-download:before {\n  content: \"\\E026\";\n}\n\n.glyphicon-upload:before {\n  content: \"\\E027\";\n}\n\n.glyphicon-inbox:before {\n  content: \"\\E028\";\n}\n\n.glyphicon-play-circle:before {\n  content: \"\\E029\";\n}\n\n.glyphicon-repeat:before {\n  content: \"\\E030\";\n}\n\n.glyphicon-refresh:before {\n  content: \"\\E031\";\n}\n\n.glyphicon-list-alt:before {\n  content: \"\\E032\";\n}\n\n.glyphicon-lock:before {\n  content: \"\\E033\";\n}\n\n.glyphicon-flag:before {\n  content: \"\\E034\";\n}\n\n.glyphicon-headphones:before {\n  content: \"\\E035\";\n}\n\n.glyphicon-volume-off:before {\n  content: \"\\E036\";\n}\n\n.glyphicon-volume-down:before {\n  content: \"\\E037\";\n}\n\n.glyphicon-volume-up:before {\n  content: \"\\E038\";\n}\n\n.glyphicon-qrcode:before {\n  content: \"\\E039\";\n}\n\n.glyphicon-barcode:before {\n  content: \"\\E040\";\n}\n\n.glyphicon-tag:before {\n  content: \"\\E041\";\n}\n\n.glyphicon-tags:before {\n  content: \"\\E042\";\n}\n\n.glyphicon-book:before {\n  content: \"\\E043\";\n}\n\n.glyphicon-bookmark:before {\n  content: \"\\E044\";\n}\n\n.glyphicon-print:before {\n  content: \"\\E045\";\n}\n\n.glyphicon-camera:before {\n  content: \"\\E046\";\n}\n\n.glyphicon-font:before {\n  content: \"\\E047\";\n}\n\n.glyphicon-bold:before {\n  content: \"\\E048\";\n}\n\n.glyphicon-italic:before {\n  content: \"\\E049\";\n}\n\n.glyphicon-text-height:before {\n  content: \"\\E050\";\n}\n\n.glyphicon-text-width:before {\n  content: \"\\E051\";\n}\n\n.glyphicon-align-left:before {\n  content: \"\\E052\";\n}\n\n.glyphicon-align-center:before {\n  content: \"\\E053\";\n}\n\n.glyphicon-align-right:before {\n  content: \"\\E054\";\n}\n\n.glyphicon-align-justify:before {\n  content: \"\\E055\";\n}\n\n.glyphicon-list:before {\n  content: \"\\E056\";\n}\n\n.glyphicon-indent-left:before {\n  content: \"\\E057\";\n}\n\n.glyphicon-indent-right:before {\n  content: \"\\E058\";\n}\n\n.glyphicon-facetime-video:before {\n  content: \"\\E059\";\n}\n\n.glyphicon-picture:before {\n  content: \"\\E060\";\n}\n\n.glyphicon-map-marker:before {\n  content: \"\\E062\";\n}\n\n.glyphicon-adjust:before {\n  content: \"\\E063\";\n}\n\n.glyphicon-tint:before {\n  content: \"\\E064\";\n}\n\n.glyphicon-edit:before {\n  content: \"\\E065\";\n}\n\n.glyphicon-share:before {\n  content: \"\\E066\";\n}\n\n.glyphicon-check:before {\n  content: \"\\E067\";\n}\n\n.glyphicon-move:before {\n  content: \"\\E068\";\n}\n\n.glyphicon-step-backward:before {\n  content: \"\\E069\";\n}\n\n.glyphicon-fast-backward:before {\n  content: \"\\E070\";\n}\n\n.glyphicon-backward:before {\n  content: \"\\E071\";\n}\n\n.glyphicon-play:before {\n  content: \"\\E072\";\n}\n\n.glyphicon-pause:before {\n  content: \"\\E073\";\n}\n\n.glyphicon-stop:before {\n  content: \"\\E074\";\n}\n\n.glyphicon-forward:before {\n  content: \"\\E075\";\n}\n\n.glyphicon-fast-forward:before {\n  content: \"\\E076\";\n}\n\n.glyphicon-step-forward:before {\n  content: \"\\E077\";\n}\n\n.glyphicon-eject:before {\n  content: \"\\E078\";\n}\n\n.glyphicon-chevron-left:before {\n  content: \"\\E079\";\n}\n\n.glyphicon-chevron-right:before {\n  content: \"\\E080\";\n}\n\n.glyphicon-plus-sign:before {\n  content: \"\\E081\";\n}\n\n.glyphicon-minus-sign:before {\n  content: \"\\E082\";\n}\n\n.glyphicon-remove-sign:before {\n  content: \"\\E083\";\n}\n\n.glyphicon-ok-sign:before {\n  content: \"\\E084\";\n}\n\n.glyphicon-question-sign:before {\n  content: \"\\E085\";\n}\n\n.glyphicon-info-sign:before {\n  content: \"\\E086\";\n}\n\n.glyphicon-screenshot:before {\n  content: \"\\E087\";\n}\n\n.glyphicon-remove-circle:before {\n  content: \"\\E088\";\n}\n\n.glyphicon-ok-circle:before {\n  content: \"\\E089\";\n}\n\n.glyphicon-ban-circle:before {\n  content: \"\\E090\";\n}\n\n.glyphicon-arrow-left:before {\n  content: \"\\E091\";\n}\n\n.glyphicon-arrow-right:before {\n  content: \"\\E092\";\n}\n\n.glyphicon-arrow-up:before {\n  content: \"\\E093\";\n}\n\n.glyphicon-arrow-down:before {\n  content: \"\\E094\";\n}\n\n.glyphicon-share-alt:before {\n  content: \"\\E095\";\n}\n\n.glyphicon-resize-full:before {\n  content: \"\\E096\";\n}\n\n.glyphicon-resize-small:before {\n  content: \"\\E097\";\n}\n\n.glyphicon-exclamation-sign:before {\n  content: \"\\E101\";\n}\n\n.glyphicon-gift:before {\n  content: \"\\E102\";\n}\n\n.glyphicon-leaf:before {\n  content: \"\\E103\";\n}\n\n.glyphicon-fire:before {\n  content: \"\\E104\";\n}\n\n.glyphicon-eye-open:before {\n  content: \"\\E105\";\n}\n\n.glyphicon-eye-close:before {\n  content: \"\\E106\";\n}\n\n.glyphicon-warning-sign:before {\n  content: \"\\E107\";\n}\n\n.glyphicon-plane:before {\n  content: \"\\E108\";\n}\n\n.glyphicon-calendar:before {\n  content: \"\\E109\";\n}\n\n.glyphicon-random:before {\n  content: \"\\E110\";\n}\n\n.glyphicon-comment:before {\n  content: \"\\E111\";\n}\n\n.glyphicon-magnet:before {\n  content: \"\\E112\";\n}\n\n.glyphicon-chevron-up:before {\n  content: \"\\E113\";\n}\n\n.glyphicon-chevron-down:before {\n  content: \"\\E114\";\n}\n\n.glyphicon-retweet:before {\n  content: \"\\E115\";\n}\n\n.glyphicon-shopping-cart:before {\n  content: \"\\E116\";\n}\n\n.glyphicon-folder-close:before {\n  content: \"\\E117\";\n}\n\n.glyphicon-folder-open:before {\n  content: \"\\E118\";\n}\n\n.glyphicon-resize-vertical:before {\n  content: \"\\E119\";\n}\n\n.glyphicon-resize-horizontal:before {\n  content: \"\\E120\";\n}\n\n.glyphicon-hdd:before {\n  content: \"\\E121\";\n}\n\n.glyphicon-bullhorn:before {\n  content: \"\\E122\";\n}\n\n.glyphicon-bell:before {\n  content: \"\\E123\";\n}\n\n.glyphicon-certificate:before {\n  content: \"\\E124\";\n}\n\n.glyphicon-thumbs-up:before {\n  content: \"\\E125\";\n}\n\n.glyphicon-thumbs-down:before {\n  content: \"\\E126\";\n}\n\n.glyphicon-hand-right:before {\n  content: \"\\E127\";\n}\n\n.glyphicon-hand-left:before {\n  content: \"\\E128\";\n}\n\n.glyphicon-hand-up:before {\n  content: \"\\E129\";\n}\n\n.glyphicon-hand-down:before {\n  content: \"\\E130\";\n}\n\n.glyphicon-circle-arrow-right:before {\n  content: \"\\E131\";\n}\n\n.glyphicon-circle-arrow-left:before {\n  content: \"\\E132\";\n}\n\n.glyphicon-circle-arrow-up:before {\n  content: \"\\E133\";\n}\n\n.glyphicon-circle-arrow-down:before {\n  content: \"\\E134\";\n}\n\n.glyphicon-globe:before {\n  content: \"\\E135\";\n}\n\n.glyphicon-wrench:before {\n  content: \"\\E136\";\n}\n\n.glyphicon-tasks:before {\n  content: \"\\E137\";\n}\n\n.glyphicon-filter:before {\n  content: \"\\E138\";\n}\n\n.glyphicon-briefcase:before {\n  content: \"\\E139\";\n}\n\n.glyphicon-fullscreen:before {\n  content: \"\\E140\";\n}\n\n.glyphicon-dashboard:before {\n  content: \"\\E141\";\n}\n\n.glyphicon-paperclip:before {\n  content: \"\\E142\";\n}\n\n.glyphicon-heart-empty:before {\n  content: \"\\E143\";\n}\n\n.glyphicon-link:before {\n  content: \"\\E144\";\n}\n\n.glyphicon-phone:before {\n  content: \"\\E145\";\n}\n\n.glyphicon-pushpin:before {\n  content: \"\\E146\";\n}\n\n.glyphicon-usd:before {\n  content: \"\\E148\";\n}\n\n.glyphicon-gbp:before {\n  content: \"\\E149\";\n}\n\n.glyphicon-sort:before {\n  content: \"\\E150\";\n}\n\n.glyphicon-sort-by-alphabet:before {\n  content: \"\\E151\";\n}\n\n.glyphicon-sort-by-alphabet-alt:before {\n  content: \"\\E152\";\n}\n\n.glyphicon-sort-by-order:before {\n  content: \"\\E153\";\n}\n\n.glyphicon-sort-by-order-alt:before {\n  content: \"\\E154\";\n}\n\n.glyphicon-sort-by-attributes:before {\n  content: \"\\E155\";\n}\n\n.glyphicon-sort-by-attributes-alt:before {\n  content: \"\\E156\";\n}\n\n.glyphicon-unchecked:before {\n  content: \"\\E157\";\n}\n\n.glyphicon-expand:before {\n  content: \"\\E158\";\n}\n\n.glyphicon-collapse-down:before {\n  content: \"\\E159\";\n}\n\n.glyphicon-collapse-up:before {\n  content: \"\\E160\";\n}\n\n.glyphicon-log-in:before {\n  content: \"\\E161\";\n}\n\n.glyphicon-flash:before {\n  content: \"\\E162\";\n}\n\n.glyphicon-log-out:before {\n  content: \"\\E163\";\n}\n\n.glyphicon-new-window:before {\n  content: \"\\E164\";\n}\n\n.glyphicon-record:before {\n  content: \"\\E165\";\n}\n\n.glyphicon-save:before {\n  content: \"\\E166\";\n}\n\n.glyphicon-open:before {\n  content: \"\\E167\";\n}\n\n.glyphicon-saved:before {\n  content: \"\\E168\";\n}\n\n.glyphicon-import:before {\n  content: \"\\E169\";\n}\n\n.glyphicon-export:before {\n  content: \"\\E170\";\n}\n\n.glyphicon-send:before {\n  content: \"\\E171\";\n}\n\n.glyphicon-floppy-disk:before {\n  content: \"\\E172\";\n}\n\n.glyphicon-floppy-saved:before {\n  content: \"\\E173\";\n}\n\n.glyphicon-floppy-remove:before {\n  content: \"\\E174\";\n}\n\n.glyphicon-floppy-save:before {\n  content: \"\\E175\";\n}\n\n.glyphicon-floppy-open:before {\n  content: \"\\E176\";\n}\n\n.glyphicon-credit-card:before {\n  content: \"\\E177\";\n}\n\n.glyphicon-transfer:before {\n  content: \"\\E178\";\n}\n\n.glyphicon-cutlery:before {\n  content: \"\\E179\";\n}\n\n.glyphicon-header:before {\n  content: \"\\E180\";\n}\n\n.glyphicon-compressed:before {\n  content: \"\\E181\";\n}\n\n.glyphicon-earphone:before {\n  content: \"\\E182\";\n}\n\n.glyphicon-phone-alt:before {\n  content: \"\\E183\";\n}\n\n.glyphicon-tower:before {\n  content: \"\\E184\";\n}\n\n.glyphicon-stats:before {\n  content: \"\\E185\";\n}\n\n.glyphicon-sd-video:before {\n  content: \"\\E186\";\n}\n\n.glyphicon-hd-video:before {\n  content: \"\\E187\";\n}\n\n.glyphicon-subtitles:before {\n  content: \"\\E188\";\n}\n\n.glyphicon-sound-stereo:before {\n  content: \"\\E189\";\n}\n\n.glyphicon-sound-dolby:before {\n  content: \"\\E190\";\n}\n\n.glyphicon-sound-5-1:before {\n  content: \"\\E191\";\n}\n\n.glyphicon-sound-6-1:before {\n  content: \"\\E192\";\n}\n\n.glyphicon-sound-7-1:before {\n  content: \"\\E193\";\n}\n\n.glyphicon-copyright-mark:before {\n  content: \"\\E194\";\n}\n\n.glyphicon-registration-mark:before {\n  content: \"\\E195\";\n}\n\n.glyphicon-cloud-download:before {\n  content: \"\\E197\";\n}\n\n.glyphicon-cloud-upload:before {\n  content: \"\\E198\";\n}\n\n.glyphicon-tree-conifer:before {\n  content: \"\\E199\";\n}\n\n.glyphicon-tree-deciduous:before {\n  content: \"\\E200\";\n}\n\n.glyphicon-cd:before {\n  content: \"\\E201\";\n}\n\n.glyphicon-save-file:before {\n  content: \"\\E202\";\n}\n\n.glyphicon-open-file:before {\n  content: \"\\E203\";\n}\n\n.glyphicon-level-up:before {\n  content: \"\\E204\";\n}\n\n.glyphicon-copy:before {\n  content: \"\\E205\";\n}\n\n.glyphicon-paste:before {\n  content: \"\\E206\";\n}\n\n.glyphicon-alert:before {\n  content: \"\\E209\";\n}\n\n.glyphicon-equalizer:before {\n  content: \"\\E210\";\n}\n\n.glyphicon-king:before {\n  content: \"\\E211\";\n}\n\n.glyphicon-queen:before {\n  content: \"\\E212\";\n}\n\n.glyphicon-pawn:before {\n  content: \"\\E213\";\n}\n\n.glyphicon-bishop:before {\n  content: \"\\E214\";\n}\n\n.glyphicon-knight:before {\n  content: \"\\E215\";\n}\n\n.glyphicon-baby-formula:before {\n  content: \"\\E216\";\n}\n\n.glyphicon-tent:before {\n  content: \"\\26FA\";\n}\n\n.glyphicon-blackboard:before {\n  content: \"\\E218\";\n}\n\n.glyphicon-bed:before {\n  content: \"\\E219\";\n}\n\n.glyphicon-apple:before {\n  content: \"\\F8FF\";\n}\n\n.glyphicon-erase:before {\n  content: \"\\E221\";\n}\n\n.glyphicon-hourglass:before {\n  content: \"\\231B\";\n}\n\n.glyphicon-lamp:before {\n  content: \"\\E223\";\n}\n\n.glyphicon-duplicate:before {\n  content: \"\\E224\";\n}\n\n.glyphicon-piggy-bank:before {\n  content: \"\\E225\";\n}\n\n.glyphicon-scissors:before {\n  content: \"\\E226\";\n}\n\n.glyphicon-bitcoin:before {\n  content: \"\\E227\";\n}\n\n.glyphicon-btc:before {\n  content: \"\\E227\";\n}\n\n.glyphicon-xbt:before {\n  content: \"\\E227\";\n}\n\n.glyphicon-yen:before {\n  content: \"\\A5\";\n}\n\n.glyphicon-jpy:before {\n  content: \"\\A5\";\n}\n\n.glyphicon-ruble:before {\n  content: \"\\20BD\";\n}\n\n.glyphicon-rub:before {\n  content: \"\\20BD\";\n}\n\n.glyphicon-scale:before {\n  content: \"\\E230\";\n}\n\n.glyphicon-ice-lolly:before {\n  content: \"\\E231\";\n}\n\n.glyphicon-ice-lolly-tasted:before {\n  content: \"\\E232\";\n}\n\n.glyphicon-education:before {\n  content: \"\\E233\";\n}\n\n.glyphicon-option-horizontal:before {\n  content: \"\\E234\";\n}\n\n.glyphicon-option-vertical:before {\n  content: \"\\E235\";\n}\n\n.glyphicon-menu-hamburger:before {\n  content: \"\\E236\";\n}\n\n.glyphicon-modal-window:before {\n  content: \"\\E237\";\n}\n\n.glyphicon-oil:before {\n  content: \"\\E238\";\n}\n\n.glyphicon-grain:before {\n  content: \"\\E239\";\n}\n\n.glyphicon-sunglasses:before {\n  content: \"\\E240\";\n}\n\n.glyphicon-text-size:before {\n  content: \"\\E241\";\n}\n\n.glyphicon-text-color:before {\n  content: \"\\E242\";\n}\n\n.glyphicon-text-background:before {\n  content: \"\\E243\";\n}\n\n.glyphicon-object-align-top:before {\n  content: \"\\E244\";\n}\n\n.glyphicon-object-align-bottom:before {\n  content: \"\\E245\";\n}\n\n.glyphicon-object-align-horizontal:before {\n  content: \"\\E246\";\n}\n\n.glyphicon-object-align-left:before {\n  content: \"\\E247\";\n}\n\n.glyphicon-object-align-vertical:before {\n  content: \"\\E248\";\n}\n\n.glyphicon-object-align-right:before {\n  content: \"\\E249\";\n}\n\n.glyphicon-triangle-right:before {\n  content: \"\\E250\";\n}\n\n.glyphicon-triangle-left:before {\n  content: \"\\E251\";\n}\n\n.glyphicon-triangle-bottom:before {\n  content: \"\\E252\";\n}\n\n.glyphicon-triangle-top:before {\n  content: \"\\E253\";\n}\n\n.glyphicon-console:before {\n  content: \"\\E254\";\n}\n\n.glyphicon-superscript:before {\n  content: \"\\E255\";\n}\n\n.glyphicon-subscript:before {\n  content: \"\\E256\";\n}\n\n.glyphicon-menu-left:before {\n  content: \"\\E257\";\n}\n\n.glyphicon-menu-right:before {\n  content: \"\\E258\";\n}\n\n.glyphicon-menu-down:before {\n  content: \"\\E259\";\n}\n\n.glyphicon-menu-up:before {\n  content: \"\\E260\";\n}\n\n.caret {\n  display: inline-block;\n  width: 0;\n  height: 0;\n  margin-left: 2px;\n  vertical-align: middle;\n  border-top: 4px dashed;\n  border-top: 4px solid \\9;\n  border-right: 4px solid transparent;\n  border-left: 4px solid transparent;\n}\n\n.dropup,\n.dropdown {\n  position: relative;\n}\n\n.dropdown-toggle:focus {\n  outline: 0;\n}\n\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  z-index: 1000;\n  display: none;\n  float: left;\n  min-width: 160px;\n  padding: 5px 0;\n  margin: 2px 0 0;\n  list-style: none;\n  font-size: 14px;\n  text-align: left;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.15);\n  border-radius: 4px;\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);\n  background-clip: padding-box;\n}\n\n.dropdown-menu.pull-right {\n  right: 0;\n  left: auto;\n}\n\n.dropdown-menu .divider {\n  height: 1px;\n  margin: 9px 0;\n  overflow: hidden;\n  background-color: #e5e5e5;\n}\n\n.dropdown-menu > li > a {\n  display: block;\n  padding: 3px 20px;\n  clear: both;\n  font-weight: normal;\n  line-height: 1.428571429;\n  color: #333333;\n  white-space: nowrap;\n}\n\n.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {\n  text-decoration: none;\n  color: #262626;\n  background-color: #f5f5f5;\n}\n\n.dropdown-menu > .active > a, .dropdown-menu > .ax-active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .ax-active > a:hover, .dropdown-menu > .active > a:focus, .dropdown-menu > .ax-active > a:focus {\n  color: #fff;\n  text-decoration: none;\n  outline: 0;\n  background-color: #337ab7;\n}\n\n.dropdown-menu > .disabled > a, .dropdown-menu > [disabled] > a, .dropdown-menu >\n.ax-disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > [disabled] > a:hover, .dropdown-menu >\n.ax-disabled > a:hover, .dropdown-menu > .disabled > a:focus, .dropdown-menu > [disabled] > a:focus, .dropdown-menu >\n.ax-disabled > a:focus {\n  color: #777777;\n}\n\n.dropdown-menu > .disabled > a:hover, .dropdown-menu > [disabled] > a:hover, .dropdown-menu >\n.ax-disabled > a:hover, .dropdown-menu > .disabled > a:focus, .dropdown-menu > [disabled] > a:focus, .dropdown-menu >\n.ax-disabled > a:focus {\n  text-decoration: none;\n  background-color: transparent;\n  background-image: none;\n  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\n  cursor: not-allowed;\n}\n\n.open > .dropdown-menu {\n  display: block;\n}\n\n.open > a {\n  outline: 0;\n}\n\n.dropdown-menu-right {\n  left: auto;\n  right: 0;\n}\n\n.dropdown-menu-left {\n  left: 0;\n  right: auto;\n}\n\n.dropdown-header {\n  display: block;\n  padding: 3px 20px;\n  font-size: 12px;\n  line-height: 1.428571429;\n  color: #777777;\n  white-space: nowrap;\n}\n\n.dropdown-backdrop {\n  position: fixed;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n  z-index: 990;\n}\n\n.pull-right > .dropdown-menu {\n  right: 0;\n  left: auto;\n}\n\n.dropup .caret,\n.navbar-fixed-bottom .dropdown .caret {\n  border-top: 0;\n  border-bottom: 4px dashed;\n  border-bottom: 4px solid \\9;\n  content: \"\";\n}\n\n.dropup .dropdown-menu,\n.navbar-fixed-bottom .dropdown .dropdown-menu {\n  top: auto;\n  bottom: 100%;\n  margin-bottom: 2px;\n}\n\n@media (min-width: 768px) {\n  .navbar-right .dropdown-menu {\n    right: 0;\n    left: auto;\n  }\n  .navbar-right .dropdown-menu-left {\n    left: 0;\n    right: auto;\n  }\n}\n\n.btn-group,\n.btn-group-vertical {\n  position: relative;\n  display: inline-block;\n  vertical-align: middle;\n}\n\n.btn-group > .btn,\n.btn-group-vertical > .btn {\n  position: relative;\n  float: left;\n}\n\n.btn-group > .btn:hover, .btn-group > .btn:focus, .btn-group > .btn:active, .btn-group > .btn.active, .btn-group > .btn.ax-active,\n.btn-group-vertical > .btn:hover,\n.btn-group-vertical > .btn:focus,\n.btn-group-vertical > .btn:active,\n.btn-group-vertical > .btn.active,\n.btn-group-vertical > .btn.ax-active {\n  z-index: 2;\n}\n\n.btn-group .btn + .btn,\n.btn-group .btn + .btn-group,\n.btn-group .btn-group + .btn,\n.btn-group .btn-group + .btn-group {\n  margin-left: -1px;\n}\n\n.btn-toolbar {\n  margin-left: -5px;\n}\n\n.btn-toolbar:before, .btn-toolbar:after {\n  content: \" \";\n  display: table;\n}\n\n.btn-toolbar:after {\n  clear: both;\n}\n\n.btn-toolbar .btn,\n.btn-toolbar .btn-group,\n.btn-toolbar .input-group {\n  float: left;\n}\n\n.btn-toolbar > .btn,\n.btn-toolbar > .btn-group,\n.btn-toolbar > .input-group {\n  margin-left: 5px;\n}\n\n.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {\n  border-radius: 0;\n}\n\n.btn-group > .btn:first-child {\n  margin-left: 0;\n}\n\n.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n}\n\n.btn-group > .btn:last-child:not(:first-child),\n.btn-group > .dropdown-toggle:not(:first-child) {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.btn-group > .btn-group {\n  float: left;\n}\n\n.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {\n  border-radius: 0;\n}\n\n.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,\n.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n}\n\n.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.btn-group .dropdown-toggle:active,\n.btn-group.open .dropdown-toggle {\n  outline: 0;\n}\n\n.btn-group > .btn + .dropdown-toggle {\n  padding-left: 8px;\n  padding-right: 8px;\n}\n\n.btn-group > .btn-lg + .dropdown-toggle, .btn-group-lg.btn-group > .btn + .dropdown-toggle {\n  padding-left: 12px;\n  padding-right: 12px;\n}\n\n.btn-group.open .dropdown-toggle {\n  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n}\n\n.btn-group.open .dropdown-toggle.btn-link {\n  box-shadow: none;\n}\n\n.btn .caret {\n  margin-left: 0;\n}\n\n.btn-lg .caret, .btn-group-lg > .btn .caret {\n  border-width: 5px 5px 0;\n  border-bottom-width: 0;\n}\n\n.dropup .btn-lg .caret, .dropup .btn-group-lg > .btn .caret {\n  border-width: 0 5px 5px;\n}\n\n.btn-group-vertical > .btn,\n.btn-group-vertical > .btn-group,\n.btn-group-vertical > .btn-group > .btn {\n  display: block;\n  float: none;\n  width: 100%;\n  max-width: 100%;\n}\n\n.btn-group-vertical > .btn-group:before, .btn-group-vertical > .btn-group:after {\n  content: \" \";\n  display: table;\n}\n\n.btn-group-vertical > .btn-group:after {\n  clear: both;\n}\n\n.btn-group-vertical > .btn-group > .btn {\n  float: none;\n}\n\n.btn-group-vertical > .btn + .btn,\n.btn-group-vertical > .btn + .btn-group,\n.btn-group-vertical > .btn-group + .btn,\n.btn-group-vertical > .btn-group + .btn-group {\n  margin-top: -1px;\n  margin-left: 0;\n}\n\n.btn-group-vertical > .btn:not(:first-child):not(:last-child) {\n  border-radius: 0;\n}\n\n.btn-group-vertical > .btn:first-child:not(:last-child) {\n  border-top-right-radius: 4px;\n  border-top-left-radius: 4px;\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n}\n\n.btn-group-vertical > .btn:last-child:not(:first-child) {\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n\n.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {\n  border-radius: 0;\n}\n\n.btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child,\n.btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n}\n\n.btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.btn-group-justified {\n  display: table;\n  width: 100%;\n  table-layout: fixed;\n  border-collapse: separate;\n}\n\n.btn-group-justified > .btn,\n.btn-group-justified > .btn-group {\n  float: none;\n  display: table-cell;\n  width: 1%;\n}\n\n.btn-group-justified > .btn-group .btn {\n  width: 100%;\n}\n\n.btn-group-justified > .btn-group .dropdown-menu {\n  left: auto;\n}\n\n[data-toggle=\"buttons\"] > .btn input[type=\"radio\"],\n[data-toggle=\"buttons\"] > .btn input[type=\"checkbox\"],\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"radio\"],\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"checkbox\"] {\n  position: absolute;\n  clip: rect(0, 0, 0, 0);\n  pointer-events: none;\n}\n\n.input-group {\n  position: relative;\n  display: table;\n  border-collapse: separate;\n}\n\n.input-group[class*=\"col-\"] {\n  float: none;\n  padding-left: 0;\n  padding-right: 0;\n}\n\n.input-group .form-control {\n  position: relative;\n  z-index: 2;\n  float: left;\n  width: 100%;\n  margin-bottom: 0;\n}\n\n.input-group .form-control:focus {\n  z-index: 3;\n}\n\n.input-group-addon,\n.input-group-btn,\n.input-group .form-control {\n  display: table-cell;\n}\n\n.input-group-addon:not(:first-child):not(:last-child),\n.input-group-btn:not(:first-child):not(:last-child),\n.input-group .form-control:not(:first-child):not(:last-child) {\n  border-radius: 0;\n}\n\n.input-group-addon,\n.input-group-btn {\n  width: 1%;\n  white-space: nowrap;\n  vertical-align: middle;\n}\n\n.input-group-addon {\n  padding: 6px 12px;\n  font-size: 14px;\n  font-weight: normal;\n  line-height: 1;\n  color: #555555;\n  text-align: center;\n  background-color: #eeeeee;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n\n.input-group-addon.input-sm,\n.input-group-sm > .input-group-addon,\n.input-group-sm > .input-group-btn > .input-group-addon.btn {\n  padding: 5px 10px;\n  font-size: 12px;\n  border-radius: 3px;\n}\n\n.input-group-addon.input-lg,\n.input-group-lg > .input-group-addon,\n.input-group-lg > .input-group-btn > .input-group-addon.btn {\n  padding: 10px 16px;\n  font-size: 18px;\n  border-radius: 6px;\n}\n\n.input-group-addon input[type=\"radio\"],\n.input-group-addon input[type=\"checkbox\"] {\n  margin-top: 0;\n}\n\n.input-group .form-control:first-child,\n.input-group-addon:first-child,\n.input-group-btn:first-child > .btn,\n.input-group-btn:first-child > .btn-group > .btn,\n.input-group-btn:first-child > .dropdown-toggle,\n.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),\n.input-group-btn:last-child > .btn-group:not(:last-child) > .btn {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n}\n\n.input-group-addon:first-child {\n  border-right: 0;\n}\n\n.input-group .form-control:last-child,\n.input-group-addon:last-child,\n.input-group-btn:last-child > .btn,\n.input-group-btn:last-child > .btn-group > .btn,\n.input-group-btn:last-child > .dropdown-toggle,\n.input-group-btn:first-child > .btn:not(:first-child),\n.input-group-btn:first-child > .btn-group:not(:first-child) > .btn {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.input-group-addon:last-child {\n  border-left: 0;\n}\n\n.input-group-btn {\n  position: relative;\n  font-size: 0;\n  white-space: nowrap;\n}\n\n.input-group-btn > .btn {\n  position: relative;\n}\n\n.input-group-btn > .btn + .btn {\n  margin-left: -1px;\n}\n\n.input-group-btn > .btn:hover, .input-group-btn > .btn:focus, .input-group-btn > .btn:active {\n  z-index: 2;\n}\n\n.input-group-btn:first-child > .btn,\n.input-group-btn:first-child > .btn-group {\n  margin-right: -1px;\n}\n\n.input-group-btn:last-child > .btn,\n.input-group-btn:last-child > .btn-group {\n  z-index: 2;\n  margin-left: -1px;\n}\n\n.nav {\n  margin-bottom: 0;\n  padding-left: 0;\n  list-style: none;\n}\n\n.nav:before, .nav:after {\n  content: \" \";\n  display: table;\n}\n\n.nav:after {\n  clear: both;\n}\n\n.nav > li {\n  position: relative;\n  display: block;\n}\n\n.nav > li > a {\n  position: relative;\n  display: block;\n  padding: 10px 15px;\n}\n\n.nav > li > a:hover, .nav > li > a:focus {\n  text-decoration: none;\n  background-color: #eeeeee;\n}\n\n.nav > li.disabled > a, .nav > li[disabled] > a, .nav >\nli.ax-disabled > a {\n  color: #777777;\n}\n\n.nav > li.disabled > a:hover, .nav > li[disabled] > a:hover, .nav >\nli.ax-disabled > a:hover, .nav > li.disabled > a:focus, .nav > li[disabled] > a:focus, .nav >\nli.ax-disabled > a:focus {\n  color: #777777;\n  text-decoration: none;\n  background-color: transparent;\n  cursor: not-allowed;\n}\n\n.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {\n  background-color: #eeeeee;\n  border-color: #337ab7;\n}\n\n.nav .nav-divider {\n  height: 1px;\n  margin: 9px 0;\n  overflow: hidden;\n  background-color: #e5e5e5;\n}\n\n.nav > li > a > img {\n  max-width: none;\n}\n\n.nav-tabs {\n  border-bottom: 1px solid #ddd;\n}\n\n.nav-tabs > li {\n  float: left;\n  margin-bottom: -1px;\n}\n\n.nav-tabs > li > a {\n  margin-right: 2px;\n  line-height: 1.428571429;\n  border: 1px solid transparent;\n  border-radius: 4px 4px 0 0;\n}\n\n.nav-tabs > li > a:hover {\n  border-color: #eeeeee #eeeeee #ddd;\n}\n\n.nav-tabs > li.active > a, .nav-tabs > li.ax-active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.ax-active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs > li.ax-active > a:focus {\n  color: #555555;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-bottom-color: transparent;\n  cursor: default;\n}\n\n.nav-pills > li {\n  float: left;\n}\n\n.nav-pills > li > a {\n  border-radius: 4px;\n}\n\n.nav-pills > li + li {\n  margin-left: 2px;\n}\n\n.nav-pills > li.active > a, .nav-pills > li.ax-active > a, .nav-pills > li.active > a:hover, .nav-pills > li.ax-active > a:hover, .nav-pills > li.active > a:focus, .nav-pills > li.ax-active > a:focus {\n  color: #fff;\n  background-color: #337ab7;\n}\n\n.nav-stacked > li {\n  float: none;\n}\n\n.nav-stacked > li + li {\n  margin-top: 2px;\n  margin-left: 0;\n}\n\n.nav-justified, .nav-tabs.nav-justified {\n  width: 100%;\n}\n\n.nav-justified > li, .nav-tabs.nav-justified > li {\n  float: none;\n}\n\n.nav-justified > li > a, .nav-tabs.nav-justified > li > a {\n  text-align: center;\n  margin-bottom: 5px;\n}\n\n.nav-justified > .dropdown .dropdown-menu {\n  top: auto;\n  left: auto;\n}\n\n@media (min-width: 768px) {\n  .nav-justified > li, .nav-tabs.nav-justified > li {\n    display: table-cell;\n    width: 1%;\n  }\n  .nav-justified > li > a, .nav-tabs.nav-justified > li > a {\n    margin-bottom: 0;\n  }\n}\n\n.nav-tabs-justified, .nav-tabs.nav-justified {\n  border-bottom: 0;\n}\n\n.nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a {\n  margin-right: 0;\n  border-radius: 4px;\n}\n\n.nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a, .nav-tabs-justified > .ax-active > a, .nav-tabs.nav-justified > .ax-active > a,\n.nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,\n.nav-tabs-justified > .ax-active > a:hover, .nav-tabs.nav-justified > .ax-active > a:hover,\n.nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus,\n.nav-tabs-justified > .ax-active > a:focus, .nav-tabs.nav-justified > .ax-active > a:focus {\n  border: 1px solid #ddd;\n}\n\n@media (min-width: 768px) {\n  .nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a {\n    border-bottom: 1px solid #ddd;\n    border-radius: 4px 4px 0 0;\n  }\n  .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a, .nav-tabs-justified > .ax-active > a, .nav-tabs.nav-justified > .ax-active > a,\n  .nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,\n  .nav-tabs-justified > .ax-active > a:hover, .nav-tabs.nav-justified > .ax-active > a:hover,\n  .nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus,\n  .nav-tabs-justified > .ax-active > a:focus, .nav-tabs.nav-justified > .ax-active > a:focus {\n    border-bottom-color: #fff;\n  }\n}\n\n.tab-content > .tab-pane {\n  display: none;\n}\n\n.tab-content > .active, .tab-content > .ax-active {\n  display: block;\n}\n\n.nav-tabs .dropdown-menu {\n  margin-top: -1px;\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.navbar {\n  position: relative;\n  min-height: 50px;\n  margin-bottom: 20px;\n  border: 1px solid transparent;\n}\n\n.navbar:before, .navbar:after {\n  content: \" \";\n  display: table;\n}\n\n.navbar:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .navbar {\n    border-radius: 4px;\n  }\n}\n\n.navbar-header:before, .navbar-header:after {\n  content: \" \";\n  display: table;\n}\n\n.navbar-header:after {\n  clear: both;\n}\n\n@media (min-width: 768px) {\n  .navbar-header {\n    float: left;\n  }\n}\n\n.navbar-collapse {\n  overflow-x: visible;\n  padding-right: 15px;\n  padding-left: 15px;\n  border-top: 1px solid transparent;\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);\n  -webkit-overflow-scrolling: touch;\n}\n\n.navbar-collapse:before, .navbar-collapse:after {\n  content: \" \";\n  display: table;\n}\n\n.navbar-collapse:after {\n  clear: both;\n}\n\n.navbar-collapse.in {\n  overflow-y: auto;\n}\n\n@media (min-width: 768px) {\n  .navbar-collapse {\n    width: auto;\n    border-top: 0;\n    box-shadow: none;\n  }\n  .navbar-collapse.collapse {\n    display: block !important;\n    height: auto !important;\n    padding-bottom: 0;\n    overflow: visible !important;\n  }\n  .navbar-collapse.in {\n    overflow-y: visible;\n  }\n  .navbar-fixed-top .navbar-collapse,\n  .navbar-static-top .navbar-collapse,\n  .navbar-fixed-bottom .navbar-collapse {\n    padding-left: 0;\n    padding-right: 0;\n  }\n}\n\n.navbar-fixed-top .navbar-collapse,\n.navbar-fixed-bottom .navbar-collapse {\n  max-height: 340px;\n}\n\n@media (max-device-width: 480px) and (orientation: landscape) {\n  .navbar-fixed-top .navbar-collapse,\n  .navbar-fixed-bottom .navbar-collapse {\n    max-height: 200px;\n  }\n}\n\n.container > .navbar-header,\n.container > .navbar-collapse,\n.container-fluid > .navbar-header,\n.container-fluid > .navbar-collapse {\n  margin-right: -15px;\n  margin-left: -15px;\n}\n\n@media (min-width: 768px) {\n  .container > .navbar-header,\n  .container > .navbar-collapse,\n  .container-fluid > .navbar-header,\n  .container-fluid > .navbar-collapse {\n    margin-right: 0;\n    margin-left: 0;\n  }\n}\n\n.navbar-static-top {\n  z-index: 1000;\n  border-width: 0 0 1px;\n}\n\n@media (min-width: 768px) {\n  .navbar-static-top {\n    border-radius: 0;\n  }\n}\n\n.navbar-fixed-top,\n.navbar-fixed-bottom {\n  position: fixed;\n  right: 0;\n  left: 0;\n  z-index: 1030;\n}\n\n@media (min-width: 768px) {\n  .navbar-fixed-top,\n  .navbar-fixed-bottom {\n    border-radius: 0;\n  }\n}\n\n.navbar-fixed-top {\n  top: 0;\n  border-width: 0 0 1px;\n}\n\n.navbar-fixed-bottom {\n  bottom: 0;\n  margin-bottom: 0;\n  border-width: 1px 0 0;\n}\n\n.navbar-brand {\n  float: left;\n  padding: 15px 15px;\n  font-size: 18px;\n  line-height: 20px;\n  height: 50px;\n}\n\n.navbar-brand:hover, .navbar-brand:focus {\n  text-decoration: none;\n}\n\n.navbar-brand > img {\n  display: block;\n}\n\n@media (min-width: 768px) {\n  .navbar > .container .navbar-brand,\n  .navbar > .container-fluid .navbar-brand {\n    margin-left: -15px;\n  }\n}\n\n.navbar-toggle {\n  position: relative;\n  float: right;\n  margin-right: 15px;\n  padding: 9px 10px;\n  margin-top: 8px;\n  margin-bottom: 8px;\n  background-color: transparent;\n  background-image: none;\n  border: 1px solid transparent;\n  border-radius: 4px;\n}\n\n.navbar-toggle:focus {\n  outline: 0;\n}\n\n.navbar-toggle .icon-bar {\n  display: block;\n  width: 22px;\n  height: 2px;\n  border-radius: 1px;\n}\n\n.navbar-toggle .icon-bar + .icon-bar {\n  margin-top: 4px;\n}\n\n@media (min-width: 768px) {\n  .navbar-toggle {\n    display: none;\n  }\n}\n\n.navbar-nav {\n  margin: 7.5px -15px;\n}\n\n.navbar-nav > li > a {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  line-height: 20px;\n}\n\n@media (max-width: 767px) {\n  .navbar-nav .open .dropdown-menu {\n    position: static;\n    float: none;\n    width: auto;\n    margin-top: 0;\n    background-color: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n  .navbar-nav .open .dropdown-menu > li > a,\n  .navbar-nav .open .dropdown-menu .dropdown-header {\n    padding: 5px 15px 5px 25px;\n  }\n  .navbar-nav .open .dropdown-menu > li > a {\n    line-height: 20px;\n  }\n  .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-nav .open .dropdown-menu > li > a:focus {\n    background-image: none;\n  }\n}\n\n@media (min-width: 768px) {\n  .navbar-nav {\n    float: left;\n    margin: 0;\n  }\n  .navbar-nav > li {\n    float: left;\n  }\n  .navbar-nav > li > a {\n    padding-top: 15px;\n    padding-bottom: 15px;\n  }\n}\n\n.navbar-form {\n  margin-left: -15px;\n  margin-right: -15px;\n  padding: 10px 15px;\n  border-top: 1px solid transparent;\n  border-bottom: 1px solid transparent;\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);\n  margin-top: 8px;\n  margin-bottom: 8px;\n}\n\n@media (min-width: 768px) {\n  .navbar-form .form-group {\n    display: inline-block;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .navbar-form .form-control {\n    display: inline-block;\n    width: auto;\n    vertical-align: middle;\n  }\n  .navbar-form .form-control-static {\n    display: inline-block;\n  }\n  .navbar-form .input-group {\n    display: inline-table;\n    vertical-align: middle;\n  }\n  .navbar-form .input-group .input-group-addon,\n  .navbar-form .input-group .input-group-btn,\n  .navbar-form .input-group .form-control {\n    width: auto;\n  }\n  .navbar-form .input-group > .form-control {\n    width: 100%;\n  }\n  .navbar-form .control-label {\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .navbar-form .radio,\n  .navbar-form .checkbox {\n    display: inline-block;\n    margin-top: 0;\n    margin-bottom: 0;\n    vertical-align: middle;\n  }\n  .navbar-form .radio label,\n  .navbar-form .checkbox label {\n    padding-left: 0;\n  }\n  .navbar-form .radio input[type=\"radio\"],\n  .navbar-form .checkbox input[type=\"checkbox\"] {\n    position: relative;\n    margin-left: 0;\n  }\n  .navbar-form .has-feedback .form-control-feedback {\n    top: 0;\n  }\n}\n\n@media (max-width: 767px) {\n  .navbar-form .form-group {\n    margin-bottom: 5px;\n  }\n  .navbar-form .form-group:last-child {\n    margin-bottom: 0;\n  }\n}\n\n@media (min-width: 768px) {\n  .navbar-form {\n    width: auto;\n    border: 0;\n    margin-left: 0;\n    margin-right: 0;\n    padding-top: 0;\n    padding-bottom: 0;\n    box-shadow: none;\n  }\n}\n\n.navbar-nav > li > .dropdown-menu {\n  margin-top: 0;\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.navbar-fixed-bottom .navbar-nav > li > .dropdown-menu {\n  margin-bottom: 0;\n  border-top-right-radius: 4px;\n  border-top-left-radius: 4px;\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n}\n\n.navbar-btn {\n  margin-top: 8px;\n  margin-bottom: 8px;\n}\n\n.navbar-btn.btn-sm, .btn-group-sm > .navbar-btn.btn {\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n\n.navbar-btn.btn-xs, .btn-group-xs > .navbar-btn.btn {\n  margin-top: 14px;\n  margin-bottom: 14px;\n}\n\n.navbar-text {\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n\n@media (min-width: 768px) {\n  .navbar-text {\n    float: left;\n    margin-left: 15px;\n    margin-right: 15px;\n  }\n}\n\n@media (min-width: 768px) {\n  .navbar-left {\n    float: left !important;\n  }\n  .navbar-right {\n    float: right !important;\n    margin-right: -15px;\n  }\n  .navbar-right ~ .navbar-right {\n    margin-right: 0;\n  }\n}\n\n.navbar-default {\n  background-color: #f8f8f8;\n  border-color: #e7e7e7;\n}\n\n.navbar-default .navbar-brand {\n  color: #777;\n}\n\n.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {\n  color: #5e5e5e;\n  background-color: transparent;\n}\n\n.navbar-default .navbar-text {\n  color: #777;\n}\n\n.navbar-default .navbar-nav > li > a {\n  color: #777;\n}\n\n.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {\n  color: #333;\n  background-color: transparent;\n}\n\n.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .ax-active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .ax-active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .ax-active > a:focus {\n  color: #555;\n  background-color: #e7e7e7;\n}\n\n.navbar-default .navbar-nav > .disabled > a, .navbar-default .navbar-nav > [disabled] > a, .navbar-default .navbar-nav >\n.ax-disabled > a, .navbar-default .navbar-nav > .disabled > a:hover, .navbar-default .navbar-nav > [disabled] > a:hover, .navbar-default .navbar-nav >\n.ax-disabled > a:hover, .navbar-default .navbar-nav > .disabled > a:focus, .navbar-default .navbar-nav > [disabled] > a:focus, .navbar-default .navbar-nav >\n.ax-disabled > a:focus {\n  color: #ccc;\n  background-color: transparent;\n}\n\n.navbar-default .navbar-toggle {\n  border-color: #ddd;\n}\n\n.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {\n  background-color: #ddd;\n}\n\n.navbar-default .navbar-toggle .icon-bar {\n  background-color: #888;\n}\n\n.navbar-default .navbar-collapse,\n.navbar-default .navbar-form {\n  border-color: #e7e7e7;\n}\n\n.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {\n  background-color: #e7e7e7;\n  color: #555;\n}\n\n@media (max-width: 767px) {\n  .navbar-default .navbar-nav .open .dropdown-menu > li > a {\n    color: #777;\n  }\n  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {\n    color: #333;\n    background-color: transparent;\n  }\n  .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .ax-active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .ax-active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus, .navbar-default .navbar-nav .open .dropdown-menu > .ax-active > a:focus {\n    color: #555;\n    background-color: #e7e7e7;\n  }\n  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a, .navbar-default .navbar-nav .open .dropdown-menu > [disabled] > a, .navbar-default .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > [disabled] > a:hover, .navbar-default .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus, .navbar-default .navbar-nav .open .dropdown-menu > [disabled] > a:focus, .navbar-default .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:focus {\n    color: #ccc;\n    background-color: transparent;\n  }\n}\n\n.navbar-default .navbar-link {\n  color: #777;\n}\n\n.navbar-default .navbar-link:hover {\n  color: #333;\n}\n\n.navbar-default .btn-link {\n  color: #777;\n}\n\n.navbar-default .btn-link:hover, .navbar-default .btn-link:focus {\n  color: #333;\n}\n\n.navbar-default .btn-link[disabled]:hover, .navbar-default .btn-link[disabled]:focus,\nfieldset[disabled] .navbar-default .btn-link:hover,\nfieldset[disabled] .navbar-default .btn-link:focus {\n  color: #ccc;\n}\n\n.navbar-inverse {\n  background-color: #222;\n  border-color: #090909;\n}\n\n.navbar-inverse .navbar-brand {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {\n  color: #fff;\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-text {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-nav > li > a {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {\n  color: #fff;\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .ax-active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .ax-active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .ax-active > a:focus {\n  color: #fff;\n  background-color: #090909;\n}\n\n.navbar-inverse .navbar-nav > .disabled > a, .navbar-inverse .navbar-nav > [disabled] > a, .navbar-inverse .navbar-nav >\n.ax-disabled > a, .navbar-inverse .navbar-nav > .disabled > a:hover, .navbar-inverse .navbar-nav > [disabled] > a:hover, .navbar-inverse .navbar-nav >\n.ax-disabled > a:hover, .navbar-inverse .navbar-nav > .disabled > a:focus, .navbar-inverse .navbar-nav > [disabled] > a:focus, .navbar-inverse .navbar-nav >\n.ax-disabled > a:focus {\n  color: #444;\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-toggle {\n  border-color: #333;\n}\n\n.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {\n  background-color: #333;\n}\n\n.navbar-inverse .navbar-toggle .icon-bar {\n  background-color: #fff;\n}\n\n.navbar-inverse .navbar-collapse,\n.navbar-inverse .navbar-form {\n  border-color: #101010;\n}\n\n.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {\n  background-color: #090909;\n  color: #fff;\n}\n\n@media (max-width: 767px) {\n  .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {\n    border-color: #090909;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu .divider {\n    background-color: #090909;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {\n    color: #9d9d9d;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {\n    color: #fff;\n    background-color: transparent;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .ax-active > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .ax-active > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus, .navbar-inverse .navbar-nav .open .dropdown-menu > .ax-active > a:focus {\n    color: #fff;\n    background-color: #090909;\n  }\n  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a, .navbar-inverse .navbar-nav .open .dropdown-menu > [disabled] > a, .navbar-inverse .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > [disabled] > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus, .navbar-inverse .navbar-nav .open .dropdown-menu > [disabled] > a:focus, .navbar-inverse .navbar-nav .open .dropdown-menu >\n  .ax-disabled > a:focus {\n    color: #444;\n    background-color: transparent;\n  }\n}\n\n.navbar-inverse .navbar-link {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .navbar-link:hover {\n  color: #fff;\n}\n\n.navbar-inverse .btn-link {\n  color: #9d9d9d;\n}\n\n.navbar-inverse .btn-link:hover, .navbar-inverse .btn-link:focus {\n  color: #fff;\n}\n\n.navbar-inverse .btn-link[disabled]:hover, .navbar-inverse .btn-link[disabled]:focus,\nfieldset[disabled] .navbar-inverse .btn-link:hover,\nfieldset[disabled] .navbar-inverse .btn-link:focus {\n  color: #444;\n}\n\n.breadcrumb {\n  padding: 8px 15px;\n  margin-bottom: 20px;\n  list-style: none;\n  background-color: #f5f5f5;\n  border-radius: 4px;\n}\n\n.breadcrumb > li {\n  display: inline-block;\n}\n\n.breadcrumb > li + li:before {\n  content: \"/\\A0\";\n  padding: 0 5px;\n  color: #ccc;\n}\n\n.breadcrumb > .active, .breadcrumb > .ax-active {\n  color: #777777;\n}\n\n.pagination {\n  display: inline-block;\n  padding-left: 0;\n  margin: 20px 0;\n  border-radius: 4px;\n}\n\n.pagination > li {\n  display: inline;\n}\n\n.pagination > li > a,\n.pagination > li > span {\n  position: relative;\n  float: left;\n  padding: 6px 12px;\n  line-height: 1.428571429;\n  text-decoration: none;\n  color: #337ab7;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  margin-left: -1px;\n}\n\n.pagination > li:first-child > a,\n.pagination > li:first-child > span {\n  margin-left: 0;\n  border-bottom-left-radius: 4px;\n  border-top-left-radius: 4px;\n}\n\n.pagination > li:last-child > a,\n.pagination > li:last-child > span {\n  border-bottom-right-radius: 4px;\n  border-top-right-radius: 4px;\n}\n\n.pagination > li > a:hover, .pagination > li > a:focus,\n.pagination > li > span:hover,\n.pagination > li > span:focus {\n  z-index: 2;\n  color: #23527c;\n  background-color: #eeeeee;\n  border-color: #ddd;\n}\n\n.pagination > .active > a, .pagination > .ax-active > a, .pagination > .active > a:hover, .pagination > .ax-active > a:hover, .pagination > .active > a:focus, .pagination > .ax-active > a:focus,\n.pagination > .active > span,\n.pagination > .ax-active > span,\n.pagination > .active > span:hover,\n.pagination > .ax-active > span:hover,\n.pagination > .active > span:focus,\n.pagination > .ax-active > span:focus {\n  z-index: 3;\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #337ab7;\n  cursor: default;\n}\n\n.pagination > .disabled > span, .pagination > [disabled] > span, .pagination >\n.ax-disabled > span,\n.pagination > .disabled > span:hover,\n.pagination > [disabled] > span:hover,\n.pagination >\n.ax-disabled > span:hover,\n.pagination > .disabled > span:focus,\n.pagination > [disabled] > span:focus,\n.pagination >\n.ax-disabled > span:focus,\n.pagination > .disabled > a,\n.pagination > [disabled] > a,\n.pagination >\n.ax-disabled > a,\n.pagination > .disabled > a:hover,\n.pagination > [disabled] > a:hover,\n.pagination >\n.ax-disabled > a:hover,\n.pagination > .disabled > a:focus,\n.pagination > [disabled] > a:focus,\n.pagination >\n.ax-disabled > a:focus {\n  color: #777777;\n  background-color: #fff;\n  border-color: #ddd;\n  cursor: not-allowed;\n}\n\n.pagination-lg > li > a,\n.pagination-lg > li > span {\n  padding: 10px 16px;\n  font-size: 18px;\n  line-height: 1.3333333;\n}\n\n.pagination-lg > li:first-child > a,\n.pagination-lg > li:first-child > span {\n  border-bottom-left-radius: 6px;\n  border-top-left-radius: 6px;\n}\n\n.pagination-lg > li:last-child > a,\n.pagination-lg > li:last-child > span {\n  border-bottom-right-radius: 6px;\n  border-top-right-radius: 6px;\n}\n\n.pagination-sm > li > a,\n.pagination-sm > li > span {\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.pagination-sm > li:first-child > a,\n.pagination-sm > li:first-child > span {\n  border-bottom-left-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.pagination-sm > li:last-child > a,\n.pagination-sm > li:last-child > span {\n  border-bottom-right-radius: 3px;\n  border-top-right-radius: 3px;\n}\n\n.pager {\n  padding-left: 0;\n  margin: 20px 0;\n  list-style: none;\n  text-align: center;\n}\n\n.pager:before, .pager:after {\n  content: \" \";\n  display: table;\n}\n\n.pager:after {\n  clear: both;\n}\n\n.pager li {\n  display: inline;\n}\n\n.pager li > a,\n.pager li > span {\n  display: inline-block;\n  padding: 5px 14px;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-radius: 15px;\n}\n\n.pager li > a:hover,\n.pager li > a:focus {\n  text-decoration: none;\n  background-color: #eeeeee;\n}\n\n.pager .next > a,\n.pager .next > span {\n  float: right;\n}\n\n.pager .previous > a,\n.pager .previous > span {\n  float: left;\n}\n\n.pager .disabled > a, .pager [disabled] > a, .pager\n.ax-disabled > a,\n.pager .disabled > a:hover,\n.pager [disabled] > a:hover,\n.pager\n.ax-disabled > a:hover,\n.pager .disabled > a:focus,\n.pager [disabled] > a:focus,\n.pager\n.ax-disabled > a:focus,\n.pager .disabled > span,\n.pager [disabled] > span,\n.pager\n.ax-disabled > span {\n  color: #777777;\n  background-color: #fff;\n  cursor: not-allowed;\n}\n\n.label {\n  display: inline;\n  padding: .2em .6em .3em;\n  font-size: 75%;\n  font-weight: bold;\n  line-height: 1;\n  color: #fff;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: baseline;\n  border-radius: .25em;\n}\n\n.label:empty {\n  display: none;\n}\n\n.btn .label {\n  position: relative;\n  top: -1px;\n}\n\na.label:hover, a.label:focus {\n  color: #fff;\n  text-decoration: none;\n  cursor: pointer;\n}\n\n.label-default {\n  background-color: #777777;\n}\n\n.label-default[href]:hover, .label-default[href]:focus {\n  background-color: #5e5e5e;\n}\n\n.label-primary {\n  background-color: #337ab7;\n}\n\n.label-primary[href]:hover, .label-primary[href]:focus {\n  background-color: #286090;\n}\n\n.label-success {\n  background-color: #5cb85c;\n}\n\n.label-success[href]:hover, .label-success[href]:focus {\n  background-color: #449d44;\n}\n\n.label-info {\n  background-color: #5bc0de;\n}\n\n.label-info[href]:hover, .label-info[href]:focus {\n  background-color: #31b0d5;\n}\n\n.label-warning {\n  background-color: #f0ad4e;\n}\n\n.label-warning[href]:hover, .label-warning[href]:focus {\n  background-color: #ec971f;\n}\n\n.label-danger {\n  background-color: #d9534f;\n}\n\n.label-danger[href]:hover, .label-danger[href]:focus {\n  background-color: #c9302c;\n}\n\n.badge {\n  display: inline-block;\n  min-width: 10px;\n  padding: 3px 7px;\n  font-size: 12px;\n  font-weight: bold;\n  color: #fff;\n  line-height: 1;\n  vertical-align: middle;\n  white-space: nowrap;\n  text-align: center;\n  background-color: #777777;\n  border-radius: 10px;\n}\n\n.badge:empty {\n  display: none;\n}\n\n.btn .badge {\n  position: relative;\n  top: -1px;\n}\n\n.btn-xs .badge, .btn-group-xs > .btn .badge,\n.btn-group-xs > .btn .badge {\n  top: 0;\n  padding: 1px 5px;\n}\n\n.list-group-item.active > .badge, .list-group-item.ax-active > .badge,\n.nav-pills > .active > a > .badge,\n.nav-pills > .ax-active > a > .badge {\n  color: #337ab7;\n  background-color: #fff;\n}\n\n.list-group-item > .badge {\n  float: right;\n}\n\n.list-group-item > .badge + .badge {\n  margin-right: 5px;\n}\n\n.nav-pills > li > a > .badge {\n  margin-left: 3px;\n}\n\na.badge:hover, a.badge:focus {\n  color: #fff;\n  text-decoration: none;\n  cursor: pointer;\n}\n\n.jumbotron {\n  padding-top: 30px;\n  padding-bottom: 30px;\n  margin-bottom: 30px;\n  color: inherit;\n  background-color: #eeeeee;\n}\n\n.jumbotron h1,\n.jumbotron .h1 {\n  color: inherit;\n}\n\n.jumbotron p {\n  margin-bottom: 15px;\n  font-size: 21px;\n  font-weight: 200;\n}\n\n.jumbotron > hr {\n  border-top-color: #d5d5d5;\n}\n\n.container .jumbotron,\n.container-fluid .jumbotron {\n  border-radius: 6px;\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.jumbotron .container {\n  max-width: 100%;\n}\n\n@media screen and (min-width: 768px) {\n  .jumbotron {\n    padding-top: 48px;\n    padding-bottom: 48px;\n  }\n  .container .jumbotron,\n  .container-fluid .jumbotron {\n    padding-left: 60px;\n    padding-right: 60px;\n  }\n  .jumbotron h1,\n  .jumbotron .h1 {\n    font-size: 63px;\n  }\n}\n\n.thumbnail {\n  display: block;\n  padding: 4px;\n  margin-bottom: 20px;\n  line-height: 1.428571429;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  -webkit-transition: border 0.2s ease-in-out;\n  transition: border 0.2s ease-in-out;\n}\n\n.thumbnail > img,\n.thumbnail a > img {\n  display: block;\n  max-width: 100%;\n  height: auto;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.thumbnail .caption {\n  padding: 9px;\n  color: #333333;\n}\n\na.thumbnail:hover,\na.thumbnail:focus,\na.thumbnail.active,\na.thumbnail.ax-active {\n  border-color: #337ab7;\n}\n\n@-webkit-keyframes progress-bar-stripes {\n  from {\n    background-position: 40px 0;\n  }\n  to {\n    background-position: 0 0;\n  }\n}\n\n@keyframes progress-bar-stripes {\n  from {\n    background-position: 40px 0;\n  }\n  to {\n    background-position: 0 0;\n  }\n}\n\n.progress {\n  overflow: hidden;\n  height: 20px;\n  margin-bottom: 20px;\n  background-color: #f5f5f5;\n  border-radius: 4px;\n  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.progress-bar {\n  float: left;\n  width: 0%;\n  height: 100%;\n  font-size: 12px;\n  line-height: 20px;\n  color: #fff;\n  text-align: center;\n  background-color: #337ab7;\n  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);\n  -webkit-transition: width 0.6s ease;\n  transition: width 0.6s ease;\n}\n\n.progress-striped .progress-bar,\n.progress-bar-striped {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-size: 40px 40px;\n}\n\n.progress.active .progress-bar, .progress.ax-active .progress-bar,\n.progress-bar.active,\n.progress-bar.ax-active {\n  -webkit-animation: progress-bar-stripes 2s linear infinite;\n  animation: progress-bar-stripes 2s linear infinite;\n}\n\n.progress-bar-success {\n  background-color: #5cb85c;\n}\n\n.progress-striped .progress-bar-success {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.progress-bar-info {\n  background-color: #5bc0de;\n}\n\n.progress-striped .progress-bar-info {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.progress-bar-warning {\n  background-color: #f0ad4e;\n}\n\n.progress-striped .progress-bar-warning {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.progress-bar-danger {\n  background-color: #d9534f;\n}\n\n.progress-striped .progress-bar-danger {\n  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);\n}\n\n.media {\n  margin-top: 15px;\n}\n\n.media:first-child {\n  margin-top: 0;\n}\n\n.media,\n.media-body {\n  zoom: 1;\n  overflow: hidden;\n}\n\n.media-body {\n  width: 10000px;\n}\n\n.media-object {\n  display: block;\n}\n\n.media-object.img-thumbnail {\n  max-width: none;\n}\n\n.media-right,\n.media > .pull-right {\n  padding-left: 10px;\n}\n\n.media-left,\n.media > .pull-left {\n  padding-right: 10px;\n}\n\n.media-left,\n.media-right,\n.media-body {\n  display: table-cell;\n  vertical-align: top;\n}\n\n.media-middle {\n  vertical-align: middle;\n}\n\n.media-bottom {\n  vertical-align: bottom;\n}\n\n.media-heading {\n  margin-top: 0;\n  margin-bottom: 5px;\n}\n\n.media-list {\n  padding-left: 0;\n  list-style: none;\n}\n\n.list-group {\n  margin-bottom: 20px;\n  padding-left: 0;\n}\n\n.list-group-item {\n  position: relative;\n  display: block;\n  padding: 10px 15px;\n  margin-bottom: -1px;\n  background-color: #fff;\n  border: 1px solid #ddd;\n}\n\n.list-group-item:first-child {\n  border-top-right-radius: 4px;\n  border-top-left-radius: 4px;\n}\n\n.list-group-item:last-child {\n  margin-bottom: 0;\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n\na.list-group-item,\nbutton.list-group-item {\n  color: #555;\n}\n\na.list-group-item .list-group-item-heading,\nbutton.list-group-item .list-group-item-heading {\n  color: #333;\n}\n\na.list-group-item:hover, a.list-group-item:focus,\nbutton.list-group-item:hover,\nbutton.list-group-item:focus {\n  text-decoration: none;\n  color: #555;\n  background-color: #f5f5f5;\n}\n\nbutton.list-group-item {\n  width: 100%;\n  text-align: left;\n}\n\n.list-group-item.disabled, .list-group-item[disabled],\n.list-group-item.ax-disabled, .list-group-item.disabled:hover, .list-group-item[disabled]:hover,\n.list-group-item.ax-disabled:hover, .list-group-item.disabled:focus, .list-group-item[disabled]:focus,\n.list-group-item.ax-disabled:focus {\n  background-color: #eeeeee;\n  color: #777777;\n  cursor: not-allowed;\n}\n\n.list-group-item.disabled .list-group-item-heading, .list-group-item[disabled] .list-group-item-heading,\n.list-group-item.ax-disabled .list-group-item-heading, .list-group-item.disabled:hover .list-group-item-heading, .list-group-item[disabled]:hover .list-group-item-heading,\n.list-group-item.ax-disabled:hover .list-group-item-heading, .list-group-item.disabled:focus .list-group-item-heading, .list-group-item[disabled]:focus .list-group-item-heading,\n.list-group-item.ax-disabled:focus .list-group-item-heading {\n  color: inherit;\n}\n\n.list-group-item.disabled .list-group-item-text, .list-group-item[disabled] .list-group-item-text,\n.list-group-item.ax-disabled .list-group-item-text, .list-group-item.disabled:hover .list-group-item-text, .list-group-item[disabled]:hover .list-group-item-text,\n.list-group-item.ax-disabled:hover .list-group-item-text, .list-group-item.disabled:focus .list-group-item-text, .list-group-item[disabled]:focus .list-group-item-text,\n.list-group-item.ax-disabled:focus .list-group-item-text {\n  color: #777777;\n}\n\n.list-group-item.active, .list-group-item.ax-active, .list-group-item.active:hover, .list-group-item.ax-active:hover, .list-group-item.active:focus, .list-group-item.ax-active:focus {\n  z-index: 2;\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #337ab7;\n}\n\n.list-group-item.active .list-group-item-heading, .list-group-item.ax-active .list-group-item-heading,\n.list-group-item.active .list-group-item-heading > small, .list-group-item.ax-active .list-group-item-heading > small,\n.list-group-item.active .list-group-item-heading > .small, .list-group-item.ax-active .list-group-item-heading > .small, .list-group-item.active:hover .list-group-item-heading, .list-group-item.ax-active:hover .list-group-item-heading,\n.list-group-item.active:hover .list-group-item-heading > small, .list-group-item.ax-active:hover .list-group-item-heading > small,\n.list-group-item.active:hover .list-group-item-heading > .small, .list-group-item.ax-active:hover .list-group-item-heading > .small, .list-group-item.active:focus .list-group-item-heading, .list-group-item.ax-active:focus .list-group-item-heading,\n.list-group-item.active:focus .list-group-item-heading > small, .list-group-item.ax-active:focus .list-group-item-heading > small,\n.list-group-item.active:focus .list-group-item-heading > .small, .list-group-item.ax-active:focus .list-group-item-heading > .small {\n  color: inherit;\n}\n\n.list-group-item.active .list-group-item-text, .list-group-item.ax-active .list-group-item-text, .list-group-item.active:hover .list-group-item-text, .list-group-item.ax-active:hover .list-group-item-text, .list-group-item.active:focus .list-group-item-text, .list-group-item.ax-active:focus .list-group-item-text {\n  color: #c7ddef;\n}\n\n.list-group-item-success {\n  color: #3c763d;\n  background-color: #dff0d8;\n}\n\na.list-group-item-success,\nbutton.list-group-item-success {\n  color: #3c763d;\n}\n\na.list-group-item-success .list-group-item-heading,\nbutton.list-group-item-success .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-success:hover, a.list-group-item-success:focus,\nbutton.list-group-item-success:hover,\nbutton.list-group-item-success:focus {\n  color: #3c763d;\n  background-color: #d0e9c6;\n}\n\na.list-group-item-success.active, a.list-group-item-success.ax-active, a.list-group-item-success.active:hover, a.list-group-item-success.ax-active:hover, a.list-group-item-success.active:focus, a.list-group-item-success.ax-active:focus,\nbutton.list-group-item-success.active,\nbutton.list-group-item-success.ax-active,\nbutton.list-group-item-success.active:hover,\nbutton.list-group-item-success.ax-active:hover,\nbutton.list-group-item-success.active:focus,\nbutton.list-group-item-success.ax-active:focus {\n  color: #fff;\n  background-color: #3c763d;\n  border-color: #3c763d;\n}\n\n.list-group-item-info {\n  color: #31708f;\n  background-color: #d9edf7;\n}\n\na.list-group-item-info,\nbutton.list-group-item-info {\n  color: #31708f;\n}\n\na.list-group-item-info .list-group-item-heading,\nbutton.list-group-item-info .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-info:hover, a.list-group-item-info:focus,\nbutton.list-group-item-info:hover,\nbutton.list-group-item-info:focus {\n  color: #31708f;\n  background-color: #c4e3f3;\n}\n\na.list-group-item-info.active, a.list-group-item-info.ax-active, a.list-group-item-info.active:hover, a.list-group-item-info.ax-active:hover, a.list-group-item-info.active:focus, a.list-group-item-info.ax-active:focus,\nbutton.list-group-item-info.active,\nbutton.list-group-item-info.ax-active,\nbutton.list-group-item-info.active:hover,\nbutton.list-group-item-info.ax-active:hover,\nbutton.list-group-item-info.active:focus,\nbutton.list-group-item-info.ax-active:focus {\n  color: #fff;\n  background-color: #31708f;\n  border-color: #31708f;\n}\n\n.list-group-item-warning {\n  color: #8a6d3b;\n  background-color: #fcf8e3;\n}\n\na.list-group-item-warning,\nbutton.list-group-item-warning {\n  color: #8a6d3b;\n}\n\na.list-group-item-warning .list-group-item-heading,\nbutton.list-group-item-warning .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-warning:hover, a.list-group-item-warning:focus,\nbutton.list-group-item-warning:hover,\nbutton.list-group-item-warning:focus {\n  color: #8a6d3b;\n  background-color: #faf2cc;\n}\n\na.list-group-item-warning.active, a.list-group-item-warning.ax-active, a.list-group-item-warning.active:hover, a.list-group-item-warning.ax-active:hover, a.list-group-item-warning.active:focus, a.list-group-item-warning.ax-active:focus,\nbutton.list-group-item-warning.active,\nbutton.list-group-item-warning.ax-active,\nbutton.list-group-item-warning.active:hover,\nbutton.list-group-item-warning.ax-active:hover,\nbutton.list-group-item-warning.active:focus,\nbutton.list-group-item-warning.ax-active:focus {\n  color: #fff;\n  background-color: #8a6d3b;\n  border-color: #8a6d3b;\n}\n\n.list-group-item-danger {\n  color: #a94442;\n  background-color: #f2dede;\n}\n\na.list-group-item-danger,\nbutton.list-group-item-danger {\n  color: #a94442;\n}\n\na.list-group-item-danger .list-group-item-heading,\nbutton.list-group-item-danger .list-group-item-heading {\n  color: inherit;\n}\n\na.list-group-item-danger:hover, a.list-group-item-danger:focus,\nbutton.list-group-item-danger:hover,\nbutton.list-group-item-danger:focus {\n  color: #a94442;\n  background-color: #ebcccc;\n}\n\na.list-group-item-danger.active, a.list-group-item-danger.ax-active, a.list-group-item-danger.active:hover, a.list-group-item-danger.ax-active:hover, a.list-group-item-danger.active:focus, a.list-group-item-danger.ax-active:focus,\nbutton.list-group-item-danger.active,\nbutton.list-group-item-danger.ax-active,\nbutton.list-group-item-danger.active:hover,\nbutton.list-group-item-danger.ax-active:hover,\nbutton.list-group-item-danger.active:focus,\nbutton.list-group-item-danger.ax-active:focus {\n  color: #fff;\n  background-color: #a94442;\n  border-color: #a94442;\n}\n\n.list-group-item-heading {\n  margin-top: 0;\n  margin-bottom: 5px;\n}\n\n.list-group-item-text {\n  margin-bottom: 0;\n  line-height: 1.3;\n}\n\n.panel {\n  margin-bottom: 20px;\n  background-color: #fff;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);\n}\n\n.panel-body {\n  padding: 15px;\n}\n\n.panel-body:before, .panel-body:after {\n  content: \" \";\n  display: table;\n}\n\n.panel-body:after {\n  clear: both;\n}\n\n.panel-heading {\n  padding: 10px 15px;\n  border-bottom: 1px solid transparent;\n  border-top-right-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.panel-heading > .dropdown .dropdown-toggle {\n  color: inherit;\n}\n\n.panel-title {\n  margin-top: 0;\n  margin-bottom: 0;\n  font-size: 16px;\n  color: inherit;\n}\n\n.panel-title > a,\n.panel-title > small,\n.panel-title > .small,\n.panel-title > small > a,\n.panel-title > .small > a {\n  color: inherit;\n}\n\n.panel-footer {\n  padding: 10px 15px;\n  background-color: #f5f5f5;\n  border-top: 1px solid #ddd;\n  border-bottom-right-radius: 3px;\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .list-group,\n.panel > .panel-collapse > .list-group {\n  margin-bottom: 0;\n}\n\n.panel > .list-group .list-group-item,\n.panel > .panel-collapse > .list-group .list-group-item {\n  border-width: 1px 0;\n  border-radius: 0;\n}\n\n.panel > .list-group:first-child .list-group-item:first-child,\n.panel > .panel-collapse > .list-group:first-child .list-group-item:first-child {\n  border-top: 0;\n  border-top-right-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.panel > .list-group:last-child .list-group-item:last-child,\n.panel > .panel-collapse > .list-group:last-child .list-group-item:last-child {\n  border-bottom: 0;\n  border-bottom-right-radius: 3px;\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child {\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.panel-heading + .list-group .list-group-item:first-child {\n  border-top-width: 0;\n}\n\n.list-group + .panel-footer {\n  border-top-width: 0;\n}\n\n.panel > .table,\n.panel > .table-responsive > .table,\n.panel > .panel-collapse > .table {\n  margin-bottom: 0;\n}\n\n.panel > .table caption,\n.panel > .table-responsive > .table caption,\n.panel > .panel-collapse > .table caption {\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.panel > .table:first-child,\n.panel > .table-responsive:first-child > .table:first-child {\n  border-top-right-radius: 3px;\n  border-top-left-radius: 3px;\n}\n\n.panel > .table:first-child > thead:first-child > tr:first-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child {\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n}\n\n.panel > .table:first-child > thead:first-child > tr:first-child td:first-child,\n.panel > .table:first-child > thead:first-child > tr:first-child th:first-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child td:first-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child th:first-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:first-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:first-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:first-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child {\n  border-top-left-radius: 3px;\n}\n\n.panel > .table:first-child > thead:first-child > tr:first-child td:last-child,\n.panel > .table:first-child > thead:first-child > tr:first-child th:last-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child td:last-child,\n.panel > .table:first-child > tbody:first-child > tr:first-child th:last-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:last-child,\n.panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:last-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:last-child,\n.panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child {\n  border-top-right-radius: 3px;\n}\n\n.panel > .table:last-child,\n.panel > .table-responsive:last-child > .table:last-child {\n  border-bottom-right-radius: 3px;\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .table:last-child > tbody:last-child > tr:last-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child {\n  border-bottom-left-radius: 3px;\n  border-bottom-right-radius: 3px;\n}\n\n.panel > .table:last-child > tbody:last-child > tr:last-child td:first-child,\n.panel > .table:last-child > tbody:last-child > tr:last-child th:first-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child th:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child {\n  border-bottom-left-radius: 3px;\n}\n\n.panel > .table:last-child > tbody:last-child > tr:last-child td:last-child,\n.panel > .table:last-child > tbody:last-child > tr:last-child th:last-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\n.panel > .table:last-child > tfoot:last-child > tr:last-child th:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\n.panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child {\n  border-bottom-right-radius: 3px;\n}\n\n.panel > .panel-body + .table,\n.panel > .panel-body + .table-responsive,\n.panel > .table + .panel-body,\n.panel > .table-responsive + .panel-body {\n  border-top: 1px solid #ddd;\n}\n\n.panel > .table > tbody:first-child > tr:first-child th,\n.panel > .table > tbody:first-child > tr:first-child td {\n  border-top: 0;\n}\n\n.panel > .table-bordered,\n.panel > .table-responsive > .table-bordered {\n  border: 0;\n}\n\n.panel > .table-bordered > thead > tr > th:first-child,\n.panel > .table-bordered > thead > tr > td:first-child,\n.panel > .table-bordered > tbody > tr > th:first-child,\n.panel > .table-bordered > tbody > tr > td:first-child,\n.panel > .table-bordered > tfoot > tr > th:first-child,\n.panel > .table-bordered > tfoot > tr > td:first-child,\n.panel > .table-responsive > .table-bordered > thead > tr > th:first-child,\n.panel > .table-responsive > .table-bordered > thead > tr > td:first-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > th:first-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > td:first-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > th:first-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > td:first-child {\n  border-left: 0;\n}\n\n.panel > .table-bordered > thead > tr > th:last-child,\n.panel > .table-bordered > thead > tr > td:last-child,\n.panel > .table-bordered > tbody > tr > th:last-child,\n.panel > .table-bordered > tbody > tr > td:last-child,\n.panel > .table-bordered > tfoot > tr > th:last-child,\n.panel > .table-bordered > tfoot > tr > td:last-child,\n.panel > .table-responsive > .table-bordered > thead > tr > th:last-child,\n.panel > .table-responsive > .table-bordered > thead > tr > td:last-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > th:last-child,\n.panel > .table-responsive > .table-bordered > tbody > tr > td:last-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > th:last-child,\n.panel > .table-responsive > .table-bordered > tfoot > tr > td:last-child {\n  border-right: 0;\n}\n\n.panel > .table-bordered > thead > tr:first-child > td,\n.panel > .table-bordered > thead > tr:first-child > th,\n.panel > .table-bordered > tbody > tr:first-child > td,\n.panel > .table-bordered > tbody > tr:first-child > th,\n.panel > .table-responsive > .table-bordered > thead > tr:first-child > td,\n.panel > .table-responsive > .table-bordered > thead > tr:first-child > th,\n.panel > .table-responsive > .table-bordered > tbody > tr:first-child > td,\n.panel > .table-responsive > .table-bordered > tbody > tr:first-child > th {\n  border-bottom: 0;\n}\n\n.panel > .table-bordered > tbody > tr:last-child > td,\n.panel > .table-bordered > tbody > tr:last-child > th,\n.panel > .table-bordered > tfoot > tr:last-child > td,\n.panel > .table-bordered > tfoot > tr:last-child > th,\n.panel > .table-responsive > .table-bordered > tbody > tr:last-child > td,\n.panel > .table-responsive > .table-bordered > tbody > tr:last-child > th,\n.panel > .table-responsive > .table-bordered > tfoot > tr:last-child > td,\n.panel > .table-responsive > .table-bordered > tfoot > tr:last-child > th {\n  border-bottom: 0;\n}\n\n.panel > .table-responsive {\n  border: 0;\n  margin-bottom: 0;\n}\n\n.panel-group {\n  margin-bottom: 20px;\n}\n\n.panel-group .panel {\n  margin-bottom: 0;\n  border-radius: 4px;\n}\n\n.panel-group .panel + .panel {\n  margin-top: 5px;\n}\n\n.panel-group .panel-heading {\n  border-bottom: 0;\n}\n\n.panel-group .panel-heading + .panel-collapse > .panel-body,\n.panel-group .panel-heading + .panel-collapse > .list-group {\n  border-top: 1px solid #ddd;\n}\n\n.panel-group .panel-footer {\n  border-top: 0;\n}\n\n.panel-group .panel-footer + .panel-collapse .panel-body {\n  border-bottom: 1px solid #ddd;\n}\n\n.panel-default {\n  border-color: #ddd;\n}\n\n.panel-default > .panel-heading {\n  color: #333333;\n  background-color: #f5f5f5;\n  border-color: #ddd;\n}\n\n.panel-default > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #ddd;\n}\n\n.panel-default > .panel-heading .badge {\n  color: #f5f5f5;\n  background-color: #333333;\n}\n\n.panel-default > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #ddd;\n}\n\n.panel-primary {\n  border-color: #337ab7;\n}\n\n.panel-primary > .panel-heading {\n  color: #fff;\n  background-color: #337ab7;\n  border-color: #337ab7;\n}\n\n.panel-primary > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #337ab7;\n}\n\n.panel-primary > .panel-heading .badge {\n  color: #337ab7;\n  background-color: #fff;\n}\n\n.panel-primary > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #337ab7;\n}\n\n.panel-success {\n  border-color: #d6e9c6;\n}\n\n.panel-success > .panel-heading {\n  color: #3c763d;\n  background-color: #dff0d8;\n  border-color: #d6e9c6;\n}\n\n.panel-success > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #d6e9c6;\n}\n\n.panel-success > .panel-heading .badge {\n  color: #dff0d8;\n  background-color: #3c763d;\n}\n\n.panel-success > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #d6e9c6;\n}\n\n.panel-info {\n  border-color: #bce8f1;\n}\n\n.panel-info > .panel-heading {\n  color: #31708f;\n  background-color: #d9edf7;\n  border-color: #bce8f1;\n}\n\n.panel-info > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #bce8f1;\n}\n\n.panel-info > .panel-heading .badge {\n  color: #d9edf7;\n  background-color: #31708f;\n}\n\n.panel-info > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #bce8f1;\n}\n\n.panel-warning {\n  border-color: #faebcc;\n}\n\n.panel-warning > .panel-heading {\n  color: #8a6d3b;\n  background-color: #fcf8e3;\n  border-color: #faebcc;\n}\n\n.panel-warning > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #faebcc;\n}\n\n.panel-warning > .panel-heading .badge {\n  color: #fcf8e3;\n  background-color: #8a6d3b;\n}\n\n.panel-warning > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #faebcc;\n}\n\n.panel-danger {\n  border-color: #ebccd1;\n}\n\n.panel-danger > .panel-heading {\n  color: #a94442;\n  background-color: #f2dede;\n  border-color: #ebccd1;\n}\n\n.panel-danger > .panel-heading + .panel-collapse > .panel-body {\n  border-top-color: #ebccd1;\n}\n\n.panel-danger > .panel-heading .badge {\n  color: #f2dede;\n  background-color: #a94442;\n}\n\n.panel-danger > .panel-footer + .panel-collapse > .panel-body {\n  border-bottom-color: #ebccd1;\n}\n\n.well {\n  min-height: 20px;\n  padding: 19px;\n  margin-bottom: 20px;\n  background-color: #f5f5f5;\n  border: 1px solid #e3e3e3;\n  border-radius: 4px;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);\n}\n\n.well blockquote {\n  border-color: #ddd;\n  border-color: rgba(0, 0, 0, 0.15);\n}\n\n.well-lg {\n  padding: 24px;\n  border-radius: 6px;\n}\n\n.well-sm {\n  padding: 9px;\n  border-radius: 3px;\n}\n\n.close {\n  float: right;\n  font-size: 21px;\n  font-weight: bold;\n  line-height: 1;\n  color: #000;\n  text-shadow: 0 1px 0 #fff;\n  opacity: 0.2;\n  filter: alpha(opacity=20);\n}\n\n.close:hover, .close:focus {\n  color: #000;\n  text-decoration: none;\n  cursor: pointer;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n}\n\nbutton.close {\n  padding: 0;\n  cursor: pointer;\n  background: transparent;\n  border: 0;\n  -webkit-appearance: none;\n}\n\n.alert {\n  padding: 15px;\n  margin-bottom: 20px;\n  border: 1px solid transparent;\n  border-radius: 4px;\n}\n\n.alert h4 {\n  margin-top: 0;\n  color: inherit;\n}\n\n.alert .alert-link {\n  font-weight: bold;\n}\n\n.alert > p,\n.alert > ul {\n  margin-bottom: 0;\n}\n\n.alert > p + p {\n  margin-top: 5px;\n}\n\n.alert-dismissable,\n.alert-dismissible {\n  padding-right: 35px;\n}\n\n.alert-dismissable .close,\n.alert-dismissible .close {\n  position: relative;\n  top: -2px;\n  right: -21px;\n  color: inherit;\n}\n\n.alert-success {\n  background-color: #dff0d8;\n  border-color: #d6e9c6;\n  color: #3c763d;\n}\n\n.alert-success hr {\n  border-top-color: #c9e2b3;\n}\n\n.alert-success .alert-link {\n  color: #2b542c;\n}\n\n.alert-info {\n  background-color: #d9edf7;\n  border-color: #bce8f1;\n  color: #31708f;\n}\n\n.alert-info hr {\n  border-top-color: #a6e1ec;\n}\n\n.alert-info .alert-link {\n  color: #245269;\n}\n\n.alert-warning {\n  background-color: #fcf8e3;\n  border-color: #faebcc;\n  color: #8a6d3b;\n}\n\n.alert-warning hr {\n  border-top-color: #f7e1b5;\n}\n\n.alert-warning .alert-link {\n  color: #66512c;\n}\n\n.alert-danger {\n  background-color: #f2dede;\n  border-color: #ebccd1;\n  color: #a94442;\n}\n\n.alert-danger hr {\n  border-top-color: #e4b9c0;\n}\n\n.alert-danger .alert-link {\n  color: #843534;\n}\n\n.modal-open {\n  overflow: hidden;\n}\n\n.modal {\n  display: none;\n  overflow: hidden;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 1050;\n  -webkit-overflow-scrolling: touch;\n  outline: 0;\n}\n\n.modal.fade .modal-dialog {\n  -webkit-transform: translate(0, -25%);\n  -ms-transform: translate(0, -25%);\n  transform: translate(0, -25%);\n  -webkit-transition: -webkit-transform 0.3s ease-out;\n  transition: -webkit-transform 0.3s ease-out;\n  transition: transform 0.3s ease-out;\n  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;\n}\n\n.modal.in .modal-dialog {\n  -webkit-transform: translate(0, 0);\n  -ms-transform: translate(0, 0);\n  transform: translate(0, 0);\n}\n\n.modal-open .modal {\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n\n.modal-dialog {\n  position: relative;\n  width: auto;\n  margin: 10px;\n}\n\n.modal-content {\n  position: relative;\n  background-color: #fff;\n  border: 1px solid #999;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 6px;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  background-clip: padding-box;\n  outline: 0;\n}\n\n.modal-backdrop {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 1040;\n  background-color: #000;\n}\n\n.modal-backdrop.fade {\n  opacity: 0;\n  filter: alpha(opacity=0);\n}\n\n.modal-backdrop.in {\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n}\n\n.modal-header {\n  padding: 15px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.modal-header:before, .modal-header:after {\n  content: \" \";\n  display: table;\n}\n\n.modal-header:after {\n  clear: both;\n}\n\n.modal-header .close {\n  margin-top: -2px;\n}\n\n.modal-title {\n  margin: 0;\n  line-height: 1.428571429;\n}\n\n.modal-body {\n  position: relative;\n  padding: 15px;\n}\n\n.modal-footer {\n  padding: 15px;\n  text-align: right;\n  border-top: 1px solid #e5e5e5;\n}\n\n.modal-footer:before, .modal-footer:after {\n  content: \" \";\n  display: table;\n}\n\n.modal-footer:after {\n  clear: both;\n}\n\n.modal-footer .btn + .btn {\n  margin-left: 5px;\n  margin-bottom: 0;\n}\n\n.modal-footer .btn-group .btn + .btn {\n  margin-left: -1px;\n}\n\n.modal-footer .btn-block + .btn-block {\n  margin-left: 0;\n}\n\n.modal-scrollbar-measure {\n  position: absolute;\n  top: -9999px;\n  width: 50px;\n  height: 50px;\n  overflow: scroll;\n}\n\n@media (min-width: 768px) {\n  .modal-dialog {\n    width: 600px;\n    margin: 30px auto;\n  }\n  .modal-content {\n    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);\n  }\n  .modal-sm {\n    width: 300px;\n  }\n}\n\n@media (min-width: 992px) {\n  .modal-lg {\n    width: 900px;\n  }\n}\n\n.tooltip {\n  position: absolute;\n  z-index: 1070;\n  display: block;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-style: normal;\n  font-weight: normal;\n  letter-spacing: normal;\n  line-break: auto;\n  line-height: 1.428571429;\n  text-align: left;\n  text-align: start;\n  text-decoration: none;\n  text-shadow: none;\n  text-transform: none;\n  white-space: normal;\n  word-break: normal;\n  word-spacing: normal;\n  word-wrap: normal;\n  font-size: 12px;\n  opacity: 0;\n  filter: alpha(opacity=0);\n}\n\n.tooltip.in {\n  opacity: 0.9;\n  filter: alpha(opacity=90);\n}\n\n.tooltip.top {\n  margin-top: -3px;\n  padding: 5px 0;\n}\n\n.tooltip.right {\n  margin-left: 3px;\n  padding: 0 5px;\n}\n\n.tooltip.bottom {\n  margin-top: 3px;\n  padding: 5px 0;\n}\n\n.tooltip.left {\n  margin-left: -3px;\n  padding: 0 5px;\n}\n\n.tooltip-inner {\n  max-width: 200px;\n  padding: 3px 8px;\n  color: #fff;\n  text-align: center;\n  background-color: #000;\n  border-radius: 4px;\n}\n\n.tooltip-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border-color: transparent;\n  border-style: solid;\n}\n\n.tooltip.top .tooltip-arrow {\n  bottom: 0;\n  left: 50%;\n  margin-left: -5px;\n  border-width: 5px 5px 0;\n  border-top-color: #000;\n}\n\n.tooltip.top-left .tooltip-arrow {\n  bottom: 0;\n  right: 5px;\n  margin-bottom: -5px;\n  border-width: 5px 5px 0;\n  border-top-color: #000;\n}\n\n.tooltip.top-right .tooltip-arrow {\n  bottom: 0;\n  left: 5px;\n  margin-bottom: -5px;\n  border-width: 5px 5px 0;\n  border-top-color: #000;\n}\n\n.tooltip.right .tooltip-arrow {\n  top: 50%;\n  left: 0;\n  margin-top: -5px;\n  border-width: 5px 5px 5px 0;\n  border-right-color: #000;\n}\n\n.tooltip.left .tooltip-arrow {\n  top: 50%;\n  right: 0;\n  margin-top: -5px;\n  border-width: 5px 0 5px 5px;\n  border-left-color: #000;\n}\n\n.tooltip.bottom .tooltip-arrow {\n  top: 0;\n  left: 50%;\n  margin-left: -5px;\n  border-width: 0 5px 5px;\n  border-bottom-color: #000;\n}\n\n.tooltip.bottom-left .tooltip-arrow {\n  top: 0;\n  right: 5px;\n  margin-top: -5px;\n  border-width: 0 5px 5px;\n  border-bottom-color: #000;\n}\n\n.tooltip.bottom-right .tooltip-arrow {\n  top: 0;\n  left: 5px;\n  margin-top: -5px;\n  border-width: 0 5px 5px;\n  border-bottom-color: #000;\n}\n\n.popover {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 1060;\n  display: none;\n  max-width: 276px;\n  padding: 1px;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-style: normal;\n  font-weight: normal;\n  letter-spacing: normal;\n  line-break: auto;\n  line-height: 1.428571429;\n  text-align: left;\n  text-align: start;\n  text-decoration: none;\n  text-shadow: none;\n  text-transform: none;\n  white-space: normal;\n  word-break: normal;\n  word-spacing: normal;\n  word-wrap: normal;\n  font-size: 14px;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 6px;\n  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\n}\n\n.popover.top {\n  margin-top: -10px;\n}\n\n.popover.right {\n  margin-left: 10px;\n}\n\n.popover.bottom {\n  margin-top: 10px;\n}\n\n.popover.left {\n  margin-left: -10px;\n}\n\n.popover-title {\n  margin: 0;\n  padding: 8px 14px;\n  font-size: 14px;\n  background-color: #f7f7f7;\n  border-bottom: 1px solid #ebebeb;\n  border-radius: 5px 5px 0 0;\n}\n\n.popover-content {\n  padding: 9px 14px;\n}\n\n.popover > .arrow, .popover > .arrow:after {\n  position: absolute;\n  display: block;\n  width: 0;\n  height: 0;\n  border-color: transparent;\n  border-style: solid;\n}\n\n.popover > .arrow {\n  border-width: 11px;\n}\n\n.popover > .arrow:after {\n  border-width: 10px;\n  content: \"\";\n}\n\n.popover.top > .arrow {\n  left: 50%;\n  margin-left: -11px;\n  border-bottom-width: 0;\n  border-top-color: #999999;\n  border-top-color: rgba(0, 0, 0, 0.25);\n  bottom: -11px;\n}\n\n.popover.top > .arrow:after {\n  content: \" \";\n  bottom: 1px;\n  margin-left: -10px;\n  border-bottom-width: 0;\n  border-top-color: #fff;\n}\n\n.popover.right > .arrow {\n  top: 50%;\n  left: -11px;\n  margin-top: -11px;\n  border-left-width: 0;\n  border-right-color: #999999;\n  border-right-color: rgba(0, 0, 0, 0.25);\n}\n\n.popover.right > .arrow:after {\n  content: \" \";\n  left: 1px;\n  bottom: -10px;\n  border-left-width: 0;\n  border-right-color: #fff;\n}\n\n.popover.bottom > .arrow {\n  left: 50%;\n  margin-left: -11px;\n  border-top-width: 0;\n  border-bottom-color: #999999;\n  border-bottom-color: rgba(0, 0, 0, 0.25);\n  top: -11px;\n}\n\n.popover.bottom > .arrow:after {\n  content: \" \";\n  top: 1px;\n  margin-left: -10px;\n  border-top-width: 0;\n  border-bottom-color: #fff;\n}\n\n.popover.left > .arrow {\n  top: 50%;\n  right: -11px;\n  margin-top: -11px;\n  border-right-width: 0;\n  border-left-color: #999999;\n  border-left-color: rgba(0, 0, 0, 0.25);\n}\n\n.popover.left > .arrow:after {\n  content: \" \";\n  right: 1px;\n  border-right-width: 0;\n  border-left-color: #fff;\n  bottom: -10px;\n}\n\n.carousel {\n  position: relative;\n}\n\n.carousel-inner {\n  position: relative;\n  overflow: hidden;\n  width: 100%;\n}\n\n.carousel-inner > .item {\n  display: none;\n  position: relative;\n  -webkit-transition: 0.6s ease-in-out left;\n  transition: 0.6s ease-in-out left;\n}\n\n.carousel-inner > .item > img,\n.carousel-inner > .item > a > img {\n  display: block;\n  max-width: 100%;\n  height: auto;\n  line-height: 1;\n}\n\n@media all and (transform-3d), (-webkit-transform-3d) {\n  .carousel-inner > .item {\n    -webkit-transition: -webkit-transform 0.6s ease-in-out;\n    transition: -webkit-transform 0.6s ease-in-out;\n    transition: transform 0.6s ease-in-out;\n    transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out;\n    -webkit-backface-visibility: hidden;\n    backface-visibility: hidden;\n    -webkit-perspective: 1000px;\n    perspective: 1000px;\n  }\n  .carousel-inner > .item.next, .carousel-inner > .item.active.right, .carousel-inner > .item.right.ax-active {\n    -webkit-transform: translate3d(100%, 0, 0);\n    transform: translate3d(100%, 0, 0);\n    left: 0;\n  }\n  .carousel-inner > .item.prev, .carousel-inner > .item.active.left, .carousel-inner > .item.left.ax-active {\n    -webkit-transform: translate3d(-100%, 0, 0);\n    transform: translate3d(-100%, 0, 0);\n    left: 0;\n  }\n  .carousel-inner > .item.next.left, .carousel-inner > .item.prev.right, .carousel-inner > .item.active, .carousel-inner > .item.ax-active {\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    left: 0;\n  }\n}\n\n.carousel-inner > .active, .carousel-inner > .ax-active,\n.carousel-inner > .next,\n.carousel-inner > .prev {\n  display: block;\n}\n\n.carousel-inner > .active, .carousel-inner > .ax-active {\n  left: 0;\n}\n\n.carousel-inner > .next,\n.carousel-inner > .prev {\n  position: absolute;\n  top: 0;\n  width: 100%;\n}\n\n.carousel-inner > .next {\n  left: 100%;\n}\n\n.carousel-inner > .prev {\n  left: -100%;\n}\n\n.carousel-inner > .next.left,\n.carousel-inner > .prev.right {\n  left: 0;\n}\n\n.carousel-inner > .active.left, .carousel-inner > .left.ax-active {\n  left: -100%;\n}\n\n.carousel-inner > .active.right, .carousel-inner > .right.ax-active {\n  left: 100%;\n}\n\n.carousel-control {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 15%;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n  font-size: 20px;\n  color: #fff;\n  text-align: center;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);\n  background-color: transparent;\n}\n\n.carousel-control.left {\n  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);\n  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);\n  background-repeat: repeat-x;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);\n}\n\n.carousel-control.right {\n  left: auto;\n  right: 0;\n  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);\n  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);\n  background-repeat: repeat-x;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);\n}\n\n.carousel-control:hover, .carousel-control:focus {\n  outline: 0;\n  color: #fff;\n  text-decoration: none;\n  opacity: 0.9;\n  filter: alpha(opacity=90);\n}\n\n.carousel-control .icon-prev,\n.carousel-control .icon-next,\n.carousel-control .glyphicon-chevron-left,\n.carousel-control .glyphicon-chevron-right {\n  position: absolute;\n  top: 50%;\n  margin-top: -10px;\n  z-index: 5;\n  display: inline-block;\n}\n\n.carousel-control .icon-prev,\n.carousel-control .glyphicon-chevron-left {\n  left: 50%;\n  margin-left: -10px;\n}\n\n.carousel-control .icon-next,\n.carousel-control .glyphicon-chevron-right {\n  right: 50%;\n  margin-right: -10px;\n}\n\n.carousel-control .icon-prev,\n.carousel-control .icon-next {\n  width: 20px;\n  height: 20px;\n  line-height: 1;\n  font-family: serif;\n}\n\n.carousel-control .icon-prev:before {\n  content: '\\2039';\n}\n\n.carousel-control .icon-next:before {\n  content: '\\203A';\n}\n\n.carousel-indicators {\n  position: absolute;\n  bottom: 10px;\n  left: 50%;\n  z-index: 15;\n  width: 60%;\n  margin-left: -30%;\n  padding-left: 0;\n  list-style: none;\n  text-align: center;\n}\n\n.carousel-indicators li {\n  display: inline-block;\n  width: 10px;\n  height: 10px;\n  margin: 1px;\n  text-indent: -999px;\n  border: 1px solid #fff;\n  border-radius: 10px;\n  cursor: pointer;\n  background-color: #000 \\9;\n  background-color: transparent;\n}\n\n.carousel-indicators .active, .carousel-indicators .ax-active {\n  margin: 0;\n  width: 12px;\n  height: 12px;\n  background-color: #fff;\n}\n\n.carousel-caption {\n  position: absolute;\n  left: 15%;\n  right: 15%;\n  bottom: 20px;\n  z-index: 10;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  color: #fff;\n  text-align: center;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);\n}\n\n.carousel-caption .btn {\n  text-shadow: none;\n}\n\n@media screen and (min-width: 768px) {\n  .carousel-control .glyphicon-chevron-left,\n  .carousel-control .glyphicon-chevron-right,\n  .carousel-control .icon-prev,\n  .carousel-control .icon-next {\n    width: 30px;\n    height: 30px;\n    margin-top: -10px;\n    font-size: 30px;\n  }\n  .carousel-control .glyphicon-chevron-left,\n  .carousel-control .icon-prev {\n    margin-left: -10px;\n  }\n  .carousel-control .glyphicon-chevron-right,\n  .carousel-control .icon-next {\n    margin-right: -10px;\n  }\n  .carousel-caption {\n    left: 20%;\n    right: 20%;\n    padding-bottom: 30px;\n  }\n  .carousel-indicators {\n    bottom: 20px;\n  }\n}\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: table;\n}\n\n.clearfix:after {\n  clear: both;\n}\n\n.center-block {\n  display: block;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.pull-right {\n  float: right !important;\n}\n\n.pull-left {\n  float: left !important;\n}\n\n.hide {\n  display: none !important;\n}\n\n.show, .ax-show {\n  display: block !important;\n}\n\n.invisible, .ax-invisible {\n  visibility: hidden;\n}\n\n.text-hide, .ax-text-hide {\n  font: 0/0 a;\n  color: transparent;\n  text-shadow: none;\n  background-color: transparent;\n  border: 0;\n}\n\n.hidden, .ax-hide, .ax-omitted {\n  display: none !important;\n}\n\n.affix {\n  position: fixed;\n}\n\n@-ms-viewport {\n  width: device-width;\n}\n\n.visible-xs {\n  display: none !important;\n}\n\n.visible-sm {\n  display: none !important;\n}\n\n.visible-md {\n  display: none !important;\n}\n\n.visible-lg {\n  display: none !important;\n}\n\n.visible-xs-block,\n.visible-xs-inline,\n.visible-xs-inline-block,\n.visible-sm-block,\n.visible-sm-inline,\n.visible-sm-inline-block,\n.visible-md-block,\n.visible-md-inline,\n.visible-md-inline-block,\n.visible-lg-block,\n.visible-lg-inline,\n.visible-lg-inline-block {\n  display: none !important;\n}\n\n@media (max-width: 767px) {\n  .visible-xs {\n    display: block !important;\n  }\n  table.visible-xs {\n    display: table !important;\n  }\n  tr.visible-xs {\n    display: table-row !important;\n  }\n  th.visible-xs,\n  td.visible-xs {\n    display: table-cell !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .visible-xs-block {\n    display: block !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .visible-xs-inline {\n    display: inline !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .visible-xs-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm {\n    display: block !important;\n  }\n  table.visible-sm {\n    display: table !important;\n  }\n  tr.visible-sm {\n    display: table-row !important;\n  }\n  th.visible-sm,\n  td.visible-sm {\n    display: table-cell !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm-block {\n    display: block !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm-inline {\n    display: inline !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .visible-sm-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md {\n    display: block !important;\n  }\n  table.visible-md {\n    display: table !important;\n  }\n  tr.visible-md {\n    display: table-row !important;\n  }\n  th.visible-md,\n  td.visible-md {\n    display: table-cell !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md-block {\n    display: block !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md-inline {\n    display: inline !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .visible-md-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg {\n    display: block !important;\n  }\n  table.visible-lg {\n    display: table !important;\n  }\n  tr.visible-lg {\n    display: table-row !important;\n  }\n  th.visible-lg,\n  td.visible-lg {\n    display: table-cell !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg-block {\n    display: block !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg-inline {\n    display: inline !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .visible-lg-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media (max-width: 767px) {\n  .hidden-xs {\n    display: none !important;\n  }\n}\n\n@media (min-width: 768px) and (max-width: 991px) {\n  .hidden-sm {\n    display: none !important;\n  }\n}\n\n@media (min-width: 992px) and (max-width: 1199px) {\n  .hidden-md {\n    display: none !important;\n  }\n}\n\n@media (min-width: 1200px) {\n  .hidden-lg {\n    display: none !important;\n  }\n}\n\n.visible-print {\n  display: none !important;\n}\n\n@media print {\n  .visible-print {\n    display: block !important;\n  }\n  table.visible-print {\n    display: table !important;\n  }\n  tr.visible-print {\n    display: table-row !important;\n  }\n  th.visible-print,\n  td.visible-print {\n    display: table-cell !important;\n  }\n}\n\n.visible-print-block {\n  display: none !important;\n}\n\n@media print {\n  .visible-print-block {\n    display: block !important;\n  }\n}\n\n.visible-print-inline {\n  display: none !important;\n}\n\n@media print {\n  .visible-print-inline {\n    display: inline !important;\n  }\n}\n\n.visible-print-inline-block {\n  display: none !important;\n}\n\n@media print {\n  .visible-print-inline-block {\n    display: inline-block !important;\n  }\n}\n\n@media print {\n  .hidden-print {\n    display: none !important;\n  }\n}\n\n@-webkit-keyframes ax-spin-around {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n\n@keyframes ax-spin-around {\n  from {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n\n.ax-invisible {\n  visibility: hidden !important;\n}\n\n[readonly],\n.ax-readonly {\n  color: #555555 !important;\n  cursor: default !important;\n}\n\n[disabled],\n.ax-disabled {\n  cursor: default !important;\n  pointer-events: none;\n  color: #555555 !important;\n}\n\n.ax-error {\n  color: #a94442 !important;\n}\n\nselect[readonly], select.ax-readonly,\ntextarea[readonly],\ntextarea.ax-readonly,\ninput[type=\"text\"][readonly],\ninput[type=\"text\"].ax-readonly {\n  background: #777777;\n  border-color: #555555;\n}\n\nselect[disabled], select.ax-disabled,\ntextarea[disabled],\ntextarea.ax-disabled,\ninput[type=\"text\"][disabled],\ninput[type=\"text\"].ax-disabled {\n  background: #777777;\n  border-color: #555555;\n}\n\nselect.ax-error,\ntextarea.ax-error,\ninput[type=\"text\"].ax-error {\n  background: transparent;\n  border-color: #a94442;\n}\n\n.table .ax-error {\n  color: #a94442 !important;\n}\n\n.table input[type=\"text\"][readonly],\n.table input[type=\"text\"][readonly] .ax-error, .table input[type=\"text\"].ax-readonly,\n.table input[type=\"text\"].ax-readonly .ax-error, .table input[type=\"text\"][disabled],\n.table input[type=\"text\"][disabled] .ax-error, .table input[type=\"text\"].ax-disabled,\n.table input[type=\"text\"].ax-disabled .ax-error {\n  border-color: transparent !important;\n}\n\n.ax-icon-previous:before {\n  content: \"\\F0A8\";\n}\n\n.ax-icon-previous-primary:before {\n  content: \"\\F0A8\";\n}\n\n.ax-icon-next:before {\n  content: \"\\F0A9\";\n}\n\n.ax-icon-next-primary:before {\n  content: \"\\F0A9\";\n}\n\n.ax-icon-add:before {\n  content: \"\\F067\";\n}\n\n.ax-icon-delete:before {\n  content: \"\\F057\";\n}\n\n.ax-icon-ok:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-apply:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-cancel:before {\n  content: \"\\F057\";\n}\n\n.ax-icon-yes:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-no:before {\n  content: \"\\F057\";\n}\n\n.ax-icon-finish:before {\n  content: \"\\F058\";\n}\n\n.ax-icon-info:before {\n  content: \"\\F05A\";\n}\n\n.ax-icon-warn:before {\n  content: \"\\F071\";\n}\n\n.ax-icon-help:before {\n  content: \"\\F059\";\n}\n\n.ax-icon-print:before {\n  content: \"\\F02F\";\n}\n\n.ax-text-ellipsis {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n/*# sourceMappingURL=theme.css.map */", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 248 */
+/* 253 */
 /***/ function(module, exports) {
 
 	/*
@@ -783,73 +960,73 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-b3c2f0.eot";
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-b3c2f0.eot";
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-2b3c8b.svg";
-
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-574ea2.woff2";
-
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-507970.woff";
-
-/***/ },
 /* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-27cf1f.ttf";
+	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-b3c2f0.eot";
 
 /***/ },
 /* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-86b6f6.eot";
+	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-b3c2f0.eot";
 
 /***/ },
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-ca35b6.woff2";
+	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-2b3c8b.svg";
 
 /***/ },
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-278e49.woff";
+	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-574ea2.woff2";
 
 /***/ },
 /* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-44bc18.ttf";
+	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-507970.woff";
 
 /***/ },
 /* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-de51a8.svg";
+	module.exports = __webpack_require__.p + "assets/fontawesome-webfont-27cf1f.ttf";
 
 /***/ },
 /* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-86b6f6.eot";
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-ca35b6.woff2";
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-278e49.woff";
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-44bc18.ttf";
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular-de51a8.svg";
+
+/***/ },
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -1101,29 +1278,29 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 261 */
+/* 266 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"fluid-container\">\n   <div class=\"app-toolbar\">\n      <div data-ax-widget-area=\"toolbar\"></div>\n   </div>\n   <div data-ax-widget-area=\"tabsevents\"></div>\n   <div style=\"height: 200px\" data-ax-widget-area=\"tabspage\"></div>\n   <div data-ax-widget-area=\"tabslog\"></div>\n</div>\n"
 
 /***/ },
-/* 262 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var resource = __webpack_require__( 263 );
+	var resource = __webpack_require__( 268 );
 	module.exports = typeof resource === 'string' ? resource : null;
 
 /***/ },
-/* 263 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(264);
+	var content = __webpack_require__(269);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(260)(content, {});
+	var update = __webpack_require__(265)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -1140,10 +1317,10 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 264 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(248)();
+	exports = module.exports = __webpack_require__(253)();
 	// imports
 	
 	
@@ -1154,7 +1331,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 265 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict'; /**
@@ -1165,7 +1342,7 @@ webpackJsonp([0],[
 	
 	/* global chrome */
 	
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_RESULT__ = function (ax) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(23)], __WEBPACK_AMD_DEFINE_RESULT__ = function (ax) {
 	   'use strict';
 	
 	   var REFRESH_DELAY_MS = 100;
@@ -1372,7 +1549,4410 @@ webpackJsonp([0],[
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 266 */
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });
+	
+	
+	
+	
+	
+	var _react = __webpack_require__(272);var _react2 = _interopRequireDefault(_react);
+	var _laxarPatterns = __webpack_require__(273);
+	
+	__webpack_require__(284);
+	__webpack_require__(285);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
+	                                                                                                                                                         * Copyright 2016 aixigo AG
+	                                                                                                                                                         * Released under the MIT license.
+	                                                                                                                                                         * http://www.laxarjs.org
+	                                                                                                                                                         */function create(context, eventBus, reactRender, flowService) {'use strict';var visible = false;
+	   var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
+	   var HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
+	   var HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
+	   ' Reopen laxar-developer-tools from LaxarJS host window.';
+	   var HINT_CONFIGURE_GRID = 'Configure grid settings in application to enable this feature!';
+	
+	   var TABS = [
+	   { name: 'events', label: 'Events' },
+	   { name: 'page', label: 'Page' },
+	   { name: 'log', label: 'Log' }];
+	
+	
+	   var model = {
+	      laxar: true,
+	      tabs: TABS,
+	      activeTab: null,
+	      gridOverlay: false,
+	      widgetOverlay: false,
+	      toggleGridTitle: HINT_DISABLE_TOGGLE_GRID,
+	      noLaxar: HINT_NO_LAXAR_EXTENSION };
+	
+	
+	
+	   var isBrowserWebExtension = window.chrome && chrome.runtime && chrome.runtime.id;
+	   var firefoxExtensionMessagePort;
+	
+	   if (!window.opener) {
+	      window.addEventListener('message', function (event) {
+	         if (!firefoxExtensionMessagePort && event.ports) {
+	            model.noLaxar = HINT_NO_LAXAR_EXTENSION;
+	            firefoxExtensionMessagePort = event.ports[0];
+	            firefoxExtensionMessagePort.start();
+	            var message = { text: 'messagePortStarted' };
+	            firefoxExtensionMessagePort.postMessage(JSON.stringify(message));
+	         } else {
+	            var channel = JSON.parse(event.detail || event.data);
+	            if (channel.text === 'reloadedPage') {
+	               model.gridOverlay = false;
+	               model.widgetOverlay = false;
+	               $scope.$apply();
+	            }
+	         }
+	      });
+	   }
+	
+	   context.resources = {};
+	
+	   if (window.opener) {
+	      model.noLaxar = HINT_NO_LAXAR_ANYMORE_WIDGET;
+	   }
+	
+	   _laxarPatterns.resources.handlerFor(context).registerResourceFromFeature(
+	   'grid',
+	   {
+	      onReplace: function onReplace(event) {
+	         if (event.data === null) {
+	            model.toggleGridTitle = HINT_CONFIGURE_GRID;
+	            model.gridOverlay = false;
+	         } else
+	         {
+	            model.toggleGridTitle = '';
+	         }
+	      } });
+	
+	
+	
+	   _laxarPatterns.flags.handlerFor(context).registerFlag(context.features.detailsOn, {
+	      initialState: model.laxar,
+	      onChange: function onChange(newState) {
+	         model.laxar = newState;
+	      } });
+	
+	
+	   if (isBrowserWebExtension) {
+	      chrome.devtools.network.onNavigated.addListener(function () {
+	         model.gridOverlay = false;
+	         model.widgetOverlay = false;
+	         render();
+	      });
+	   }
+	
+	   _laxarPatterns.visibility.handlerFor(context, { onAnyAreaRequest: function onAnyAreaRequest(event) {
+	         var prefix = context.id() + '.';
+	         var activeTab = model.activeTab;
+	         return event.visible && activeTab !== null && event.area === prefix + activeTab.name;
+	      } });
+	
+	   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   eventBus.subscribe('didNavigate', function (event) {
+	      var newName = event.data[context.features.tabs.parameter];
+	
+	      var newTab = TABS.filter(function (_) {return _.name === newName;})[0];
+	      if (!newTab) {
+	         return;
+	      }
+	
+	      if (model.activeTab !== newTab) {
+	         publishVisibility(model.activeTab, false);
+	         publishVisibility(newTab, true);
+	      }
+	      model.activeTab = newTab;
+	
+	      function publishVisibility(tab, visible) {
+	         if (tab) {
+	            var area = context.id() + '.' + tab.name;
+	            _laxarPatterns.visibility.requestPublisherForArea(context, area)(visible);
+	         }
+	      }
+	      render();
+	   });
+	
+	   eventBus.subscribe('didChangeAreaVisibility.' + context.widget.area, function (event, meta) {
+	      if (!visible && event.visible) {
+	         visible = true;
+	         render();
+	      }
+	   });
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   eventBus.subscribe('takeActionRequest.navigation', function (event) {
+	      eventBus.publish('willTakeAction.navigation', {
+	         action: 'navigation' });
+	
+	      if (model.gridOverlay) {
+	         toggleGrid();
+	      }
+	      if (model.widgetOverlay) {
+	         toggleWidgetOutline();
+	      }
+	      eventBus.publish('didTakeAction.navigation', {
+	         action: 'navigation' });
+	
+	      render();
+	   });
+	
+	   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function onClickToggleGrid() {
+	      if (!context.resources.grid) {return;}
+	      toggleGrid();
+	      model.gridOverlay = !model.gridOverlay;
+	      render();
+	   };
+	
+	   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function onClickToggleWidgetOutline() {
+	      toggleWidgetOutline();
+	      model.widgetOverlay = !model.widgetOverlay;
+	      render();
+	   };
+	
+	   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function toggleGrid() {
+	      if (window.opener) {
+	         /* global axDeveloperToolsToggleGrid */
+	         axDeveloperToolsToggleGrid(context.resources.grid);
+	         return;
+	      }
+	      if (isBrowserWebExtension) {
+	         var event;
+	         event = new CustomEvent('toogleGrid', {
+	            detail: JSON.stringify(context.resources.grid) });
+	
+	         window.dispatchEvent(event);
+	      } else
+	      if (firefoxExtensionMessagePort) {
+	         var message = { text: 'toogleGrid', data: context.resources.grid };
+	         firefoxExtensionMessagePort.postMessage(JSON.stringify(message));
+	      }
+	   }
+	
+	   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function toggleWidgetOutline() {
+	      if (window.opener) {
+	         /* global axDeveloperToolsToggleWidgetOutline */
+	         axDeveloperToolsToggleWidgetOutline();
+	         return;
+	      }
+	      if (isBrowserWebExtension) {
+	         var event;
+	         event = new CustomEvent('widgetOutline', {});
+	         window.dispatchEvent(event);
+	      } else
+	      if (firefoxExtensionMessagePort) {
+	         var message = { text: 'widgetOutline', data: {} };
+	         firefoxExtensionMessagePort.postMessage(JSON.stringify(message));
+	      }
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function render() {
+	      var gridButton = '';
+	      if (context.resources.grid) {
+	         gridButton =
+	         _react2.default.createElement('button', { className: 'btn btn-link',
+	               title: model.toggleGridTitle,
+	               type: 'button',
+	               onClick: onClickToggleGrid },
+	            _react2.default.createElement('i', { className: 'fa fa-toggle-' + (model.gridOverlay ? 'on' : 'off') }), '\xA0',
+	            model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay');
+	
+	      }
+	
+	      var widgetOutlineButton =
+	      _react2.default.createElement('button', {
+	            className: 'btn btn-link',
+	            type: 'button',
+	            onClick: onClickToggleWidgetOutline },
+	         _react2.default.createElement('i', { className: 'fa fa-toggle-' + (model.widgetOverlay ? 'on' : 'off') }), '\xA0',
+	         model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline');
+	
+	
+	      var optionButtons = '';
+	      if (model.laxar) {
+	         optionButtons = _react2.default.createElement('div', { className: 'pull-right' },
+	            gridButton, ' ', widgetOutlineButton);
+	
+	      }
+	
+	      var widgetArea = '';
+	      if (model.laxar) {
+	         var tab = model.tabs.find(function (tab) {return model.activeTab === tab;});
+	         var name = tab ? tab.name : 'noTab';
+	         widgetArea =
+	         _react2.default.createElement('div', { className: 'app-tab app-tab-page',
+	            'data-ax-widget-area': name });
+	
+	
+	      }
+	
+	      var tabListItems = model.tabs.map(function (tab) {
+	         var url = flowService.constructAbsoluteUrl('tools', { 'tab': tab.name });
+	         if (model.activeTab && model.activeTab.name === tab.name) {
+	            return (
+	               _react2.default.createElement('li', { key: tab.name, className: 'ax-active' },
+	                  _react2.default.createElement('a', { href: url },
+	                     tab.label)));
+	
+	         } else
+	         {
+	            return (
+	               _react2.default.createElement('li', { key: tab.name },
+	                  _react2.default.createElement('a', { href: url },
+	                     tab.label)));
+	
+	         }
+	      });
+	
+	      var navTab =
+	      _react2.default.createElement('ul', { className: 'nav nav-tabs', role: 'tablist' },
+	         _react2.default.createElement('li', null, _react2.default.createElement('a', { className: 'developer-toolbar-icon',
+	               title: 'LaxarJS Documentation',
+	               href: 'http://www.laxarjs.org/docs',
+	               target: '_blank' })),
+	
+	         tabListItems,
+	         model.laxar === false &&
+	         _react2.default.createElement('li', { className: 'developer-toolbar-hint' }, model.noLaxar));
+	
+	
+	
+	
+	      reactRender(
+	      _react2.default.createElement('div', null,
+	         optionButtons,
+	         navTab,
+	         widgetArea));
+	
+	
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   return {
+	      onDomAvailable: render };
+	
+	}exports.default =
+	
+	{
+	   name: 'developer-toolbar-widget',
+	   injections: ['axContext', 'axEventBus', 'axReactRender', 'axFlowService'],
+	   create: create };
+
+/***/ },
+/* 272 */,
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.visibility = exports.validation = exports.resources = exports.patches = exports.json = exports.i18n = exports.flags = exports.errors = exports.actions = undefined;
+	
+	
+	
+	
+	var _actions = __webpack_require__(274);var actions = _interopRequireWildcard(_actions);
+	var _errors = __webpack_require__(275);var errors = _interopRequireWildcard(_errors);
+	var _flags = __webpack_require__(276);var flags = _interopRequireWildcard(_flags);
+	var _i18n = __webpack_require__(277);var i18n = _interopRequireWildcard(_i18n);
+	var _json = __webpack_require__(278);var json = _interopRequireWildcard(_json);
+	var _patches = __webpack_require__(280);var patches = _interopRequireWildcard(_patches);
+	var _resources = __webpack_require__(281);var resources = _interopRequireWildcard(_resources);
+	var _validation = __webpack_require__(282);var validation = _interopRequireWildcard(_validation);
+	var _visibility = __webpack_require__(283);var visibility = _interopRequireWildcard(_visibility);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}exports.
+	
+	
+	actions = actions;exports.
+	errors = errors;exports.
+	flags = flags;exports.
+	i18n = i18n;exports.
+	json = json;exports.
+	patches = patches;exports.
+	resources = resources;exports.
+	validation = validation;exports.
+	visibility = visibility; /**
+	                          * Copyright 2016 aixigo AG
+	                          * Released under the MIT license.
+	                          * http://laxarjs.org/license
+	                          */
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.OUTCOME_SUCCESS = exports.OUTCOME_ERROR = exports.handlerFor = exports.connectPublisherToFeature = exports.publisherForFeature = exports.publisher = undefined;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;}; /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             */
+	/**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * This module provides helpers for patterns regarding *takeActionRequest*, *willTakeAction* and
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * *didTakeAction* events.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @module actions
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+	var _laxar = __webpack_require__(23);
+	
+	var DELIVER_TO_SENDER = { deliverToSender: false };
+	
+	var OUTCOME_SUCCESS = 'SUCCESS';
+	var OUTCOME_ERROR = 'ERROR';
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates and returns a function to publish `takeActionRequest` events for a given action feature. The
+	 * action to publish is expected to be at the key `action` under the given feature path.
+	 *
+	 * Apart from that this function works just like {@link publisher}.
+	 *
+	 * @param {Object} scope
+	 *    the scope the publisher works on. Needs at least an EventBus instance as `eventBus` property
+	 * @param {String} feature
+	 *    the feature to take the action name from
+	 * @param {Object} [optionalOptions]
+	 *    options for the publisher
+	 * @param {Boolean} optionalOptions.deliverToSender
+	 *    the value is forward to `eventBus.publishAndGatherReplies`: if `true` the event will also be
+	 *    delivered to the publisher. Default is `false`
+	 * @param {Function} optionalOptions.onSuccess
+	 *    a function that is called when the overall outcome yields "SUCCESS"
+	 * @param {Function} optionalOptions.onError
+	 *    a function that is called when the overall outcome yields "ERROR"
+	 * @param {Function} optionalOptions.onComplete
+	 *    a function that is called always, independently of the overall outcome
+	 *
+	 * @return {Function}
+	 *    the publisher as described above
+	 */
+	function publisherForFeature(scope, feature, optionalOptions) {
+	   var action = _laxar.object.path(scope.features, feature + '.action', null);
+	   return publisher(scope, action, optionalOptions);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates and return a function to publish `takeActionRequest` events for a given action. The outcomes of
+	 * all given `didTakeAction` events are interpreted and optional callbacks according to the overall outcome
+	 * are called. Interpretation is simple: If at least one `didTakeAction` event yields the outcome "ERROR",
+	 * the overall outcome is also erroneous. In any other case the overall outcome will be successful.
+	 *
+	 * The promise returned by the publisher is resolved, if the overall outcome is successful and rejected if
+	 * the outcome is erroneous. All callbacks, be it the `on*` handlers or the then handlers of the promise,
+	 * will receive the list of events and meta information of all `didTakeAction` events
+	 * (see `EventBus#publishAndGatherReplies()` for details).
+	 *
+	 * Example:
+	 * ```js
+	 * publisher = actions.publisher( scope, 'save', {
+	 *    onSuccess: function() { closeApplication(); },
+	 *    onError: function() { displayError(); }
+	 * } );
+	 *
+	 * $button.on( 'click', publisher );
+	 * ```
+	 *
+	 * @param {Object} scope
+	 *    the scope the publisher works on. Needs at least an EventBus instance as `eventBus` property
+	 * @param {String} action
+	 *    the action to publish on call of the publisher
+	 * @param {Object} [optionalOptions]
+	 *    options for the publisher
+	 * @param {Boolean} optionalOptions.deliverToSender
+	 *    the value is forward to `eventBus.publishAndGatherReplies`: if `true` the event will also be
+	 *    delivered to the publisher. Default is `false`
+	 * @param {Function} optionalOptions.onSuccess
+	 *    a function that is called when the overall outcome yields "SUCCESS"
+	 * @param {Function} optionalOptions.onError
+	 *    a function that is called when the overall outcome yields "ERROR"
+	 * @param {Function} optionalOptions.onComplete
+	 *    a function that is called always, independently of the overall outcome
+	 *
+	 * @return {Function}
+	 *    the publisher as described above
+	 */
+	function publisher(scope, action, optionalOptions) {
+	   (0, _laxar.assert)(scope).hasType(Object).hasProperty('eventBus');
+	   (0, _laxar.assert)(action).hasType(String).isNotNull();
+	
+	   var options = _laxar.object.options(optionalOptions, {
+	      deliverToSender: false,
+	      onSuccess: function onSuccess() {},
+	      onError: function onError() {},
+	      onComplete: function onComplete() {} });
+	
+	
+	   (0, _laxar.assert)(options.onSuccess).hasType(Function).isNotNull();
+	   (0, _laxar.assert)(options.onError).hasType(Function).isNotNull();
+	   (0, _laxar.assert)(options.onComplete).hasType(Function).isNotNull();
+	
+	   var eventBusOptions = {
+	      deliverToSender: options.deliverToSender };
+	
+	   if (options.timeout > 0) {
+	      eventBusOptions.pendingDidTimeout = options.timeout;
+	   }
+	
+	   return function (optionalEvent) {
+	      var event = _laxar.object.options(optionalEvent, { action: action });
+	
+	      return scope.eventBus.
+	      publishAndGatherReplies('takeActionRequest.' + action, event, eventBusOptions).
+	      then(function (didResponses) {
+	         var failed = didResponses.some(function (response) {
+	            return response.event.outcome === OUTCOME_ERROR;
+	         });
+	
+	         options.onComplete(didResponses.slice(0));
+	
+	         if (failed) {
+	            options.onError(didResponses.slice(0));
+	            throw didResponses;
+	         }
+	
+	         options.onSuccess(didResponses.slice(0));
+	         return didResponses;
+	      });
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates an action publisher for a given feature and makes it available as a scope/context property.
+	 *
+	 * The publisher is created under ``scope[ `actions.${feature}` ]``, where `scope` and `feature`
+	 * are the arguments passed to this function. If an action topic has been configured for the given feature,
+	 * the action publisher is created using `publisherForFeature`. Otherwise, it is a noop-function.
+	 *
+	 * @param {Object} scope
+	 *    the scope/context to connect to. Needs at least an EventBus instance as `eventBus` property
+	 * @param {String} feature
+	 *    the feature to take the action name from
+	 * @param {Object} [optionalOptions]
+	 *    options for the publisher, as documented under `publisherForFeature`
+	 */
+	function connectPublisherToFeature(scope, feature, optionalOptions) {
+	   var topic = _laxar.object.path(scope.features, feature);
+	   var publisher = topic ? publisherForFeature(scope, feature, optionalOptions) : function () {};
+	   _laxar.object.setPath(scope, 'actions.' + feature, publisher);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates a new action handler instance for `takeActionRequest` events. It handles sending of an optional
+	 * `willTakeAction` event and the final, possibly later asynchronously following `didTakeAction` event.
+	 *
+	 * @param {Object} scope
+	 *    the scope the handler should work with. It is expected to find an `eventBus` property there with
+	 *    which it can do the event handling
+	 *
+	 * @return {ActionHandler}
+	 *    an action handler instance
+	 */
+	function handlerFor(scope) {
+	   (0, _laxar.assert)(scope).hasType(Object).hasProperty('eventBus');
+	
+	   return new ActionHandler(scope);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/**
+	 * @constructor
+	 * @private
+	 */
+	function ActionHandler(scope) {
+	   this.scope = scope;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Registers a handler for `takeActionRequest` events with actions from a feature. It is assumed that the
+	 * given feature has an `onActions` property, which is a set of actions to listen to. The set may be empty,
+	 * `null` or `undefined`, in which case the handler simply won't be attached to any event.
+	 *
+	 * Apart from that this function works just like {@link ActionHandler#registerActions}.
+	 *
+	 * Example:
+	 * Consider the following configuration for a widget:
+	 * ```json
+	 * {
+	 *    "features": {
+	 *       "open": {
+	 *          "onActions": [ "openAction1", "openAction2" ]
+	 *       },
+	 *       "save": {
+	 *          "onActions": [ "save" ]
+	 *       }
+	 *    }
+	 * }
+	 * ```
+	 * An example using that would be:
+	 * ```js
+	 * actions.handlerFor( scope )
+	 *    .registerActionsFromFeature( 'open', function( event, meta ) {
+	 *       somethingSynchronous();
+	 *       return actions.OUTCOME_SUCCESS;
+	 *    } )
+	 *    .registerActionsFromFeature( 'save', function( event, meta ) {
+	 *       return $q.when( somethingAsynchronous() );
+	 *    } );
+	 * ```
+	 *
+	 * @param {String} feature
+	 *    the feature to read the actions to watch from
+	 * @param {Function} handler
+	 *    the handler to call whenever a `takeActionRequest` event with matching action is received
+	 *
+	 * @return {ActionHandler}
+	 *    this instance for chaining
+	 */
+	ActionHandler.prototype.registerActionsFromFeature = function (feature, handler) {
+	   var actions = _laxar.object.path(this.scope.features, feature + '.onActions') || [];
+	   return this.registerActions(actions, handler);
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Registers a handler for `takeActionRequest` events for a set of actions. The set may be empty, in
+	 * which case the handler simply won't be attached to any event.
+	 *
+	 * The handler is assumed to be a function that receives the event and meta object of the underlying
+	 * `takeActionRequest` event when called. In order to send the correct `didTakeAction` event as response,
+	 * the return value of the handler is interpreted according to the following rules:
+	 *
+	 * - the handler throws an error
+	 *   - the `didTakeAction` event is sent with outcome `ERROR`
+	 *   - the error is re-thrown
+	 * - the handler returns a simple value or a promise, that is later resolved with a value
+	 *   - if the value is a plain object, it is used as basis for the event object and
+	 *     - if the object has a property `outcome` with value `ERROR`, the `didTakeAction` event is sent with
+	 *       outcome `ERROR`
+	 *   - otherwise, or if the value is no plain object, the `didTakeAction` event is sent with outcome
+	 *     `SUCCESS`
+	 * - the handler returns a promise, that is later rejected with a value
+	 *   - if the value is a plain object, it is used as basis for the event object and
+	 *     - if the object has a property `outcome` with value `SUCCESS`, the `didTakeAction` event is sent with
+	 *     outcome `SUCCESS`
+	 *   - otherwise, or if the value is no plain object, the `didTakeAction` event is sent with outcome `ERROR`
+	 *
+	 * So basically simple return values or resolved promises are assumed to be successful if they don't state
+	 * otherwise, while rejected promises are assumed to be erroneous, if they don't state otherwise.
+	 *
+	 * Example:
+	 * ```js
+	 * actions.handlerFor( scope )
+	 *    .registerActions( [ 'open' ], function( event, meta ) {
+	 *       return 42
+	 *    } )
+	 *    .registerActions( [ 'save' ], function( event, meta ) {
+	 *       return $q.when( { resultValue: 42 } );
+	 *    } );
+	 * ```
+	 *
+	 * @param {String[]} actions
+	 *    a set of actions to watch
+	 * @param {Function} handler
+	 *    the handler to call whenever a `takeActionRequest` event with matching action is received
+	 *
+	 * @return {ActionHandler}
+	 *    this instance for chaining
+	 */
+	ActionHandler.prototype.registerActions = function (actions, handler) {
+	   (0, _laxar.assert)(actions).hasType(Array).isNotNull();
+	   (0, _laxar.assert)(handler).hasType(Function).isNotNull();
+	
+	   var self = this;
+	   actions.forEach(function (action) {
+	      self.scope.eventBus.subscribe('takeActionRequest.' + action, function (event, meta) {
+	         callHandler(self.scope.eventBus, action, handler, event, meta);
+	      });
+	   });
+	
+	   return this;
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	function callHandler(eventBus, action, handler, event, meta) {
+	   eventBus.publish('willTakeAction.' + action, { action: action }, DELIVER_TO_SENDER);
+	
+	   var responseEvent = { action: action, outcome: OUTCOME_SUCCESS };
+	
+	   var returnValue = void 0;
+	   try {
+	      returnValue = handler(event, meta);
+	   }
+	   catch (error) {
+	      responseEvent.outcome = OUTCOME_ERROR;
+	
+	      eventBus.publish('didTakeAction.' + action + '.' + OUTCOME_ERROR, responseEvent, DELIVER_TO_SENDER);
+	      throw error;
+	   }
+	
+	   Promise.resolve(returnValue).
+	   then(function (promiseValue) {
+	      if (isObject(promiseValue)) {
+	         responseEvent.outcome =
+	         promiseValue.outcome === OUTCOME_ERROR ? OUTCOME_ERROR : OUTCOME_SUCCESS;
+	      }
+	
+	      return promiseValue;
+	   }, function (promiseValue) {
+	      responseEvent.outcome = OUTCOME_ERROR;
+	      if (isObject(promiseValue)) {
+	         responseEvent.outcome =
+	         promiseValue.outcome === OUTCOME_SUCCESS ? OUTCOME_SUCCESS : OUTCOME_ERROR;
+	      }
+	
+	      return promiseValue;
+	   }).
+	   then(function (promiseValue) {
+	      responseEvent = _laxar.object.options(responseEvent, promiseValue);
+	      var eventName = 'didTakeAction.' + action + '.' + responseEvent.outcome;
+	      eventBus.publish(eventName, responseEvent, DELIVER_TO_SENDER);
+	   });
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	function isObject(value) {
+	   return value !== null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	exports.
+	
+	publisher = publisher;exports.
+	publisherForFeature = publisherForFeature;exports.
+	connectPublisherToFeature = connectPublisherToFeature;exports.
+	handlerFor = handlerFor;exports.
+	OUTCOME_ERROR = OUTCOME_ERROR;exports.
+	OUTCOME_SUCCESS = OUTCOME_SUCCESS;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.errorPublisherForFeature = undefined;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var _laxar = __webpack_require__(23);
+	
+	
+	/**
+	                                * Creates and returns a function to publish didEncounterError events related to a specific feature.
+	                                * Generated events will not be delivered to the sender.
+	                                *
+	                                * The returned publisher function takes these arguments:
+	                                * - `code`: a generic code that identifies the failing operation (such as 'HTTP_PUT', 'HTTP_GET')
+	                                * - `messagePath`: to lookup a human-readable message under this publisher's feature configuration
+	                                * - `data`: additional information to be used for substituting in the message, It should contain the
+	                                *   fields `resource` and `location` if applicable.
+	                                * - `cause`: more diagnostic information on the error's cause, such as the underlying HTTP status code
+	                                *
+	                                * @param {Object} scope
+	                                *    the scope the publisher works on
+	                                * @param {String} featurePath
+	                                *    the configuration path for (i18n) error-messages to publish
+	                                * @param {Object} [options]
+	                                *    an optional object with additional configuration
+	                                * @param {Function} options.localizer
+	                                *    a function such as `i18nHandler.localize` to prepare messages
+	                                *
+	                                * @return {Function}
+	                                *    a publisher function with four arguments as described above
+	                                */
+	function errorPublisherForFeature(scope, featurePath, options) {
+	  (0, _laxar.assert)(scope).hasType(Object).isNotNull();
+	  (0, _laxar.assert)(scope.eventBus).hasType(Object).isNotNull();
+	  (0, _laxar.assert)(options).hasType(Object);
+	
+	  var localizer = options && options.localizer;
+	  (0, _laxar.assert)(localizer).hasType(Function);
+	
+	  var featureConfiguration = _laxar.object.path(scope.features, featurePath);
+	  (0, _laxar.assert)(featureConfiguration).hasType(Object).isNotNull();
+	
+	  return function (code, messagePath) {var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};var cause = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+	    var rawMessage = _laxar.object.path(featureConfiguration, messagePath);
+	    (0, _laxar.assert)(rawMessage).isNotNull();
+	
+	    var message = _laxar.string.format(localizer ? localizer(rawMessage) : rawMessage, [], data);
+	    var event = { code: code, message: message, data: data, cause: cause };
+	    scope.eventBus.publish('didEncounterError.' + code, event, { deliverToSender: false });
+	  };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Copyright 2016 aixigo AG
+	 * Released under the MIT license.
+	 * http://laxarjs.org/license
+	 */ /**
+	     * This module provides helpers for patterns regarding *didEncounterError* events.
+	     *
+	     * @module errors
+	     */exports.errorPublisherForFeature = errorPublisherForFeature;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = undefined;var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;}; /**
+	                                                                                                                                                                                                                                                                                                                                                                   * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                   * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                   * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                   */
+	/**
+	                                                                                                                                                                                                                                                                                                                                                                       * This module provides helpers for patterns regarding *didChangeFlag* events.
+	                                                                                                                                                                                                                                                                                                                                                                       *
+	                                                                                                                                                                                                                                                                                                                                                                       * @module flags
+	                                                                                                                                                                                                                                                                                                                                                                       */
+	var _laxar = __webpack_require__(23);
+	
+	/**
+	                                * Creates a new handler instance for didChangeFlag events, on which one can attach a listener for
+	                                * accumulated flag changes. Assume for example a feature like `disableOn`, which defines a set of flags,
+	                                * where a `true` state of any of the flags disables the widget. The developer shouldn't care about single
+	                                * flag states but should only be notified, if a change of one flag leads to a change of the accumulated
+	                                * "any flag should be true" state.
+	                                *
+	                                * Additionally it is possible to let the handler set the current state of the accumulated flag on a given
+	                                * scope property.
+	                                *
+	                                * @param {Object} scope
+	                                *    the scope the handler should work with. It is expected to find an `eventBus` property there with
+	                                *    which it can do the event handling
+	                                *
+	                                * @return {FlagHandler}
+	                                *    a flag handler instance
+	                                */
+	function handlerFor(scope) {
+	   return new FlagHandler(scope);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/**
+	 *
+	 * @param scope
+	 *
+	 * @constructor
+	 * @private
+	 */
+	function FlagHandler(scope) {
+	   this.scope = scope;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Registers a flag or a set of flags from the given feature. In contrast to the `ResourceHandler` here
+	 * the complete attribute path to the flag(s) must be provided. This is due to the fact that there is no
+	 * convention on names for flags on a feature, as there can coexist multiple flags for one feature, each
+	 * influencing a different aspect of this feature.
+	 *
+	 * @param {String} featurePath
+	 *    the attribute path to the configured flag(s) within the feature map
+	 * @param {Object|Function} [optionalOptions]
+	 *    options and callbacks to use. If a function is passed, it is used as the `onChange` option.
+	 * @param {Boolean} optionalOptions.initialState
+	 *    the optional initial state of the accumulated state. If not given each non-inverted flag is initially
+	 *    assumed to be `false` and `true`, if it is inverted
+	 * @param {Function|Function[]} optionalOptions.onChange
+	 *    a function or a list of functions to call whenever the accumulated state of the flags changes. It
+	 *    receives the new state as first argument and its previous state as second argument
+	 * @param {String} optionalOptions.scopeKey
+	 *    the key to set the current accumulated state on in the scope. If not given, nothing happens. For
+	 *    example `flags.myFlag` would set `scope.flags.myFlag` to the currently valid accumulated state
+	 * @param {String} optionalOptions.predicate
+	 *    one of these:
+	 *    - `any`: if any of the flag's states is `true`, the accumulated state is `true`. This is the default
+	 *    - `all`: if all of the flag's states are `true`, the accumulated state is `true`
+	 *
+	 * @return {FlagHandler}
+	 *    this instance for chaining
+	 */
+	FlagHandler.prototype.registerFlagFromFeature = function (featurePath, optionalOptions) {
+	   return this.registerFlag(_laxar.object.path(this.scope.features, featurePath, []), optionalOptions);
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Registers a flag or a set of flags given as argument. Even `undefined`, `null` or an empty array
+	 * are handled gracefully and treated as an empty set of flags, thus never changing their states.
+	 *
+	 * The new accumulated state is set on `scope.flags` if that is defined. Otherwise it is set on
+	 * `scope.model`.
+	 *
+	 * @param {String|String[]} possibleFlags
+	 *    one or a list of flags to watch
+	 * @param {Object|Function} [optionalOptions]
+	 *    options and callbacks to use. If a function is passed, it is used as the `onChange` option.
+	 * @param {Boolean} optionalOptions.initialState
+	 *    the optional initial state of the accumulated state. If not given each non-inverted flag is initially
+	 *    assumed to be `false` and `true`, if it is inverted
+	 * @param {Function|Function[]} optionalOptions.onChange
+	 *    a function or a list of functions to call whenever the accumuated state of the flags changes. It
+	 *    receives the new state as first argument and its previous state as second argument
+	 * @param {String} optionalOptions.scopeKey
+	 *    the key to set the current accumulated state on in the scope. If not given, nothing happens. For
+	 *    example `flags.myFlag` would set `scope.flags.myFlag` to the currently valid accumulated state
+	 * @param {String} optionalOptions.predicate
+	 *    one of these:
+	 *    - `any`: if any of the flag's sates is `true`, the accumulated state is `true`. This is the default
+	 *    - `all`: if all of the flag's states are `true`, the accumulated state is `true`
+	 *
+	 * @return {FlagHandler}
+	 *    this instance for chaining
+	 */
+	FlagHandler.prototype.registerFlag = function (possibleFlags, optionalOptions) {var _this = this;
+	
+	   var options = _extends({
+	      predicate: 'any' },
+	   typeof optionalOptions === 'function' ? { onChange: optionalOptions } : optionalOptions);
+	
+	
+	   var scope = this.scope;
+	   var applyToScope = 'scopeKey' in options ?
+	   function (state) {_laxar.object.setPath(scope, options.scopeKey, state);} :
+	   function () {};
+	
+	   var flags = processFlags(possibleFlags);
+	   var changeHandler = processChangeHandlers(options.onChange);
+	   var oldState = typeof options.initialState === 'boolean' ?
+	   options.initialState : evaluateState(flags, options.predicate);
+	
+	   applyToScope(oldState);
+	
+	   flags.forEach(function (flag) {
+	      _this.scope.eventBus.subscribe('didChangeFlag.' + flag.name, function (event) {
+	         flag.state = flag.negated ? !event.state : event.state;
+	
+	         var newState = evaluateState(flags, options.predicate);
+	         if (newState !== oldState) {
+	            applyToScope(newState);
+	            changeHandler(newState, oldState);
+	            oldState = newState;
+	         }
+	      });
+	   });
+	
+	   return this;
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	function processFlags(flags) {
+	   if (!flags) {
+	      return [];
+	   }
+	
+	   var flagArr = Array.isArray(flags) ? flags : [flags];
+	   return flagArr.map(function (flagExpression) {
+	      var negated = flagExpression.indexOf('!') === 0;
+	      return {
+	         name: negated ? flagExpression.substr(1) : flagExpression,
+	         negated: negated,
+	         state: negated // always the state after applying a possible negation
+	      };
+	   });
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	function processChangeHandlers(handlers) {
+	   if (!handlers) {
+	      return function () {};
+	   }
+	
+	   var handlerArr = Array.isArray(handlers) ? handlers : [handlers];
+	   return function (newValue, oldValue) {
+	      handlerArr.forEach(function (handler) {
+	         handler(newValue, oldValue);
+	      });
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	var evaluators = {
+	   any: function any(previousValue, flag) {return previousValue === null ? flag.state : flag.state || previousValue;},
+	   all: function all(previousValue, flag) {return previousValue === null ? flag.state : flag.state && previousValue;} };
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	function evaluateState(flags, predicate) {
+	   var state = flags.reduce(evaluators[predicate], null);
+	   return state === null ? false : state;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	exports.
+	
+	handlerFor = handlerFor;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = undefined;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var _laxar = __webpack_require__(23);
+	
+	/**
+	                                * Obtain a handler which applies didChangeLocale-events to the given scope.
+	                                *
+	                                * @param {Object} scope
+	                                *    the scope instance for which i18n-state should be managed
+	                                * @param {Object} i18n
+	                                *    a laxarjs i18n service instance
+	                                * @param {String} [optionalI18nPath]
+	                                *    an optional path within the scope (default: `'i18n'`) where to store i18n-state
+	                                *
+	                                * @return {I18nHandler}
+	                                *    a handler which manages the i18n-object on the scope, and which allows to register for locale
+	                                *    changes, by topic or by feature
+	                                */
+	function handlerFor(scope, i18n, optionalI18nPath) {
+	   var i18nPath = optionalI18nPath || 'i18n';
+	   prepareScopeI18n();
+	
+	   var callbacksByLocale = {};
+	
+	   function handleLocaleChangeEvent(event) {
+	      var locale = event.locale;
+	      var tags = _laxar.object.path(scope, i18nPath).tags;
+	      var previousTag = tags[locale];
+	      if (previousTag !== event.languageTag) {
+	         tags[locale] = event.languageTag;
+	         callbacksByLocale[locale].forEach(function (cb) {return cb(event, previousTag);});
+	      }
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   /**
+	    *
+	    * @name I18nHandler
+	    * @constructor
+	    * @private
+	    */
+	   var handler = {
+	
+	      /**
+	                    * Manage changes to the given locale(s).
+	                    *
+	                    * @param {String|String[]} possibleLocales
+	                    *    zero, one or more locale topics to manage
+	                    * @param {Object} [optionalOptions]
+	                    *    an optional configuration object
+	                    * @param {Function|Function[]} optionalOptions.onChange
+	                    *    a function or a list of functions to call whenever one of the locales changes
+	                    *    It receives the event which triggered the change as the first argument, and the previous
+	                    *    language-tag as the second argument
+	                    *
+	                    * @return {Object}
+	                    *    this instance for chaining
+	                    *
+	                    * @memberOf I18nHandler
+	                    */
+	      registerLocale: function registerLocale(possibleLocales, optionalOptions) {
+	         var locales = possibleLocales;
+	         if (!Array.isArray(possibleLocales)) {
+	            locales = possibleLocales ? [possibleLocales] : [];
+	         }
+	         locales.forEach(function (locale) {
+	            if (!callbacksByLocale[locale]) {
+	               callbacksByLocale[locale] = [];
+	               scope.eventBus.subscribe('didChangeLocale.' + locale, handleLocaleChangeEvent);
+	            }
+	            var onChange = (optionalOptions || {}).onChange;
+	            if (onChange) {
+	               callbacksByLocale[locale] = callbacksByLocale[locale].concat(
+	               Array.isArray(onChange) ? onChange : [onChange]);
+	
+	            }
+	         });
+	         return handler;
+	      },
+	
+	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	      /**
+	       * Look for the given feature path within the feature configuration and register for changes to the
+	       * corresponding locale. If there is a key 'locale' at the given feature, that entry is used.
+	       * Otherwise, the entire configuration path has to be specified.
+	       *
+	       * @param {String} featurePath  A feature path for the current scope.
+	       * @param {Object} [optionalOptions]  An optional configuration object.
+	       *
+	       * @return {Object}
+	       *    this instance for chaining
+	       *
+	       * @memberOf I18nHandler
+	       */
+	      registerLocaleFromFeature: function registerLocaleFromFeature(featurePath, optionalOptions) {
+	         var entry = _laxar.object.path(scope.features, featurePath);
+	         return handler.registerLocale(entry.locale || entry, optionalOptions || {});
+	      },
+	
+	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	      scopeLocaleFromFeature: function scopeLocaleFromFeature(featurePath, options) {
+	         var entry = _laxar.object.path(scope.features, featurePath);
+	         _laxar.object.path(scope, i18nPath).locale = entry.locale || entry;
+	         return handler.registerLocale(_laxar.object.path(scope, i18nPath).locale, options || {});
+	      },
+	
+	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	      localizer: function localizer(fallback) {
+	         var model = _laxar.object.path(scope, i18nPath);
+	         function partial(i18nValue) {
+	            if (typeof i18nValue === 'string') {return i18nValue;}
+	            var tag = model.tags[model.locale];
+	            return tag ? i18n.localizer(tag, fallback)(i18nValue) : fallback;
+	         }
+	         partial.format = function () {var _i18n$localizer;return (
+	               (_i18n$localizer = i18n.localizer(model.tags[model.locale])).format.apply(_i18n$localizer, arguments));};
+	         return partial;
+	      } };
+	
+	
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function prepareScopeI18n() {
+	      var result = _laxar.object.path(scope, i18nPath);
+	      if (!result) {
+	         result = {};
+	         _laxar.object.setPath(scope, i18nPath, result);
+	      }
+	      if (!result.tags) {
+	         result.tags = {};
+	      }
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   return handler;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Copyright 2016 aixigo AG
+	 * Released under the MIT license.
+	 * http://laxarjs.org/license
+	 */ /**
+	     * This module provides helpers for patterns regarding *didChangeLocale* events.
+	     *
+	     * @module i18n
+	     */exports.handlerFor = handlerFor;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.createPatch = exports.applyPatch = exports.pathToPointer = exports.pointerToPath = exports.setPointer = exports.getPointer = undefined;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var _fastJsonPatch = __webpack_require__(279);var _fastJsonPatch2 = _interopRequireDefault(_fastJsonPatch);
+	var _laxar = __webpack_require__(23);var ax = _interopRequireWildcard(_laxar);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	
+	/**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      * Lookup a nested object using an rfc-6901 JSON pointer.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @param {Object|Array=} object
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    the object in which to lookup an entry
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @param {String} pointer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    a valid JSON pointer conforming to rfc-6901
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @param {*} fallback
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    a value to return if the JSON pointer does not point to any value within the object
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @return {*}
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    the value found at the JSON pointer, or the fallback value
+	                                                                                                                                                                                                                                                                                                                                                                                                                                      */ /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                          * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                                          * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                          * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                                                                                          */ /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                              * This module provides helpers for dealing with patches for JSON structures, specifically regarding
+	                                                                                                                                                                                                                                                                                                                                                                                                                                              * [RFC 6901](https://tools.ietf.org/html/rfc6901) and [RFC 6902](https://tools.ietf.org/html/rfc6902).
+	                                                                                                                                                                                                                                                                                                                                                                                                                                              *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                              * @module json
+	                                                                                                                                                                                                                                                                                                                                                                                                                                              */function getPointer(object, pointer, fallback) {var keys = pointer.split('/');var len = keys.length;var usesEscapes = pointer.indexOf('~') !== -1;var subTree = object;for (var i = 1; i < len; ++i) {if (object === undefined) {return fallback;
+	      }
+	
+	      if (Array.isArray(object)) {
+	         var index = parseInt(keys[i], 10);
+	         subTree = subTree[index];
+	      } else
+	      {
+	         var key = keys[i];
+	         if (usesEscapes) {
+	            // unescape masked chars ('/', '~'):
+	            key = key.replace(/~1/g, '/').replace(/~0/g, '~');
+	         }
+	         subTree = subTree[key];
+	      }
+	   }
+	   return subTree === undefined ? fallback : subTree;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Set a nested item within a structure using an rfc-6901 JSON pointer. Missing containers along the path
+	 * will be created (using laxar.object.setPath). The object is modified in-place.
+	 *
+	 * JSON pointer segments of the type '/-' (for appending to an array) are not supported. You can use a
+	 * single JSON patch 'add' operation to achieve the desired effect.
+	 *
+	 * @param {Object|Array} object
+	 *    the object in which to lookup an entry
+	 * @param {String} pointer
+	 *    a valid JSON pointer conforming to rfc-6901
+	 * @param {*} value
+	 *    the value to set at the place indicated by the pointer
+	 *
+	 * @return {Object|Array}
+	 *    the modified object (for chaining)
+	 */
+	function setPointer(object, pointer, value) {
+	   var path = pointerToPath(pointer);
+	   return ax.object.setPath(object, path, value);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Transform an rfc-6901 JSON pointer into a laxar object path.
+	 *
+	 * @param {String} pointer
+	 *    a valid JSON pointer conforming to rfc-6901
+	 *
+	 * @return {String}
+	 *    a path that can be used with laxar.object.path
+	 */
+	function pointerToPath(pointer) {
+	   var keys = pointer.split('/').slice(1);
+	   if (pointer.indexOf('~') !== -1) {
+	      var len = keys.length;
+	      for (var i = 0; i < len; ++i) {
+	         keys[i] = keys[i].replace(/~1/g, '/').replace(/~0/g, '~');
+	      }
+	   }
+	   return keys.join('.');
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Transform a laxar object path into an rfc-6901 JSON pointer.
+	 *
+	 * @param {String} path
+	 *    a LaxarJS object path where segments are separated using '.'
+	 *
+	 * @return {String}
+	 *    a valid JSON pointer conforming to rfc-6901
+	 */
+	function pathToPointer(path) {
+	   if (path === '') {
+	      return '';
+	   }
+	   var keys = path.split('.');
+	   if (path.indexOf('/') !== -1 || path.indexOf('~') !== -1) {
+	      var len = keys.length;
+	      for (var i = 0; i < len; ++i) {
+	         keys[i] = keys[i].replace(/~/g, '~0').replace(/\//g, '~1');
+	      }
+	   }
+	   var relativePointer = keys.join('/');
+	   return '/' + relativePointer;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Calls fast-json-patch to apply the given rfc-6902 JSON patch sequence in-place. If the patch sequence
+	 * fails to apply, the behavior is undefined.
+	 *
+	 * @param {Object|Array} object
+	 *    the object to patch (in-place)
+	 * @param {Array} patches
+	 *    a sequence of patches as defined by rfc-6902
+	 */
+	function applyPatch(object, patches) {
+	   _fastJsonPatch2.default.apply(object, patches);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Calls fast-json-patch to create a rfc-6902 conform JSON patch sequence.
+	 *
+	 * @param {Object|Array} fromState
+	 *    the state on which to base the list of patches
+	 * @param {Object|Array} toState
+	 *    the target state: the desired result of applying the newly created patches to the `fromState`
+	 *
+	 * @return {Array}
+	 *    a sequence of patches as defined by rfc-6902
+	 */
+	function createPatch(fromState, toState) {
+	   return _fastJsonPatch2.default.compare(fromState, toState);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	exports.
+	
+	
+	getPointer = getPointer;exports.
+	setPointer = setPointer;exports.
+	pointerToPath = pointerToPath;exports.
+	pathToPointer = pathToPointer;exports.
+	
+	applyPatch = applyPatch;exports.
+	createPatch = createPatch;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*!
+	 * https://github.com/Starcounter-Jack/JSON-Patch
+	 * json-patch-duplex.js version: 1.1.4
+	 * (c) 2013 Joachim Wester
+	 * MIT license
+	 */
+	var jsonpatch;
+	(function (jsonpatch) {
+	    var _objectKeys = function (obj) {
+	        if (_isArray(obj)) {
+	            var keys = new Array(obj.length);
+	            for (var k = 0; k < keys.length; k++) {
+	                keys[k] = "" + k;
+	            }
+	            return keys;
+	        }
+	        if (Object.keys) {
+	            return Object.keys(obj);
+	        }
+	        var keys = [];
+	        for (var i in obj) {
+	            if (obj.hasOwnProperty(i)) {
+	                keys.push(i);
+	            }
+	        }
+	        return keys;
+	    };
+	    function _equals(a, b) {
+	        switch (typeof a) {
+	            case 'undefined': //backward compatibility, but really I think we should return false
+	            case 'boolean':
+	            case 'string':
+	            case 'number':
+	                return a === b;
+	            case 'object':
+	                if (a === null)
+	                    return b === null;
+	                if (_isArray(a)) {
+	                    if (!_isArray(b) || a.length !== b.length)
+	                        return false;
+	                    for (var i = 0, l = a.length; i < l; i++)
+	                        if (!_equals(a[i], b[i]))
+	                            return false;
+	                    return true;
+	                }
+	                var bKeys = _objectKeys(b);
+	                var bLength = bKeys.length;
+	                if (_objectKeys(a).length !== bLength)
+	                    return false;
+	                for (var i = 0; i < bLength; i++)
+	                    if (!_equals(a[i], b[i]))
+	                        return false;
+	                return true;
+	            default:
+	                return false;
+	        }
+	    }
+	    /* We use a Javascript hash to store each
+	     function. Each hash entry (property) uses
+	     the operation identifiers specified in rfc6902.
+	     In this way, we can map each patch operation
+	     to its dedicated function in efficient way.
+	     */
+	    /* The operations applicable to an object */
+	    var objOps = {
+	        add: function (obj, key) {
+	            obj[key] = this.value;
+	        },
+	        remove: function (obj, key) {
+	            var removed = obj[key];
+	            delete obj[key];
+	            return removed;
+	        },
+	        replace: function (obj, key) {
+	            var removed = obj[key];
+	            obj[key] = this.value;
+	            return removed;
+	        },
+	        move: function (obj, key, tree) {
+	            var getOriginalDestination = { op: "_get", path: this.path };
+	            apply(tree, [getOriginalDestination]);
+	            // In case value is moved up and overwrites its ancestor
+	            var original = getOriginalDestination.value === undefined ?
+	                undefined : JSON.parse(JSON.stringify(getOriginalDestination.value));
+	            var temp = { op: "_get", path: this.from };
+	            apply(tree, [temp]);
+	            apply(tree, [
+	                { op: "remove", path: this.from }
+	            ]);
+	            apply(tree, [
+	                { op: "add", path: this.path, value: temp.value }
+	            ]);
+	            return original;
+	        },
+	        copy: function (obj, key, tree) {
+	            var temp = { op: "_get", path: this.from };
+	            apply(tree, [temp]);
+	            apply(tree, [
+	                { op: "add", path: this.path, value: temp.value }
+	            ]);
+	        },
+	        test: function (obj, key) {
+	            return _equals(obj[key], this.value);
+	        },
+	        _get: function (obj, key) {
+	            this.value = obj[key];
+	        }
+	    };
+	    /* The operations applicable to an array. Many are the same as for the object */
+	    var arrOps = {
+	        add: function (arr, i) {
+	            arr.splice(i, 0, this.value);
+	            // this may be needed when using '-' in an array
+	            return i;
+	        },
+	        remove: function (arr, i) {
+	            var removedList = arr.splice(i, 1);
+	            return removedList[0];
+	        },
+	        replace: function (arr, i) {
+	            var removed = arr[i];
+	            arr[i] = this.value;
+	            return removed;
+	        },
+	        move: objOps.move,
+	        copy: objOps.copy,
+	        test: objOps.test,
+	        _get: objOps._get
+	    };
+	    /* The operations applicable to object root. Many are the same as for the object */
+	    var rootOps = {
+	        add: function (obj) {
+	            rootOps.remove.call(this, obj);
+	            for (var key in this.value) {
+	                if (this.value.hasOwnProperty(key)) {
+	                    obj[key] = this.value[key];
+	                }
+	            }
+	        },
+	        remove: function (obj) {
+	            var removed = {};
+	            for (var key in obj) {
+	                if (obj.hasOwnProperty(key)) {
+	                    removed[key] = obj[key];
+	                    objOps.remove.call(this, obj, key);
+	                }
+	            }
+	            return removed;
+	        },
+	        replace: function (obj) {
+	            var removed = apply(obj, [
+	                { op: "remove", path: this.path }
+	            ]);
+	            apply(obj, [
+	                { op: "add", path: this.path, value: this.value }
+	            ]);
+	            return removed[0];
+	        },
+	        move: objOps.move,
+	        copy: objOps.copy,
+	        test: function (obj) {
+	            return (JSON.stringify(obj) === JSON.stringify(this.value));
+	        },
+	        _get: function (obj) {
+	            this.value = obj;
+	        }
+	    };
+	    function escapePathComponent(str) {
+	        if (str.indexOf('/') === -1 && str.indexOf('~') === -1)
+	            return str;
+	        return str.replace(/~/g, '~0').replace(/\//g, '~1');
+	    }
+	    function _getPathRecursive(root, obj) {
+	        var found;
+	        for (var key in root) {
+	            if (root.hasOwnProperty(key)) {
+	                if (root[key] === obj) {
+	                    return escapePathComponent(key) + '/';
+	                }
+	                else if (typeof root[key] === 'object') {
+	                    found = _getPathRecursive(root[key], obj);
+	                    if (found != '') {
+	                        return escapePathComponent(key) + '/' + found;
+	                    }
+	                }
+	            }
+	        }
+	        return '';
+	    }
+	    function getPath(root, obj) {
+	        if (root === obj) {
+	            return '/';
+	        }
+	        var path = _getPathRecursive(root, obj);
+	        if (path === '') {
+	            throw new Error("Object not found in root");
+	        }
+	        return '/' + path;
+	    }
+	    var beforeDict = [];
+	    var Mirror = (function () {
+	        function Mirror(obj) {
+	            this.observers = [];
+	            this.obj = obj;
+	        }
+	        return Mirror;
+	    }());
+	    var ObserverInfo = (function () {
+	        function ObserverInfo(callback, observer) {
+	            this.callback = callback;
+	            this.observer = observer;
+	        }
+	        return ObserverInfo;
+	    }());
+	    function getMirror(obj) {
+	        for (var i = 0, ilen = beforeDict.length; i < ilen; i++) {
+	            if (beforeDict[i].obj === obj) {
+	                return beforeDict[i];
+	            }
+	        }
+	    }
+	    function getObserverFromMirror(mirror, callback) {
+	        for (var j = 0, jlen = mirror.observers.length; j < jlen; j++) {
+	            if (mirror.observers[j].callback === callback) {
+	                return mirror.observers[j].observer;
+	            }
+	        }
+	    }
+	    function removeObserverFromMirror(mirror, observer) {
+	        for (var j = 0, jlen = mirror.observers.length; j < jlen; j++) {
+	            if (mirror.observers[j].observer === observer) {
+	                mirror.observers.splice(j, 1);
+	                return;
+	            }
+	        }
+	    }
+	    function unobserve(root, observer) {
+	        observer.unobserve();
+	    }
+	    jsonpatch.unobserve = unobserve;
+	    function deepClone(obj) {
+	        switch (typeof obj) {
+	            case "object":
+	                return JSON.parse(JSON.stringify(obj)); //Faster than ES5 clone - http://jsperf.com/deep-cloning-of-objects/5
+	            case "undefined":
+	                return null; //this is how JSON.stringify behaves for array items
+	            default:
+	                return obj; //no need to clone primitives
+	        }
+	    }
+	    function observe(obj, callback) {
+	        var patches = [];
+	        var root = obj;
+	        var observer;
+	        var mirror = getMirror(obj);
+	        if (!mirror) {
+	            mirror = new Mirror(obj);
+	            beforeDict.push(mirror);
+	        }
+	        else {
+	            observer = getObserverFromMirror(mirror, callback);
+	        }
+	        if (observer) {
+	            return observer;
+	        }
+	        observer = {};
+	        mirror.value = deepClone(obj);
+	        if (callback) {
+	            observer.callback = callback;
+	            observer.next = null;
+	            var dirtyCheck = function () {
+	                generate(observer);
+	            };
+	            var fastCheck = function () {
+	                clearTimeout(observer.next);
+	                observer.next = setTimeout(dirtyCheck);
+	            };
+	            if (typeof window !== 'undefined') {
+	                if (window.addEventListener) {
+	                    window.addEventListener('mouseup', fastCheck);
+	                    window.addEventListener('keyup', fastCheck);
+	                    window.addEventListener('mousedown', fastCheck);
+	                    window.addEventListener('keydown', fastCheck);
+	                    window.addEventListener('change', fastCheck);
+	                }
+	                else {
+	                    document.documentElement.attachEvent('onmouseup', fastCheck);
+	                    document.documentElement.attachEvent('onkeyup', fastCheck);
+	                    document.documentElement.attachEvent('onmousedown', fastCheck);
+	                    document.documentElement.attachEvent('onkeydown', fastCheck);
+	                    document.documentElement.attachEvent('onchange', fastCheck);
+	                }
+	            }
+	        }
+	        observer.patches = patches;
+	        observer.object = obj;
+	        observer.unobserve = function () {
+	            generate(observer);
+	            clearTimeout(observer.next);
+	            removeObserverFromMirror(mirror, observer);
+	            if (typeof window !== 'undefined') {
+	                if (window.removeEventListener) {
+	                    window.removeEventListener('mouseup', fastCheck);
+	                    window.removeEventListener('keyup', fastCheck);
+	                    window.removeEventListener('mousedown', fastCheck);
+	                    window.removeEventListener('keydown', fastCheck);
+	                }
+	                else {
+	                    document.documentElement.detachEvent('onmouseup', fastCheck);
+	                    document.documentElement.detachEvent('onkeyup', fastCheck);
+	                    document.documentElement.detachEvent('onmousedown', fastCheck);
+	                    document.documentElement.detachEvent('onkeydown', fastCheck);
+	                }
+	            }
+	        };
+	        mirror.observers.push(new ObserverInfo(callback, observer));
+	        return observer;
+	    }
+	    jsonpatch.observe = observe;
+	    function generate(observer) {
+	        var mirror;
+	        for (var i = 0, ilen = beforeDict.length; i < ilen; i++) {
+	            if (beforeDict[i].obj === observer.object) {
+	                mirror = beforeDict[i];
+	                break;
+	            }
+	        }
+	        _generate(mirror.value, observer.object, observer.patches, "");
+	        if (observer.patches.length) {
+	            apply(mirror.value, observer.patches);
+	        }
+	        var temp = observer.patches;
+	        if (temp.length > 0) {
+	            observer.patches = [];
+	            if (observer.callback) {
+	                observer.callback(temp);
+	            }
+	        }
+	        return temp;
+	    }
+	    jsonpatch.generate = generate;
+	    // Dirty check if obj is different from mirror, generate patches and update mirror
+	    function _generate(mirror, obj, patches, path) {
+	        var newKeys = _objectKeys(obj);
+	        var oldKeys = _objectKeys(mirror);
+	        var changed = false;
+	        var deleted = false;
+	        //if ever "move" operation is implemented here, make sure this test runs OK: "should not generate the same patch twice (move)"
+	        for (var t = oldKeys.length - 1; t >= 0; t--) {
+	            var key = oldKeys[t];
+	            var oldVal = mirror[key];
+	            if (obj.hasOwnProperty(key) && !(obj[key] === undefined && oldVal !== undefined && _isArray(obj) === false)) {
+	                var newVal = obj[key];
+	                if (typeof oldVal == "object" && oldVal != null && typeof newVal == "object" && newVal != null) {
+	                    _generate(oldVal, newVal, patches, path + "/" + escapePathComponent(key));
+	                }
+	                else {
+	                    if (oldVal !== newVal) {
+	                        changed = true;
+	                        patches.push({ op: "replace", path: path + "/" + escapePathComponent(key), value: deepClone(newVal) });
+	                    }
+	                }
+	            }
+	            else {
+	                patches.push({ op: "remove", path: path + "/" + escapePathComponent(key) });
+	                deleted = true; // property has been deleted
+	            }
+	        }
+	        if (!deleted && newKeys.length == oldKeys.length) {
+	            return;
+	        }
+	        for (var t = 0; t < newKeys.length; t++) {
+	            var key = newKeys[t];
+	            if (!mirror.hasOwnProperty(key) && obj[key] !== undefined) {
+	                patches.push({ op: "add", path: path + "/" + escapePathComponent(key), value: deepClone(obj[key]) });
+	            }
+	        }
+	    }
+	    var _isArray;
+	    if (Array.isArray) {
+	        _isArray = Array.isArray;
+	    }
+	    else {
+	        _isArray = function (obj) {
+	            return obj.push && typeof obj.length === 'number';
+	        };
+	    }
+	    //3x faster than cached /^\d+$/.test(str)
+	    function isInteger(str) {
+	        var i = 0;
+	        var len = str.length;
+	        var charCode;
+	        while (i < len) {
+	            charCode = str.charCodeAt(i);
+	            if (charCode >= 48 && charCode <= 57) {
+	                i++;
+	                continue;
+	            }
+	            return false;
+	        }
+	        return true;
+	    }
+	    /**
+	     * Apply a json-patch operation on an object tree
+	     * Returns an array of results of operations.
+	     * Each element can either be a boolean (if op == 'test') or
+	     * the removed object (operations that remove things)
+	     * or just be undefined
+	     */
+	    function apply(tree, patches, validate) {
+	        var results = [], p = 0, plen = patches.length, patch, key;
+	        while (p < plen) {
+	            patch = patches[p];
+	            p++;
+	            // Find the object
+	            var path = patch.path || "";
+	            var keys = path.split('/');
+	            var obj = tree;
+	            var t = 1; //skip empty element - http://jsperf.com/to-shift-or-not-to-shift
+	            var len = keys.length;
+	            var existingPathFragment = undefined;
+	            while (true) {
+	                key = keys[t];
+	                if (validate) {
+	                    if (existingPathFragment === undefined) {
+	                        if (obj[key] === undefined) {
+	                            existingPathFragment = keys.slice(0, t).join('/');
+	                        }
+	                        else if (t == len - 1) {
+	                            existingPathFragment = patch.path;
+	                        }
+	                        if (existingPathFragment !== undefined) {
+	                            this.validator(patch, p - 1, tree, existingPathFragment);
+	                        }
+	                    }
+	                }
+	                t++;
+	                if (key === undefined) {
+	                    if (t >= len) {
+	                        results.push(rootOps[patch.op].call(patch, obj, key, tree)); // Apply patch
+	                        break;
+	                    }
+	                }
+	                if (_isArray(obj)) {
+	                    if (key === '-') {
+	                        key = obj.length;
+	                    }
+	                    else {
+	                        if (validate && !isInteger(key)) {
+	                            throw new JsonPatchError("Expected an unsigned base-10 integer value, making the new referenced value the array element with the zero-based index", "OPERATION_PATH_ILLEGAL_ARRAY_INDEX", p - 1, patch.path, patch);
+	                        }
+	                        key = parseInt(key, 10);
+	                    }
+	                    if (t >= len) {
+	                        if (validate && patch.op === "add" && key > obj.length) {
+	                            throw new JsonPatchError("The specified index MUST NOT be greater than the number of elements in the array", "OPERATION_VALUE_OUT_OF_BOUNDS", p - 1, patch.path, patch);
+	                        }
+	                        results.push(arrOps[patch.op].call(patch, obj, key, tree)); // Apply patch
+	                        break;
+	                    }
+	                }
+	                else {
+	                    if (key && key.indexOf('~') != -1)
+	                        key = key.replace(/~1/g, '/').replace(/~0/g, '~'); // escape chars
+	                    if (t >= len) {
+	                        results.push(objOps[patch.op].call(patch, obj, key, tree)); // Apply patch
+	                        break;
+	                    }
+	                }
+	                obj = obj[key];
+	            }
+	        }
+	        return results;
+	    }
+	    jsonpatch.apply = apply;
+	    function compare(tree1, tree2) {
+	        var patches = [];
+	        _generate(tree1, tree2, patches, '');
+	        return patches;
+	    }
+	    jsonpatch.compare = compare;
+	    // provide scoped __extends for TypeScript's `extend` keyword so it will not provide global one during compilation
+	    function __extends(d, b) {
+	        for (var p in b)
+	            if (b.hasOwnProperty(p))
+	                d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    }
+	    var JsonPatchError = (function (_super) {
+	        __extends(JsonPatchError, _super);
+	        function JsonPatchError(message, name, index, operation, tree) {
+	            _super.call(this, message);
+	            this.message = message;
+	            this.name = name;
+	            this.index = index;
+	            this.operation = operation;
+	            this.tree = tree;
+	        }
+	        return JsonPatchError;
+	    }(Error));
+	    jsonpatch.JsonPatchError = JsonPatchError;
+	    /**
+	     * Recursively checks whether an object has any undefined values inside.
+	     */
+	    function hasUndefined(obj) {
+	        if (obj === undefined) {
+	            return true;
+	        }
+	        if (typeof obj == "array" || typeof obj == "object") {
+	            for (var i in obj) {
+	                if (hasUndefined(obj[i])) {
+	                    return true;
+	                }
+	            }
+	        }
+	        return false;
+	    }
+	    /**
+	     * Validates a single operation. Called from `jsonpatch.validate`. Throws `JsonPatchError` in case of an error.
+	     * @param {object} operation - operation object (patch)
+	     * @param {number} index - index of operation in the sequence
+	     * @param {object} [tree] - object where the operation is supposed to be applied
+	     * @param {string} [existingPathFragment] - comes along with `tree`
+	     */
+	    function validator(operation, index, tree, existingPathFragment) {
+	        if (typeof operation !== 'object' || operation === null || _isArray(operation)) {
+	            throw new JsonPatchError('Operation is not an object', 'OPERATION_NOT_AN_OBJECT', index, operation, tree);
+	        }
+	        else if (!objOps[operation.op]) {
+	            throw new JsonPatchError('Operation `op` property is not one of operations defined in RFC-6902', 'OPERATION_OP_INVALID', index, operation, tree);
+	        }
+	        else if (typeof operation.path !== 'string') {
+	            throw new JsonPatchError('Operation `path` property is not a string', 'OPERATION_PATH_INVALID', index, operation, tree);
+	        }
+	        else if (operation.path.indexOf('/') !== 0 && operation.path.length > 0) {
+	            // paths that aren't emptystring should start with "/"
+	            throw new JsonPatchError('Operation `path` property must start with "/"', 'OPERATION_PATH_INVALID', index, operation, tree);
+	        }
+	        else if ((operation.op === 'move' || operation.op === 'copy') && typeof operation.from !== 'string') {
+	            throw new JsonPatchError('Operation `from` property is not present (applicable in `move` and `copy` operations)', 'OPERATION_FROM_REQUIRED', index, operation, tree);
+	        }
+	        else if ((operation.op === 'add' || operation.op === 'replace' || operation.op === 'test') && operation.value === undefined) {
+	            throw new JsonPatchError('Operation `value` property is not present (applicable in `add`, `replace` and `test` operations)', 'OPERATION_VALUE_REQUIRED', index, operation, tree);
+	        }
+	        else if ((operation.op === 'add' || operation.op === 'replace' || operation.op === 'test') && hasUndefined(operation.value)) {
+	            throw new JsonPatchError('Operation `value` property is not present (applicable in `add`, `replace` and `test` operations)', 'OPERATION_VALUE_CANNOT_CONTAIN_UNDEFINED', index, operation, tree);
+	        }
+	        else if (tree) {
+	            if (operation.op == "add") {
+	                var pathLen = operation.path.split("/").length;
+	                var existingPathLen = existingPathFragment.split("/").length;
+	                if (pathLen !== existingPathLen + 1 && pathLen !== existingPathLen) {
+	                    throw new JsonPatchError('Cannot perform an `add` operation at the desired path', 'OPERATION_PATH_CANNOT_ADD', index, operation, tree);
+	                }
+	            }
+	            else if (operation.op === 'replace' || operation.op === 'remove' || operation.op === '_get') {
+	                if (operation.path !== existingPathFragment) {
+	                    throw new JsonPatchError('Cannot perform the operation at a path that does not exist', 'OPERATION_PATH_UNRESOLVABLE', index, operation, tree);
+	                }
+	            }
+	            else if (operation.op === 'move' || operation.op === 'copy') {
+	                var existingValue = { op: "_get", path: operation.from, value: undefined };
+	                var error = jsonpatch.validate([existingValue], tree);
+	                if (error && error.name === 'OPERATION_PATH_UNRESOLVABLE') {
+	                    throw new JsonPatchError('Cannot perform the operation from a path that does not exist', 'OPERATION_FROM_UNRESOLVABLE', index, operation, tree);
+	                }
+	            }
+	        }
+	    }
+	    jsonpatch.validator = validator;
+	    /**
+	     * Validates a sequence of operations. If `tree` parameter is provided, the sequence is additionally validated against the object tree.
+	     * If error is encountered, returns a JsonPatchError object
+	     * @param sequence
+	     * @param tree
+	     * @returns {JsonPatchError|undefined}
+	     */
+	    function validate(sequence, tree) {
+	        try {
+	            if (!_isArray(sequence)) {
+	                throw new JsonPatchError('Patch sequence must be an array', 'SEQUENCE_NOT_AN_ARRAY');
+	            }
+	            if (tree) {
+	                tree = JSON.parse(JSON.stringify(tree)); //clone tree so that we can safely try applying operations
+	                apply.call(this, tree, sequence, true);
+	            }
+	            else {
+	                for (var i = 0; i < sequence.length; i++) {
+	                    this.validator(sequence[i], i);
+	                }
+	            }
+	        }
+	        catch (e) {
+	            if (e instanceof JsonPatchError) {
+	                return e;
+	            }
+	            else {
+	                throw e;
+	            }
+	        }
+	    }
+	    jsonpatch.validate = validate;
+	})(jsonpatch || (jsonpatch = {}));
+	if (true) {
+	    exports.apply = jsonpatch.apply;
+	    exports.observe = jsonpatch.observe;
+	    exports.unobserve = jsonpatch.unobserve;
+	    exports.generate = jsonpatch.generate;
+	    exports.compare = jsonpatch.compare;
+	    exports.validate = jsonpatch.validate;
+	    exports.validator = jsonpatch.validator;
+	    exports.JsonPatchError = jsonpatch.JsonPatchError;
+	}
+	else {
+	    var exports = {};
+	    var isBrowser = true;
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = jsonpatch;
+	/*
+	When in browser, setting `exports = {}`
+	fools other modules into thinking they're
+	running in a node environment, which breaks
+	some of them. Here is super light wieght fix.
+	*/
+	if (isBrowser) {
+	    exports = undefined;
+	}
+
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.merge = exports.create = exports.apply = undefined;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;}; /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                 * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                                 * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                                                                 */
+	/**
+	                                                                                                                                                                                                                                                                                                                                                                                                                     * Module for old-style LaxarJS patches used with the didUpdate event.
+	                                                                                                                                                                                                                                                                                                                                                                                                                     *
+	                                                                                                                                                                                                                                                                                                                                                                                                                     * @module patches
+	                                                                                                                                                                                                                                                                                                                                                                                                                     */
+	var _laxar = __webpack_require__(23);
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Applies all patches given as mapping from object path to new value. If a path fragment doesn't exist
+	 * it is automatically inserted, using an array if the next key would be an integer. If a value is
+	 * appended to an array all values in between are set to `null`.
+	 *
+	 * This patch format cannot express all operations. Use `json.applyPatch` instead.
+	 *
+	 * @deprecated since v1.1
+	 *
+	 * @param {Object} obj
+	 *    the object to apply the patches on
+	 * @param {Object} patches
+	 *    the mapping of paths to new values
+	 */
+	function apply(obj, patches) {
+	   var patchMap = void 0;
+	   if (Array.isArray(patches)) {
+	      patchMap = {};
+	      var arr = patches;
+	      arr.forEach(function (value, key) {
+	         if (value !== undefined) {
+	            patchMap[key] = value;
+	         }
+	      });
+	   } else
+	   {
+	      patchMap = patches;
+	   }
+	
+	   // We sort the keys by length. Thus deeply nested attributes are not overwritten by patches applied to
+	   // one of their parents.
+	   Object.keys(patches).
+	   sort(function (a, b) {return a.length - b.length;}).
+	   forEach(function (path) {return _laxar.object.setPath(obj, path, patches[path]);});
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates a map of patches that describe the difference between to objects or arrays. Each entry is a
+	 * path mapped to the changed value. This map can be applied to another object using `applyPatches`.
+	 *
+	 * Properties that start with '$$' are ignored when creating patches, so that for example the $$hashCode
+	 * added by AngularJS ngRepeat is ignored.
+	 *
+	 * This patch format cannot express all operations. Use `json.createPatch` instead.
+	 *
+	 * @deprecated since v1.1
+	 *
+	 * @param {Object} result
+	 *    the resulting object the patch map should establish
+	 * @param {Object} base
+	 *    the object used to base the patches upon
+	 *
+	 * @return {Object}
+	 *    the mapping of path to patch-value
+	 */
+	function create(result, base) {
+	   var targetType = type(result);
+	   var subjectType = type(base);
+	   if (targetType !== 'array' && targetType !== 'object') {
+	      return null;
+	   }
+	
+	   if (targetType !== subjectType) {
+	      return _laxar.object.deepClone(result);
+	   }
+	   var patches = {};
+	
+	   function createPatchesRecursively(result, base, path) {
+	      for (var key in result) {
+	         if (result.hasOwnProperty(key) && (key.charAt(0) !== '$' || key.charAt(1) !== '$')) {
+	            var val = result[key];
+	            var nextPath = path.concat(key);
+	            if (base[key] == null) {
+	               patches[nextPath.join('.')] = clean(_laxar.object.deepClone(val));
+	            } else
+	            if (val && (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object') {
+	               createPatchesRecursively(val, base[key], nextPath);
+	            } else
+	            if (val !== base[key]) {
+	               patches[nextPath.join('.')] = val;
+	            }
+	         }
+	      }
+	
+	      for (var _key in base) {
+	         if (base.hasOwnProperty(_key)) {
+	            if (!(_key in result)) {
+	               patches[path.concat(_key).join('.')] = null;
+	            }
+	         }
+	      }
+	   }
+	   createPatchesRecursively(result, base, []);
+	
+	   return patches;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Merges two patch maps and returns the result. When properties exist in both patch maps, properties
+	 * within the second map overwrite those found within the first one.
+	 *
+	 * This patch format cannot express all operations.
+	 * Concatenate `json.createPatch` sequences instead of using this method.
+	 *
+	 * @deprecated since v1.1
+	 *
+	 * @param {Object} first
+	 *    first map to merge
+	 * @param {Object} second
+	 *    second map to merge
+	 *
+	 * @return {Object}
+	 *    the result of the merging
+	 */
+	function merge(first, second) {
+	   var resultMap = {};
+	   var firstKeys = Object.keys(first);
+	   var secondKeys = Object.keys(second);
+	   firstKeys.forEach(function (firstKey) {
+	      // we first collect all properties in first, that won't be overwritten by changes in the second
+	      // patch map.
+	      for (var i = 0; i < secondKeys.length; ++i) {
+	         // thus completely matching keys and keys that are finer than one in the second map are ignored
+	         if (firstKey === secondKeys[i] || firstKey.indexOf(secondKeys[i] + '.') === 0) {
+	            return;
+	         }
+	      }
+	
+	      resultMap[firstKey] = first[firstKey];
+	   });
+	
+	   secondKeys.forEach(function (secondKey) {
+	      // we know only have keys that are absolutely finer than those in the first patch map OR affect a
+	      // completely different property that should be patched.
+	      for (var i = 0; i < firstKeys.length; ++i) {
+	         var firstKey = firstKeys[i];
+	         var firstKeyAsPathFragment = firstKey + '.';
+	         if (secondKey.indexOf(firstKeyAsPathFragment) === 0) {
+	            // here we found a finer change in the second patch map that needs to be merged into the more
+	            // general change of the first patch map
+	            var patch = {};
+	            patch[secondKey.replace(firstKeyAsPathFragment, '')] = second[secondKey];
+	            var change = first[firstKey];
+	            apply(change, patch);
+	            resultMap[firstKey] = change;
+	
+	            return;
+	         }
+	      }
+	
+	      resultMap[secondKey] = second[secondKey];
+	   });
+	
+	   return resultMap;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function type(object) {
+	   if (object === null) {
+	      return 'null';
+	   }
+	   if (object === undefined) {
+	      return 'undefined';
+	   }
+	
+	   var tmp = Object.prototype.toString.call(object).split(' ')[1];
+	   if (!tmp) {
+	      return undefined;
+	   }
+	   return tmp.substr(0, tmp.length - 1).toLowerCase();
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function clean(object) {
+	   if (object === null) {
+	      return object;
+	   }
+	   for (var key in object) {
+	      if (object.hasOwnProperty(key)) {
+	         if (key.charAt(0) === '$' && key.charAt(1) === '$') {
+	            delete object[key];
+	         } else
+	         if (_typeof(object[key]) === 'object') {
+	            clean(object[key]);
+	         }
+	      }
+	   }
+	   return object;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	exports.
+	
+	apply = apply;exports.
+	create = create;exports.
+	merge = merge;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = exports.isSame = exports.updatePublisherForFeature = exports.replacePublisherForFeature = exports.updateHandler = exports.replaceHandler = undefined;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;};var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;}; /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
+	/**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * This module provides helpers for patterns regarding *didReplace* and *didUpdate* events.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * Definition of the `context` object mentioned throughout this api:
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * In the simplest case this can be the AngularJS `$scope` passed into a widget. Technically this can be
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * any object exposing these three properties:
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * - `eventBus`: The event bus instance used for event subscriptions and publishing events
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * - `features`: The configuration of the widget, used for automagical resource handling
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * - `resources`: An object where all registered resources and updates to them are written to. Will be
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *   added if it doesn't exist.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * @module resources
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           */
+	var _fastJsonPatch = __webpack_require__(279);var _fastJsonPatch2 = _interopRequireDefault(_fastJsonPatch);
+	var _laxar = __webpack_require__(23);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates and returns a simple handler function for didReplace events. Replaces will be written to
+	 * `context.resources` under the given value for `modelKey`.
+	 *
+	 * @param {Object} context
+	 *    the context the handler works on
+	 * @param {String} modelKey
+	 *    the property of `context.resources` the handler writes replaces to
+	 *
+	 * @return {Function}
+	 *    the handler function
+	 */
+	function replaceHandler(context, modelKey) {
+	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
+	   (0, _laxar.assert)(modelKey).hasType(String).isNotNull();
+	
+	   var resourceBucket = provideResourceBucket(context);
+	   return function (event) {
+	      if (resourceBucket[modelKey] == null && event.data == null) {
+	         return false;
+	      }
+	
+	      resourceBucket[modelKey] = event.data;
+	      return true;
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates and returns a simple handler function for didUpdate events. Updates will be written to
+	 * `context.resources` under the given value for `modelKey`.
+	 *
+	 * @param {Object} context
+	 *    the context the handler works on
+	 * @param {String} modelKey
+	 *    the property of `context.resources` the handler applies updates to
+	 *
+	 * @return {Function}
+	 *    the handler function
+	 */
+	function updateHandler(context, modelKey) {
+	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
+	   (0, _laxar.assert)(modelKey).hasType(String).isNotNull();
+	
+	   var resourceBucket = provideResourceBucket(context);
+	   return function (event) {
+	      if (resourceBucket[modelKey] != null && Array.isArray(event.patches)) {
+	         _fastJsonPatch2.default.apply(resourceBucket[modelKey], event.patches);
+	         return true;
+	      }
+	
+	      return false;
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates and returns a function to publish didReplace events for the resource found as feature
+	 * configuration. Resolution of the `featurePath` argument works just as explained in the documentation for
+	 * {@link ResourceHandler#registerResourceFromFeature}. The publisher returns the promise returned by
+	 * the underlying event bus call.
+	 *
+	 * @param {Object} context
+	 *    the context the publisher works on
+	 * @param {String} featurePath
+	 *    the property of `context.features` the publisher reads the resource name from
+	 * @param {Object} [optionalOptions]
+	 *    options for the publisher
+	 * @param {Boolean} optionalOptions.deliverToSender
+	 *    the value is forwarded to `eventBus.publish`: if `true` the event will also be delivered to the
+	 *    publisher. Default is `false`
+	 * @param {Boolean} optionalOptions.isOptional
+	 *    if `true`, don't throw an error if `featurePath.resource` is missing. Instead return a publisher
+	 *    that doesn't do anything when called. Default is `false`.
+	 *
+	 * @return {Function}
+	 *    the publisher function. Takes the data to publish as single argument
+	 */
+	function replacePublisherForFeature(context, featurePath, optionalOptions) {
+	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
+	   (0, _laxar.assert)(context.eventBus).hasType(Object).isNotNull();
+	
+	   var options = _extends({ deliverToSender: false }, optionalOptions);
+	
+	   var resourceName = _laxar.object.path(context.features, featurePath + '.resource');
+	   if (!resourceName && options.isOptional) {
+	      return function () {return Promise.resolve();};
+	   }
+	   (0, _laxar.assert)(resourceName).hasType(String).isNotNull();
+	
+	   return function (replacement) {
+	      return context.eventBus.publish('didReplace.' + resourceName, {
+	         resource: resourceName,
+	         data: replacement },
+	      {
+	         deliverToSender: !!options.deliverToSender });
+	
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates and returns a function to publish didUpdate events for the resource found as feature
+	 * configuration. Resolution of the `featurePath` argument works just as explained in the documentation for
+	 * {@link ResourceHandler#registerResourceFromFeature}. The publisher returns the promise returned by
+	 * the underlying event bus call. The returned function only accepts one argument, which is the JSON patch
+	 * sequence conforming to [RFC 6902](https://tools.ietf.org/html/rfc6902).
+	 *
+	 * Example:
+	 * ```js
+	 * const publisher = resources.updatePublisherForFeature( context, path );
+	 * publisher( [
+	 *    { op: 'remove', path: '/accounts/2' },
+	 *    { op: 'replace', path: '/contacts/hans/number', value: '+49 123 4563432' }
+	 * ] );
+	 * ```
+	 *
+	 * Additionally the returned function has a method `compareAndPublish` that accepts the previous version of
+	 * a resource as first argument and the current version of the resource as second argument. It then creates
+	 * the JSON patch sequence itself and sends the according didUpdate event. It also returns the promise
+	 * returned by the underlying event bus call.
+	 *
+	 * Example:
+	 * ```js
+	 * const publisher = resources.updatePublisherForFeature( context, path );
+	 * publisher.compareAndPublish( obsoleteVersion, currentVersion );
+	 * ```
+	 *
+	 * Note that a generic generation of patches might lead to strange, large patch sequences, especially when
+	 * removing entries. The diff library doesn't know about identities and as such won't recognize where a
+	 * specific element was removed. As a consequence instead of generating a remove operation, this could
+	 * result in a very large number of replace operations that shift the properties from successors to the
+	 * front in order to overwrite instead of remove the entry.
+	 * In such cases one is better off by manually creating a patch with operation remove, as the knowledge
+	 * about the domain is available at the user of this publisher.
+	 *
+	 * @param {Object} context
+	 *    the context the publisher works on
+	 * @param {String} featurePath
+	 *    the property of `context.features` the publisher reads the resource name from
+	 * @param {Object} [optionalOptions]
+	 *    options for the publisher
+	 * @param {Boolean} optionalOptions.deliverToSender
+	 *    the value is forward to `eventBus.publish`: if `true` the event will also be delivered to the
+	 *    publisher. Default is `false`
+	 * @param {Boolean} optionalOptions.isOptional
+	 *    if `true`, don't throw an error if `featurePath.resource` is missing. Instead return a publisher
+	 *    that doesn't do anything when called. Default is `false`.
+	 *
+	 * @return {Function}
+	 *    the publisher function as described above
+	 */
+	function updatePublisherForFeature(context, featurePath, optionalOptions) {
+	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
+	   (0, _laxar.assert)(context.eventBus).hasType(Object).isNotNull();
+	
+	   var options = _extends({ deliverToSender: false }, optionalOptions);
+	
+	   var resource = _laxar.object.path(context.features, featurePath + '.resource');
+	   if (!resource && options.isOptional) {
+	      var noopPublisher = function noopPublisher() {return Promise.resolve();};
+	      noopPublisher.compareAndPublish = noopPublisher;
+	      return noopPublisher;
+	   }
+	   (0, _laxar.assert)(resource).hasType(String).isNotNull();
+	
+	   var publisher = function publisher(patches) {
+	      (0, _laxar.assert)(patches).hasType(Array).isNotNull();
+	
+	      if (!patches || !patches.length) {
+	         context.log.trace(
+	         'updatePublisher: Not sending empty didUpdate to resource "[0]" from sender "[1]".',
+	         resource, (context.widget || { id: 'unknown' }).id);
+	
+	         return Promise.resolve();
+	      }
+	
+	      var meta = { deliverToSender: !!options.deliverToSender };
+	      return context.eventBus.publish('didUpdate.' + resource, { resource: resource, patches: patches }, meta);
+	   };
+	
+	   publisher.compareAndPublish = function (from, to) {return publisher(_fastJsonPatch2.default.compare(from, to));};
+	
+	   return publisher;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates a new handler instance for didReplace and didUpdate events. It already handles setting of the
+	 * resource data on didReplace in the context.resources property and updating that data on didUpdate events.
+	 *
+	 * @param {Object} context
+	 *    the context the handler should work with. It expects to find an `eventBus` property there with which
+	 *    it can do the event handling
+	 *
+	 * @return {ResourceHandler}
+	 *    a resource handler instance
+	 */
+	function handlerFor(context) {
+	   return new ResourceHandler(context);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function ResourceHandler(context) {
+	   this.context_ = context;
+	   this.externalHandlers_ = {};
+	   this.modelHandlers_ = {};
+	   this.waitingFor_ = [];
+	   this.allReplacedCallback_ = function () {};
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Registers default event handlers for a feature. The `feature` argument is interpreted as attribute
+	 * path to an object having a `resource` property of type string holding the name of the resource to
+	 * register the handler for. All replacements and updates will be written to `context.resources` by the
+	 * rules written at `options.modelKey` doc.
+	 *
+	 * Example:
+	 * Consider the following configuration:
+	 * ```json
+	 * {
+	 *    "features": {
+	 *       "someFeature": {
+	 *          "someResourceConfig": {
+	 *             "resource": "myResource"
+	 *          }
+	 *       }
+	 *    }
+	 * }
+	 * ```
+	 *
+	 * The corresponding call, using an AngularJS Scope as context, would be (providing none of the options):
+	 *
+	 * ```js
+	 * patterns.resources.handlerFor( $scope )
+	 *    .registerResourceFromFeature( 'someFeature.someResourceConfig' );
+	 * ```
+	 *
+	 * @param {String} featurePath
+	 *    the attribute path to the feature for the resource
+	 * @param {Object|Function} [optionalOptions]
+	 *    options and callbacks to use. If a function is passed, it is used as the `onUpdateReplace` option.
+	 * @param {Function|Function[]} optionalOptions.onReplace
+	 *    a function or a list of functions to call when a didReplace event is received. Each function
+	 *    receives the event object as argument. If `options.omitFirstReplace` is `true`, it is only called
+	 *    first the second time a didReplace event occurs
+	 * @param {Function|Function[]} optionalOptions.onUpdate
+	 *    a function or a list of functions to call when a didUpdate event is received. Each function
+	 *    receives the event object as argument
+	 * @param {Function|Function[]} optionalOptions.onUpdateReplace
+	 *    a function or a list of functions to call when a didUpdate or a didReplace event is received. Each
+	 *    function receives the event object as argument. If `options.omitFirstReplace` is `true`, it is
+	 *    not called for the first received didReplace event
+	 * @param {Boolean} optionalOptions.omitFirstReplace
+	 *    if `true` `options.onReplace` is only called after the
+	 *    first time a didReplace event occurred. Default is `false`
+	 * @param {String} optionalOptions.modelKey
+	 *    the key to use for the resource in `context.resources`. If not given the last path fragment of
+	 *    `featurePath` is used. For example if the path is `myfeature.superResource` the key will be
+	 *    `superResource`
+	 * @param {Boolean} optionalOptions.isOptional
+	 *    if set to `true`, missing configuration for this resource is silently ignored and no handlers
+	 *    are registered. If set to `false`, an error will be raised in this case (default is `false`)
+	 *
+	 * @return {ResourceHandler}
+	 *    this instance for chaining
+	 */
+	ResourceHandler.prototype.registerResourceFromFeature = function (featurePath, optionalOptions) {
+	   var resource = _laxar.object.path(this.context_.features, featurePath + '.resource', null);
+	   var options = _extends({
+	      isOptional: false },
+	   typeof optionalOptions === 'function' ? { onUpdateReplace: optionalOptions } : optionalOptions);
+	
+	   if (resource === null && options.isOptional) {
+	      return this;
+	   }
+	   (0, _laxar.assert)(resource).isNotNull('Could not find resource configuration in features for "' + featurePath + '"');
+	
+	   if (!options.modelKey) {
+	      options.modelKey = featurePath.substr(featurePath.lastIndexOf('.') + 1);
+	   }
+	
+	   return this.registerResource(resource, options);
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Registers default event handlers for a known resource name. All replacements and updates will be
+	 * written to `context.resources`.
+	 *
+	 * @param {String} resource
+	 *    the resource the handler should be registered for
+	 * @param {Object|Function} [optionalOptions]
+	 *    options and callbacks to use. If a function is passed, it is used as the `onUpdateReplace` option.
+	 * @param {Function|Function[]} optionalOptions.onReplace
+	 *    a function or a list of functions to call when a didReplace event is received. Each function
+	 *    receives the event object as argument. If `options.omitFirstReplace` is `true`, it is only called
+	 *    first the second time a didReplace event occurs
+	 * @param {Function|Function[]} optionalOptions.onUpdate
+	 *    a function or a list of functions to call when a didUpdate event is received. Each function
+	 *    receives the event object as argument
+	 * @param {Function|Function[]} optionalOptions.onUpdateReplace
+	 *    a function or a list of functions to call when a didUpdate or a didReplace event is received. Each
+	 *    function receives the event object as argument. If `options.omitFirstReplace` is `true`, it is
+	 *    only called first for didReplace events the second time such an event occurs
+	 * @param {Boolean} optionalOptions.omitFirstReplace
+	 *    if `true` `options.onReplace` is only called after the first time a didReplace event occurred.
+	 *    Default is `false`
+	 * @param {String} optionalOptions.modelKey
+	 *    the key to use for the resource in `context.resources`. If not given the value of `resource` is
+	 *    used
+	 *
+	 * @return {ResourceHandler}
+	 *    this instance for chaining
+	 */
+	ResourceHandler.prototype.registerResource = function (resource, optionalOptions) {
+	   (0, _laxar.assert)(resource).hasType(String).isNotNull();
+	
+	   var options = _extends({
+	      omitFirstReplace: false,
+	      modelKey: resource },
+	   typeof optionalOptions === 'function' ? { onUpdateReplace: optionalOptions } : optionalOptions);
+	
+	
+	   this.waitingFor_.push(resource);
+	   registerResourceHandlers(this, resource, options);
+	
+	   if (!(resource in this.modelHandlers_)) {
+	      this.modelHandlers_[resource] = {};
+	   }
+	
+	   registerForReplace(this, resource, options);
+	   registerForUpdate(this, resource, options);
+	
+	   return this;
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Registers a callback that is called once all resources were initially replaced. If more resource
+	 * handlers are registered before all relevant didReplace events were received, those are also waited
+	 * for.
+	 *
+	 * @param {Function} callback
+	 *     the function to call
+	 * @param {Boolean} [optionalOptions]
+	 *    an optional set of parameters to specify watch behavior
+	 * @param {Boolean} optionalOptions.watch
+	 *    if `true`, the callback will be called again whenever resources are modified after all were
+	 *    replaced at least once
+	 *
+	 * @return {ResourceHandler}
+	 *    this instance for chaining
+	 */
+	ResourceHandler.prototype.whenAllWereReplaced = function (callback, optionalOptions) {
+	   (0, _laxar.assert)(callback).hasType(Function).isNotNull();
+	
+	   this.allReplacedCallback_ = optionalOptions && optionalOptions.watch ? callback : onceCallback;
+	
+	   return this;
+	
+	   function onceCallback() {
+	      callback();
+	      this.allReplacedCallback_ = function () {};
+	   }
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Allows to find out if there are still outstanding resources, or if all resources have been replaced.
+	 * Can be used in update-/replace-handlers to determine if all dependencies are satisfied.
+	 *
+	 * @return {Boolean}
+	 *    `true` if all resources registered with this handler (so far) have been replaced at least once,
+	 *    `false` if there are still outstanding resources
+	 */
+	ResourceHandler.prototype.wereAllReplaced = function () {
+	   return !this.waitingFor_.length;
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function registerResourceHandlers(self, resource, options) {
+	   if (!self.externalHandlers_[resource]) {
+	      self.externalHandlers_[resource] = {
+	         onReplace: [],
+	         onUpdate: [] };
+	
+	   }
+	
+	   appendFunctionOrArrayOfFunctions(self.externalHandlers_[resource].onUpdate, options.onUpdate);
+	   appendFunctionOrArrayOfFunctions(self.externalHandlers_[resource].onUpdate, options.onUpdateReplace);
+	
+	   var replaceHandlers = [];
+	   appendFunctionOrArrayOfFunctions(replaceHandlers, options.onReplace);
+	   appendFunctionOrArrayOfFunctions(replaceHandlers, options.onUpdateReplace);
+	
+	   if (options.omitFirstReplace) {
+	      replaceHandlers = replaceHandlers.map(function (handler) {return ignoringFirstCall(handler);});
+	   }
+	
+	   function ignoringFirstCall(f) {
+	      var ignore = true;
+	      return function () {for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {args[_key] = arguments[_key];}
+	         if (ignore) {
+	            ignore = false;
+	            return;
+	         }
+	         f.apply(self, args);
+	      };
+	   }
+	
+	   appendFunctionOrArrayOfFunctions(self.externalHandlers_[resource].onReplace, replaceHandlers);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function registerForReplace(self, resource, options) {
+	   var handler = replaceHandler(self.context_, options.modelKey);
+	   if (self.modelHandlers_[resource].onReplace) {
+	      self.modelHandlers_[resource].onReplace.push(handler);
+	      return;
+	   }
+	   self.modelHandlers_[resource].onReplace = [handler];
+	
+	   self.context_.eventBus.subscribe('didReplace.' + resource, function (event, meta) {
+	      var changed = self.modelHandlers_[resource].onReplace.
+	      reduce(function (changed, handler) {return handler(event, meta) || changed;}, false);
+	
+	      if (!changed) {return;}
+	
+	      try {
+	         self.externalHandlers_[resource].onReplace.forEach(function (handler) {return handler(event, meta);});
+	      } finally
+	      {
+	         self.waitingFor_ = self.waitingFor_.filter(function (topic) {return topic !== resource;});
+	         if (!self.waitingFor_.length) {
+	            self.allReplacedCallback_();
+	         }
+	      }
+	
+	   });
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function registerForUpdate(self, resource, options) {
+	   var handler = updateHandler(self.context_, options.modelKey);
+	   if (self.modelHandlers_[resource].onUpdate) {
+	      self.modelHandlers_[resource].onUpdate.push(handler);
+	      return;
+	   }
+	   self.modelHandlers_[resource].onUpdate = [handler];
+	
+	   self.context_.eventBus.subscribe('didUpdate.' + resource, function (event, meta) {
+	      var changed = self.modelHandlers_[resource].onUpdate.
+	      reduce(function (changed, handler) {return handler(event, meta) || changed;}, false);
+	
+	      if (!changed) {return;}
+	
+	      try {
+	         self.externalHandlers_[resource].onUpdate.forEach(function (handler) {return handler(event, meta);});
+	      } finally
+	      {
+	         if (!self.waitingFor_.length) {
+	            self.allReplacedCallback_();
+	         }
+	      }
+	   });
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function appendFunctionOrArrayOfFunctions(target, funcOrArray) {
+	   if (typeof funcOrArray === 'function') {
+	      target.push(funcOrArray);
+	      return;
+	   }
+	
+	   if (Array.isArray(funcOrArray)) {
+	      Array.prototype.push.apply(target, funcOrArray);
+	   }
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function provideResourceBucket(context) {
+	   if (!context.hasOwnProperty('resources') || _typeof(context.resources) !== 'object') {
+	      context.resources = {};
+	   }
+	
+	   return context.resources;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Tests if two objects represent the same resource.
+	 *
+	 * The test takes place as follows:
+	 *  - Let value of `counter` be zero.
+	 *  - For each attribute (or attribute path) in `attribute` test the following:
+	 *    - If both objects contain the attribute (or a defined value at the given path), check for
+	 *       identity using `===`.
+	 *       - If this check is negative, skip further testing and let the result of the function be `false`.
+	 *       - If it is positive, increment `counter`.
+	 *    - If none of the objects contains the attribute (or a defined value at the given path), skip to
+	 *       the next attribute.
+	 *    - If the attribute (or a defined value at the given path) exist only in one of the objects, skip
+	 *       further testing and let the result of the function be `false`.
+	 *  - If all attributes have been tested and the value of `counter` is greater than zero, let the result
+	 *    of the function be `true`, `false` otherwise.
+	 *
+	 * @param {Object} resourceA
+	 *    the first object to test
+	 * @param {Object} resourceB
+	 *    the second object to test
+	 * @param {String[]} compareAttributes
+	 *    the list of attributes determining resource identity
+	 *
+	 * @return {Boolean}
+	 *    `true` if both objects are assumed to represent the same resource, `false` otherwise
+	 */
+	function isSame(resourceA, resourceB, compareAttributes) {
+	   if (resourceA == null || resourceB == null) {
+	      return false;
+	   }
+	
+	   var matches = 0;
+	   for (var i = 0; i < compareAttributes.length; ++i) {
+	      var key = compareAttributes[i];
+	      if (key.indexOf('.') !== -1) {
+	         // Compare using object.path (only if needed, for performance):
+	         var valueA = _laxar.object.path(resourceA, key);
+	         var valueB = _laxar.object.path(resourceB, key);
+	         if (valueA === undefined && valueB === undefined) {
+	            continue;
+	         }
+	         if (valueA === valueB) {
+	            ++matches;
+	         } else
+	         {
+	            return false;
+	         }
+	      } else
+	      {
+	         if (!(key in resourceA) && !(key in resourceB)) {
+	            continue;
+	         }
+	         if (resourceA[key] === resourceB[key]) {
+	            ++matches;
+	         } else
+	         {
+	            return false;
+	         }
+	      }
+	   }
+	   return matches > 0;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	exports.
+	
+	replaceHandler = replaceHandler;exports.
+	updateHandler = updateHandler;exports.
+	replacePublisherForFeature = replacePublisherForFeature;exports.
+	updatePublisherForFeature = updatePublisherForFeature;exports.
+	isSame = isSame;exports.
+	handlerFor = handlerFor;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = exports.errorEvent = exports.successEvent = undefined;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var _laxar = __webpack_require__(23);
+	
+	/**
+	                                * Creates and returns an event resembling a successful validation result.
+	                                *
+	                                * @param {String} resource
+	                                *    name of the validated resource
+	                                * @param {...Object|String|String[]|Object[]} htmlMessages
+	                                *    messages associated with the result. They should have the structure as described in the module
+	                                *
+	                                * @return {Object}
+	                                *    the validation event
+	                                */
+	function successEvent(resource) {for (var _len = arguments.length, htmlMessages = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {htmlMessages[_key - 1] = arguments[_key];}
+	   return createEvent(resource, messagesFromArgs(htmlMessages), 'SUCCESS');
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates and returns an event resembling the result of a validation with errors.
+	 *
+	 * @param {String} resource
+	 *    name of the validated resource
+	 * @param {...Object|String|String[]|Object[]} htmlMessages
+	 *    messages associated with the result. They should have the structure as described in the module
+	 *
+	 * @return {Object}
+	 *    the validation event
+	 */ /**
+	     * Copyright 2014-2015 aixigo AG
+	     * Released under the MIT license.
+	     * http://laxarjs.org/license
+	     */ /**
+	         * This module provides helpers for patterns regarding *validateRequest*, *willValidate* and
+	         * *didValidate* events.
+	         *
+	         * Validation messages can have one of the following structures:
+	         * - A simple html message object (locale to string mapping). It will get a default level of *ERROR*.
+	         * - A html message object as required by the messages widget consisting of a html message object under the
+	         *   key *htmlMessage* and a level under the key *level*.
+	         *
+	         * @module validation
+	         */function errorEvent(resource) {for (var _len2 = arguments.length, htmlMessages = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {htmlMessages[_key2 - 1] = arguments[_key2];}return createEvent(resource, messagesFromArgs(htmlMessages), 'ERROR');} //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Creates and returns a new handler for `validateRequest` events for a given context. It handles sending
+	 * of `willValidate` and `didValidate` events, including the output of the given `validator` function.
+	 *
+	 * @param {Object} context
+	 *    the context the handler should work with. It expects to find an `eventBus` property, with which
+	 *    it can do the event handling
+	 * @param {Object} configuration
+	 *    a laxarjs configuration, from which to get the default validation error message
+	 * @param {Object} log
+	 *    a laxarjs logger, to log validation errors
+	 *
+	 * @return {ValidationHandler}
+	 *    the validation handler instance for the given context
+	 */function handlerFor(context, configuration, log) {(0, _laxar.assert)(context).hasType(Object).hasProperty('eventBus');(0, _laxar.assert)(configuration).hasType(Object).hasProperty('get');(0, _laxar.assert)(log).hasType(Object).hasProperty('error');var eventBus = context.eventBus; /**
+	                                                                                                                                                                                                                                                                                             * @name ValidationHandler
+	                                                                                                                                                                                                                                                                                             */
+	   var api = {
+	      registerResourceFromFeature: registerResourceFromFeature,
+	      registerResource: registerResource };
+	
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   /**
+	    * Registers a validator for `validateRequest` events for a resource configured under the given feature.
+	    * It is assumed that the given feature has a `resource` property with the name of the resource to
+	    * validate. If the property is not found, an assertion will fail. If on the other hand the option
+	    * `isOptional` is given as `true`, this is ignored and nothing good or bad happens.
+	    *
+	    * Apart from that this function works just like {@link ValidationHandler#registerResource}.
+	    *
+	    * Example:
+	    * Consider the following configuration for a widget:
+	    * ```json
+	    * {
+	    *    "features": {
+	    *       "amount": {
+	    *          "resource": "theAmount"
+	    *       }
+	    *    }
+	    * }
+	    * ```
+	    * An example using that would be:
+	    * ```js
+	    * validation.handlerFor( context )
+	    *    .registerResourceFromFeature( 'amount', function( event, meta ) {
+	    *       if( isAmountValid() ) {
+	    *          return null;
+	    *       }
+	    *       return 'The given amount is not valid';
+	    *    } );
+	    * ```
+	    *
+	    * @param {String} featurePath
+	    *    the feature to read the resource to validate from
+	    * @param {Function} validator
+	    *    the validator function called upon `validateRequest` for the given resource
+	    * @param {Object} [optionalOptions]
+	    *    options to use
+	    * @param {Boolean} optionalOptions.isOptional
+	    *    if `true` a non-configured feature is simply ignored. Otherwise this results in an error
+	    *    (default is `false`)
+	    *
+	    * @return {ValidationHandler}
+	    *    this instance for chaining
+	    *
+	    * @memberOf ValidationHandler
+	    */
+	   function registerResourceFromFeature(featurePath, validator, optionalOptions) {
+	      (0, _laxar.assert)(featurePath).hasType(String).isNotNull();
+	      (0, _laxar.assert)(validator).hasType(Function).isNotNull();
+	
+	      var options = _laxar.object.options(optionalOptions, { isOptional: false });
+	
+	      var resource = _laxar.object.path(context.features, featurePath + '.resource', null);
+	      if (resource === null && options.isOptional) {
+	         return api;
+	      }
+	      (0, _laxar.assert)(resource).
+	      isNotNull('Could not find resource configuration in features for "' + featurePath + '"');
+	
+	      return registerResource(resource, validator);
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   /**
+	    * Registers a validator for `validateRequest` events for the given resource.
+	    *
+	    * The validator must be a function, that handles the actual validation necessary for the resource. The
+	    * validation result is always signaled through one or more generated error messages or the absence of
+	    * these messages. So valid results may be a string, an i18n object, an array of the former, `null` or
+	    * an empty array. `null` and an empty array signal a successful validation.
+	    *
+	    * The validator receives the event object for the `validateRequest` event and its according `meta` object.
+	    *
+	    * The way these messages are returned by the validator may be one of two ways, depending on the nature
+	    * of the validation:
+	    *
+	    * - if the validation can be handled synchronously, the result should simply be returned directly
+	    * - in case the validation is asynchronous, a promise must be returned, which must be resolved with the
+	    *   same kind of values as for the synchronous case
+	    *
+	    * If the validator throws an error or the promise is rejected, this is treated as a failed validation.
+	    * Since this is due to a programming error, the error or rejection cause will be logged and a
+	    * configurable message will instead be send in the `didValidate` event. The message is assumed to be
+	    * found in the global configuration at `lib.laxar-patterns.validation.i18nHtmlExceptionMessage` as string
+	    * or i18n object. If it cannot be found, an empty string is send as message.
+	    *
+	    * Example:
+	    * ```js
+	    * validation.handlerFor( context, configuration, log, i18n )
+	    *    .registerResource( 'theAmount', function( event, meta ) {
+	    *       return context.resources.theAmount > 1000;
+	    *    } )
+	    *    .registerResource( 'currentUser', function( event, meta ) {
+	    *       return fetchUserValidityRules()
+	    *          .then( function( rules ) {
+	    *             return context.resources.currentUser.meets( rules );
+	    *          } )
+	    *          .then( function( valid ) {
+	    *             return valid ? null : 'The current user isn\'t valid for some reason. Do something!';
+	    *          } );
+	    *    } );
+	    * ```
+	    *
+	    * @param {String} resource
+	    *    the resource to validate
+	    * @param {Function} validator
+	    *    the validator function called upon `validateRequest` for the given resource
+	    *
+	    * @return {ValidationHandler}
+	    *    this instance for chaining
+	    *
+	    * @memberOf ValidationHandler
+	    */
+	   function registerResource(resource, validator) {
+	      (0, _laxar.assert)(resource).hasType(String).isNotNull();
+	      (0, _laxar.assert)(validator).hasType(Function).isNotNull();
+	
+	      eventBus.subscribe('validateRequest.' + resource, function (event, meta) {
+	         callValidator(resource, validator.bind(null, event, meta));
+	      });
+	      return api;
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   // eslint-disable-next-line valid-jsdoc
+	   /** @private */
+	   function callValidator(resource, validator) {
+	      eventBus.publish('willValidate.' + resource, { resource: resource });
+	      try {
+	         var returnValue = validator();
+	
+	         Promise.resolve(returnValue).
+	         then(function (result) {
+	            var wrap = function wrap(_) {return _ ? [_] : null;};
+	            var messages = Array.isArray(result) ? result : wrap(result);
+	            var event = messages && messages.length > 0 ?
+	            errorEvent(resource, messages) :
+	            successEvent(resource);
+	
+	            eventBus.publish('didValidate.' + resource + '.' + event.outcome, event);
+	         }).
+	         catch(handleError.bind(null, resource));
+	      }
+	      catch (err) {
+	         handleError(resource, err);
+	      }
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   // eslint-disable-next-line valid-jsdoc
+	   /** @private */
+	   function handleError(resource, err) {
+	      var logMessage = err && err.message ? err.message : err;
+	      log.error('Error handling validateRequest for resource "[0]": [1]', resource, logMessage);
+	      if (err) {
+	         log.error('Stacktrace for previous error: [0]', err.stack || 'unavailable');
+	      }
+	
+	      var message = configuration.get('lib.laxar-patterns.validation.i18nHtmlExceptionMessage', '');
+	      eventBus.publish('didValidate.' + resource + '.ERROR', errorEvent(resource, message));
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   return api;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function createEvent(resource, htmlMessages, outcome) {
+	   var data = htmlMessages && htmlMessages.length ?
+	   htmlMessages.map(function (msg) {
+	      if (msg.htmlMessage && msg.level) {
+	         return msg;
+	      }
+	
+	      return {
+	         htmlMessage: msg,
+	         level: 'ERROR' };
+	
+	   }) : [];
+	
+	   return { resource: resource, data: data, outcome: outcome };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */
+	function messagesFromArgs(messageArguments) {
+	   if (messageArguments && Array.isArray(messageArguments[0])) {
+	      return messageArguments[0];
+	   }
+	   return messageArguments;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	exports.
+	
+	successEvent = successEvent;exports.
+	errorEvent = errorEvent;exports.
+	handlerFor = handlerFor;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.requestPublisherForArea = exports.requestPublisherForWidget = exports.handlerFor = undefined;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var _laxar = __webpack_require__(23);
+	
+	/**
+	                                * Creates a new handler instance for `didChangeAreaVisibility` events.
+	                                *
+	                                * @param {Object} scope
+	                                *    the scope the handler should work with. It is expected to find an `eventBus` property there with
+	                                *    which it can do the event handling. The visibility handler will manage the boolean scope property
+	                                *    `isVisible` which can be used to determine the visibility state of the entire widget
+	                                * @param {Object} [optionalOptions]
+	                                *    additional options to pass to the visibility handler
+	                                * @param {Function} optionalOptions.onChange
+	                                *    a handler to call when a `didChangeAreaVisibility` request for this widget's container was received,
+	                                *    and the visibility of this widget was changed
+	                                * @param {Function} optionalOptions.onShow
+	                                *    a handler to call when a `didChangeAreaVisibility` request for this widget's container was received,
+	                                *    and the visibility of this widget was changed to `true`
+	                                * @param {Function} optionalOptions.onHide
+	                                *    a handler to call when a `didChangeAreaVisibility` request for this widget's container was received,
+	                                *    and the visibility of this widget was changed to `false`
+	                                * @param {Function} optionalOptions.onAnyAreaRequest
+	                                *    a handler for any `changeAreaVisibilityRequest` to this widget's areas
+	                                *    The handler must
+	                                *     * _either_ return `true`/`false` to indicate visibility synchronously
+	                                *     * _or_ issue a will/did-response for the area when called
+	                                *
+	                                * @return {VisibilityHandler}
+	                                *    a visibility handler instance
+	                                */
+	function handlerFor(scope, optionalOptions) {
+	   return new VisibilityHandler(scope, optionalOptions);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// eslint-disable-next-line valid-jsdoc
+	/** @private */ /**
+	                 * Copyright 2016 aixigo AG
+	                 * Released under the MIT license.
+	                 * http://laxarjs.org/license
+	                 */ /**
+	                     * This module provides helpers for patterns regarding *changeAreaVisibilityRequest* and
+	                     * *didChangeAreaVisibility* events.
+	                     *
+	                     * @module visibility
+	                     */function VisibilityHandler(scope, optionalOptions) {this.scope = scope;scope.isVisible = false;var options = _laxar.object.options(optionalOptions, {});if (options.onAnyAreaRequest) {var requestEvent = 'changeAreaVisibilityRequest.' + scope.widget.id;scope.eventBus.subscribe(requestEvent, responder(this, options.onAnyAreaRequest));
+	   }
+	
+	   var didEvent = 'didChangeAreaVisibility.' + scope.widget.area;
+	   scope.eventBus.subscribe(didEvent, function (event) {
+	      var wasVisible = scope.isVisible || false;
+	      scope.isVisible = event.visible;
+	      if (wasVisible === event.visible) {
+	         return;
+	      }
+	      if (options.onChange) {
+	         options.onChange(event);
+	      }
+	      if (options.onShow && event.visible) {
+	         options.onShow(event);
+	      } else
+	      if (options.onHide && !event.visible) {
+	         options.onHide(event);
+	      }
+	   });
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Handle change-visibility-requests for a specific area, using a callback.
+	 *
+	 * @param {String} areaName
+	 *    the name of the area for which to handle visibility events
+	 * @param {Object=} optionalOptions
+	 *    additional options to pass to the visibility handler
+	 * @param {Function=} optionalOptions.onRequest
+	 *    a callback for any `changeAreaVisibilityRequest` to this area. The callback may issue a
+	 *    will/did-response for the area when called, or return a boolean which causes the visibility handler
+	 *    to respond accordingly. This should not be used in conjunction with the global
+	 *    `onAnyAreaRequest`-option of the handler
+	 *
+	 * @return {VisibilityHandler}
+	 *    this instance for chaining
+	 */
+	VisibilityHandler.prototype.registerArea = function (areaName, optionalOptions) {
+	   var options = _laxar.object.options(optionalOptions, {});
+	   if (options.onRequest) {
+	      var requestEvent = 'changeAreaVisibilityRequest.' + areaName;
+	      this.scope.eventBus.subscribe(requestEvent, responder(this, options.onRequest));
+	   }
+	   return this;
+	};
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	function responder(self, callback) {
+	   return function (event) {
+	      var result = callback(event);
+	      if (result === true || result === false) {
+	         var didEvent = 'didChangeAreaVisibility.' + event.area + '.' + result;
+	         self.scope.eventBus.publish(didEvent, {
+	            area: event.area,
+	            visible: result },
+	         { deliverToSender: false });
+	      }
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Publishes `changeWidgetVisibilityRequest` events.
+	 *
+	 * @param {Object} scope
+	 *    a scope (with `widget` and `eventBus` properties)
+	 *
+	 * @return {Function}
+	 *    a function of boolean that requests for widget visibility to be set to the given state
+	 */
+	function requestPublisherForWidget(scope) {
+	   return function (visible) {
+	      var eventName = 'changeWidgetVisibilityRequest.' + scope.widget.id + '.' + visible;
+	      return scope.eventBus.publishAndGatherReplies(eventName, {
+	         widget: scope.widget.id,
+	         visible: visible },
+	      { deliverToSender: false });
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Publishes `changeAreaVisibilityRequest` events.
+	 *
+	 * @param {Object} scope
+	 *    a scope (with an `eventBus` property)
+	 * @param {String} area
+	 *    the name of a widget area whose visibility is to be controlled by the function returned
+	 *
+	 * @return {Function}
+	 *    a function of boolean that requests for the given area's visibility to be set to the given state
+	 */
+	function requestPublisherForArea(scope, area) {
+	   return function (visible) {
+	      var eventName = 'changeAreaVisibilityRequest.' + area + '.' + visible;
+	      var meta = { deliverToSender: false };
+	      return scope.eventBus.publishAndGatherReplies(eventName, { area: area, visible: visible }, meta);
+	   };
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	exports.
+	
+	handlerFor = handlerFor;exports.
+	requestPublisherForWidget = requestPublisherForWidget;exports.
+	requestPublisherForArea = requestPublisherForArea;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports) {
+
+	'use strict'; /**
+	               * Copyright 2016 aixigo AG
+	               * Released under the MIT license.
+	               * http://laxarjs.org/license
+	               */
+	
+	/* global chrome */
+	
+	function axDeveloperToolsToggleGrid(gridSettings) {
+	   var hostDocument;
+	   var id = 'laxar-developer-tools-grid';
+	   if (window.chrome && chrome.runtime && chrome.runtime.id) {
+	      hostDocument = window.document;
+	   } else
+	   {
+	      hostDocument = applicationWindow().document;
+	   }
+	
+	   var grid = hostDocument.getElementById(id);
+	   if (grid === null) {
+	      createGrid(id);
+	   } else
+	   if (window.getComputedStyle(grid).getPropertyValue('display') === 'none') {
+	      grid.style.display = 'block';
+	   } else
+	   if (grid !== null && window.getComputedStyle(grid).getPropertyValue('display') === 'block') {
+	      grid.style.display = 'none';
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function applicationWindow() {
+	      return window.opener || window.parent || window;
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function createGrid(id) {
+	      var grid = hostDocument.createElement('div');
+	      grid.setAttribute('id', id);
+	      createSettings();
+	      Object.keys(gridSettings.css).forEach(function (key) {
+	         grid.style[key] = gridSettings.css[key];
+	      });
+	      var anchorElement = hostDocument.querySelector(gridSettings.anchor);
+	      anchorElement.insertBefore(
+	      grid,
+	      anchorElement.childNodes[0]);
+	
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function createSettings() {
+	      gridSettings = {
+	         anchor: gridSettings.anchor || '[data-ax-page], [ax-page]',
+	         columns: {
+	            count: setValue(gridSettings.columns.count, 12),
+	            width: setValue(gridSettings.columns.width, 78),
+	            gutter: setValue(gridSettings.columns.gutter, 26),
+	            padding: setValue(gridSettings.columns.padding, 13) },
+	
+	         css: gridSettings.css || {} };
+	
+	
+	      var defaultCss = {
+	         'background-position': gridSettings.columns.padding + 'px 0',
+	         'margin': '0 auto',
+	         'padding': '0 ' + gridSettings.columns.padding + 'px',
+	         'box-sizing': 'content-box',
+	         'position': 'fixed',
+	         'top': 0,
+	         'right': 0,
+	         'bottom': 0,
+	         'left': 0,
+	         'z-index': 100,
+	         'width': gridSettings.columns.count * gridSettings.columns.width +
+	         (gridSettings.columns.count - 1) * gridSettings.columns.gutter +
+	         'px',
+	         'background-image': 'url("' + columnBackgroundUri(gridSettings.columns) + '")' };
+	
+	      gridSettings.css = mergeObjects(gridSettings.css, defaultCss);
+	
+	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	      function setValue(value, defaultValue) {
+	         return typeof value === 'undefined' ? defaultValue : value;
+	      }
+	
+	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	      function mergeObjects(target, source) {
+	         Object.keys(source).forEach(function (key) {
+	            if (!target.hasOwnProperty(key)) {
+	               target[key] = source[key];
+	            }
+	         });
+	         return target;
+	      }
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function columnBackgroundUri(settings) {
+	      var bgCanvas = document.createElement('canvas');
+	      var height = 64;
+	      var width = parseInt(settings.width);
+	      var padding = parseInt(settings.padding);
+	      bgCanvas.width = width + parseInt(settings.gutter);
+	      bgCanvas.height = height;
+	      var context = bgCanvas.getContext('2d');
+	      // padding
+	      context.fillStyle = 'rgba(229, 111, 114, 0.25)';
+	      context.fillRect(0, 0, padding, height);
+	      context.fillRect(width - padding, 0, padding, height);
+	      // column
+	      context.fillStyle = 'rgba(229, 111, 114, 0.4)';
+	      context.fillRect(padding, 0, width - 2 * padding, height);
+	      return bgCanvas.toDataURL();
+	   }
+	}
+
+/***/ },
+/* 285 */
+/***/ function(module, exports) {
+
+	'use strict'; /**
+	               * Copyright 2016 aixigo AG
+	               * Released under the MIT license.
+	               * http://laxarjs.org/license
+	               */
+	
+	/* global chrome */
+	var axDeveloperToolsToggleWidgetOutline = function () {
+	   var infoId;
+	   var isBrowserWebExtension;
+	   var document;
+	
+	   var INFO_LAYER_STYLE = {
+	      'position': 'fixed',
+	      'top': '-5px',
+	      'left': '-5px',
+	      'box-shadow': '2px 2px 15px rgba(0,0,0,0.5)',
+	      'z-index': 1000,
+	      'padding': '0.5em 1em 0.75em',
+	      'border-right': '1px solid white',
+	      'border-bottom': '1px solid white',
+	      'border-radius': '0 0 20px 0',
+	      'backgroundColor': '#ff9900',
+	      'color': 'white' };
+	
+	
+	   return function () {
+	      infoId = infoId || 'laxar-developer-tools-info-box';
+	      isBrowserWebExtension = isBrowserWebExtension || window.chrome && chrome.runtime && chrome.runtime.id;
+	      document = hostDocument();
+	
+	      var cssClassName = 'ax-developer-tools-widget-outline';
+	      var widgets = document.querySelectorAll('[data-ax-widget-area] > div');
+	      for (var j = 0; j < widgets.length; ++j) {
+	         if (widgets[j].classList.contains(cssClassName)) {
+	            widgets[j].removeEventListener('mouseover', listener, false);
+	            widgets[j].classList.remove(cssClassName);
+	         } else
+	         {
+	            widgets[j].classList.add(cssClassName);
+	            widgets[j].addEventListener('mouseover', listener, false);
+	         }
+	      }
+	      var info = document.getElementById(infoId);
+	      if (info) {
+	         info.parentNode.removeChild(info);
+	      }
+	   };
+	
+	   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function listener(event) {
+	      var widgetClass = this.className.split(/\s+/).filter(function (_) {
+	         return !!_.match(/(-widget|-activity)$/);
+	      }).concat('unknown')[0];
+	      infoLayer().innerHTML = '<strong>' + widgetClass + '</strong><br>ID: ' + this.id;
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function infoLayer() {
+	      var info = document.getElementById(infoId);
+	
+	      if (!info) {
+	         info = document.createElement('div');
+	         info.setAttribute('id', infoId);
+	         Object.keys(INFO_LAYER_STYLE).forEach(function (key) {
+	            info.style[key] = INFO_LAYER_STYLE[key];
+	         });
+	         document.body.appendChild(info);
+	      }
+	      info.addEventListener('click', function (event) {
+	         this.remove();
+	      });
+	      return info;
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function hostDocument() {
+	      if (isBrowserWebExtension) {
+	         return window.document;
+	      } else
+	      {
+	         return (window.opener || window.parent || window).document;
+	      }
+	   }
+	}();
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var resource = __webpack_require__( 287 );
+	module.exports = typeof resource === 'string' ? resource : null;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(288);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(265)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./developer-toolbar-widget.css", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./developer-toolbar-widget.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(253)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".developer-toolbar-widget :active,\n.developer-toolbar-widget :focus {\n  outline: none !important;\n}\n.developer-toolbar-widget .fa-toggle-on {\n  color: #5cb85c;\n}\n.developer-toolbar-widget .developer-toolbar-icon {\n  background-repeat: no-repeat;\n  background: url(" + __webpack_require__(289) + ");\n  background-size: contain;\n  border-left: 4px solid white;\n  border-top: 4px solid white;\n  border-right: 4px solid white;\n  width: 40px;\n  height: 36px;\n}\n\n.developer-toolbar-widget .developer-toolbar-hint {\n   height: 38px;\n   padding: 9px;\n   color: #737373;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "assets/title-icon-5eaf03.png";
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });
+	
+	
+	
+	
+	var _react = __webpack_require__(272);var _react2 = _interopRequireDefault(_react);
+	var _laxarPatterns = __webpack_require__(273);var patterns = _interopRequireWildcard(_laxarPatterns);
+	var _wireflow = __webpack_require__(291);var _wireflow2 = _interopRequireDefault(_wireflow);
+	
+	var _graphHelpers = __webpack_require__(380);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
+	                                                                                                                                                                                                                                                                                                                                                                                                              * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                              * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                              * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                                                              */var SelectionStore = _wireflow2.default.selection.SelectionStore,HistoryStore = _wireflow2.default.history.HistoryStore,
+	LayoutStore = _wireflow2.default.layout.LayoutStore,_wireflow$graph = _wireflow2.default.
+	graph,GraphStore = _wireflow$graph.GraphStore,ActivateVertex = _wireflow$graph.actions.ActivateVertex,_wireflow$settings = _wireflow2.default.
+	settings,_wireflow$settings$ac = _wireflow$settings.
+	actions,ChangeMode = _wireflow$settings$ac.ChangeMode,MinimapResized = _wireflow$settings$ac.MinimapResized,_wireflow$settings$mo = _wireflow$settings.
+	model,Settings = _wireflow$settings$mo.Settings,READ_ONLY = _wireflow$settings$mo.READ_ONLY,READ_WRITE = _wireflow$settings$mo.READ_WRITE,
+	SettingsStore = _wireflow$settings.SettingsStore,
+	
+	Dispatcher = _wireflow2.default.Dispatcher,
+	Graph = _wireflow2.default.components.Graph;
+	
+	
+	
+	function create(context, eventBus, reactRender) {
+	
+	   var visible = false;
+	   var domAvailable = false;
+	   var viewModel = null;
+	   var viewModelCalculation = null;
+	
+	   var withIrrelevantWidgets = false;
+	   var withContainers = true;
+	   var withFlatCompositions = false;
+	
+	   var compositionStack = [];
+	   var activeComposition = null;
+	
+	   var publishedSelection = null;
+	
+	   patterns.resources.handlerFor(context).
+	   registerResourceFromFeature('pageInfo', {
+	      onUpdateReplace: function onUpdateReplace() {return initializeViewModel(true);} });
+	
+	
+	
+	   var publishFilter = patterns.resources.replacePublisherForFeature(context, 'filter', {
+	      isOptional: true });
+	
+	
+	   eventBus.subscribe('didChangeAreaVisibility.' + context.widget.area, function (event, meta) {
+	      if (!visible && event.visible) {
+	         visible = true;
+	         render();
+	      }
+	   });
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function replaceFilter(selection, graphModel) {
+	      var resource = context.features.filter.resource;
+	      if (!resource || selection === publishedSelection) {
+	         return;
+	      }
+	      publishedSelection = selection;
+	      publishFilter((0, _graphHelpers.filterFromSelection)(selection, graphModel));
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function toggleIrrelevantWidgets() {
+	      withIrrelevantWidgets = !withIrrelevantWidgets;
+	      initializeViewModel(true);
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function toggleContainers() {
+	      withContainers = !withContainers;
+	      initializeViewModel(true);
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function toggleCompositions() {
+	      withFlatCompositions = !withFlatCompositions;
+	      initializeViewModel(true);
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function enterCompositionInstance(id) {
+	      if (id === _graphHelpers.ROOT_ID) {
+	         id = compositionStack.length > 1 ? compositionStack[compositionStack.length - 2] : null;
+	      }
+	      var goToTop = id === null;
+	      var targetIndex = goToTop ? 0 : compositionStack.indexOf(id);
+	      if (targetIndex === -1) {
+	         compositionStack.push(id);
+	      } else
+	      {
+	         compositionStack.splice(goToTop ? 0 : targetIndex + 1, compositionStack.length - targetIndex);
+	      }
+	      activeComposition = id;
+	      initializeViewModel(true);
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function initializeViewModel(doReset) {
+	      if (doReset) {
+	         viewModel = null;
+	         clearTimeout(viewModelCalculation);
+	         viewModelCalculation = null;
+	         if (visible) {
+	            render();
+	         }
+	      }
+	
+	      if (visible) {
+	         // setTimeout: used to ensure that the browser shows the spinner before stalling for layout
+	         viewModelCalculation = viewModelCalculation || setTimeout(function () {
+	            var pageTypes = (0, _graphHelpers.types)();
+	            var pageInfo = context.resources.pageInfo;
+	            var pageGraph = (0, _graphHelpers.graph)(pageInfo, {
+	               withIrrelevantWidgets: withIrrelevantWidgets,
+	               withContainers: withContainers,
+	               compositionDisplay: withFlatCompositions ? 'FLAT' : 'COMPACT',
+	               activeComposition: activeComposition });
+	
+	            var dispatcher = new Dispatcher(render);
+	            new HistoryStore(dispatcher);
+	            var graphStore = new GraphStore(dispatcher, pageGraph, pageTypes);
+	            var layoutStore = new LayoutStore(dispatcher, graphStore);
+	            var settingsStore = new SettingsStore(dispatcher, Settings({ mode: READ_ONLY }));
+	            var selectionStore = new SelectionStore(dispatcher, layoutStore, graphStore);
+	
+	            dispatcher.register(ActivateVertex, function (_ref) {var vertex = _ref.vertex;
+	               if (vertex.kind === 'COMPOSITION' || vertex.kind === 'PAGE') {
+	                  enterCompositionInstance(vertex.id);
+	               }
+	            });
+	
+	            viewModel = { graphStore: graphStore, layoutStore: layoutStore, settingsStore: settingsStore, selectionStore: selectionStore, dispatcher: dispatcher };
+	            render();
+	         }, 20);
+	      }
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function render() {
+	      if (!visible || !domAvailable) {
+	         return;
+	      }
+	
+	      if (!viewModel) {
+	         reactRender(
+	         _react2.default.createElement('div', { className: 'page-inspector-placeholder' },
+	            _react2.default.createElement('i', { className: 'fa fa-cog fa-spin' })));
+	
+	
+	         initializeViewModel();
+	         return;
+	      }var _viewModel =
+	
+	
+	
+	
+	
+	
+	
+	      viewModel,graphStore = _viewModel.graphStore,layoutStore = _viewModel.layoutStore,settingsStore = _viewModel.settingsStore,selectionStore = _viewModel.selectionStore,dispatcher = _viewModel.dispatcher;
+	
+	      replaceFilter(selectionStore.selection, graphStore.graph);
+	
+	
+	      reactRender(
+	      _react2.default.createElement('div', { className: 'page-inspector-row form-inline' },
+	         _react2.default.createElement('div', { className: 'text-right' },
+	            _react2.default.createElement('div', { className: 'pull-left' }, renderBreadCrumbs()),
+	            _react2.default.createElement('button', { type: 'button', className: 'btn btn-link ',
+	                  title: 'Include widgets without any links to relevant topics?',
+	                  onClick: toggleIrrelevantWidgets },
+	               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withIrrelevantWidgets ? 'on' : 'off') }), ' ',
+	               _react2.default.createElement('span', null, 'Isolated Widgets')),
+	            _react2.default.createElement('button', { type: 'button', className: 'btn btn-link',
+	                  title: 'Include area-nesting relationships?',
+	                  onClick: toggleContainers },
+	               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withContainers ? 'on' : 'off') }), ' ',
+	               _react2.default.createElement('span', null, 'Containers')),
+	            _react2.default.createElement('button', { type: 'button', className: 'btn btn-link',
+	                  title: 'Flatten compositions into their runtime contents?',
+	                  onClick: toggleCompositions },
+	               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withFlatCompositions ? 'on' : 'off') }), ' ',
+	               _react2.default.createElement('span', null, 'Flatten Compositions'))),
+	
+	         _react2.default.createElement(Graph, { className: 'nbe-theme-fusebox-app',
+	            types: graphStore.types,
+	            model: graphStore.graph,
+	            layout: layoutStore.layout,
+	            measurements: layoutStore.measurements,
+	            settings: settingsStore.settings,
+	            selection: selectionStore.selection,
+	            eventHandler: dispatcher.dispatch })));
+	
+	
+	
+	      function renderBreadCrumbs() {
+	         return [
+	         _react2.default.createElement('button', { key: _graphHelpers.ROOT_ID, type: 'button', className: 'btn btn-link page-inspector-breadcrumb',
+	               onClick: function onClick() {return enterCompositionInstance(null);} },
+	            _react2.default.createElement('i', { className: 'fa fa-home' }))].
+	
+	         concat(compositionStack.map(function (id) {return (
+	               activeComposition === id ? id :
+	               _react2.default.createElement('button', { key: id, type: 'button', className: 'btn btn-link page-inspector-breadcrumb',
+	                     onClick: function onClick() {return enterCompositionInstance(id);} }, id));}));
+	
+	      }
+	   }
+	
+	   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   return { onDomAvailable: function onDomAvailable() {
+	         domAvailable = true;
+	         render();
+	      } };
+	}exports.default =
+	
+	{
+	   name: 'page-inspector-widget',
+	   injections: ['axContext', 'axEventBus', 'axReactRender'],
+	   create: create };
+
+/***/ },
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.ROOT_ID = undefined;var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"]) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}(); /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */exports.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	graph = graph;exports.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	layout = layout;exports.
+	
+	
+	
+	
+	
+	
+	
+	
+	types = types;exports.
+	
+	
+	
+	
+	
+	compositionStack = compositionStack;exports.
+	
+	
+	
+	
+	
+	filterFromSelection = filterFromSelection;var _wireflow = __webpack_require__(291);var _wireflow2 = _interopRequireDefault(_wireflow);var _laxar = __webpack_require__(23);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var TYPE_CONTAINER = 'CONTAINER';var layoutModel = _wireflow2.default.layout.model,graphModel = _wireflow2.default.graph.model;var edgeTypes = { RESOURCE: { hidden: false, label: 'Resources' }, FLAG: { label: 'Flags', hidden: false }, ACTION: { label: 'Actions', hidden: false }, CONTAINER: { hidden: false, label: 'Container', owningPort: 'outbound' } };var ROOT_ID = exports.ROOT_ID = '.'; /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Create a wireflow graph from a given page/widget information model.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * @param {Object} pageInfo
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * @param {Boolean=false} pageInfo.withIrrelevantWidgets
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     *   If set to `true`, widgets without any relevance to actions/resources/flags are removed.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     *   Containers of widgets (that are relevant by this measure) are kept.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * @param {Boolean=false} pageInfo.withContainers
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     *   If set to `true`, Container relationships are included in the graph representation.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * @param {String='FLAT'} pageInfo.compositionDisplay
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     *   If set to `'COMPACT'` (default), compositions are represented by an instance node, reflecting their development-time model.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     *   If set to `'FLAT'`, compositions are replaced recursively by their configured expansion, reflecting their run-time model.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * @param {String=null} pageInfo.activeComposition
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     *   If set, generate a graph for the contents of the given composition, rather than for the page.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */function graph(pageInfo, options) {var _options$withIrreleva = options.withIrrelevantWidgets,withIrrelevantWidgets = _options$withIrreleva === undefined ? false : _options$withIrreleva,_options$withContaine = options.withContainers,withContainers = _options$withContaine === undefined ? true : _options$withContaine,_options$compositionD = options.compositionDisplay,compositionDisplay = _options$compositionD === undefined ? 'FLAT' : _options$compositionD,_options$activeCompos = options.activeComposition,activeComposition = _options$activeCompos === undefined ? null : _options$activeCompos;var pageReference = pageInfo.pageReference,pageDefinitions = pageInfo.pageDefinitions,widgetDescriptors = pageInfo.widgetDescriptors,compositionDefinitions = pageInfo.compositionDefinitions;var page = activeComposition ? compositionDefinitions[pageReference][activeComposition][compositionDisplay] : pageDefinitions[pageReference][compositionDisplay];var vertices = {};var edges = {};identifyVertices();if (withContainers) {identifyContainers();}if (!withIrrelevantWidgets) {pruneIrrelevantWidgets(withContainers);}pruneEmptyEdges();return graphModel.convert.graph({ vertices: vertices, edges: edges }); ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	   function identifyVertices() {vertices[ROOT_ID] = rootVertex();Object.keys(page.areas).forEach(function (areaName) {page.areas[areaName].forEach(function (pageAreaItem) {if (isWidget(pageAreaItem)) {processWidgetInstance(pageAreaItem, areaName);} else if (isComposition(pageAreaItem)) {processCompositionInstance(pageAreaItem, areaName);} else if (isLayout(pageAreaItem)) {processLayoutInstance(pageAreaItem, areaName);}});}); ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	      function rootVertex() {var ports = identifyPorts({}, {});if (activeComposition) {// find composition instance within embedding page/composition:
+	            var pageCompositionDefinitions = Object.keys(compositionDefinitions[pageReference]).map(function (key) {return compositionDefinitions[pageReference][key];});[pageDefinitions[pageReference]].concat(pageCompositionDefinitions).forEach(function (pagelike) {var areas = pagelike.COMPACT.areas;Object.keys(areas).forEach(function (name) {return areas[name].filter(function (item) {return item.id === activeComposition;}).forEach(function (item) {var features = item.features;var schema = page.features;ports = identifyPorts(features || {}, schema); // swap port directions (from inside, an input is an output, and vice versa):
+	                     ports = { inbound: ports.outbound, outbound: ports.inbound };});});});}return { ROOT_ID: ROOT_ID, label: activeComposition ? '[parent]' : '[root] ' + pageReference, kind: 'PAGE', ports: ports };} ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	      function processLayoutInstance(layout, areaName) {vertices[layout.id] = { id: layout.id, label: layout.id, kind: 'LAYOUT', ports: { inbound: [], outbound: [] } };} ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	      function processWidgetInstance(widgetInstance, areaName) {var descriptor = widgetDescriptors[widgetInstance.widget];var kinds = { widget: 'WIDGET', activity: 'ACTIVITY' };var id = widgetInstance.id;var ports = identifyPorts(widgetInstance.features, descriptor.features);vertices[id] = { id: id, label: id, kind: kinds[descriptor.integration.type], ports: ports };} ////////////////////////////////////////////////////////////////////////////////////////////////////////
+	      function processCompositionInstance(compositionInstance, areaName) {var id = compositionInstance.id;var definition = compositionDefinitions[pageReference][id].COMPACT;var schema = definition.features.type ? definition.features : { type: 'object', properties: definition.features };var ports = identifyPorts(compositionInstance.features || {}, _laxar.object.options(schema));vertices[id] = { id: id, label: id, kind: 'COMPOSITION', ports: ports };} ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	      function identifyPorts(value, schema, path, ports) {path = path || [];ports = ports || { inbound: [], outbound: [] };if (!value || !schema) {return ports;}if (!schema.type) {// TODO: cleanup, invert role
+	            schema = { type: 'object', properties: schema };}if (value.enabled === false) {// feature can be disabled, and was disabled
+	            return ports;}if (schema.type === 'string' && schema.axRole && (schema.format === 'topic' || schema.format === 'flag-topic')) {var type = schema.axPattern ? schema.axPattern.toUpperCase() : inferEdgeType(path);if (!type) {return;}var edgeId = type + ':' + value;var label = path.join('.');var id = path.join(':');ports[schema.axRole === 'outlet' ? 'outbound' : 'inbound'].push({ label: label, id: id, type: type, edgeId: edgeId });if (edgeId && !edges[edgeId]) {edges[edgeId] = { type: type, id: edgeId, label: value };}}if (schema.type === 'object' && schema.properties) {Object.keys(schema.properties).forEach(function (key) {var propertySchema = schema.properties[key] || schema.additionalProperties;identifyPorts(value[key], propertySchema, path.concat([key]), ports);});}if (schema.type === 'array') {value.forEach(function (item, i) {identifyPorts(item, schema.items, path.concat([i]), ports);});}return ports;} ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	      function inferEdgeType(path) {if (!path.length) {return null;}var lastSegment = path[path.length - 1];if (['action', 'flag', 'resource'].indexOf(lastSegment) !== -1) {return lastSegment.toUpperCase();}if (lastSegment === 'onActions') {return 'ACTION';}return inferEdgeType(path.slice(0, path.length - 1));}} ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	   function identifyContainers() {var type = TYPE_CONTAINER;Object.keys(page.areas).forEach(function (areaName) {insertEdge(areaName);var owner = findOwner(areaName);if (!owner) {return;}var containsAnything = false;page.areas[areaName].filter(function (item) {return isComposition(item) ? compositionDisplay === 'COMPACT' : true;}).forEach(function (item) {if (vertices[item.id]) {insertUplink(vertices[item.id], areaName);containsAnything = true;}});if (containsAnything) {insertOwnerPort(owner, areaName);}});function findOwner(areaName) {if (areaName.indexOf('.') <= 0) {return vertices[ROOT_ID];}var prefix = areaName.slice(0, areaName.lastIndexOf('.'));return vertices[prefix];}function insertOwnerPort(vertex, areaName) {vertex.ports.outbound.unshift({ id: 'CONTAINER:' + areaName, type: TYPE_CONTAINER, edgeId: areaEdgeId(areaName), label: areaName });}function insertUplink(vertex, areaName) {vertex.ports.inbound.unshift({ id: 'CONTAINER:anchor', type: TYPE_CONTAINER, edgeId: areaEdgeId(areaName), label: 'anchor' });}function insertEdge(areaName) {var id = areaEdgeId(areaName);edges[id] = { id: id, type: type, label: areaName };}function areaEdgeId(areaName) {return TYPE_CONTAINER + ':' + areaName;}} ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	   function pruneIrrelevantWidgets(withContainers) {var toPrune = [];do {toPrune.forEach(function (id) {delete vertices[id];});pruneEmptyEdges();toPrune = mark();} while (toPrune.length);function mark() {var pruneList = [];Object.keys(vertices).forEach(function (vId) {var ports = vertices[vId].ports;if (ports.inbound.length <= withContainers ? 1 : 0) {if (ports.outbound.every(function (_) {return !_.edgeId;})) {pruneList.push(vId);}}});return pruneList;}} ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	   function pruneEmptyEdges() {var toPrune = [];Object.keys(edges).forEach(function (edgeId) {var type = edgeTypes[edges[edgeId].type];var sources = Object.keys(vertices).filter(isSourceOf(edgeId));var sinks = Object.keys(vertices).filter(isSinkOf(edgeId));var hasSources = sources.length > 0;var hasSinks = sinks.length > 0;var isEmpty = type.owningPort ? !hasSources || !hasSinks : !hasSources && !hasSinks;if (!isEmpty) {return;}toPrune.push(edgeId);sources.concat(sinks).forEach(function (vertexId) {var ports = vertices[vertexId].ports;ports.inbound.concat(ports.outbound).forEach(function (port) {port.edgeId = port.edgeId === edgeId ? null : port.edgeId;});});});toPrune.forEach(function (id) {delete edges[id];});function isSourceOf(edgeId) {return function (vertexId) {return vertices[vertexId].ports.inbound.some(function (port) {return port.edgeId === edgeId;});};}function isSinkOf(edgeId) {return function (vertexId) {return vertices[vertexId].ports.outbound.some(function (port) {return port.edgeId === edgeId;});};}}} //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function isComposition(pageAreaItem) {return !!pageAreaItem.composition;}function isWidget(pageAreaItem) {return !!pageAreaItem.widget;}function isLayout(pageAreaItem) {return !!pageAreaItem.layout;}function either(f, g) {return function () {return f.apply(this, arguments) || g.apply(this, arguments);};} //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function layout(graph) {return layoutModel.convert.layout({ vertices: {}, edges: {} });} //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function types() {return graphModel.convert.types(edgeTypes);} //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function compositionStack(compositionInstanceId) {return [];} //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function filterFromSelection(selection, graphModel) {var topics = selection.edges.flatMap(function (edgeId) {var _edgeId$split = edgeId.split(':'),_edgeId$split2 = _slicedToArray(_edgeId$split, 2),type = _edgeId$split2[0],topic = _edgeId$split2[1];return type === 'CONTAINER' ? [] : [{ pattern: type, topic: topic }];}).toJS();var participants = selection.vertices.flatMap(function (vertexId) {var _graphModel$vertices$ = graphModel.vertices.get(vertexId),id = _graphModel$vertices$.id,kind = _graphModel$vertices$.kind;return kind === 'PAGE' || kind === 'LAYOUT' ? [] : [{ kind: kind, participant: vertexId }];});return { topics: topics, participants: participants };}
+
+/***/ },
+/* 381 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var resource = __webpack_require__( 382 );
+	module.exports = typeof resource === 'string' ? resource : null;
+
+/***/ },
+/* 382 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(383);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(265)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./page-inspector-widget.css", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./page-inspector-widget.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 383 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(253)();
+	// imports
+	exports.i(__webpack_require__(384), "");
+	
+	// module
+	exports.push([module.id, "/**\n * Copyright 2016\n * Released under the MIT license\n */\n@charset \"UTF-8\";\n\n.page-inspector-widget {\n   display: flex;\n   flex-direction: column;\n   width: 100%;\n   height: 100%;\n}\n\n.page-inspector-widget .page-inspector-placeholder {\n   font-size: 8vw;\n   color: #999;\n   margin: auto;\n   width: 100%;\n   text-align: center;\n}\n\n.page-inspector-widget .page-inspector-row {\n   display: flex;\n   flex-direction: column;\n   width: 100%;\n   height: 100%;\n}\n\n.page-inspector-widget .page-inspector-breadcrumb::after {\n   content: ' / ';\n}\n.page-inspector-widget .page-inspector-breadcrumb {\n   padding-right: 4px;\n}\n.page-inspector-widget .page-inspector-breadcrumb:not(:first-child) {\n   padding-left: 0;\n}\n\n\n.page-inspector-widget button {\n   position: relative;\n}\n\n.page-inspector-widget .nbe-graph {\n   display: flex;\n   flex-direction: column;\n   width: calc( 100% - 4px );\n   height: calc( 100% - 4px );\n   position: relative;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 384 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(253)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@keyframes nbe-vertex-ping {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   20% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 4px 5px #eeeeee, 0px 0px 6px 7px #a0a0a0;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 18px 5px #eeeeee, 0px 0px 24px 10px transparent;\n   }\n}\n\n/**\n * Use this to declare user-defined edge types.\n */\n@keyframes nbe-vertex-ping {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   20% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 4px 5px #eeeeee, 0px 0px 6px 7px #a0a0a0;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 18px 5px #eeeeee, 0px 0px 24px 10px transparent;\n   }\n}\n\n\n.nbe-graph {\n   background: #eeeeee;\n   box-sizing: border-box;\n   margin: 2px;\n}\n.nbe-graph:focus {\n   margin-top: 1px;\n   margin-left: 1px;\n   border: 1px dotted #646464;\n   outline: none;\n}\n.nbe-graph.nbe-highlight-inbound .nbe-ports.nbe-outbound .nbe-port-handle\n.nbe-graph.nbe-highlight-outbound .nbe-ports.nbe-inbound .nbe-port-handle {\n   background-color: #646464;\n}\n\n.nbe-graph-viewport {\n   position: absolute;\n   overflow: auto;\n   top: 0;\n   left: 0;\n   bottom: 0;\n   right: 0;\n}\n\n.nbe-graph-contents {\n   position: relative;\n}\n\n.nbe-graph-nodes {\n   position: relative;\n   z-index: 1;\n}\n\n.nbe-node,\n.nbe-edge-icon {\n  position: absolute;\n}\n\n.nbe-links {\n   position: relative;\n   left: 0;\n   top: 0;\n   width: 100%;\n   height: 100%;\n   z-index: 0;\n}\n\n.nbe-graph-viewport {\n   box-shadow: inset 0 1px 2px 1px #a0a0a0;\n}\n\n.nbe-graph,\n.nbe-graph * {\n   user-select: none;\n   cursor: default;\n}\n\n.nbe-graph *::selection {\n   background: transparent;\n}\n\n.nbe-graph *::-moz-selection {\n   background: transparent;\n}\n\n.nbe-graph *::-webkit-selection {\n   background: transparent;\n}\n\n.nbe-graph-canvas {\n   background: linear-gradient(0deg, transparent 24%, #e0e0e0 25%, #e0e0e0 26%, transparent 27%, transparent 74%, #e0e0e0 75%, #e0e0e0 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, #e0e0e0 25%, #e0e0e0 26%, transparent 27%, transparent 74%, #e0e0e0 75%, #e0e0e0 76%, transparent 77%, transparent);\n   width: 100%;\n   height: 100%;\n}\n\n.nbe-link {\n   position: absolute;\n   fill: transparent;\n}\n\n.nbe-ghost {\n   position: absolute;\n}\n\n.nbe-edge {\n   display: block;\n   width: 20px;\n   height: 40px;\n}\n\n.nbe-edge-icon {\n   background: #ef6c00;\n}\n\n.nbe-edge-label {\n   position: relative;\n   text-align: center;\n   font-family: \"Roboto\", \"Arial\", sans-serif;\n}\n\n.nbe-port-handle {\n   background: #ef6c00;\n   display: inline-block;\n   position: relative;\n}\n.nbe-port-handle:hover {\n   border-color: #f9f9f9;\n}\n\n.nbe-vertex {\n   box-shadow: 0 1px 3px 0 #a0a0a0;\n   border-radius: 2px;\n   background: white;\n}\n.nbe-vertex.nbe-ping {\n   animation-name: nbe-vertex-ping;\n   animation-duration: 0.3s;\n   animation-iteration-count: 1;\n}\n\n.nbe-vertex-header {\n   border-radius: 2px 2px 0 0;\n   text-align: center;\n   font-family: \"Roboto\", \"Arial\", sans-serif;\n   font-weight: bold;\n   color: #fff;\n}\n\n.nbe-port-group {\n   display: table;\n   width: 100%;\n   border-top: solid #f9f9f9 1px;\n}\n\n.nbe-ports {\n   display: table-cell;\n   min-width: 10%;\n}\n\n.nbe-inbound {\n  text-align: left;\n}\n.nbe-inbound .nbe-port {\n   padding-right: 9px;\n}\n\n.nbe-outbound {\n  text-align: right;\n}\n.nbe-outbound .nbe-port {\n   padding-left: 9px;\n}\n\n.nbe-port {\n   padding-top: 0;\n   color: #202020;\n   font-family: \"Roboto\", \"Arial\", sans-serif;\n   white-space: nowrap;\n}\n\n\n.nbe-vertex .nbe-port.nbe-drop-hover > .nbe-port-handle {\n   background: #e91e63;\n}\n\n.nbe-node.nbe-vertex .nbe-port.nbe-drop-hover {\n   color: #e91e63;\n}\n\n\n\n\n/* VERTEX KINDS */\n\n\n.nbe-vertex.nbe-kind-DEFAULT .nbe-vertex-header {\n  background: #e57373;\n}\n.nbe-vertex.nbe-kind-DEFAULT.nbe-selected .nbe-vertex-header {\n   background: #c62828;\n}\n.nbe-minimap-vertex.nbe-kind-DEFAULT {\n  fill: #e57373;\n}\n.nbe-highlight-selection .nbe-minimap-vertex.nbe-kind-DEFAULT.nbe-selected {\n  fill: #c62828;\n}\n\n\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-ACTIVITY .nbe-vertex-header {\n   background: #95d095;\n}\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-ACTIVITY.nbe-selected .nbe-vertex-header {\n   background: #4fb04f;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-ACTIVITY {\n   fill: #95d095;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-ACTIVITY.nbe-selected {\n   fill: #4fb04f;\n}\n\n\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-WIDGET .nbe-vertex-header {\n   background: #eeb45d;\n}\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-WIDGET.nbe-selected .nbe-vertex-header {\n   background: #f90;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-WIDGET {\n   fill: #eeb45d;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-WIDGET.nbe-selected {\n   fill: #f90;\n}\n\n\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-PAGE .nbe-vertex-header {\n   background: #e57373;\n}\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-PAGE.nbe-selected .nbe-vertex-header {\n   background: #c62828;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-PAGE {\n   fill: #e57373;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-PAGE.nbe-selected {\n   fill: #c62828;\n}\n\n\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-COMPOSITION .nbe-vertex-header {\n   background: #CC82D9;\n}\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-COMPOSITION.nbe-selected .nbe-vertex-header {\n   background: #AD43BF;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-COMPOSITION {\n   fill: #CC82D9;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-COMPOSITION.nbe-selected {\n   fill: #AD43BF;\n}\n\n\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-LAYOUT .nbe-vertex-header {\n  background: #8ab4f8;\n}\n.nbe-theme-fusebox-app .nbe-vertex.nbe-kind-LAYOUT.nbe-selected .nbe-vertex-header {\n  background: #4285f4;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-LAYOUT {\n  fill: #8ab4f8;\n}\n.nbe-theme-fusebox-app .nbe-minimap-vertex.nbe-kind-LAYOUT.nbe-selected {\n  fill: #4285f4;\n}\n\n\n/* MINIMAP */\n\n.nbe-minimap {\n   background: rgba(255, 255, 255, 0.95);\n   position: absolute;\n   left: 10px;\n   bottom: 20px;\n   box-shadow: 0 2px 2px #a0a0a0;\n   border: 1px solid orange;\n   z-index: 200;\n   width: 200px;\n   height: 100px;\n   overflow: hidden;\n\n   opacity: 1;\n   visibility: visible;\n   transition: visibility 0s linear, opacity 0.5s linear;\n}\n\n.nbe-minimap.nbe-hidden {\n  opacity: 0;\n  visibility: hidden;\n  transition: visibility .5s, opacity 0.5s linear;\n}\n\n.nbe-minimap .nbe-minimap-handle {\n  width: 0;\n  height: 0;\n  border-style: solid;\n  border-width: 0 16px 16px 0;\n  border-color: transparent orange transparent transparent;\n\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n\n.nbe-minimap .nbe-minimap-viewport {\n   position: absolute;\n   background: rgba(192, 128, 0, 0.25);\n}\n\n.nbe-minimap svg {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 200px;\n  height: 100px;\n}\n\n.nbe-minimap-edges circle {\n  fill: #ef6c00;\n  stroke-width: 0;\n}\n\n.nbe-minimap-vertices .nbe-minimap-vertex {\n   stroke-width: 2px;\n   stroke: #bbb;\n}\n\n.nbe-minimap .nbe-minimap-links .nbe-link {\n   stroke-width: 4;\n}\n\n\n\n\n/* SELECTION */\n\n.nbe-selection {\n   border: 1px dashed #e91e63;\n   background: rgba(233, 30, 99, 0.1);\n   position: absolute;\n   top: 10px;\n   left: 10px;\n   width: 100px;\n   height: 100px;\n}\n\n.nbe-highlight-selection .nbe-vertex:not(.nbe-selected) .nbe-port-handle,\n.nbe-highlight-selection .nbe-edge:not(.nbe-selected) .nbe-edge-icon {\n  background: #BBB;\n}\n\n.nbe-highlight-selection .nbe-vertex:not(.nbe-selected) .nbe-vertex-header {\n  background: #BBB;\n}\n\n.nbe-highlight-selection .nbe-link:not(.nbe-selected) {\n   stroke: #BBB!important;\n}\n\n.nbe-highlight-selection .nbe-minimap-edges .nbe-minimap-edge:not(.nbe-selected) {\n  fill: #BBB;\n}\n.nbe-highlight-selection .nbe-minimap-vertices .nbe-minimap-vertex:not(.nbe-selected) {\n  fill: #BBB;\n}\n\n\n\n\n/* ACTION */\n\n.nbe-theme-fusebox-app .nbe-type-ACTION > .nbe-port-handle {\n   background: #ff943d;\n}\n.nbe-theme-fusebox-app .nbe-selected .nbe-type-ACTION > .nbe-port-handle {\n   background: #ef6c00;\n}\n.nbe-theme-fusebox-app .nbe-type-ACTION .nbe-edge-icon {\n   background: #ff943d;\n}\n.nbe-theme-fusebox-app .nbe-minimap-edges .nbe-type-ACTION {\n   fill: #ff943d;\n}\n.nbe-theme-fusebox-app .nbe-type-ACTION.nbe-selected .nbe-edge-icon {\n   background: #ef6c00;\n}\n.nbe-theme-fusebox-app .nbe-edge.nbe-type-ACTION.nbe-ping .nbe-edge-icon {\n   animation-name: nbe-edge-ping-fusebox-app-ACTION;\n   animation-duration: .3s;\n   animation-iteration-count: 1;\n}\n.nbe-theme-fusebox-app .nbe-node.nbe-type-ACTION.nbe-edge > .nbe-edge-icon.nbe-drop-hover {\n   animation-name: nbe-edge-ping-soft-fusebox-app-ACTION;\n   animation-duration: 0.5s;\n   animation-iteration-count: infinite;\n}\n.nbe-theme-fusebox-app .nbe-link.nbe-type-ACTION {\n   stroke: #ff943d;\n}\n.nbe-theme-fusebox-app .nbe-link.nbe-type-ACTION.nbe-selected {\n   stroke: #ef6c00;\n}\n\n.nbe-theme-fusebox-app.nbe-highlight-type-ACTION .nbe-port:not(.nbe-type-ACTION) > .nbe-port-handle,\n.nbe-theme-fusebox-app.nbe-highlight-type-ACTION .nbe-edge:not(.nbe-type-ACTION) > .nbe-edge-icon {\n  background: #BBB;\n}\n\n.nbe-theme-fusebox-app.nbe-highlight-type-ACTION .nbe-link:not(.nbe-type-ACTION) {\n   stroke: #BBB;\n}\n\n.nbe-theme-fusebox-app.nbe-hide-type-ACTION .nbe-type-ACTION {\n   display: none;\n}\n\n@keyframes nbe-edge-ping-fusebox-app-ACTION {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   20% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 4px 5px #eeeeee, 0px 0px 6px 7px #ef6c00;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 18px 5px #eeeeee, 0px 0px 24px 10px transparent;\n   }\n}\n\n@keyframes nbe-edge-ping-soft-fusebox-app-ACTION {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   10% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 2px 2px #eeeeee, 0px 0px 3px 3px #ef6c00;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 10px 2px #eeeeee, 0px 0px 12px 4px transparent;\n   }\n}\n\n\n\n\n/* FLAG */\n\n.nbe-theme-fusebox-app .nbe-type-FLAG > .nbe-port-handle {\n   background: #80c883;\n}\n.nbe-theme-fusebox-app .nbe-selected .nbe-type-FLAG > .nbe-port-handle {\n   background: #4caf50;\n}\n.nbe-theme-fusebox-app .nbe-type-FLAG .nbe-edge-icon {\n   background: #80c883;\n}\n.nbe-theme-fusebox-app .nbe-minimap-edges .nbe-type-FLAG {\n   fill: #80c883;\n}\n.nbe-theme-fusebox-app .nbe-type-FLAG.nbe-selected .nbe-edge-icon {\n   background: #4caf50;\n}\n.nbe-theme-fusebox-app .nbe-edge.nbe-type-FLAG.nbe-ping .nbe-edge-icon {\n   animation-name: nbe-edge-ping-fusebox-app-FLAG;\n   animation-duration: .3s;\n   animation-iteration-count: 1;\n}\n.nbe-theme-fusebox-app .nbe-node.nbe-type-FLAG.nbe-edge > .nbe-edge-icon.nbe-drop-hover {\n   animation-name: nbe-edge-ping-soft-fusebox-app-FLAG;\n   animation-duration: 0.5s;\n   animation-iteration-count: infinite;\n}\n.nbe-theme-fusebox-app .nbe-link.nbe-type-FLAG {\n   stroke: #80c883;\n}\n.nbe-theme-fusebox-app .nbe-link.nbe-type-FLAG.nbe-selected {\n   stroke: #4caf50;\n}\n.nbe-theme-fusebox-app.nbe-highlight-type-FLAG .nbe-port:not(.nbe-type-FLAG) > .nbe-port-handle,\n.nbe-theme-fusebox-app.nbe-highlight-type-FLAG .nbe-edge:not(.nbe-type-FLAG) > .nbe-edge-icon {\n   background: #646464;\n}\n.nbe-theme-fusebox-app.nbe-highlight-type-FLAG .nbe-link:not(.nbe-type-FLAG) {\n   stroke: #646464;\n}\n.nbe-theme-fusebox-app.nbe-hide-type-FLAG .nbe-type-FLAG {\n   display: none;\n}\n\n@keyframes nbe-edge-ping-fusebox-app-FLAG {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   20% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 4px 5px #eeeeee, 0px 0px 6px 7px #4caf50;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 18px 5px #eeeeee, 0px 0px 24px 10px transparent;\n   }\n}\n\n@keyframes nbe-edge-ping-soft-fusebox-app-FLAG {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   10% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 2px 2px #eeeeee, 0px 0px 3px 3px #4caf50;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 10px 2px #eeeeee, 0px 0px 12px 4px transparent;\n   }\n}\n\n\n\n\n/* RESOURCES */\n\n.nbe-theme-fusebox-app .nbe-type-RESOURCE > .nbe-port-handle {\n   background: #916dd1;\n}\n.nbe-theme-fusebox-app .nbe-selected .nbe-type-RESOURCE > .nbe-port-handle {\n   background: #673ab7;\n}\n.nbe-theme-fusebox-app .nbe-type-RESOURCE .nbe-edge-icon {\n   background: #916dd1;\n}\n.nbe-theme-fusebox-app .nbe-minimap-edges .nbe-type-RESOURCE {\n   fill: #916dd1;\n}\n.nbe-theme-fusebox-app .nbe-type-RESOURCE.nbe-selected .nbe-edge-icon {\n   background: #673ab7;\n}\n.nbe-theme-fusebox-app .nbe-edge.nbe-type-RESOURCE.nbe-ping .nbe-edge-icon {\n   animation-name: nbe-edge-ping-fusebox-app-RESOURCE;\n   animation-duration: .3s;\n   animation-iteration-count: 1;\n}\n.nbe-theme-fusebox-app .nbe-node.nbe-type-RESOURCE.nbe-edge > .nbe-edge-icon.nbe-drop-hover {\n   animation-name: nbe-edge-ping-soft-fusebox-app-RESOURCE;\n   animation-duration: 0.5s;\n   animation-iteration-count: infinite;\n}\n.nbe-theme-fusebox-app .nbe-link.nbe-type-RESOURCE {\n   stroke: #916dd1;\n}\n.nbe-theme-fusebox-app .nbe-link.nbe-type-RESOURCE.nbe-selected {\n   stroke: #673ab7;\n}\n.nbe-theme-fusebox-app.nbe-highlight-type-RESOURCE .nbe-port:not(.nbe-type-RESOURCE) > .nbe-port-handle,\n.nbe-theme-fusebox-app.nbe-highlight-type-RESOURCE .nbe-edge:not(.nbe-type-RESOURCE) > .nbe-edge-icon {\n   background: #646464;\n}\n.nbe-theme-fusebox-app.nbe-highlight-type-RESOURCE .nbe-link:not(.nbe-type-RESOURCE) {\n   stroke: #646464;\n}\n.nbe-theme-fusebox-app.nbe-hide-type-RESOURCE .nbe-type-RESOURCE {\n   display: none;\n}\n\n@keyframes nbe-edge-ping-fusebox-app-RESOURCE {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   20% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 4px 5px #eeeeee, 0px 0px 6px 7px #673ab7;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 18px 5px #eeeeee, 0px 0px 24px 10px transparent;\n   }\n}\n\n@keyframes nbe-edge-ping-soft-fusebox-app-RESOURCE {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   10% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 2px 2px #eeeeee, 0px 0px 3px 3px #673ab7;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 10px 2px #eeeeee, 0px 0px 12px 4px transparent;\n   }\n}\n\n\n\n\n/* CONTAINER */\n\n.nbe-theme-fusebox-app .nbe-type-CONTAINER > .nbe-port-handle {\n   background: #8ab4f8;\n}\n.nbe-theme-fusebox-app .nbe-selected .nbe-type-CONTAINER > .nbe-port-handle {\n   background: #4285f4;\n}\n.nbe-theme-fusebox-app .nbe-type-CONTAINER .nbe-edge-icon {\n   background: #8ab4f8;\n}\n.nbe-theme-fusebox-app .nbe-type-CONTAINER.nbe-selected .nbe-edge-icon {\n   background: #4285f4;\n}\n.nbe-theme-fusebox-app .nbe-edge.nbe-type-CONTAINER.nbe-ping .nbe-edge-icon {\n   animation-name: nbe-edge-ping-fusebox-app-CONTAINER;\n   animation-duration: .3s;\n   animation-iteration-count: 1;\n}\n.nbe-theme-fusebox-app .nbe-node.nbe-type-CONTAINER.nbe-edge > .nbe-edge-icon.nbe-drop-hover {\n   animation-name: nbe-edge-ping-soft-fusebox-app-CONTAINER;\n   animation-duration: 0.5s;\n   animation-iteration-count: infinite;\n}\n\n.nbe-theme-fusebox-app .nbe-link.nbe-type-CONTAINER {\n   stroke: #8ab4f8;\n}\n.nbe-theme-fusebox-app .nbe-link.nbe-type-CONTAINER.nbe-selected {\n   stroke: #4285f4;\n}\n.nbe-theme-fusebox-app.nbe-highlight-type-CONTAINER .nbe-port:not(.nbe-type-CONTAINER) > .nbe-port-handle,\n.nbe-theme-fusebox-app.nbe-highlight-type-CONTAINER .nbe-edge:not(.nbe-type-CONTAINER) > .nbe-edge-icon {\n   background: #646464;\n}\n.nbe-theme-fusebox-app.nbe-highlight-type-CONTAINER .nbe-link:not(.nbe-type-CONTAINER) {\n   stroke: #646464;\n}\n.nbe-theme-fusebox-app.nbe-hide-type-CONTAINER .nbe-type-CONTAINER {\n   display: none;\n}\n\n@keyframes nbe-edge-ping-fusebox-app-CONTAINER {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   20% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 4px 5px #eeeeee, 0px 0px 6px 7px #4285f4;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 18px 5px #eeeeee, 0px 0px 24px 10px transparent;\n   }\n}\n\n@keyframes nbe-edge-ping-soft-fusebox-app-CONTAINER {\n   from {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 5px 3px #eeeeee, 0px 0px 0px 0px transparent;\n   }\n\n   10% {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 2px 2px #eeeeee, 0px 0px 3px 3px #4285f4;\n   }\n\n   to {\n      box-shadow: 0 1px 3px 0 #a0a0a0, 0px 0px 10px 2px #eeeeee, 0px 0px 12px 4px transparent;\n   }\n}\n\n\n\n\n.nbe-zoom-100 {\n   font-size: 12px;\n   border-radius: 2px;\n}\n.nbe-zoom-100 .nbe-graph-canvas {\n   background-size: 50px 50px;\n}\n.nbe-zoom-100 .nbe-port {\n   line-height: 16px;\n   font-size: 11px;\n}\n.nbe-zoom-100 .nbe-port-handle {\n   width: 11px;\n   height: 11px;\n   border-radius: 6px;\n   margin: 3px 5px -3px 5px;\n}\n.nbe-zoom-100 .nbe-vertex-header {\n   height: 22px;\n   padding: 4px 5px 1px 5px;\n   font-size: 12px;\n}\n.nbe-zoom-100 .nbe-edge-icon {\n   width: 20px;\n   height: 20px;\n   border-radius: 20px;\n   box-shadow: 0 2px 2px #a0a0a0;\n}\n.nbe-zoom-100 .nbe-edge-label {\n   width: 100px;\n   left: -40px;\n   top: 22px;\n   font-size: 12px;\n}\n.nbe-zoom-100 .nbe-link {\n   stroke-width: 2;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
@@ -1381,15 +5961,15 @@ webpackJsonp([0],[
 	
 	
 	
-	var _react = __webpack_require__(267);var _react2 = _interopRequireDefault(_react);
-	var _laxarPatterns = __webpack_require__(268);var axPatterns = _interopRequireWildcard(_laxarPatterns);
-	var _moment = __webpack_require__(279);var _moment2 = _interopRequireDefault(_moment);
-	var _tracker = __webpack_require__(389);var _tracker2 = _interopRequireDefault(_tracker);
-	var _AutoAffix = __webpack_require__(390);var _AutoAffix2 = _interopRequireDefault(_AutoAffix);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Copyright 2016 aixigo AG
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Released under the MIT license.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * http://laxarjs.org/license
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */function create(context, reactRender) {'use strict';
+	var _react = __webpack_require__(272);var _react2 = _interopRequireDefault(_react);
+	var _laxarPatterns = __webpack_require__(273);
+	var _moment = __webpack_require__(386);var _moment2 = _interopRequireDefault(_moment);
+	var _tracker = __webpack_require__(496);var _tracker2 = _interopRequireDefault(_tracker);
+	var _AutoAffix = __webpack_require__(497);var _AutoAffix2 = _interopRequireDefault(_AutoAffix);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * http://laxarjs.org/license
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */function create(context, reactRender) {'use strict';
 	
 	   var view = {
 	      showPatterns: false };
@@ -1476,7 +6056,7 @@ webpackJsonp([0],[
 	      settings: settings };
 	
 	
-	   axPatterns.resources.handlerFor(context).registerResourceFromFeature('filter', {
+	   _laxarPatterns.resources.handlerFor(context).registerResourceFromFeature('filter', {
 	      onUpdateReplace: function onUpdateReplace() {runFilters();render();},
 	      isOptional: true });
 	
@@ -2403,2963 +6983,7 @@ webpackJsonp([0],[
 	   create: create };
 
 /***/ },
-/* 267 */,
-/* 268 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.visibility = exports.validation = exports.resources = exports.patches = exports.json = exports.i18n = exports.flags = exports.errors = exports.actions = undefined;
-	
-	
-	
-	
-	var _actions = __webpack_require__(269);var actions = _interopRequireWildcard(_actions);
-	var _errors = __webpack_require__(270);var errors = _interopRequireWildcard(_errors);
-	var _flags = __webpack_require__(271);var flags = _interopRequireWildcard(_flags);
-	var _i18n = __webpack_require__(272);var i18n = _interopRequireWildcard(_i18n);
-	var _json = __webpack_require__(273);var json = _interopRequireWildcard(_json);
-	var _patches = __webpack_require__(275);var patches = _interopRequireWildcard(_patches);
-	var _resources = __webpack_require__(276);var resources = _interopRequireWildcard(_resources);
-	var _validation = __webpack_require__(277);var validation = _interopRequireWildcard(_validation);
-	var _visibility = __webpack_require__(278);var visibility = _interopRequireWildcard(_visibility);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}exports.
-	
-	
-	actions = actions;exports.
-	errors = errors;exports.
-	flags = flags;exports.
-	i18n = i18n;exports.
-	json = json;exports.
-	patches = patches;exports.
-	resources = resources;exports.
-	validation = validation;exports.
-	visibility = visibility; /**
-	                          * Copyright 2016 aixigo AG
-	                          * Released under the MIT license.
-	                          * http://laxarjs.org/license
-	                          */
-
-/***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.OUTCOME_SUCCESS = exports.OUTCOME_ERROR = exports.handlerFor = exports.connectPublisherToFeature = exports.publisherForFeature = exports.publisher = undefined;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;}; /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * Copyright 2016 aixigo AG
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * Released under the MIT license.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * http://laxarjs.org/license
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             */
-	/**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * This module provides helpers for patterns regarding *takeActionRequest*, *willTakeAction* and
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * *didTakeAction* events.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @module actions
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-	var _laxar = __webpack_require__(18);
-	
-	var DELIVER_TO_SENDER = { deliverToSender: false };
-	
-	var OUTCOME_SUCCESS = 'SUCCESS';
-	var OUTCOME_ERROR = 'ERROR';
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates and returns a function to publish `takeActionRequest` events for a given action feature. The
-	 * action to publish is expected to be at the key `action` under the given feature path.
-	 *
-	 * Apart from that this function works just like {@link publisher}.
-	 *
-	 * @param {Object} scope
-	 *    the scope the publisher works on. Needs at least an EventBus instance as `eventBus` property
-	 * @param {String} feature
-	 *    the feature to take the action name from
-	 * @param {Object} [optionalOptions]
-	 *    options for the publisher
-	 * @param {Boolean} optionalOptions.deliverToSender
-	 *    the value is forward to `eventBus.publishAndGatherReplies`: if `true` the event will also be
-	 *    delivered to the publisher. Default is `false`
-	 * @param {Function} optionalOptions.onSuccess
-	 *    a function that is called when the overall outcome yields "SUCCESS"
-	 * @param {Function} optionalOptions.onError
-	 *    a function that is called when the overall outcome yields "ERROR"
-	 * @param {Function} optionalOptions.onComplete
-	 *    a function that is called always, independently of the overall outcome
-	 *
-	 * @return {Function}
-	 *    the publisher as described above
-	 */
-	function publisherForFeature(scope, feature, optionalOptions) {
-	   var action = _laxar.object.path(scope.features, feature + '.action', null);
-	   return publisher(scope, action, optionalOptions);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates and return a function to publish `takeActionRequest` events for a given action. The outcomes of
-	 * all given `didTakeAction` events are interpreted and optional callbacks according to the overall outcome
-	 * are called. Interpretation is simple: If at least one `didTakeAction` event yields the outcome "ERROR",
-	 * the overall outcome is also erroneous. In any other case the overall outcome will be successful.
-	 *
-	 * The promise returned by the publisher is resolved, if the overall outcome is successful and rejected if
-	 * the outcome is erroneous. All callbacks, be it the `on*` handlers or the then handlers of the promise,
-	 * will receive the list of events and meta information of all `didTakeAction` events
-	 * (see `EventBus#publishAndGatherReplies()` for details).
-	 *
-	 * Example:
-	 * ```js
-	 * publisher = actions.publisher( scope, 'save', {
-	 *    onSuccess: function() { closeApplication(); },
-	 *    onError: function() { displayError(); }
-	 * } );
-	 *
-	 * $button.on( 'click', publisher );
-	 * ```
-	 *
-	 * @param {Object} scope
-	 *    the scope the publisher works on. Needs at least an EventBus instance as `eventBus` property
-	 * @param {String} action
-	 *    the action to publish on call of the publisher
-	 * @param {Object} [optionalOptions]
-	 *    options for the publisher
-	 * @param {Boolean} optionalOptions.deliverToSender
-	 *    the value is forward to `eventBus.publishAndGatherReplies`: if `true` the event will also be
-	 *    delivered to the publisher. Default is `false`
-	 * @param {Function} optionalOptions.onSuccess
-	 *    a function that is called when the overall outcome yields "SUCCESS"
-	 * @param {Function} optionalOptions.onError
-	 *    a function that is called when the overall outcome yields "ERROR"
-	 * @param {Function} optionalOptions.onComplete
-	 *    a function that is called always, independently of the overall outcome
-	 *
-	 * @return {Function}
-	 *    the publisher as described above
-	 */
-	function publisher(scope, action, optionalOptions) {
-	   (0, _laxar.assert)(scope).hasType(Object).hasProperty('eventBus');
-	   (0, _laxar.assert)(action).hasType(String).isNotNull();
-	
-	   var options = _laxar.object.options(optionalOptions, {
-	      deliverToSender: false,
-	      onSuccess: function onSuccess() {},
-	      onError: function onError() {},
-	      onComplete: function onComplete() {} });
-	
-	
-	   (0, _laxar.assert)(options.onSuccess).hasType(Function).isNotNull();
-	   (0, _laxar.assert)(options.onError).hasType(Function).isNotNull();
-	   (0, _laxar.assert)(options.onComplete).hasType(Function).isNotNull();
-	
-	   var eventBusOptions = {
-	      deliverToSender: options.deliverToSender };
-	
-	   if (options.timeout > 0) {
-	      eventBusOptions.pendingDidTimeout = options.timeout;
-	   }
-	
-	   return function (optionalEvent) {
-	      var event = _laxar.object.options(optionalEvent, { action: action });
-	
-	      return scope.eventBus.
-	      publishAndGatherReplies('takeActionRequest.' + action, event, eventBusOptions).
-	      then(function (didResponses) {
-	         var failed = didResponses.some(function (response) {
-	            return response.event.outcome === OUTCOME_ERROR;
-	         });
-	
-	         options.onComplete(didResponses.slice(0));
-	
-	         if (failed) {
-	            options.onError(didResponses.slice(0));
-	            throw didResponses;
-	         }
-	
-	         options.onSuccess(didResponses.slice(0));
-	         return didResponses;
-	      });
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates an action publisher for a given feature and makes it available as a scope/context property.
-	 *
-	 * The publisher is created under ``scope[ `actions.${feature}` ]``, where `scope` and `feature`
-	 * are the arguments passed to this function. If an action topic has been configured for the given feature,
-	 * the action publisher is created using `publisherForFeature`. Otherwise, it is a noop-function.
-	 *
-	 * @param {Object} scope
-	 *    the scope/context to connect to. Needs at least an EventBus instance as `eventBus` property
-	 * @param {String} feature
-	 *    the feature to take the action name from
-	 * @param {Object} [optionalOptions]
-	 *    options for the publisher, as documented under `publisherForFeature`
-	 */
-	function connectPublisherToFeature(scope, feature, optionalOptions) {
-	   var topic = _laxar.object.path(scope.features, feature);
-	   var publisher = topic ? publisherForFeature(scope, feature, optionalOptions) : function () {};
-	   _laxar.object.setPath(scope, 'actions.' + feature, publisher);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates a new action handler instance for `takeActionRequest` events. It handles sending of an optional
-	 * `willTakeAction` event and the final, possibly later asynchronously following `didTakeAction` event.
-	 *
-	 * @param {Object} scope
-	 *    the scope the handler should work with. It is expected to find an `eventBus` property there with
-	 *    which it can do the event handling
-	 *
-	 * @return {ActionHandler}
-	 *    an action handler instance
-	 */
-	function handlerFor(scope) {
-	   (0, _laxar.assert)(scope).hasType(Object).hasProperty('eventBus');
-	
-	   return new ActionHandler(scope);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/**
-	 * @constructor
-	 * @private
-	 */
-	function ActionHandler(scope) {
-	   this.scope = scope;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Registers a handler for `takeActionRequest` events with actions from a feature. It is assumed that the
-	 * given feature has an `onActions` property, which is a set of actions to listen to. The set may be empty,
-	 * `null` or `undefined`, in which case the handler simply won't be attached to any event.
-	 *
-	 * Apart from that this function works just like {@link ActionHandler#registerActions}.
-	 *
-	 * Example:
-	 * Consider the following configuration for a widget:
-	 * ```json
-	 * {
-	 *    "features": {
-	 *       "open": {
-	 *          "onActions": [ "openAction1", "openAction2" ]
-	 *       },
-	 *       "save": {
-	 *          "onActions": [ "save" ]
-	 *       }
-	 *    }
-	 * }
-	 * ```
-	 * An example using that would be:
-	 * ```js
-	 * actions.handlerFor( scope )
-	 *    .registerActionsFromFeature( 'open', function( event, meta ) {
-	 *       somethingSynchronous();
-	 *       return actions.OUTCOME_SUCCESS;
-	 *    } )
-	 *    .registerActionsFromFeature( 'save', function( event, meta ) {
-	 *       return $q.when( somethingAsynchronous() );
-	 *    } );
-	 * ```
-	 *
-	 * @param {String} feature
-	 *    the feature to read the actions to watch from
-	 * @param {Function} handler
-	 *    the handler to call whenever a `takeActionRequest` event with matching action is received
-	 *
-	 * @return {ActionHandler}
-	 *    this instance for chaining
-	 */
-	ActionHandler.prototype.registerActionsFromFeature = function (feature, handler) {
-	   var actions = _laxar.object.path(this.scope.features, feature + '.onActions') || [];
-	   return this.registerActions(actions, handler);
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Registers a handler for `takeActionRequest` events for a set of actions. The set may be empty, in
-	 * which case the handler simply won't be attached to any event.
-	 *
-	 * The handler is assumed to be a function that receives the event and meta object of the underlying
-	 * `takeActionRequest` event when called. In order to send the correct `didTakeAction` event as response,
-	 * the return value of the handler is interpreted according to the following rules:
-	 *
-	 * - the handler throws an error
-	 *   - the `didTakeAction` event is sent with outcome `ERROR`
-	 *   - the error is re-thrown
-	 * - the handler returns a simple value or a promise, that is later resolved with a value
-	 *   - if the value is a plain object, it is used as basis for the event object and
-	 *     - if the object has a property `outcome` with value `ERROR`, the `didTakeAction` event is sent with
-	 *       outcome `ERROR`
-	 *   - otherwise, or if the value is no plain object, the `didTakeAction` event is sent with outcome
-	 *     `SUCCESS`
-	 * - the handler returns a promise, that is later rejected with a value
-	 *   - if the value is a plain object, it is used as basis for the event object and
-	 *     - if the object has a property `outcome` with value `SUCCESS`, the `didTakeAction` event is sent with
-	 *     outcome `SUCCESS`
-	 *   - otherwise, or if the value is no plain object, the `didTakeAction` event is sent with outcome `ERROR`
-	 *
-	 * So basically simple return values or resolved promises are assumed to be successful if they don't state
-	 * otherwise, while rejected promises are assumed to be erroneous, if they don't state otherwise.
-	 *
-	 * Example:
-	 * ```js
-	 * actions.handlerFor( scope )
-	 *    .registerActions( [ 'open' ], function( event, meta ) {
-	 *       return 42
-	 *    } )
-	 *    .registerActions( [ 'save' ], function( event, meta ) {
-	 *       return $q.when( { resultValue: 42 } );
-	 *    } );
-	 * ```
-	 *
-	 * @param {String[]} actions
-	 *    a set of actions to watch
-	 * @param {Function} handler
-	 *    the handler to call whenever a `takeActionRequest` event with matching action is received
-	 *
-	 * @return {ActionHandler}
-	 *    this instance for chaining
-	 */
-	ActionHandler.prototype.registerActions = function (actions, handler) {
-	   (0, _laxar.assert)(actions).hasType(Array).isNotNull();
-	   (0, _laxar.assert)(handler).hasType(Function).isNotNull();
-	
-	   var self = this;
-	   actions.forEach(function (action) {
-	      self.scope.eventBus.subscribe('takeActionRequest.' + action, function (event, meta) {
-	         callHandler(self.scope.eventBus, action, handler, event, meta);
-	      });
-	   });
-	
-	   return this;
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	function callHandler(eventBus, action, handler, event, meta) {
-	   eventBus.publish('willTakeAction.' + action, { action: action }, DELIVER_TO_SENDER);
-	
-	   var responseEvent = { action: action, outcome: OUTCOME_SUCCESS };
-	
-	   var returnValue = void 0;
-	   try {
-	      returnValue = handler(event, meta);
-	   }
-	   catch (error) {
-	      responseEvent.outcome = OUTCOME_ERROR;
-	
-	      eventBus.publish('didTakeAction.' + action + '.' + OUTCOME_ERROR, responseEvent, DELIVER_TO_SENDER);
-	      throw error;
-	   }
-	
-	   Promise.resolve(returnValue).
-	   then(function (promiseValue) {
-	      if (isObject(promiseValue)) {
-	         responseEvent.outcome =
-	         promiseValue.outcome === OUTCOME_ERROR ? OUTCOME_ERROR : OUTCOME_SUCCESS;
-	      }
-	
-	      return promiseValue;
-	   }, function (promiseValue) {
-	      responseEvent.outcome = OUTCOME_ERROR;
-	      if (isObject(promiseValue)) {
-	         responseEvent.outcome =
-	         promiseValue.outcome === OUTCOME_SUCCESS ? OUTCOME_SUCCESS : OUTCOME_ERROR;
-	      }
-	
-	      return promiseValue;
-	   }).
-	   then(function (promiseValue) {
-	      responseEvent = _laxar.object.options(responseEvent, promiseValue);
-	      var eventName = 'didTakeAction.' + action + '.' + responseEvent.outcome;
-	      eventBus.publish(eventName, responseEvent, DELIVER_TO_SENDER);
-	   });
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	function isObject(value) {
-	   return value !== null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	exports.
-	
-	publisher = publisher;exports.
-	publisherForFeature = publisherForFeature;exports.
-	connectPublisherToFeature = connectPublisherToFeature;exports.
-	handlerFor = handlerFor;exports.
-	OUTCOME_ERROR = OUTCOME_ERROR;exports.
-	OUTCOME_SUCCESS = OUTCOME_SUCCESS;
-
-/***/ },
-/* 270 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.errorPublisherForFeature = undefined;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	var _laxar = __webpack_require__(18);
-	
-	
-	/**
-	                                * Creates and returns a function to publish didEncounterError events related to a specific feature.
-	                                * Generated events will not be delivered to the sender.
-	                                *
-	                                * The returned publisher function takes these arguments:
-	                                * - `code`: a generic code that identifies the failing operation (such as 'HTTP_PUT', 'HTTP_GET')
-	                                * - `messagePath`: to lookup a human-readable message under this publisher's feature configuration
-	                                * - `data`: additional information to be used for substituting in the message, It should contain the
-	                                *   fields `resource` and `location` if applicable.
-	                                * - `cause`: more diagnostic information on the error's cause, such as the underlying HTTP status code
-	                                *
-	                                * @param {Object} scope
-	                                *    the scope the publisher works on
-	                                * @param {String} featurePath
-	                                *    the configuration path for (i18n) error-messages to publish
-	                                * @param {Object} [options]
-	                                *    an optional object with additional configuration
-	                                * @param {Function} options.localizer
-	                                *    a function such as `i18nHandler.localize` to prepare messages
-	                                *
-	                                * @return {Function}
-	                                *    a publisher function with four arguments as described above
-	                                */
-	function errorPublisherForFeature(scope, featurePath, options) {
-	  (0, _laxar.assert)(scope).hasType(Object).isNotNull();
-	  (0, _laxar.assert)(scope.eventBus).hasType(Object).isNotNull();
-	  (0, _laxar.assert)(options).hasType(Object);
-	
-	  var localizer = options && options.localizer;
-	  (0, _laxar.assert)(localizer).hasType(Function);
-	
-	  var featureConfiguration = _laxar.object.path(scope.features, featurePath);
-	  (0, _laxar.assert)(featureConfiguration).hasType(Object).isNotNull();
-	
-	  return function (code, messagePath) {var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};var cause = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-	    var rawMessage = _laxar.object.path(featureConfiguration, messagePath);
-	    (0, _laxar.assert)(rawMessage).isNotNull();
-	
-	    var message = _laxar.string.format(localizer ? localizer(rawMessage) : rawMessage, [], data);
-	    var event = { code: code, message: message, data: data, cause: cause };
-	    scope.eventBus.publish('didEncounterError.' + code, event, { deliverToSender: false });
-	  };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Copyright 2016 aixigo AG
-	 * Released under the MIT license.
-	 * http://laxarjs.org/license
-	 */ /**
-	     * This module provides helpers for patterns regarding *didEncounterError* events.
-	     *
-	     * @module errors
-	     */exports.errorPublisherForFeature = errorPublisherForFeature;
-
-/***/ },
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = undefined;var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;}; /**
-	                                                                                                                                                                                                                                                                                                                                                                   * Copyright 2016 aixigo AG
-	                                                                                                                                                                                                                                                                                                                                                                   * Released under the MIT license.
-	                                                                                                                                                                                                                                                                                                                                                                   * http://laxarjs.org/license
-	                                                                                                                                                                                                                                                                                                                                                                   */
-	/**
-	                                                                                                                                                                                                                                                                                                                                                                       * This module provides helpers for patterns regarding *didChangeFlag* events.
-	                                                                                                                                                                                                                                                                                                                                                                       *
-	                                                                                                                                                                                                                                                                                                                                                                       * @module flags
-	                                                                                                                                                                                                                                                                                                                                                                       */
-	var _laxar = __webpack_require__(18);
-	
-	/**
-	                                * Creates a new handler instance for didChangeFlag events, on which one can attach a listener for
-	                                * accumulated flag changes. Assume for example a feature like `disableOn`, which defines a set of flags,
-	                                * where a `true` state of any of the flags disables the widget. The developer shouldn't care about single
-	                                * flag states but should only be notified, if a change of one flag leads to a change of the accumulated
-	                                * "any flag should be true" state.
-	                                *
-	                                * Additionally it is possible to let the handler set the current state of the accumulated flag on a given
-	                                * scope property.
-	                                *
-	                                * @param {Object} scope
-	                                *    the scope the handler should work with. It is expected to find an `eventBus` property there with
-	                                *    which it can do the event handling
-	                                *
-	                                * @return {FlagHandler}
-	                                *    a flag handler instance
-	                                */
-	function handlerFor(scope) {
-	   return new FlagHandler(scope);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/**
-	 *
-	 * @param scope
-	 *
-	 * @constructor
-	 * @private
-	 */
-	function FlagHandler(scope) {
-	   this.scope = scope;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Registers a flag or a set of flags from the given feature. In contrast to the `ResourceHandler` here
-	 * the complete attribute path to the flag(s) must be provided. This is due to the fact that there is no
-	 * convention on names for flags on a feature, as there can coexist multiple flags for one feature, each
-	 * influencing a different aspect of this feature.
-	 *
-	 * @param {String} featurePath
-	 *    the attribute path to the configured flag(s) within the feature map
-	 * @param {Object|Function} [optionalOptions]
-	 *    options and callbacks to use. If a function is passed, it is used as the `onChange` option.
-	 * @param {Boolean} optionalOptions.initialState
-	 *    the optional initial state of the accumulated state. If not given each non-inverted flag is initially
-	 *    assumed to be `false` and `true`, if it is inverted
-	 * @param {Function|Function[]} optionalOptions.onChange
-	 *    a function or a list of functions to call whenever the accumulated state of the flags changes. It
-	 *    receives the new state as first argument and its previous state as second argument
-	 * @param {String} optionalOptions.scopeKey
-	 *    the key to set the current accumulated state on in the scope. If not given, nothing happens. For
-	 *    example `flags.myFlag` would set `scope.flags.myFlag` to the currently valid accumulated state
-	 * @param {String} optionalOptions.predicate
-	 *    one of these:
-	 *    - `any`: if any of the flag's states is `true`, the accumulated state is `true`. This is the default
-	 *    - `all`: if all of the flag's states are `true`, the accumulated state is `true`
-	 *
-	 * @return {FlagHandler}
-	 *    this instance for chaining
-	 */
-	FlagHandler.prototype.registerFlagFromFeature = function (featurePath, optionalOptions) {
-	   return this.registerFlag(_laxar.object.path(this.scope.features, featurePath, []), optionalOptions);
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Registers a flag or a set of flags given as argument. Even `undefined`, `null` or an empty array
-	 * are handled gracefully and treated as an empty set of flags, thus never changing their states.
-	 *
-	 * The new accumulated state is set on `scope.flags` if that is defined. Otherwise it is set on
-	 * `scope.model`.
-	 *
-	 * @param {String|String[]} possibleFlags
-	 *    one or a list of flags to watch
-	 * @param {Object|Function} [optionalOptions]
-	 *    options and callbacks to use. If a function is passed, it is used as the `onChange` option.
-	 * @param {Boolean} optionalOptions.initialState
-	 *    the optional initial state of the accumulated state. If not given each non-inverted flag is initially
-	 *    assumed to be `false` and `true`, if it is inverted
-	 * @param {Function|Function[]} optionalOptions.onChange
-	 *    a function or a list of functions to call whenever the accumuated state of the flags changes. It
-	 *    receives the new state as first argument and its previous state as second argument
-	 * @param {String} optionalOptions.scopeKey
-	 *    the key to set the current accumulated state on in the scope. If not given, nothing happens. For
-	 *    example `flags.myFlag` would set `scope.flags.myFlag` to the currently valid accumulated state
-	 * @param {String} optionalOptions.predicate
-	 *    one of these:
-	 *    - `any`: if any of the flag's sates is `true`, the accumulated state is `true`. This is the default
-	 *    - `all`: if all of the flag's states are `true`, the accumulated state is `true`
-	 *
-	 * @return {FlagHandler}
-	 *    this instance for chaining
-	 */
-	FlagHandler.prototype.registerFlag = function (possibleFlags, optionalOptions) {var _this = this;
-	
-	   var options = _extends({
-	      predicate: 'any' },
-	   typeof optionalOptions === 'function' ? { onChange: optionalOptions } : optionalOptions);
-	
-	
-	   var scope = this.scope;
-	   var applyToScope = 'scopeKey' in options ?
-	   function (state) {_laxar.object.setPath(scope, options.scopeKey, state);} :
-	   function () {};
-	
-	   var flags = processFlags(possibleFlags);
-	   var changeHandler = processChangeHandlers(options.onChange);
-	   var oldState = typeof options.initialState === 'boolean' ?
-	   options.initialState : evaluateState(flags, options.predicate);
-	
-	   applyToScope(oldState);
-	
-	   flags.forEach(function (flag) {
-	      _this.scope.eventBus.subscribe('didChangeFlag.' + flag.name, function (event) {
-	         flag.state = flag.negated ? !event.state : event.state;
-	
-	         var newState = evaluateState(flags, options.predicate);
-	         if (newState !== oldState) {
-	            applyToScope(newState);
-	            changeHandler(newState, oldState);
-	            oldState = newState;
-	         }
-	      });
-	   });
-	
-	   return this;
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	function processFlags(flags) {
-	   if (!flags) {
-	      return [];
-	   }
-	
-	   var flagArr = Array.isArray(flags) ? flags : [flags];
-	   return flagArr.map(function (flagExpression) {
-	      var negated = flagExpression.indexOf('!') === 0;
-	      return {
-	         name: negated ? flagExpression.substr(1) : flagExpression,
-	         negated: negated,
-	         state: negated // always the state after applying a possible negation
-	      };
-	   });
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	function processChangeHandlers(handlers) {
-	   if (!handlers) {
-	      return function () {};
-	   }
-	
-	   var handlerArr = Array.isArray(handlers) ? handlers : [handlers];
-	   return function (newValue, oldValue) {
-	      handlerArr.forEach(function (handler) {
-	         handler(newValue, oldValue);
-	      });
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	var evaluators = {
-	   any: function any(previousValue, flag) {return previousValue === null ? flag.state : flag.state || previousValue;},
-	   all: function all(previousValue, flag) {return previousValue === null ? flag.state : flag.state && previousValue;} };
-	
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	function evaluateState(flags, predicate) {
-	   var state = flags.reduce(evaluators[predicate], null);
-	   return state === null ? false : state;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	exports.
-	
-	handlerFor = handlerFor;
-
-/***/ },
-/* 272 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = undefined;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	var _laxar = __webpack_require__(18);
-	
-	/**
-	                                * Obtain a handler which applies didChangeLocale-events to the given scope.
-	                                *
-	                                * @param {Object} scope
-	                                *    the scope instance for which i18n-state should be managed
-	                                * @param {Object} i18n
-	                                *    a laxarjs i18n service instance
-	                                * @param {String} [optionalI18nPath]
-	                                *    an optional path within the scope (default: `'i18n'`) where to store i18n-state
-	                                *
-	                                * @return {I18nHandler}
-	                                *    a handler which manages the i18n-object on the scope, and which allows to register for locale
-	                                *    changes, by topic or by feature
-	                                */
-	function handlerFor(scope, i18n, optionalI18nPath) {
-	   var i18nPath = optionalI18nPath || 'i18n';
-	   prepareScopeI18n();
-	
-	   var callbacksByLocale = {};
-	
-	   function handleLocaleChangeEvent(event) {
-	      var locale = event.locale;
-	      var tags = _laxar.object.path(scope, i18nPath).tags;
-	      var previousTag = tags[locale];
-	      if (previousTag !== event.languageTag) {
-	         tags[locale] = event.languageTag;
-	         callbacksByLocale[locale].forEach(function (cb) {return cb(event, previousTag);});
-	      }
-	   }
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   /**
-	    *
-	    * @name I18nHandler
-	    * @constructor
-	    * @private
-	    */
-	   var handler = {
-	
-	      /**
-	                    * Manage changes to the given locale(s).
-	                    *
-	                    * @param {String|String[]} possibleLocales
-	                    *    zero, one or more locale topics to manage
-	                    * @param {Object} [optionalOptions]
-	                    *    an optional configuration object
-	                    * @param {Function|Function[]} optionalOptions.onChange
-	                    *    a function or a list of functions to call whenever one of the locales changes
-	                    *    It receives the event which triggered the change as the first argument, and the previous
-	                    *    language-tag as the second argument
-	                    *
-	                    * @return {Object}
-	                    *    this instance for chaining
-	                    *
-	                    * @memberOf I18nHandler
-	                    */
-	      registerLocale: function registerLocale(possibleLocales, optionalOptions) {
-	         var locales = possibleLocales;
-	         if (!Array.isArray(possibleLocales)) {
-	            locales = possibleLocales ? [possibleLocales] : [];
-	         }
-	         locales.forEach(function (locale) {
-	            if (!callbacksByLocale[locale]) {
-	               callbacksByLocale[locale] = [];
-	               scope.eventBus.subscribe('didChangeLocale.' + locale, handleLocaleChangeEvent);
-	            }
-	            var onChange = (optionalOptions || {}).onChange;
-	            if (onChange) {
-	               callbacksByLocale[locale] = callbacksByLocale[locale].concat(
-	               Array.isArray(onChange) ? onChange : [onChange]);
-	
-	            }
-	         });
-	         return handler;
-	      },
-	
-	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	      /**
-	       * Look for the given feature path within the feature configuration and register for changes to the
-	       * corresponding locale. If there is a key 'locale' at the given feature, that entry is used.
-	       * Otherwise, the entire configuration path has to be specified.
-	       *
-	       * @param {String} featurePath  A feature path for the current scope.
-	       * @param {Object} [optionalOptions]  An optional configuration object.
-	       *
-	       * @return {Object}
-	       *    this instance for chaining
-	       *
-	       * @memberOf I18nHandler
-	       */
-	      registerLocaleFromFeature: function registerLocaleFromFeature(featurePath, optionalOptions) {
-	         var entry = _laxar.object.path(scope.features, featurePath);
-	         return handler.registerLocale(entry.locale || entry, optionalOptions || {});
-	      },
-	
-	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	      scopeLocaleFromFeature: function scopeLocaleFromFeature(featurePath, options) {
-	         var entry = _laxar.object.path(scope.features, featurePath);
-	         _laxar.object.path(scope, i18nPath).locale = entry.locale || entry;
-	         return handler.registerLocale(_laxar.object.path(scope, i18nPath).locale, options || {});
-	      },
-	
-	      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	      localizer: function localizer(fallback) {
-	         var model = _laxar.object.path(scope, i18nPath);
-	         function partial(i18nValue) {
-	            if (typeof i18nValue === 'string') {return i18nValue;}
-	            var tag = model.tags[model.locale];
-	            return tag ? i18n.localizer(tag, fallback)(i18nValue) : fallback;
-	         }
-	         partial.format = function () {var _i18n$localizer;return (
-	               (_i18n$localizer = i18n.localizer(model.tags[model.locale])).format.apply(_i18n$localizer, arguments));};
-	         return partial;
-	      } };
-	
-	
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   function prepareScopeI18n() {
-	      var result = _laxar.object.path(scope, i18nPath);
-	      if (!result) {
-	         result = {};
-	         _laxar.object.setPath(scope, i18nPath, result);
-	      }
-	      if (!result.tags) {
-	         result.tags = {};
-	      }
-	   }
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   return handler;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Copyright 2016 aixigo AG
-	 * Released under the MIT license.
-	 * http://laxarjs.org/license
-	 */ /**
-	     * This module provides helpers for patterns regarding *didChangeLocale* events.
-	     *
-	     * @module i18n
-	     */exports.handlerFor = handlerFor;
-
-/***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.createPatch = exports.applyPatch = exports.pathToPointer = exports.pointerToPath = exports.setPointer = exports.getPointer = undefined;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	var _fastJsonPatch = __webpack_require__(274);var _fastJsonPatch2 = _interopRequireDefault(_fastJsonPatch);
-	var _laxar = __webpack_require__(18);var ax = _interopRequireWildcard(_laxar);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-	
-	/**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      * Lookup a nested object using an rfc-6901 JSON pointer.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @param {Object|Array=} object
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    the object in which to lookup an entry
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @param {String} pointer
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    a valid JSON pointer conforming to rfc-6901
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @param {*} fallback
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    a value to return if the JSON pointer does not point to any value within the object
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      * @return {*}
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      *    the value found at the JSON pointer, or the fallback value
-	                                                                                                                                                                                                                                                                                                                                                                                                                                      */ /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                          * Copyright 2016 aixigo AG
-	                                                                                                                                                                                                                                                                                                                                                                                                                                          * Released under the MIT license.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                          * http://laxarjs.org/license
-	                                                                                                                                                                                                                                                                                                                                                                                                                                          */ /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                              * This module provides helpers for dealing with patches for JSON structures, specifically regarding
-	                                                                                                                                                                                                                                                                                                                                                                                                                                              * [RFC 6901](https://tools.ietf.org/html/rfc6901) and [RFC 6902](https://tools.ietf.org/html/rfc6902).
-	                                                                                                                                                                                                                                                                                                                                                                                                                                              *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                              * @module json
-	                                                                                                                                                                                                                                                                                                                                                                                                                                              */function getPointer(object, pointer, fallback) {var keys = pointer.split('/');var len = keys.length;var usesEscapes = pointer.indexOf('~') !== -1;var subTree = object;for (var i = 1; i < len; ++i) {if (object === undefined) {return fallback;
-	      }
-	
-	      if (Array.isArray(object)) {
-	         var index = parseInt(keys[i], 10);
-	         subTree = subTree[index];
-	      } else
-	      {
-	         var key = keys[i];
-	         if (usesEscapes) {
-	            // unescape masked chars ('/', '~'):
-	            key = key.replace(/~1/g, '/').replace(/~0/g, '~');
-	         }
-	         subTree = subTree[key];
-	      }
-	   }
-	   return subTree === undefined ? fallback : subTree;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Set a nested item within a structure using an rfc-6901 JSON pointer. Missing containers along the path
-	 * will be created (using laxar.object.setPath). The object is modified in-place.
-	 *
-	 * JSON pointer segments of the type '/-' (for appending to an array) are not supported. You can use a
-	 * single JSON patch 'add' operation to achieve the desired effect.
-	 *
-	 * @param {Object|Array} object
-	 *    the object in which to lookup an entry
-	 * @param {String} pointer
-	 *    a valid JSON pointer conforming to rfc-6901
-	 * @param {*} value
-	 *    the value to set at the place indicated by the pointer
-	 *
-	 * @return {Object|Array}
-	 *    the modified object (for chaining)
-	 */
-	function setPointer(object, pointer, value) {
-	   var path = pointerToPath(pointer);
-	   return ax.object.setPath(object, path, value);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Transform an rfc-6901 JSON pointer into a laxar object path.
-	 *
-	 * @param {String} pointer
-	 *    a valid JSON pointer conforming to rfc-6901
-	 *
-	 * @return {String}
-	 *    a path that can be used with laxar.object.path
-	 */
-	function pointerToPath(pointer) {
-	   var keys = pointer.split('/').slice(1);
-	   if (pointer.indexOf('~') !== -1) {
-	      var len = keys.length;
-	      for (var i = 0; i < len; ++i) {
-	         keys[i] = keys[i].replace(/~1/g, '/').replace(/~0/g, '~');
-	      }
-	   }
-	   return keys.join('.');
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Transform a laxar object path into an rfc-6901 JSON pointer.
-	 *
-	 * @param {String} path
-	 *    a LaxarJS object path where segments are separated using '.'
-	 *
-	 * @return {String}
-	 *    a valid JSON pointer conforming to rfc-6901
-	 */
-	function pathToPointer(path) {
-	   if (path === '') {
-	      return '';
-	   }
-	   var keys = path.split('.');
-	   if (path.indexOf('/') !== -1 || path.indexOf('~') !== -1) {
-	      var len = keys.length;
-	      for (var i = 0; i < len; ++i) {
-	         keys[i] = keys[i].replace(/~/g, '~0').replace(/\//g, '~1');
-	      }
-	   }
-	   var relativePointer = keys.join('/');
-	   return '/' + relativePointer;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Calls fast-json-patch to apply the given rfc-6902 JSON patch sequence in-place. If the patch sequence
-	 * fails to apply, the behavior is undefined.
-	 *
-	 * @param {Object|Array} object
-	 *    the object to patch (in-place)
-	 * @param {Array} patches
-	 *    a sequence of patches as defined by rfc-6902
-	 */
-	function applyPatch(object, patches) {
-	   _fastJsonPatch2.default.apply(object, patches);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Calls fast-json-patch to create a rfc-6902 conform JSON patch sequence.
-	 *
-	 * @param {Object|Array} fromState
-	 *    the state on which to base the list of patches
-	 * @param {Object|Array} toState
-	 *    the target state: the desired result of applying the newly created patches to the `fromState`
-	 *
-	 * @return {Array}
-	 *    a sequence of patches as defined by rfc-6902
-	 */
-	function createPatch(fromState, toState) {
-	   return _fastJsonPatch2.default.compare(fromState, toState);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	exports.
-	
-	
-	getPointer = getPointer;exports.
-	setPointer = setPointer;exports.
-	pointerToPath = pointerToPath;exports.
-	pathToPointer = pathToPointer;exports.
-	
-	applyPatch = applyPatch;exports.
-	createPatch = createPatch;
-
-/***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*!
-	 * https://github.com/Starcounter-Jack/JSON-Patch
-	 * json-patch-duplex.js version: 1.1.4
-	 * (c) 2013 Joachim Wester
-	 * MIT license
-	 */
-	var jsonpatch;
-	(function (jsonpatch) {
-	    var _objectKeys = function (obj) {
-	        if (_isArray(obj)) {
-	            var keys = new Array(obj.length);
-	            for (var k = 0; k < keys.length; k++) {
-	                keys[k] = "" + k;
-	            }
-	            return keys;
-	        }
-	        if (Object.keys) {
-	            return Object.keys(obj);
-	        }
-	        var keys = [];
-	        for (var i in obj) {
-	            if (obj.hasOwnProperty(i)) {
-	                keys.push(i);
-	            }
-	        }
-	        return keys;
-	    };
-	    function _equals(a, b) {
-	        switch (typeof a) {
-	            case 'undefined': //backward compatibility, but really I think we should return false
-	            case 'boolean':
-	            case 'string':
-	            case 'number':
-	                return a === b;
-	            case 'object':
-	                if (a === null)
-	                    return b === null;
-	                if (_isArray(a)) {
-	                    if (!_isArray(b) || a.length !== b.length)
-	                        return false;
-	                    for (var i = 0, l = a.length; i < l; i++)
-	                        if (!_equals(a[i], b[i]))
-	                            return false;
-	                    return true;
-	                }
-	                var bKeys = _objectKeys(b);
-	                var bLength = bKeys.length;
-	                if (_objectKeys(a).length !== bLength)
-	                    return false;
-	                for (var i = 0; i < bLength; i++)
-	                    if (!_equals(a[i], b[i]))
-	                        return false;
-	                return true;
-	            default:
-	                return false;
-	        }
-	    }
-	    /* We use a Javascript hash to store each
-	     function. Each hash entry (property) uses
-	     the operation identifiers specified in rfc6902.
-	     In this way, we can map each patch operation
-	     to its dedicated function in efficient way.
-	     */
-	    /* The operations applicable to an object */
-	    var objOps = {
-	        add: function (obj, key) {
-	            obj[key] = this.value;
-	        },
-	        remove: function (obj, key) {
-	            var removed = obj[key];
-	            delete obj[key];
-	            return removed;
-	        },
-	        replace: function (obj, key) {
-	            var removed = obj[key];
-	            obj[key] = this.value;
-	            return removed;
-	        },
-	        move: function (obj, key, tree) {
-	            var getOriginalDestination = { op: "_get", path: this.path };
-	            apply(tree, [getOriginalDestination]);
-	            // In case value is moved up and overwrites its ancestor
-	            var original = getOriginalDestination.value === undefined ?
-	                undefined : JSON.parse(JSON.stringify(getOriginalDestination.value));
-	            var temp = { op: "_get", path: this.from };
-	            apply(tree, [temp]);
-	            apply(tree, [
-	                { op: "remove", path: this.from }
-	            ]);
-	            apply(tree, [
-	                { op: "add", path: this.path, value: temp.value }
-	            ]);
-	            return original;
-	        },
-	        copy: function (obj, key, tree) {
-	            var temp = { op: "_get", path: this.from };
-	            apply(tree, [temp]);
-	            apply(tree, [
-	                { op: "add", path: this.path, value: temp.value }
-	            ]);
-	        },
-	        test: function (obj, key) {
-	            return _equals(obj[key], this.value);
-	        },
-	        _get: function (obj, key) {
-	            this.value = obj[key];
-	        }
-	    };
-	    /* The operations applicable to an array. Many are the same as for the object */
-	    var arrOps = {
-	        add: function (arr, i) {
-	            arr.splice(i, 0, this.value);
-	            // this may be needed when using '-' in an array
-	            return i;
-	        },
-	        remove: function (arr, i) {
-	            var removedList = arr.splice(i, 1);
-	            return removedList[0];
-	        },
-	        replace: function (arr, i) {
-	            var removed = arr[i];
-	            arr[i] = this.value;
-	            return removed;
-	        },
-	        move: objOps.move,
-	        copy: objOps.copy,
-	        test: objOps.test,
-	        _get: objOps._get
-	    };
-	    /* The operations applicable to object root. Many are the same as for the object */
-	    var rootOps = {
-	        add: function (obj) {
-	            rootOps.remove.call(this, obj);
-	            for (var key in this.value) {
-	                if (this.value.hasOwnProperty(key)) {
-	                    obj[key] = this.value[key];
-	                }
-	            }
-	        },
-	        remove: function (obj) {
-	            var removed = {};
-	            for (var key in obj) {
-	                if (obj.hasOwnProperty(key)) {
-	                    removed[key] = obj[key];
-	                    objOps.remove.call(this, obj, key);
-	                }
-	            }
-	            return removed;
-	        },
-	        replace: function (obj) {
-	            var removed = apply(obj, [
-	                { op: "remove", path: this.path }
-	            ]);
-	            apply(obj, [
-	                { op: "add", path: this.path, value: this.value }
-	            ]);
-	            return removed[0];
-	        },
-	        move: objOps.move,
-	        copy: objOps.copy,
-	        test: function (obj) {
-	            return (JSON.stringify(obj) === JSON.stringify(this.value));
-	        },
-	        _get: function (obj) {
-	            this.value = obj;
-	        }
-	    };
-	    function escapePathComponent(str) {
-	        if (str.indexOf('/') === -1 && str.indexOf('~') === -1)
-	            return str;
-	        return str.replace(/~/g, '~0').replace(/\//g, '~1');
-	    }
-	    function _getPathRecursive(root, obj) {
-	        var found;
-	        for (var key in root) {
-	            if (root.hasOwnProperty(key)) {
-	                if (root[key] === obj) {
-	                    return escapePathComponent(key) + '/';
-	                }
-	                else if (typeof root[key] === 'object') {
-	                    found = _getPathRecursive(root[key], obj);
-	                    if (found != '') {
-	                        return escapePathComponent(key) + '/' + found;
-	                    }
-	                }
-	            }
-	        }
-	        return '';
-	    }
-	    function getPath(root, obj) {
-	        if (root === obj) {
-	            return '/';
-	        }
-	        var path = _getPathRecursive(root, obj);
-	        if (path === '') {
-	            throw new Error("Object not found in root");
-	        }
-	        return '/' + path;
-	    }
-	    var beforeDict = [];
-	    var Mirror = (function () {
-	        function Mirror(obj) {
-	            this.observers = [];
-	            this.obj = obj;
-	        }
-	        return Mirror;
-	    }());
-	    var ObserverInfo = (function () {
-	        function ObserverInfo(callback, observer) {
-	            this.callback = callback;
-	            this.observer = observer;
-	        }
-	        return ObserverInfo;
-	    }());
-	    function getMirror(obj) {
-	        for (var i = 0, ilen = beforeDict.length; i < ilen; i++) {
-	            if (beforeDict[i].obj === obj) {
-	                return beforeDict[i];
-	            }
-	        }
-	    }
-	    function getObserverFromMirror(mirror, callback) {
-	        for (var j = 0, jlen = mirror.observers.length; j < jlen; j++) {
-	            if (mirror.observers[j].callback === callback) {
-	                return mirror.observers[j].observer;
-	            }
-	        }
-	    }
-	    function removeObserverFromMirror(mirror, observer) {
-	        for (var j = 0, jlen = mirror.observers.length; j < jlen; j++) {
-	            if (mirror.observers[j].observer === observer) {
-	                mirror.observers.splice(j, 1);
-	                return;
-	            }
-	        }
-	    }
-	    function unobserve(root, observer) {
-	        observer.unobserve();
-	    }
-	    jsonpatch.unobserve = unobserve;
-	    function deepClone(obj) {
-	        switch (typeof obj) {
-	            case "object":
-	                return JSON.parse(JSON.stringify(obj)); //Faster than ES5 clone - http://jsperf.com/deep-cloning-of-objects/5
-	            case "undefined":
-	                return null; //this is how JSON.stringify behaves for array items
-	            default:
-	                return obj; //no need to clone primitives
-	        }
-	    }
-	    function observe(obj, callback) {
-	        var patches = [];
-	        var root = obj;
-	        var observer;
-	        var mirror = getMirror(obj);
-	        if (!mirror) {
-	            mirror = new Mirror(obj);
-	            beforeDict.push(mirror);
-	        }
-	        else {
-	            observer = getObserverFromMirror(mirror, callback);
-	        }
-	        if (observer) {
-	            return observer;
-	        }
-	        observer = {};
-	        mirror.value = deepClone(obj);
-	        if (callback) {
-	            observer.callback = callback;
-	            observer.next = null;
-	            var dirtyCheck = function () {
-	                generate(observer);
-	            };
-	            var fastCheck = function () {
-	                clearTimeout(observer.next);
-	                observer.next = setTimeout(dirtyCheck);
-	            };
-	            if (typeof window !== 'undefined') {
-	                if (window.addEventListener) {
-	                    window.addEventListener('mouseup', fastCheck);
-	                    window.addEventListener('keyup', fastCheck);
-	                    window.addEventListener('mousedown', fastCheck);
-	                    window.addEventListener('keydown', fastCheck);
-	                    window.addEventListener('change', fastCheck);
-	                }
-	                else {
-	                    document.documentElement.attachEvent('onmouseup', fastCheck);
-	                    document.documentElement.attachEvent('onkeyup', fastCheck);
-	                    document.documentElement.attachEvent('onmousedown', fastCheck);
-	                    document.documentElement.attachEvent('onkeydown', fastCheck);
-	                    document.documentElement.attachEvent('onchange', fastCheck);
-	                }
-	            }
-	        }
-	        observer.patches = patches;
-	        observer.object = obj;
-	        observer.unobserve = function () {
-	            generate(observer);
-	            clearTimeout(observer.next);
-	            removeObserverFromMirror(mirror, observer);
-	            if (typeof window !== 'undefined') {
-	                if (window.removeEventListener) {
-	                    window.removeEventListener('mouseup', fastCheck);
-	                    window.removeEventListener('keyup', fastCheck);
-	                    window.removeEventListener('mousedown', fastCheck);
-	                    window.removeEventListener('keydown', fastCheck);
-	                }
-	                else {
-	                    document.documentElement.detachEvent('onmouseup', fastCheck);
-	                    document.documentElement.detachEvent('onkeyup', fastCheck);
-	                    document.documentElement.detachEvent('onmousedown', fastCheck);
-	                    document.documentElement.detachEvent('onkeydown', fastCheck);
-	                }
-	            }
-	        };
-	        mirror.observers.push(new ObserverInfo(callback, observer));
-	        return observer;
-	    }
-	    jsonpatch.observe = observe;
-	    function generate(observer) {
-	        var mirror;
-	        for (var i = 0, ilen = beforeDict.length; i < ilen; i++) {
-	            if (beforeDict[i].obj === observer.object) {
-	                mirror = beforeDict[i];
-	                break;
-	            }
-	        }
-	        _generate(mirror.value, observer.object, observer.patches, "");
-	        if (observer.patches.length) {
-	            apply(mirror.value, observer.patches);
-	        }
-	        var temp = observer.patches;
-	        if (temp.length > 0) {
-	            observer.patches = [];
-	            if (observer.callback) {
-	                observer.callback(temp);
-	            }
-	        }
-	        return temp;
-	    }
-	    jsonpatch.generate = generate;
-	    // Dirty check if obj is different from mirror, generate patches and update mirror
-	    function _generate(mirror, obj, patches, path) {
-	        var newKeys = _objectKeys(obj);
-	        var oldKeys = _objectKeys(mirror);
-	        var changed = false;
-	        var deleted = false;
-	        //if ever "move" operation is implemented here, make sure this test runs OK: "should not generate the same patch twice (move)"
-	        for (var t = oldKeys.length - 1; t >= 0; t--) {
-	            var key = oldKeys[t];
-	            var oldVal = mirror[key];
-	            if (obj.hasOwnProperty(key) && !(obj[key] === undefined && oldVal !== undefined && _isArray(obj) === false)) {
-	                var newVal = obj[key];
-	                if (typeof oldVal == "object" && oldVal != null && typeof newVal == "object" && newVal != null) {
-	                    _generate(oldVal, newVal, patches, path + "/" + escapePathComponent(key));
-	                }
-	                else {
-	                    if (oldVal !== newVal) {
-	                        changed = true;
-	                        patches.push({ op: "replace", path: path + "/" + escapePathComponent(key), value: deepClone(newVal) });
-	                    }
-	                }
-	            }
-	            else {
-	                patches.push({ op: "remove", path: path + "/" + escapePathComponent(key) });
-	                deleted = true; // property has been deleted
-	            }
-	        }
-	        if (!deleted && newKeys.length == oldKeys.length) {
-	            return;
-	        }
-	        for (var t = 0; t < newKeys.length; t++) {
-	            var key = newKeys[t];
-	            if (!mirror.hasOwnProperty(key) && obj[key] !== undefined) {
-	                patches.push({ op: "add", path: path + "/" + escapePathComponent(key), value: deepClone(obj[key]) });
-	            }
-	        }
-	    }
-	    var _isArray;
-	    if (Array.isArray) {
-	        _isArray = Array.isArray;
-	    }
-	    else {
-	        _isArray = function (obj) {
-	            return obj.push && typeof obj.length === 'number';
-	        };
-	    }
-	    //3x faster than cached /^\d+$/.test(str)
-	    function isInteger(str) {
-	        var i = 0;
-	        var len = str.length;
-	        var charCode;
-	        while (i < len) {
-	            charCode = str.charCodeAt(i);
-	            if (charCode >= 48 && charCode <= 57) {
-	                i++;
-	                continue;
-	            }
-	            return false;
-	        }
-	        return true;
-	    }
-	    /**
-	     * Apply a json-patch operation on an object tree
-	     * Returns an array of results of operations.
-	     * Each element can either be a boolean (if op == 'test') or
-	     * the removed object (operations that remove things)
-	     * or just be undefined
-	     */
-	    function apply(tree, patches, validate) {
-	        var results = [], p = 0, plen = patches.length, patch, key;
-	        while (p < plen) {
-	            patch = patches[p];
-	            p++;
-	            // Find the object
-	            var path = patch.path || "";
-	            var keys = path.split('/');
-	            var obj = tree;
-	            var t = 1; //skip empty element - http://jsperf.com/to-shift-or-not-to-shift
-	            var len = keys.length;
-	            var existingPathFragment = undefined;
-	            while (true) {
-	                key = keys[t];
-	                if (validate) {
-	                    if (existingPathFragment === undefined) {
-	                        if (obj[key] === undefined) {
-	                            existingPathFragment = keys.slice(0, t).join('/');
-	                        }
-	                        else if (t == len - 1) {
-	                            existingPathFragment = patch.path;
-	                        }
-	                        if (existingPathFragment !== undefined) {
-	                            this.validator(patch, p - 1, tree, existingPathFragment);
-	                        }
-	                    }
-	                }
-	                t++;
-	                if (key === undefined) {
-	                    if (t >= len) {
-	                        results.push(rootOps[patch.op].call(patch, obj, key, tree)); // Apply patch
-	                        break;
-	                    }
-	                }
-	                if (_isArray(obj)) {
-	                    if (key === '-') {
-	                        key = obj.length;
-	                    }
-	                    else {
-	                        if (validate && !isInteger(key)) {
-	                            throw new JsonPatchError("Expected an unsigned base-10 integer value, making the new referenced value the array element with the zero-based index", "OPERATION_PATH_ILLEGAL_ARRAY_INDEX", p - 1, patch.path, patch);
-	                        }
-	                        key = parseInt(key, 10);
-	                    }
-	                    if (t >= len) {
-	                        if (validate && patch.op === "add" && key > obj.length) {
-	                            throw new JsonPatchError("The specified index MUST NOT be greater than the number of elements in the array", "OPERATION_VALUE_OUT_OF_BOUNDS", p - 1, patch.path, patch);
-	                        }
-	                        results.push(arrOps[patch.op].call(patch, obj, key, tree)); // Apply patch
-	                        break;
-	                    }
-	                }
-	                else {
-	                    if (key && key.indexOf('~') != -1)
-	                        key = key.replace(/~1/g, '/').replace(/~0/g, '~'); // escape chars
-	                    if (t >= len) {
-	                        results.push(objOps[patch.op].call(patch, obj, key, tree)); // Apply patch
-	                        break;
-	                    }
-	                }
-	                obj = obj[key];
-	            }
-	        }
-	        return results;
-	    }
-	    jsonpatch.apply = apply;
-	    function compare(tree1, tree2) {
-	        var patches = [];
-	        _generate(tree1, tree2, patches, '');
-	        return patches;
-	    }
-	    jsonpatch.compare = compare;
-	    // provide scoped __extends for TypeScript's `extend` keyword so it will not provide global one during compilation
-	    function __extends(d, b) {
-	        for (var p in b)
-	            if (b.hasOwnProperty(p))
-	                d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    }
-	    var JsonPatchError = (function (_super) {
-	        __extends(JsonPatchError, _super);
-	        function JsonPatchError(message, name, index, operation, tree) {
-	            _super.call(this, message);
-	            this.message = message;
-	            this.name = name;
-	            this.index = index;
-	            this.operation = operation;
-	            this.tree = tree;
-	        }
-	        return JsonPatchError;
-	    }(Error));
-	    jsonpatch.JsonPatchError = JsonPatchError;
-	    /**
-	     * Recursively checks whether an object has any undefined values inside.
-	     */
-	    function hasUndefined(obj) {
-	        if (obj === undefined) {
-	            return true;
-	        }
-	        if (typeof obj == "array" || typeof obj == "object") {
-	            for (var i in obj) {
-	                if (hasUndefined(obj[i])) {
-	                    return true;
-	                }
-	            }
-	        }
-	        return false;
-	    }
-	    /**
-	     * Validates a single operation. Called from `jsonpatch.validate`. Throws `JsonPatchError` in case of an error.
-	     * @param {object} operation - operation object (patch)
-	     * @param {number} index - index of operation in the sequence
-	     * @param {object} [tree] - object where the operation is supposed to be applied
-	     * @param {string} [existingPathFragment] - comes along with `tree`
-	     */
-	    function validator(operation, index, tree, existingPathFragment) {
-	        if (typeof operation !== 'object' || operation === null || _isArray(operation)) {
-	            throw new JsonPatchError('Operation is not an object', 'OPERATION_NOT_AN_OBJECT', index, operation, tree);
-	        }
-	        else if (!objOps[operation.op]) {
-	            throw new JsonPatchError('Operation `op` property is not one of operations defined in RFC-6902', 'OPERATION_OP_INVALID', index, operation, tree);
-	        }
-	        else if (typeof operation.path !== 'string') {
-	            throw new JsonPatchError('Operation `path` property is not a string', 'OPERATION_PATH_INVALID', index, operation, tree);
-	        }
-	        else if (operation.path.indexOf('/') !== 0 && operation.path.length > 0) {
-	            // paths that aren't emptystring should start with "/"
-	            throw new JsonPatchError('Operation `path` property must start with "/"', 'OPERATION_PATH_INVALID', index, operation, tree);
-	        }
-	        else if ((operation.op === 'move' || operation.op === 'copy') && typeof operation.from !== 'string') {
-	            throw new JsonPatchError('Operation `from` property is not present (applicable in `move` and `copy` operations)', 'OPERATION_FROM_REQUIRED', index, operation, tree);
-	        }
-	        else if ((operation.op === 'add' || operation.op === 'replace' || operation.op === 'test') && operation.value === undefined) {
-	            throw new JsonPatchError('Operation `value` property is not present (applicable in `add`, `replace` and `test` operations)', 'OPERATION_VALUE_REQUIRED', index, operation, tree);
-	        }
-	        else if ((operation.op === 'add' || operation.op === 'replace' || operation.op === 'test') && hasUndefined(operation.value)) {
-	            throw new JsonPatchError('Operation `value` property is not present (applicable in `add`, `replace` and `test` operations)', 'OPERATION_VALUE_CANNOT_CONTAIN_UNDEFINED', index, operation, tree);
-	        }
-	        else if (tree) {
-	            if (operation.op == "add") {
-	                var pathLen = operation.path.split("/").length;
-	                var existingPathLen = existingPathFragment.split("/").length;
-	                if (pathLen !== existingPathLen + 1 && pathLen !== existingPathLen) {
-	                    throw new JsonPatchError('Cannot perform an `add` operation at the desired path', 'OPERATION_PATH_CANNOT_ADD', index, operation, tree);
-	                }
-	            }
-	            else if (operation.op === 'replace' || operation.op === 'remove' || operation.op === '_get') {
-	                if (operation.path !== existingPathFragment) {
-	                    throw new JsonPatchError('Cannot perform the operation at a path that does not exist', 'OPERATION_PATH_UNRESOLVABLE', index, operation, tree);
-	                }
-	            }
-	            else if (operation.op === 'move' || operation.op === 'copy') {
-	                var existingValue = { op: "_get", path: operation.from, value: undefined };
-	                var error = jsonpatch.validate([existingValue], tree);
-	                if (error && error.name === 'OPERATION_PATH_UNRESOLVABLE') {
-	                    throw new JsonPatchError('Cannot perform the operation from a path that does not exist', 'OPERATION_FROM_UNRESOLVABLE', index, operation, tree);
-	                }
-	            }
-	        }
-	    }
-	    jsonpatch.validator = validator;
-	    /**
-	     * Validates a sequence of operations. If `tree` parameter is provided, the sequence is additionally validated against the object tree.
-	     * If error is encountered, returns a JsonPatchError object
-	     * @param sequence
-	     * @param tree
-	     * @returns {JsonPatchError|undefined}
-	     */
-	    function validate(sequence, tree) {
-	        try {
-	            if (!_isArray(sequence)) {
-	                throw new JsonPatchError('Patch sequence must be an array', 'SEQUENCE_NOT_AN_ARRAY');
-	            }
-	            if (tree) {
-	                tree = JSON.parse(JSON.stringify(tree)); //clone tree so that we can safely try applying operations
-	                apply.call(this, tree, sequence, true);
-	            }
-	            else {
-	                for (var i = 0; i < sequence.length; i++) {
-	                    this.validator(sequence[i], i);
-	                }
-	            }
-	        }
-	        catch (e) {
-	            if (e instanceof JsonPatchError) {
-	                return e;
-	            }
-	            else {
-	                throw e;
-	            }
-	        }
-	    }
-	    jsonpatch.validate = validate;
-	})(jsonpatch || (jsonpatch = {}));
-	if (true) {
-	    exports.apply = jsonpatch.apply;
-	    exports.observe = jsonpatch.observe;
-	    exports.unobserve = jsonpatch.unobserve;
-	    exports.generate = jsonpatch.generate;
-	    exports.compare = jsonpatch.compare;
-	    exports.validate = jsonpatch.validate;
-	    exports.validator = jsonpatch.validator;
-	    exports.JsonPatchError = jsonpatch.JsonPatchError;
-	}
-	else {
-	    var exports = {};
-	    var isBrowser = true;
-	}
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = jsonpatch;
-	/*
-	When in browser, setting `exports = {}`
-	fools other modules into thinking they're
-	running in a node environment, which breaks
-	some of them. Here is super light wieght fix.
-	*/
-	if (isBrowser) {
-	    exports = undefined;
-	}
-
-
-/***/ },
-/* 275 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.merge = exports.create = exports.apply = undefined;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;}; /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright 2016 aixigo AG
-	                                                                                                                                                                                                                                                                                                                                                                                                                 * Released under the MIT license.
-	                                                                                                                                                                                                                                                                                                                                                                                                                 * http://laxarjs.org/license
-	                                                                                                                                                                                                                                                                                                                                                                                                                 */
-	/**
-	                                                                                                                                                                                                                                                                                                                                                                                                                     * Module for old-style LaxarJS patches used with the didUpdate event.
-	                                                                                                                                                                                                                                                                                                                                                                                                                     *
-	                                                                                                                                                                                                                                                                                                                                                                                                                     * @module patches
-	                                                                                                                                                                                                                                                                                                                                                                                                                     */
-	var _laxar = __webpack_require__(18);
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Applies all patches given as mapping from object path to new value. If a path fragment doesn't exist
-	 * it is automatically inserted, using an array if the next key would be an integer. If a value is
-	 * appended to an array all values in between are set to `null`.
-	 *
-	 * This patch format cannot express all operations. Use `json.applyPatch` instead.
-	 *
-	 * @deprecated since v1.1
-	 *
-	 * @param {Object} obj
-	 *    the object to apply the patches on
-	 * @param {Object} patches
-	 *    the mapping of paths to new values
-	 */
-	function apply(obj, patches) {
-	   var patchMap = void 0;
-	   if (Array.isArray(patches)) {
-	      patchMap = {};
-	      var arr = patches;
-	      arr.forEach(function (value, key) {
-	         if (value !== undefined) {
-	            patchMap[key] = value;
-	         }
-	      });
-	   } else
-	   {
-	      patchMap = patches;
-	   }
-	
-	   // We sort the keys by length. Thus deeply nested attributes are not overwritten by patches applied to
-	   // one of their parents.
-	   Object.keys(patches).
-	   sort(function (a, b) {return a.length - b.length;}).
-	   forEach(function (path) {return _laxar.object.setPath(obj, path, patches[path]);});
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates a map of patches that describe the difference between to objects or arrays. Each entry is a
-	 * path mapped to the changed value. This map can be applied to another object using `applyPatches`.
-	 *
-	 * Properties that start with '$$' are ignored when creating patches, so that for example the $$hashCode
-	 * added by AngularJS ngRepeat is ignored.
-	 *
-	 * This patch format cannot express all operations. Use `json.createPatch` instead.
-	 *
-	 * @deprecated since v1.1
-	 *
-	 * @param {Object} result
-	 *    the resulting object the patch map should establish
-	 * @param {Object} base
-	 *    the object used to base the patches upon
-	 *
-	 * @return {Object}
-	 *    the mapping of path to patch-value
-	 */
-	function create(result, base) {
-	   var targetType = type(result);
-	   var subjectType = type(base);
-	   if (targetType !== 'array' && targetType !== 'object') {
-	      return null;
-	   }
-	
-	   if (targetType !== subjectType) {
-	      return _laxar.object.deepClone(result);
-	   }
-	   var patches = {};
-	
-	   function createPatchesRecursively(result, base, path) {
-	      for (var key in result) {
-	         if (result.hasOwnProperty(key) && (key.charAt(0) !== '$' || key.charAt(1) !== '$')) {
-	            var val = result[key];
-	            var nextPath = path.concat(key);
-	            if (base[key] == null) {
-	               patches[nextPath.join('.')] = clean(_laxar.object.deepClone(val));
-	            } else
-	            if (val && (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object') {
-	               createPatchesRecursively(val, base[key], nextPath);
-	            } else
-	            if (val !== base[key]) {
-	               patches[nextPath.join('.')] = val;
-	            }
-	         }
-	      }
-	
-	      for (var _key in base) {
-	         if (base.hasOwnProperty(_key)) {
-	            if (!(_key in result)) {
-	               patches[path.concat(_key).join('.')] = null;
-	            }
-	         }
-	      }
-	   }
-	   createPatchesRecursively(result, base, []);
-	
-	   return patches;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Merges two patch maps and returns the result. When properties exist in both patch maps, properties
-	 * within the second map overwrite those found within the first one.
-	 *
-	 * This patch format cannot express all operations.
-	 * Concatenate `json.createPatch` sequences instead of using this method.
-	 *
-	 * @deprecated since v1.1
-	 *
-	 * @param {Object} first
-	 *    first map to merge
-	 * @param {Object} second
-	 *    second map to merge
-	 *
-	 * @return {Object}
-	 *    the result of the merging
-	 */
-	function merge(first, second) {
-	   var resultMap = {};
-	   var firstKeys = Object.keys(first);
-	   var secondKeys = Object.keys(second);
-	   firstKeys.forEach(function (firstKey) {
-	      // we first collect all properties in first, that won't be overwritten by changes in the second
-	      // patch map.
-	      for (var i = 0; i < secondKeys.length; ++i) {
-	         // thus completely matching keys and keys that are finer than one in the second map are ignored
-	         if (firstKey === secondKeys[i] || firstKey.indexOf(secondKeys[i] + '.') === 0) {
-	            return;
-	         }
-	      }
-	
-	      resultMap[firstKey] = first[firstKey];
-	   });
-	
-	   secondKeys.forEach(function (secondKey) {
-	      // we know only have keys that are absolutely finer than those in the first patch map OR affect a
-	      // completely different property that should be patched.
-	      for (var i = 0; i < firstKeys.length; ++i) {
-	         var firstKey = firstKeys[i];
-	         var firstKeyAsPathFragment = firstKey + '.';
-	         if (secondKey.indexOf(firstKeyAsPathFragment) === 0) {
-	            // here we found a finer change in the second patch map that needs to be merged into the more
-	            // general change of the first patch map
-	            var patch = {};
-	            patch[secondKey.replace(firstKeyAsPathFragment, '')] = second[secondKey];
-	            var change = first[firstKey];
-	            apply(change, patch);
-	            resultMap[firstKey] = change;
-	
-	            return;
-	         }
-	      }
-	
-	      resultMap[secondKey] = second[secondKey];
-	   });
-	
-	   return resultMap;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function type(object) {
-	   if (object === null) {
-	      return 'null';
-	   }
-	   if (object === undefined) {
-	      return 'undefined';
-	   }
-	
-	   var tmp = Object.prototype.toString.call(object).split(' ')[1];
-	   if (!tmp) {
-	      return undefined;
-	   }
-	   return tmp.substr(0, tmp.length - 1).toLowerCase();
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function clean(object) {
-	   if (object === null) {
-	      return object;
-	   }
-	   for (var key in object) {
-	      if (object.hasOwnProperty(key)) {
-	         if (key.charAt(0) === '$' && key.charAt(1) === '$') {
-	            delete object[key];
-	         } else
-	         if (_typeof(object[key]) === 'object') {
-	            clean(object[key]);
-	         }
-	      }
-	   }
-	   return object;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	exports.
-	
-	apply = apply;exports.
-	create = create;exports.
-	merge = merge;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = exports.isSame = exports.updatePublisherForFeature = exports.replacePublisherForFeature = exports.updateHandler = exports.replaceHandler = undefined;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;};var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;}; /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Copyright 2016 aixigo AG
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Released under the MIT license.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * http://laxarjs.org/license
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
-	/**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * This module provides helpers for patterns regarding *didReplace* and *didUpdate* events.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * Definition of the `context` object mentioned throughout this api:
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * In the simplest case this can be the AngularJS `$scope` passed into a widget. Technically this can be
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * any object exposing these three properties:
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * - `eventBus`: The event bus instance used for event subscriptions and publishing events
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * - `features`: The configuration of the widget, used for automagical resource handling
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * - `resources`: An object where all registered resources and updates to them are written to. Will be
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *   added if it doesn't exist.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * @module resources
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           */
-	var _fastJsonPatch = __webpack_require__(274);var _fastJsonPatch2 = _interopRequireDefault(_fastJsonPatch);
-	var _laxar = __webpack_require__(18);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates and returns a simple handler function for didReplace events. Replaces will be written to
-	 * `context.resources` under the given value for `modelKey`.
-	 *
-	 * @param {Object} context
-	 *    the context the handler works on
-	 * @param {String} modelKey
-	 *    the property of `context.resources` the handler writes replaces to
-	 *
-	 * @return {Function}
-	 *    the handler function
-	 */
-	function replaceHandler(context, modelKey) {
-	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
-	   (0, _laxar.assert)(modelKey).hasType(String).isNotNull();
-	
-	   var resourceBucket = provideResourceBucket(context);
-	   return function (event) {
-	      if (resourceBucket[modelKey] == null && event.data == null) {
-	         return false;
-	      }
-	
-	      resourceBucket[modelKey] = event.data;
-	      return true;
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates and returns a simple handler function for didUpdate events. Updates will be written to
-	 * `context.resources` under the given value for `modelKey`.
-	 *
-	 * @param {Object} context
-	 *    the context the handler works on
-	 * @param {String} modelKey
-	 *    the property of `context.resources` the handler applies updates to
-	 *
-	 * @return {Function}
-	 *    the handler function
-	 */
-	function updateHandler(context, modelKey) {
-	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
-	   (0, _laxar.assert)(modelKey).hasType(String).isNotNull();
-	
-	   var resourceBucket = provideResourceBucket(context);
-	   return function (event) {
-	      if (resourceBucket[modelKey] != null && Array.isArray(event.patches)) {
-	         _fastJsonPatch2.default.apply(resourceBucket[modelKey], event.patches);
-	         return true;
-	      }
-	
-	      return false;
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates and returns a function to publish didReplace events for the resource found as feature
-	 * configuration. Resolution of the `featurePath` argument works just as explained in the documentation for
-	 * {@link ResourceHandler#registerResourceFromFeature}. The publisher returns the promise returned by
-	 * the underlying event bus call.
-	 *
-	 * @param {Object} context
-	 *    the context the publisher works on
-	 * @param {String} featurePath
-	 *    the property of `context.features` the publisher reads the resource name from
-	 * @param {Object} [optionalOptions]
-	 *    options for the publisher
-	 * @param {Boolean} optionalOptions.deliverToSender
-	 *    the value is forwarded to `eventBus.publish`: if `true` the event will also be delivered to the
-	 *    publisher. Default is `false`
-	 * @param {Boolean} optionalOptions.isOptional
-	 *    if `true`, don't throw an error if `featurePath.resource` is missing. Instead return a publisher
-	 *    that doesn't do anything when called. Default is `false`.
-	 *
-	 * @return {Function}
-	 *    the publisher function. Takes the data to publish as single argument
-	 */
-	function replacePublisherForFeature(context, featurePath, optionalOptions) {
-	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
-	   (0, _laxar.assert)(context.eventBus).hasType(Object).isNotNull();
-	
-	   var options = _extends({ deliverToSender: false }, optionalOptions);
-	
-	   var resourceName = _laxar.object.path(context.features, featurePath + '.resource');
-	   if (!resourceName && options.isOptional) {
-	      return function () {return Promise.resolve();};
-	   }
-	   (0, _laxar.assert)(resourceName).hasType(String).isNotNull();
-	
-	   return function (replacement) {
-	      return context.eventBus.publish('didReplace.' + resourceName, {
-	         resource: resourceName,
-	         data: replacement },
-	      {
-	         deliverToSender: !!options.deliverToSender });
-	
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates and returns a function to publish didUpdate events for the resource found as feature
-	 * configuration. Resolution of the `featurePath` argument works just as explained in the documentation for
-	 * {@link ResourceHandler#registerResourceFromFeature}. The publisher returns the promise returned by
-	 * the underlying event bus call. The returned function only accepts one argument, which is the JSON patch
-	 * sequence conforming to [RFC 6902](https://tools.ietf.org/html/rfc6902).
-	 *
-	 * Example:
-	 * ```js
-	 * const publisher = resources.updatePublisherForFeature( context, path );
-	 * publisher( [
-	 *    { op: 'remove', path: '/accounts/2' },
-	 *    { op: 'replace', path: '/contacts/hans/number', value: '+49 123 4563432' }
-	 * ] );
-	 * ```
-	 *
-	 * Additionally the returned function has a method `compareAndPublish` that accepts the previous version of
-	 * a resource as first argument and the current version of the resource as second argument. It then creates
-	 * the JSON patch sequence itself and sends the according didUpdate event. It also returns the promise
-	 * returned by the underlying event bus call.
-	 *
-	 * Example:
-	 * ```js
-	 * const publisher = resources.updatePublisherForFeature( context, path );
-	 * publisher.compareAndPublish( obsoleteVersion, currentVersion );
-	 * ```
-	 *
-	 * Note that a generic generation of patches might lead to strange, large patch sequences, especially when
-	 * removing entries. The diff library doesn't know about identities and as such won't recognize where a
-	 * specific element was removed. As a consequence instead of generating a remove operation, this could
-	 * result in a very large number of replace operations that shift the properties from successors to the
-	 * front in order to overwrite instead of remove the entry.
-	 * In such cases one is better off by manually creating a patch with operation remove, as the knowledge
-	 * about the domain is available at the user of this publisher.
-	 *
-	 * @param {Object} context
-	 *    the context the publisher works on
-	 * @param {String} featurePath
-	 *    the property of `context.features` the publisher reads the resource name from
-	 * @param {Object} [optionalOptions]
-	 *    options for the publisher
-	 * @param {Boolean} optionalOptions.deliverToSender
-	 *    the value is forward to `eventBus.publish`: if `true` the event will also be delivered to the
-	 *    publisher. Default is `false`
-	 * @param {Boolean} optionalOptions.isOptional
-	 *    if `true`, don't throw an error if `featurePath.resource` is missing. Instead return a publisher
-	 *    that doesn't do anything when called. Default is `false`.
-	 *
-	 * @return {Function}
-	 *    the publisher function as described above
-	 */
-	function updatePublisherForFeature(context, featurePath, optionalOptions) {
-	   (0, _laxar.assert)(context).hasType(Object).isNotNull();
-	   (0, _laxar.assert)(context.eventBus).hasType(Object).isNotNull();
-	
-	   var options = _extends({ deliverToSender: false }, optionalOptions);
-	
-	   var resource = _laxar.object.path(context.features, featurePath + '.resource');
-	   if (!resource && options.isOptional) {
-	      var noopPublisher = function noopPublisher() {return Promise.resolve();};
-	      noopPublisher.compareAndPublish = noopPublisher;
-	      return noopPublisher;
-	   }
-	   (0, _laxar.assert)(resource).hasType(String).isNotNull();
-	
-	   var publisher = function publisher(patches) {
-	      (0, _laxar.assert)(patches).hasType(Array).isNotNull();
-	
-	      if (!patches || !patches.length) {
-	         context.log.trace(
-	         'updatePublisher: Not sending empty didUpdate to resource "[0]" from sender "[1]".',
-	         resource, (context.widget || { id: 'unknown' }).id);
-	
-	         return Promise.resolve();
-	      }
-	
-	      var meta = { deliverToSender: !!options.deliverToSender };
-	      return context.eventBus.publish('didUpdate.' + resource, { resource: resource, patches: patches }, meta);
-	   };
-	
-	   publisher.compareAndPublish = function (from, to) {return publisher(_fastJsonPatch2.default.compare(from, to));};
-	
-	   return publisher;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates a new handler instance for didReplace and didUpdate events. It already handles setting of the
-	 * resource data on didReplace in the context.resources property and updating that data on didUpdate events.
-	 *
-	 * @param {Object} context
-	 *    the context the handler should work with. It expects to find an `eventBus` property there with which
-	 *    it can do the event handling
-	 *
-	 * @return {ResourceHandler}
-	 *    a resource handler instance
-	 */
-	function handlerFor(context) {
-	   return new ResourceHandler(context);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function ResourceHandler(context) {
-	   this.context_ = context;
-	   this.externalHandlers_ = {};
-	   this.modelHandlers_ = {};
-	   this.waitingFor_ = [];
-	   this.allReplacedCallback_ = function () {};
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Registers default event handlers for a feature. The `feature` argument is interpreted as attribute
-	 * path to an object having a `resource` property of type string holding the name of the resource to
-	 * register the handler for. All replacements and updates will be written to `context.resources` by the
-	 * rules written at `options.modelKey` doc.
-	 *
-	 * Example:
-	 * Consider the following configuration:
-	 * ```json
-	 * {
-	 *    "features": {
-	 *       "someFeature": {
-	 *          "someResourceConfig": {
-	 *             "resource": "myResource"
-	 *          }
-	 *       }
-	 *    }
-	 * }
-	 * ```
-	 *
-	 * The corresponding call, using an AngularJS Scope as context, would be (providing none of the options):
-	 *
-	 * ```js
-	 * patterns.resources.handlerFor( $scope )
-	 *    .registerResourceFromFeature( 'someFeature.someResourceConfig' );
-	 * ```
-	 *
-	 * @param {String} featurePath
-	 *    the attribute path to the feature for the resource
-	 * @param {Object|Function} [optionalOptions]
-	 *    options and callbacks to use. If a function is passed, it is used as the `onUpdateReplace` option.
-	 * @param {Function|Function[]} optionalOptions.onReplace
-	 *    a function or a list of functions to call when a didReplace event is received. Each function
-	 *    receives the event object as argument. If `options.omitFirstReplace` is `true`, it is only called
-	 *    first the second time a didReplace event occurs
-	 * @param {Function|Function[]} optionalOptions.onUpdate
-	 *    a function or a list of functions to call when a didUpdate event is received. Each function
-	 *    receives the event object as argument
-	 * @param {Function|Function[]} optionalOptions.onUpdateReplace
-	 *    a function or a list of functions to call when a didUpdate or a didReplace event is received. Each
-	 *    function receives the event object as argument. If `options.omitFirstReplace` is `true`, it is
-	 *    not called for the first received didReplace event
-	 * @param {Boolean} optionalOptions.omitFirstReplace
-	 *    if `true` `options.onReplace` is only called after the
-	 *    first time a didReplace event occurred. Default is `false`
-	 * @param {String} optionalOptions.modelKey
-	 *    the key to use for the resource in `context.resources`. If not given the last path fragment of
-	 *    `featurePath` is used. For example if the path is `myfeature.superResource` the key will be
-	 *    `superResource`
-	 * @param {Boolean} optionalOptions.isOptional
-	 *    if set to `true`, missing configuration for this resource is silently ignored and no handlers
-	 *    are registered. If set to `false`, an error will be raised in this case (default is `false`)
-	 *
-	 * @return {ResourceHandler}
-	 *    this instance for chaining
-	 */
-	ResourceHandler.prototype.registerResourceFromFeature = function (featurePath, optionalOptions) {
-	   var resource = _laxar.object.path(this.context_.features, featurePath + '.resource', null);
-	   var options = _extends({
-	      isOptional: false },
-	   typeof optionalOptions === 'function' ? { onUpdateReplace: optionalOptions } : optionalOptions);
-	
-	   if (resource === null && options.isOptional) {
-	      return this;
-	   }
-	   (0, _laxar.assert)(resource).isNotNull('Could not find resource configuration in features for "' + featurePath + '"');
-	
-	   if (!options.modelKey) {
-	      options.modelKey = featurePath.substr(featurePath.lastIndexOf('.') + 1);
-	   }
-	
-	   return this.registerResource(resource, options);
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Registers default event handlers for a known resource name. All replacements and updates will be
-	 * written to `context.resources`.
-	 *
-	 * @param {String} resource
-	 *    the resource the handler should be registered for
-	 * @param {Object|Function} [optionalOptions]
-	 *    options and callbacks to use. If a function is passed, it is used as the `onUpdateReplace` option.
-	 * @param {Function|Function[]} optionalOptions.onReplace
-	 *    a function or a list of functions to call when a didReplace event is received. Each function
-	 *    receives the event object as argument. If `options.omitFirstReplace` is `true`, it is only called
-	 *    first the second time a didReplace event occurs
-	 * @param {Function|Function[]} optionalOptions.onUpdate
-	 *    a function or a list of functions to call when a didUpdate event is received. Each function
-	 *    receives the event object as argument
-	 * @param {Function|Function[]} optionalOptions.onUpdateReplace
-	 *    a function or a list of functions to call when a didUpdate or a didReplace event is received. Each
-	 *    function receives the event object as argument. If `options.omitFirstReplace` is `true`, it is
-	 *    only called first for didReplace events the second time such an event occurs
-	 * @param {Boolean} optionalOptions.omitFirstReplace
-	 *    if `true` `options.onReplace` is only called after the first time a didReplace event occurred.
-	 *    Default is `false`
-	 * @param {String} optionalOptions.modelKey
-	 *    the key to use for the resource in `context.resources`. If not given the value of `resource` is
-	 *    used
-	 *
-	 * @return {ResourceHandler}
-	 *    this instance for chaining
-	 */
-	ResourceHandler.prototype.registerResource = function (resource, optionalOptions) {
-	   (0, _laxar.assert)(resource).hasType(String).isNotNull();
-	
-	   var options = _extends({
-	      omitFirstReplace: false,
-	      modelKey: resource },
-	   typeof optionalOptions === 'function' ? { onUpdateReplace: optionalOptions } : optionalOptions);
-	
-	
-	   this.waitingFor_.push(resource);
-	   registerResourceHandlers(this, resource, options);
-	
-	   if (!(resource in this.modelHandlers_)) {
-	      this.modelHandlers_[resource] = {};
-	   }
-	
-	   registerForReplace(this, resource, options);
-	   registerForUpdate(this, resource, options);
-	
-	   return this;
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Registers a callback that is called once all resources were initially replaced. If more resource
-	 * handlers are registered before all relevant didReplace events were received, those are also waited
-	 * for.
-	 *
-	 * @param {Function} callback
-	 *     the function to call
-	 * @param {Boolean} [optionalOptions]
-	 *    an optional set of parameters to specify watch behavior
-	 * @param {Boolean} optionalOptions.watch
-	 *    if `true`, the callback will be called again whenever resources are modified after all were
-	 *    replaced at least once
-	 *
-	 * @return {ResourceHandler}
-	 *    this instance for chaining
-	 */
-	ResourceHandler.prototype.whenAllWereReplaced = function (callback, optionalOptions) {
-	   (0, _laxar.assert)(callback).hasType(Function).isNotNull();
-	
-	   this.allReplacedCallback_ = optionalOptions && optionalOptions.watch ? callback : onceCallback;
-	
-	   return this;
-	
-	   function onceCallback() {
-	      callback();
-	      this.allReplacedCallback_ = function () {};
-	   }
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Allows to find out if there are still outstanding resources, or if all resources have been replaced.
-	 * Can be used in update-/replace-handlers to determine if all dependencies are satisfied.
-	 *
-	 * @return {Boolean}
-	 *    `true` if all resources registered with this handler (so far) have been replaced at least once,
-	 *    `false` if there are still outstanding resources
-	 */
-	ResourceHandler.prototype.wereAllReplaced = function () {
-	   return !this.waitingFor_.length;
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function registerResourceHandlers(self, resource, options) {
-	   if (!self.externalHandlers_[resource]) {
-	      self.externalHandlers_[resource] = {
-	         onReplace: [],
-	         onUpdate: [] };
-	
-	   }
-	
-	   appendFunctionOrArrayOfFunctions(self.externalHandlers_[resource].onUpdate, options.onUpdate);
-	   appendFunctionOrArrayOfFunctions(self.externalHandlers_[resource].onUpdate, options.onUpdateReplace);
-	
-	   var replaceHandlers = [];
-	   appendFunctionOrArrayOfFunctions(replaceHandlers, options.onReplace);
-	   appendFunctionOrArrayOfFunctions(replaceHandlers, options.onUpdateReplace);
-	
-	   if (options.omitFirstReplace) {
-	      replaceHandlers = replaceHandlers.map(function (handler) {return ignoringFirstCall(handler);});
-	   }
-	
-	   function ignoringFirstCall(f) {
-	      var ignore = true;
-	      return function () {for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {args[_key] = arguments[_key];}
-	         if (ignore) {
-	            ignore = false;
-	            return;
-	         }
-	         f.apply(self, args);
-	      };
-	   }
-	
-	   appendFunctionOrArrayOfFunctions(self.externalHandlers_[resource].onReplace, replaceHandlers);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function registerForReplace(self, resource, options) {
-	   var handler = replaceHandler(self.context_, options.modelKey);
-	   if (self.modelHandlers_[resource].onReplace) {
-	      self.modelHandlers_[resource].onReplace.push(handler);
-	      return;
-	   }
-	   self.modelHandlers_[resource].onReplace = [handler];
-	
-	   self.context_.eventBus.subscribe('didReplace.' + resource, function (event, meta) {
-	      var changed = self.modelHandlers_[resource].onReplace.
-	      reduce(function (changed, handler) {return handler(event, meta) || changed;}, false);
-	
-	      if (!changed) {return;}
-	
-	      try {
-	         self.externalHandlers_[resource].onReplace.forEach(function (handler) {return handler(event, meta);});
-	      } finally
-	      {
-	         self.waitingFor_ = self.waitingFor_.filter(function (topic) {return topic !== resource;});
-	         if (!self.waitingFor_.length) {
-	            self.allReplacedCallback_();
-	         }
-	      }
-	
-	   });
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function registerForUpdate(self, resource, options) {
-	   var handler = updateHandler(self.context_, options.modelKey);
-	   if (self.modelHandlers_[resource].onUpdate) {
-	      self.modelHandlers_[resource].onUpdate.push(handler);
-	      return;
-	   }
-	   self.modelHandlers_[resource].onUpdate = [handler];
-	
-	   self.context_.eventBus.subscribe('didUpdate.' + resource, function (event, meta) {
-	      var changed = self.modelHandlers_[resource].onUpdate.
-	      reduce(function (changed, handler) {return handler(event, meta) || changed;}, false);
-	
-	      if (!changed) {return;}
-	
-	      try {
-	         self.externalHandlers_[resource].onUpdate.forEach(function (handler) {return handler(event, meta);});
-	      } finally
-	      {
-	         if (!self.waitingFor_.length) {
-	            self.allReplacedCallback_();
-	         }
-	      }
-	   });
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function appendFunctionOrArrayOfFunctions(target, funcOrArray) {
-	   if (typeof funcOrArray === 'function') {
-	      target.push(funcOrArray);
-	      return;
-	   }
-	
-	   if (Array.isArray(funcOrArray)) {
-	      Array.prototype.push.apply(target, funcOrArray);
-	   }
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function provideResourceBucket(context) {
-	   if (!context.hasOwnProperty('resources') || _typeof(context.resources) !== 'object') {
-	      context.resources = {};
-	   }
-	
-	   return context.resources;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Tests if two objects represent the same resource.
-	 *
-	 * The test takes place as follows:
-	 *  - Let value of `counter` be zero.
-	 *  - For each attribute (or attribute path) in `attribute` test the following:
-	 *    - If both objects contain the attribute (or a defined value at the given path), check for
-	 *       identity using `===`.
-	 *       - If this check is negative, skip further testing and let the result of the function be `false`.
-	 *       - If it is positive, increment `counter`.
-	 *    - If none of the objects contains the attribute (or a defined value at the given path), skip to
-	 *       the next attribute.
-	 *    - If the attribute (or a defined value at the given path) exist only in one of the objects, skip
-	 *       further testing and let the result of the function be `false`.
-	 *  - If all attributes have been tested and the value of `counter` is greater than zero, let the result
-	 *    of the function be `true`, `false` otherwise.
-	 *
-	 * @param {Object} resourceA
-	 *    the first object to test
-	 * @param {Object} resourceB
-	 *    the second object to test
-	 * @param {String[]} compareAttributes
-	 *    the list of attributes determining resource identity
-	 *
-	 * @return {Boolean}
-	 *    `true` if both objects are assumed to represent the same resource, `false` otherwise
-	 */
-	function isSame(resourceA, resourceB, compareAttributes) {
-	   if (resourceA == null || resourceB == null) {
-	      return false;
-	   }
-	
-	   var matches = 0;
-	   for (var i = 0; i < compareAttributes.length; ++i) {
-	      var key = compareAttributes[i];
-	      if (key.indexOf('.') !== -1) {
-	         // Compare using object.path (only if needed, for performance):
-	         var valueA = _laxar.object.path(resourceA, key);
-	         var valueB = _laxar.object.path(resourceB, key);
-	         if (valueA === undefined && valueB === undefined) {
-	            continue;
-	         }
-	         if (valueA === valueB) {
-	            ++matches;
-	         } else
-	         {
-	            return false;
-	         }
-	      } else
-	      {
-	         if (!(key in resourceA) && !(key in resourceB)) {
-	            continue;
-	         }
-	         if (resourceA[key] === resourceB[key]) {
-	            ++matches;
-	         } else
-	         {
-	            return false;
-	         }
-	      }
-	   }
-	   return matches > 0;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	exports.
-	
-	replaceHandler = replaceHandler;exports.
-	updateHandler = updateHandler;exports.
-	replacePublisherForFeature = replacePublisherForFeature;exports.
-	updatePublisherForFeature = updatePublisherForFeature;exports.
-	isSame = isSame;exports.
-	handlerFor = handlerFor;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.handlerFor = exports.errorEvent = exports.successEvent = undefined;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	var _laxar = __webpack_require__(18);
-	
-	/**
-	                                * Creates and returns an event resembling a successful validation result.
-	                                *
-	                                * @param {String} resource
-	                                *    name of the validated resource
-	                                * @param {...Object|String|String[]|Object[]} htmlMessages
-	                                *    messages associated with the result. They should have the structure as described in the module
-	                                *
-	                                * @return {Object}
-	                                *    the validation event
-	                                */
-	function successEvent(resource) {for (var _len = arguments.length, htmlMessages = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {htmlMessages[_key - 1] = arguments[_key];}
-	   return createEvent(resource, messagesFromArgs(htmlMessages), 'SUCCESS');
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Creates and returns an event resembling the result of a validation with errors.
-	 *
-	 * @param {String} resource
-	 *    name of the validated resource
-	 * @param {...Object|String|String[]|Object[]} htmlMessages
-	 *    messages associated with the result. They should have the structure as described in the module
-	 *
-	 * @return {Object}
-	 *    the validation event
-	 */ /**
-	     * Copyright 2014-2015 aixigo AG
-	     * Released under the MIT license.
-	     * http://laxarjs.org/license
-	     */ /**
-	         * This module provides helpers for patterns regarding *validateRequest*, *willValidate* and
-	         * *didValidate* events.
-	         *
-	         * Validation messages can have one of the following structures:
-	         * - A simple html message object (locale to string mapping). It will get a default level of *ERROR*.
-	         * - A html message object as required by the messages widget consisting of a html message object under the
-	         *   key *htmlMessage* and a level under the key *level*.
-	         *
-	         * @module validation
-	         */function errorEvent(resource) {for (var _len2 = arguments.length, htmlMessages = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {htmlMessages[_key2 - 1] = arguments[_key2];}return createEvent(resource, messagesFromArgs(htmlMessages), 'ERROR');} //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Creates and returns a new handler for `validateRequest` events for a given context. It handles sending
-	 * of `willValidate` and `didValidate` events, including the output of the given `validator` function.
-	 *
-	 * @param {Object} context
-	 *    the context the handler should work with. It expects to find an `eventBus` property, with which
-	 *    it can do the event handling
-	 * @param {Object} configuration
-	 *    a laxarjs configuration, from which to get the default validation error message
-	 * @param {Object} log
-	 *    a laxarjs logger, to log validation errors
-	 *
-	 * @return {ValidationHandler}
-	 *    the validation handler instance for the given context
-	 */function handlerFor(context, configuration, log) {(0, _laxar.assert)(context).hasType(Object).hasProperty('eventBus');(0, _laxar.assert)(configuration).hasType(Object).hasProperty('get');(0, _laxar.assert)(log).hasType(Object).hasProperty('error');var eventBus = context.eventBus; /**
-	                                                                                                                                                                                                                                                                                             * @name ValidationHandler
-	                                                                                                                                                                                                                                                                                             */
-	   var api = {
-	      registerResourceFromFeature: registerResourceFromFeature,
-	      registerResource: registerResource };
-	
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   /**
-	    * Registers a validator for `validateRequest` events for a resource configured under the given feature.
-	    * It is assumed that the given feature has a `resource` property with the name of the resource to
-	    * validate. If the property is not found, an assertion will fail. If on the other hand the option
-	    * `isOptional` is given as `true`, this is ignored and nothing good or bad happens.
-	    *
-	    * Apart from that this function works just like {@link ValidationHandler#registerResource}.
-	    *
-	    * Example:
-	    * Consider the following configuration for a widget:
-	    * ```json
-	    * {
-	    *    "features": {
-	    *       "amount": {
-	    *          "resource": "theAmount"
-	    *       }
-	    *    }
-	    * }
-	    * ```
-	    * An example using that would be:
-	    * ```js
-	    * validation.handlerFor( context )
-	    *    .registerResourceFromFeature( 'amount', function( event, meta ) {
-	    *       if( isAmountValid() ) {
-	    *          return null;
-	    *       }
-	    *       return 'The given amount is not valid';
-	    *    } );
-	    * ```
-	    *
-	    * @param {String} featurePath
-	    *    the feature to read the resource to validate from
-	    * @param {Function} validator
-	    *    the validator function called upon `validateRequest` for the given resource
-	    * @param {Object} [optionalOptions]
-	    *    options to use
-	    * @param {Boolean} optionalOptions.isOptional
-	    *    if `true` a non-configured feature is simply ignored. Otherwise this results in an error
-	    *    (default is `false`)
-	    *
-	    * @return {ValidationHandler}
-	    *    this instance for chaining
-	    *
-	    * @memberOf ValidationHandler
-	    */
-	   function registerResourceFromFeature(featurePath, validator, optionalOptions) {
-	      (0, _laxar.assert)(featurePath).hasType(String).isNotNull();
-	      (0, _laxar.assert)(validator).hasType(Function).isNotNull();
-	
-	      var options = _laxar.object.options(optionalOptions, { isOptional: false });
-	
-	      var resource = _laxar.object.path(context.features, featurePath + '.resource', null);
-	      if (resource === null && options.isOptional) {
-	         return api;
-	      }
-	      (0, _laxar.assert)(resource).
-	      isNotNull('Could not find resource configuration in features for "' + featurePath + '"');
-	
-	      return registerResource(resource, validator);
-	   }
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   /**
-	    * Registers a validator for `validateRequest` events for the given resource.
-	    *
-	    * The validator must be a function, that handles the actual validation necessary for the resource. The
-	    * validation result is always signaled through one or more generated error messages or the absence of
-	    * these messages. So valid results may be a string, an i18n object, an array of the former, `null` or
-	    * an empty array. `null` and an empty array signal a successful validation.
-	    *
-	    * The validator receives the event object for the `validateRequest` event and its according `meta` object.
-	    *
-	    * The way these messages are returned by the validator may be one of two ways, depending on the nature
-	    * of the validation:
-	    *
-	    * - if the validation can be handled synchronously, the result should simply be returned directly
-	    * - in case the validation is asynchronous, a promise must be returned, which must be resolved with the
-	    *   same kind of values as for the synchronous case
-	    *
-	    * If the validator throws an error or the promise is rejected, this is treated as a failed validation.
-	    * Since this is due to a programming error, the error or rejection cause will be logged and a
-	    * configurable message will instead be send in the `didValidate` event. The message is assumed to be
-	    * found in the global configuration at `lib.laxar-patterns.validation.i18nHtmlExceptionMessage` as string
-	    * or i18n object. If it cannot be found, an empty string is send as message.
-	    *
-	    * Example:
-	    * ```js
-	    * validation.handlerFor( context, configuration, log, i18n )
-	    *    .registerResource( 'theAmount', function( event, meta ) {
-	    *       return context.resources.theAmount > 1000;
-	    *    } )
-	    *    .registerResource( 'currentUser', function( event, meta ) {
-	    *       return fetchUserValidityRules()
-	    *          .then( function( rules ) {
-	    *             return context.resources.currentUser.meets( rules );
-	    *          } )
-	    *          .then( function( valid ) {
-	    *             return valid ? null : 'The current user isn\'t valid for some reason. Do something!';
-	    *          } );
-	    *    } );
-	    * ```
-	    *
-	    * @param {String} resource
-	    *    the resource to validate
-	    * @param {Function} validator
-	    *    the validator function called upon `validateRequest` for the given resource
-	    *
-	    * @return {ValidationHandler}
-	    *    this instance for chaining
-	    *
-	    * @memberOf ValidationHandler
-	    */
-	   function registerResource(resource, validator) {
-	      (0, _laxar.assert)(resource).hasType(String).isNotNull();
-	      (0, _laxar.assert)(validator).hasType(Function).isNotNull();
-	
-	      eventBus.subscribe('validateRequest.' + resource, function (event, meta) {
-	         callValidator(resource, validator.bind(null, event, meta));
-	      });
-	      return api;
-	   }
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   // eslint-disable-next-line valid-jsdoc
-	   /** @private */
-	   function callValidator(resource, validator) {
-	      eventBus.publish('willValidate.' + resource, { resource: resource });
-	      try {
-	         var returnValue = validator();
-	
-	         Promise.resolve(returnValue).
-	         then(function (result) {
-	            var wrap = function wrap(_) {return _ ? [_] : null;};
-	            var messages = Array.isArray(result) ? result : wrap(result);
-	            var event = messages && messages.length > 0 ?
-	            errorEvent(resource, messages) :
-	            successEvent(resource);
-	
-	            eventBus.publish('didValidate.' + resource + '.' + event.outcome, event);
-	         }).
-	         catch(handleError.bind(null, resource));
-	      }
-	      catch (err) {
-	         handleError(resource, err);
-	      }
-	   }
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   // eslint-disable-next-line valid-jsdoc
-	   /** @private */
-	   function handleError(resource, err) {
-	      var logMessage = err && err.message ? err.message : err;
-	      log.error('Error handling validateRequest for resource "[0]": [1]', resource, logMessage);
-	      if (err) {
-	         log.error('Stacktrace for previous error: [0]', err.stack || 'unavailable');
-	      }
-	
-	      var message = configuration.get('lib.laxar-patterns.validation.i18nHtmlExceptionMessage', '');
-	      eventBus.publish('didValidate.' + resource + '.ERROR', errorEvent(resource, message));
-	   }
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	   return api;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function createEvent(resource, htmlMessages, outcome) {
-	   var data = htmlMessages && htmlMessages.length ?
-	   htmlMessages.map(function (msg) {
-	      if (msg.htmlMessage && msg.level) {
-	         return msg;
-	      }
-	
-	      return {
-	         htmlMessage: msg,
-	         level: 'ERROR' };
-	
-	   }) : [];
-	
-	   return { resource: resource, data: data, outcome: outcome };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */
-	function messagesFromArgs(messageArguments) {
-	   if (messageArguments && Array.isArray(messageArguments[0])) {
-	      return messageArguments[0];
-	   }
-	   return messageArguments;
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	exports.
-	
-	successEvent = successEvent;exports.
-	errorEvent = errorEvent;exports.
-	handlerFor = handlerFor;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.requestPublisherForArea = exports.requestPublisherForWidget = exports.handlerFor = undefined;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	var _laxar = __webpack_require__(18);
-	
-	/**
-	                                * Creates a new handler instance for `didChangeAreaVisibility` events.
-	                                *
-	                                * @param {Object} scope
-	                                *    the scope the handler should work with. It is expected to find an `eventBus` property there with
-	                                *    which it can do the event handling. The visibility handler will manage the boolean scope property
-	                                *    `isVisible` which can be used to determine the visibility state of the entire widget
-	                                * @param {Object} [optionalOptions]
-	                                *    additional options to pass to the visibility handler
-	                                * @param {Function} optionalOptions.onChange
-	                                *    a handler to call when a `didChangeAreaVisibility` request for this widget's container was received,
-	                                *    and the visibility of this widget was changed
-	                                * @param {Function} optionalOptions.onShow
-	                                *    a handler to call when a `didChangeAreaVisibility` request for this widget's container was received,
-	                                *    and the visibility of this widget was changed to `true`
-	                                * @param {Function} optionalOptions.onHide
-	                                *    a handler to call when a `didChangeAreaVisibility` request for this widget's container was received,
-	                                *    and the visibility of this widget was changed to `false`
-	                                * @param {Function} optionalOptions.onAnyAreaRequest
-	                                *    a handler for any `changeAreaVisibilityRequest` to this widget's areas
-	                                *    The handler must
-	                                *     * _either_ return `true`/`false` to indicate visibility synchronously
-	                                *     * _or_ issue a will/did-response for the area when called
-	                                *
-	                                * @return {VisibilityHandler}
-	                                *    a visibility handler instance
-	                                */
-	function handlerFor(scope, optionalOptions) {
-	   return new VisibilityHandler(scope, optionalOptions);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// eslint-disable-next-line valid-jsdoc
-	/** @private */ /**
-	                 * Copyright 2016 aixigo AG
-	                 * Released under the MIT license.
-	                 * http://laxarjs.org/license
-	                 */ /**
-	                     * This module provides helpers for patterns regarding *changeAreaVisibilityRequest* and
-	                     * *didChangeAreaVisibility* events.
-	                     *
-	                     * @module visibility
-	                     */function VisibilityHandler(scope, optionalOptions) {this.scope = scope;scope.isVisible = false;var options = _laxar.object.options(optionalOptions, {});if (options.onAnyAreaRequest) {var requestEvent = 'changeAreaVisibilityRequest.' + scope.widget.id;scope.eventBus.subscribe(requestEvent, responder(this, options.onAnyAreaRequest));
-	   }
-	
-	   var didEvent = 'didChangeAreaVisibility.' + scope.widget.area;
-	   scope.eventBus.subscribe(didEvent, function (event) {
-	      var wasVisible = scope.isVisible || false;
-	      scope.isVisible = event.visible;
-	      if (wasVisible === event.visible) {
-	         return;
-	      }
-	      if (options.onChange) {
-	         options.onChange(event);
-	      }
-	      if (options.onShow && event.visible) {
-	         options.onShow(event);
-	      } else
-	      if (options.onHide && !event.visible) {
-	         options.onHide(event);
-	      }
-	   });
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Handle change-visibility-requests for a specific area, using a callback.
-	 *
-	 * @param {String} areaName
-	 *    the name of the area for which to handle visibility events
-	 * @param {Object=} optionalOptions
-	 *    additional options to pass to the visibility handler
-	 * @param {Function=} optionalOptions.onRequest
-	 *    a callback for any `changeAreaVisibilityRequest` to this area. The callback may issue a
-	 *    will/did-response for the area when called, or return a boolean which causes the visibility handler
-	 *    to respond accordingly. This should not be used in conjunction with the global
-	 *    `onAnyAreaRequest`-option of the handler
-	 *
-	 * @return {VisibilityHandler}
-	 *    this instance for chaining
-	 */
-	VisibilityHandler.prototype.registerArea = function (areaName, optionalOptions) {
-	   var options = _laxar.object.options(optionalOptions, {});
-	   if (options.onRequest) {
-	      var requestEvent = 'changeAreaVisibilityRequest.' + areaName;
-	      this.scope.eventBus.subscribe(requestEvent, responder(this, options.onRequest));
-	   }
-	   return this;
-	};
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	function responder(self, callback) {
-	   return function (event) {
-	      var result = callback(event);
-	      if (result === true || result === false) {
-	         var didEvent = 'didChangeAreaVisibility.' + event.area + '.' + result;
-	         self.scope.eventBus.publish(didEvent, {
-	            area: event.area,
-	            visible: result },
-	         { deliverToSender: false });
-	      }
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Publishes `changeWidgetVisibilityRequest` events.
-	 *
-	 * @param {Object} scope
-	 *    a scope (with `widget` and `eventBus` properties)
-	 *
-	 * @return {Function}
-	 *    a function of boolean that requests for widget visibility to be set to the given state
-	 */
-	function requestPublisherForWidget(scope) {
-	   return function (visible) {
-	      var eventName = 'changeWidgetVisibilityRequest.' + scope.widget.id + '.' + visible;
-	      return scope.eventBus.publishAndGatherReplies(eventName, {
-	         widget: scope.widget.id,
-	         visible: visible },
-	      { deliverToSender: false });
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Publishes `changeAreaVisibilityRequest` events.
-	 *
-	 * @param {Object} scope
-	 *    a scope (with an `eventBus` property)
-	 * @param {String} area
-	 *    the name of a widget area whose visibility is to be controlled by the function returned
-	 *
-	 * @return {Function}
-	 *    a function of boolean that requests for the given area's visibility to be set to the given state
-	 */
-	function requestPublisherForArea(scope, area) {
-	   return function (visible) {
-	      var eventName = 'changeAreaVisibilityRequest.' + area + '.' + visible;
-	      var meta = { deliverToSender: false };
-	      return scope.eventBus.publishAndGatherReplies(eventName, { area: area, visible: visible }, meta);
-	   };
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	exports.
-	
-	handlerFor = handlerFor;exports.
-	requestPublisherForWidget = requestPublisherForWidget;exports.
-	requestPublisherForArea = requestPublisherForArea;
-
-/***/ },
-/* 279 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -7176,7 +8800,7 @@ webpackJsonp([0],[
 	            module && module.exports) {
 	        try {
 	            oldLocale = globalLocale._abbr;
-	            __webpack_require__(280)("./" + name);
+	            __webpack_require__(387)("./" + name);
 	            // because defineLocale currently also sets the global locale, we
 	            // want to undo that for lazy loaded locales
 	            getSetGlobalLocale(oldLocale);
@@ -9664,229 +11288,229 @@ webpackJsonp([0],[
 	
 	})));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)(module)))
 
 /***/ },
-/* 280 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 281,
-		"./af.js": 281,
-		"./ar": 282,
-		"./ar-dz": 283,
-		"./ar-dz.js": 283,
-		"./ar-ly": 284,
-		"./ar-ly.js": 284,
-		"./ar-ma": 285,
-		"./ar-ma.js": 285,
-		"./ar-sa": 286,
-		"./ar-sa.js": 286,
-		"./ar-tn": 287,
-		"./ar-tn.js": 287,
-		"./ar.js": 282,
-		"./az": 288,
-		"./az.js": 288,
-		"./be": 289,
-		"./be.js": 289,
-		"./bg": 290,
-		"./bg.js": 290,
-		"./bn": 291,
-		"./bn.js": 291,
-		"./bo": 292,
-		"./bo.js": 292,
-		"./br": 293,
-		"./br.js": 293,
-		"./bs": 294,
-		"./bs.js": 294,
-		"./ca": 295,
-		"./ca.js": 295,
-		"./cs": 296,
-		"./cs.js": 296,
-		"./cv": 297,
-		"./cv.js": 297,
-		"./cy": 298,
-		"./cy.js": 298,
-		"./da": 299,
-		"./da.js": 299,
-		"./de": 300,
-		"./de-at": 301,
-		"./de-at.js": 301,
-		"./de.js": 300,
-		"./dv": 302,
-		"./dv.js": 302,
-		"./el": 303,
-		"./el.js": 303,
-		"./en-au": 304,
-		"./en-au.js": 304,
-		"./en-ca": 305,
-		"./en-ca.js": 305,
-		"./en-gb": 306,
-		"./en-gb.js": 306,
-		"./en-ie": 307,
-		"./en-ie.js": 307,
-		"./en-nz": 308,
-		"./en-nz.js": 308,
-		"./eo": 309,
-		"./eo.js": 309,
-		"./es": 310,
-		"./es-do": 311,
-		"./es-do.js": 311,
-		"./es.js": 310,
-		"./et": 312,
-		"./et.js": 312,
-		"./eu": 313,
-		"./eu.js": 313,
-		"./fa": 314,
-		"./fa.js": 314,
-		"./fi": 315,
-		"./fi.js": 315,
-		"./fo": 316,
-		"./fo.js": 316,
-		"./fr": 317,
-		"./fr-ca": 318,
-		"./fr-ca.js": 318,
-		"./fr-ch": 319,
-		"./fr-ch.js": 319,
-		"./fr.js": 317,
-		"./fy": 320,
-		"./fy.js": 320,
-		"./gd": 321,
-		"./gd.js": 321,
-		"./gl": 322,
-		"./gl.js": 322,
-		"./he": 323,
-		"./he.js": 323,
-		"./hi": 324,
-		"./hi.js": 324,
-		"./hr": 325,
-		"./hr.js": 325,
-		"./hu": 326,
-		"./hu.js": 326,
-		"./hy-am": 327,
-		"./hy-am.js": 327,
-		"./id": 328,
-		"./id.js": 328,
-		"./is": 329,
-		"./is.js": 329,
-		"./it": 330,
-		"./it.js": 330,
-		"./ja": 331,
-		"./ja.js": 331,
-		"./jv": 332,
-		"./jv.js": 332,
-		"./ka": 333,
-		"./ka.js": 333,
-		"./kk": 334,
-		"./kk.js": 334,
-		"./km": 335,
-		"./km.js": 335,
-		"./ko": 336,
-		"./ko.js": 336,
-		"./ky": 337,
-		"./ky.js": 337,
-		"./lb": 338,
-		"./lb.js": 338,
-		"./lo": 339,
-		"./lo.js": 339,
-		"./lt": 340,
-		"./lt.js": 340,
-		"./lv": 341,
-		"./lv.js": 341,
-		"./me": 342,
-		"./me.js": 342,
-		"./mi": 343,
-		"./mi.js": 343,
-		"./mk": 344,
-		"./mk.js": 344,
-		"./ml": 345,
-		"./ml.js": 345,
-		"./mr": 346,
-		"./mr.js": 346,
-		"./ms": 347,
-		"./ms-my": 348,
-		"./ms-my.js": 348,
-		"./ms.js": 347,
-		"./my": 349,
-		"./my.js": 349,
-		"./nb": 350,
-		"./nb.js": 350,
-		"./ne": 351,
-		"./ne.js": 351,
-		"./nl": 352,
-		"./nl-be": 353,
-		"./nl-be.js": 353,
-		"./nl.js": 352,
-		"./nn": 354,
-		"./nn.js": 354,
-		"./pa-in": 355,
-		"./pa-in.js": 355,
-		"./pl": 356,
-		"./pl.js": 356,
-		"./pt": 357,
-		"./pt-br": 358,
-		"./pt-br.js": 358,
-		"./pt.js": 357,
-		"./ro": 359,
-		"./ro.js": 359,
-		"./ru": 360,
-		"./ru.js": 360,
-		"./se": 361,
-		"./se.js": 361,
-		"./si": 362,
-		"./si.js": 362,
-		"./sk": 363,
-		"./sk.js": 363,
-		"./sl": 364,
-		"./sl.js": 364,
-		"./sq": 365,
-		"./sq.js": 365,
-		"./sr": 366,
-		"./sr-cyrl": 367,
-		"./sr-cyrl.js": 367,
-		"./sr.js": 366,
-		"./ss": 368,
-		"./ss.js": 368,
-		"./sv": 369,
-		"./sv.js": 369,
-		"./sw": 370,
-		"./sw.js": 370,
-		"./ta": 371,
-		"./ta.js": 371,
-		"./te": 372,
-		"./te.js": 372,
-		"./tet": 373,
-		"./tet.js": 373,
-		"./th": 374,
-		"./th.js": 374,
-		"./tl-ph": 375,
-		"./tl-ph.js": 375,
-		"./tlh": 376,
-		"./tlh.js": 376,
-		"./tr": 377,
-		"./tr.js": 377,
-		"./tzl": 378,
-		"./tzl.js": 378,
-		"./tzm": 379,
-		"./tzm-latn": 380,
-		"./tzm-latn.js": 380,
-		"./tzm.js": 379,
-		"./uk": 381,
-		"./uk.js": 381,
-		"./uz": 382,
-		"./uz.js": 382,
-		"./vi": 383,
-		"./vi.js": 383,
-		"./x-pseudo": 384,
-		"./x-pseudo.js": 384,
-		"./yo": 385,
-		"./yo.js": 385,
-		"./zh-cn": 386,
-		"./zh-cn.js": 386,
-		"./zh-hk": 387,
-		"./zh-hk.js": 387,
-		"./zh-tw": 388,
-		"./zh-tw.js": 388
+		"./af": 388,
+		"./af.js": 388,
+		"./ar": 389,
+		"./ar-dz": 390,
+		"./ar-dz.js": 390,
+		"./ar-ly": 391,
+		"./ar-ly.js": 391,
+		"./ar-ma": 392,
+		"./ar-ma.js": 392,
+		"./ar-sa": 393,
+		"./ar-sa.js": 393,
+		"./ar-tn": 394,
+		"./ar-tn.js": 394,
+		"./ar.js": 389,
+		"./az": 395,
+		"./az.js": 395,
+		"./be": 396,
+		"./be.js": 396,
+		"./bg": 397,
+		"./bg.js": 397,
+		"./bn": 398,
+		"./bn.js": 398,
+		"./bo": 399,
+		"./bo.js": 399,
+		"./br": 400,
+		"./br.js": 400,
+		"./bs": 401,
+		"./bs.js": 401,
+		"./ca": 402,
+		"./ca.js": 402,
+		"./cs": 403,
+		"./cs.js": 403,
+		"./cv": 404,
+		"./cv.js": 404,
+		"./cy": 405,
+		"./cy.js": 405,
+		"./da": 406,
+		"./da.js": 406,
+		"./de": 407,
+		"./de-at": 408,
+		"./de-at.js": 408,
+		"./de.js": 407,
+		"./dv": 409,
+		"./dv.js": 409,
+		"./el": 410,
+		"./el.js": 410,
+		"./en-au": 411,
+		"./en-au.js": 411,
+		"./en-ca": 412,
+		"./en-ca.js": 412,
+		"./en-gb": 413,
+		"./en-gb.js": 413,
+		"./en-ie": 414,
+		"./en-ie.js": 414,
+		"./en-nz": 415,
+		"./en-nz.js": 415,
+		"./eo": 416,
+		"./eo.js": 416,
+		"./es": 417,
+		"./es-do": 418,
+		"./es-do.js": 418,
+		"./es.js": 417,
+		"./et": 419,
+		"./et.js": 419,
+		"./eu": 420,
+		"./eu.js": 420,
+		"./fa": 421,
+		"./fa.js": 421,
+		"./fi": 422,
+		"./fi.js": 422,
+		"./fo": 423,
+		"./fo.js": 423,
+		"./fr": 424,
+		"./fr-ca": 425,
+		"./fr-ca.js": 425,
+		"./fr-ch": 426,
+		"./fr-ch.js": 426,
+		"./fr.js": 424,
+		"./fy": 427,
+		"./fy.js": 427,
+		"./gd": 428,
+		"./gd.js": 428,
+		"./gl": 429,
+		"./gl.js": 429,
+		"./he": 430,
+		"./he.js": 430,
+		"./hi": 431,
+		"./hi.js": 431,
+		"./hr": 432,
+		"./hr.js": 432,
+		"./hu": 433,
+		"./hu.js": 433,
+		"./hy-am": 434,
+		"./hy-am.js": 434,
+		"./id": 435,
+		"./id.js": 435,
+		"./is": 436,
+		"./is.js": 436,
+		"./it": 437,
+		"./it.js": 437,
+		"./ja": 438,
+		"./ja.js": 438,
+		"./jv": 439,
+		"./jv.js": 439,
+		"./ka": 440,
+		"./ka.js": 440,
+		"./kk": 441,
+		"./kk.js": 441,
+		"./km": 442,
+		"./km.js": 442,
+		"./ko": 443,
+		"./ko.js": 443,
+		"./ky": 444,
+		"./ky.js": 444,
+		"./lb": 445,
+		"./lb.js": 445,
+		"./lo": 446,
+		"./lo.js": 446,
+		"./lt": 447,
+		"./lt.js": 447,
+		"./lv": 448,
+		"./lv.js": 448,
+		"./me": 449,
+		"./me.js": 449,
+		"./mi": 450,
+		"./mi.js": 450,
+		"./mk": 451,
+		"./mk.js": 451,
+		"./ml": 452,
+		"./ml.js": 452,
+		"./mr": 453,
+		"./mr.js": 453,
+		"./ms": 454,
+		"./ms-my": 455,
+		"./ms-my.js": 455,
+		"./ms.js": 454,
+		"./my": 456,
+		"./my.js": 456,
+		"./nb": 457,
+		"./nb.js": 457,
+		"./ne": 458,
+		"./ne.js": 458,
+		"./nl": 459,
+		"./nl-be": 460,
+		"./nl-be.js": 460,
+		"./nl.js": 459,
+		"./nn": 461,
+		"./nn.js": 461,
+		"./pa-in": 462,
+		"./pa-in.js": 462,
+		"./pl": 463,
+		"./pl.js": 463,
+		"./pt": 464,
+		"./pt-br": 465,
+		"./pt-br.js": 465,
+		"./pt.js": 464,
+		"./ro": 466,
+		"./ro.js": 466,
+		"./ru": 467,
+		"./ru.js": 467,
+		"./se": 468,
+		"./se.js": 468,
+		"./si": 469,
+		"./si.js": 469,
+		"./sk": 470,
+		"./sk.js": 470,
+		"./sl": 471,
+		"./sl.js": 471,
+		"./sq": 472,
+		"./sq.js": 472,
+		"./sr": 473,
+		"./sr-cyrl": 474,
+		"./sr-cyrl.js": 474,
+		"./sr.js": 473,
+		"./ss": 475,
+		"./ss.js": 475,
+		"./sv": 476,
+		"./sv.js": 476,
+		"./sw": 477,
+		"./sw.js": 477,
+		"./ta": 478,
+		"./ta.js": 478,
+		"./te": 479,
+		"./te.js": 479,
+		"./tet": 480,
+		"./tet.js": 480,
+		"./th": 481,
+		"./th.js": 481,
+		"./tl-ph": 482,
+		"./tl-ph.js": 482,
+		"./tlh": 483,
+		"./tlh.js": 483,
+		"./tr": 484,
+		"./tr.js": 484,
+		"./tzl": 485,
+		"./tzl.js": 485,
+		"./tzm": 486,
+		"./tzm-latn": 487,
+		"./tzm-latn.js": 487,
+		"./tzm.js": 486,
+		"./uk": 488,
+		"./uk.js": 488,
+		"./uz": 489,
+		"./uz.js": 489,
+		"./vi": 490,
+		"./vi.js": 490,
+		"./x-pseudo": 491,
+		"./x-pseudo.js": 491,
+		"./yo": 492,
+		"./yo.js": 492,
+		"./zh-cn": 493,
+		"./zh-cn.js": 493,
+		"./zh-hk": 494,
+		"./zh-hk.js": 494,
+		"./zh-tw": 495,
+		"./zh-tw.js": 495
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -9899,11 +11523,11 @@ webpackJsonp([0],[
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 280;
+	webpackContext.id = 387;
 
 
 /***/ },
-/* 281 */
+/* 388 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9911,7 +11535,7 @@ webpackJsonp([0],[
 	//! author : Werner Mollentze : https://github.com/wernerm
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -9981,7 +11605,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 282 */
+/* 389 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -9991,7 +11615,7 @@ webpackJsonp([0],[
 	//! author : forabi https://github.com/forabi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10128,7 +11752,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 283 */
+/* 390 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10136,7 +11760,7 @@ webpackJsonp([0],[
 	//! author : Noureddine LOUAHEDJ : https://github.com/noureddineme
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10192,7 +11816,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 284 */
+/* 391 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10200,7 +11824,7 @@ webpackJsonp([0],[
 	//! author : Ali Hmer: https://github.com/kikoanis
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10323,7 +11947,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 285 */
+/* 392 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10332,7 +11956,7 @@ webpackJsonp([0],[
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10388,7 +12012,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 286 */
+/* 393 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10396,7 +12020,7 @@ webpackJsonp([0],[
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10498,7 +12122,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 287 */
+/* 394 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10506,7 +12130,7 @@ webpackJsonp([0],[
 	//! author : Nader Toukabri : https://github.com/naderio
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10562,7 +12186,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 288 */
+/* 395 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10570,7 +12194,7 @@ webpackJsonp([0],[
 	//! author : topchiyev : https://github.com/topchiyev
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10672,7 +12296,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 289 */
+/* 396 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10682,7 +12306,7 @@ webpackJsonp([0],[
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10811,7 +12435,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 290 */
+/* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10819,7 +12443,7 @@ webpackJsonp([0],[
 	//! author : Krasen Borisov : https://github.com/kraz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -10906,7 +12530,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 291 */
+/* 398 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -10914,7 +12538,7 @@ webpackJsonp([0],[
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11030,7 +12654,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 292 */
+/* 399 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11038,7 +12662,7 @@ webpackJsonp([0],[
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11154,7 +12778,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 293 */
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11162,7 +12786,7 @@ webpackJsonp([0],[
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11267,7 +12891,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 294 */
+/* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11276,7 +12900,7 @@ webpackJsonp([0],[
 	//! based on (hr) translation by Bojan Marković
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11415,7 +13039,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 295 */
+/* 402 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11423,7 +13047,7 @@ webpackJsonp([0],[
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11501,7 +13125,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 296 */
+/* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11509,7 +13133,7 @@ webpackJsonp([0],[
 	//! author : petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11678,7 +13302,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 297 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11686,7 +13310,7 @@ webpackJsonp([0],[
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11746,7 +13370,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 298 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11755,7 +13379,7 @@ webpackJsonp([0],[
 	//! author : https://github.com/ryangreaves
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11832,7 +13456,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 299 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11840,7 +13464,7 @@ webpackJsonp([0],[
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11897,7 +13521,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 300 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11907,7 +13531,7 @@ webpackJsonp([0],[
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -11980,7 +13604,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 301 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -11991,7 +13615,7 @@ webpackJsonp([0],[
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12064,7 +13688,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 302 */
+/* 409 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12072,7 +13696,7 @@ webpackJsonp([0],[
 	//! author : Jawish Hameed : https://github.com/jawish
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12169,7 +13793,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 303 */
+/* 410 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12177,7 +13801,7 @@ webpackJsonp([0],[
 	//! author : Aggelos Karalias : https://github.com/mehiel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12272,7 +13896,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 304 */
+/* 411 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12280,7 +13904,7 @@ webpackJsonp([0],[
 	//! author : Jared Morse : https://github.com/jarcoal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12344,7 +13968,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 305 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12352,7 +13976,7 @@ webpackJsonp([0],[
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12412,7 +14036,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 306 */
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12420,7 +14044,7 @@ webpackJsonp([0],[
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12484,7 +14108,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 307 */
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12492,7 +14116,7 @@ webpackJsonp([0],[
 	//! author : Chris Cartlidge : https://github.com/chriscartlidge
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12556,7 +14180,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 308 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12564,7 +14188,7 @@ webpackJsonp([0],[
 	//! author : Luke McGregor : https://github.com/lukemcgregor
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12628,7 +14252,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 309 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12638,7 +14262,7 @@ webpackJsonp([0],[
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12706,7 +14330,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 310 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12714,7 +14338,7 @@ webpackJsonp([0],[
 	//! author : Julio Napurí : https://github.com/julionc
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12792,14 +14416,14 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 311 */
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : Spanish (Dominican Republic) [es-do]
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12877,7 +14501,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 312 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12886,7 +14510,7 @@ webpackJsonp([0],[
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -12962,7 +14586,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 313 */
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -12970,7 +14594,7 @@ webpackJsonp([0],[
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13033,7 +14657,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 314 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13041,7 +14665,7 @@ webpackJsonp([0],[
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13145,7 +14769,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 315 */
+/* 422 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13153,7 +14777,7 @@ webpackJsonp([0],[
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13257,7 +14881,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 316 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13265,7 +14889,7 @@ webpackJsonp([0],[
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13322,7 +14946,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 317 */
+/* 424 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13330,7 +14954,7 @@ webpackJsonp([0],[
 	//! author : John Fischer : https://github.com/jfroffice
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13391,7 +15015,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 318 */
+/* 425 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13399,7 +15023,7 @@ webpackJsonp([0],[
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13456,7 +15080,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 319 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13464,7 +15088,7 @@ webpackJsonp([0],[
 	//! author : Gaspard Bucher : https://github.com/gaspard
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13525,7 +15149,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 320 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13533,7 +15157,7 @@ webpackJsonp([0],[
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13603,7 +15227,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 321 */
+/* 428 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13611,7 +15235,7 @@ webpackJsonp([0],[
 	//! author : Jon Ashdown : https://github.com/jonashdown
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13684,7 +15308,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 322 */
+/* 429 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13692,7 +15316,7 @@ webpackJsonp([0],[
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13766,7 +15390,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 323 */
+/* 430 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13776,7 +15400,7 @@ webpackJsonp([0],[
 	//! author : Tal Ater : https://github.com/TalAter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13870,7 +15494,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 324 */
+/* 431 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -13878,7 +15502,7 @@ webpackJsonp([0],[
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -13999,7 +15623,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 325 */
+/* 432 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14007,7 +15631,7 @@ webpackJsonp([0],[
 	//! author : Bojan Marković : https://github.com/bmarkovic
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14149,7 +15773,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 326 */
+/* 433 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14157,7 +15781,7 @@ webpackJsonp([0],[
 	//! author : Adam Brunner : https://github.com/adambrunner
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14263,7 +15887,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 327 */
+/* 434 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14271,7 +15895,7 @@ webpackJsonp([0],[
 	//! author : Armendarabyan : https://github.com/armendarabyan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14363,7 +15987,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 328 */
+/* 435 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14372,7 +15996,7 @@ webpackJsonp([0],[
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14451,7 +16075,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 329 */
+/* 436 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14459,7 +16083,7 @@ webpackJsonp([0],[
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14583,7 +16207,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 330 */
+/* 437 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14592,7 +16216,7 @@ webpackJsonp([0],[
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14658,7 +16282,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 331 */
+/* 438 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14666,7 +16290,7 @@ webpackJsonp([0],[
 	//! author : LI Long : https://github.com/baryon
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14739,7 +16363,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 332 */
+/* 439 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14748,7 +16372,7 @@ webpackJsonp([0],[
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14827,7 +16451,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 333 */
+/* 440 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14835,7 +16459,7 @@ webpackJsonp([0],[
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -14921,7 +16545,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 334 */
+/* 441 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -14929,7 +16553,7 @@ webpackJsonp([0],[
 	//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15013,7 +16637,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 335 */
+/* 442 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15021,7 +16645,7 @@ webpackJsonp([0],[
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15076,7 +16700,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 336 */
+/* 443 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15085,7 +16709,7 @@ webpackJsonp([0],[
 	//! author : Jeeeyul Lee <jeeeyul@gmail.com>
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15146,7 +16770,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 337 */
+/* 444 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15154,7 +16778,7 @@ webpackJsonp([0],[
 	//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15239,7 +16863,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 338 */
+/* 445 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15248,7 +16872,7 @@ webpackJsonp([0],[
 	//! author : David Raison : https://github.com/kwisatz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15381,7 +17005,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 339 */
+/* 446 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15389,7 +17013,7 @@ webpackJsonp([0],[
 	//! author : Ryan Hart : https://github.com/ryanhart2
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15456,7 +17080,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 340 */
+/* 447 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15464,7 +17088,7 @@ webpackJsonp([0],[
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15578,7 +17202,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 341 */
+/* 448 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15587,7 +17211,7 @@ webpackJsonp([0],[
 	//! author : Jānis Elmeris : https://github.com/JanisE
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15680,7 +17304,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 342 */
+/* 449 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15688,7 +17312,7 @@ webpackJsonp([0],[
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15796,7 +17420,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 343 */
+/* 450 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15804,7 +17428,7 @@ webpackJsonp([0],[
 	//! author : John Corrigan <robbiecloset@gmail.com> : https://github.com/johnideal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15865,7 +17489,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 344 */
+/* 451 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15873,7 +17497,7 @@ webpackJsonp([0],[
 	//! author : Borislav Mickov : https://github.com/B0k0
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -15960,7 +17584,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 345 */
+/* 452 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -15968,7 +17592,7 @@ webpackJsonp([0],[
 	//! author : Floyd Pink : https://github.com/floydpink
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16046,7 +17670,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 346 */
+/* 453 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16055,7 +17679,7 @@ webpackJsonp([0],[
 	//! author : Vivek Athalye : https://github.com/vnathalye
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16210,7 +17834,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 347 */
+/* 454 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16218,7 +17842,7 @@ webpackJsonp([0],[
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16297,7 +17921,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 348 */
+/* 455 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16306,7 +17930,7 @@ webpackJsonp([0],[
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16385,7 +18009,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 349 */
+/* 456 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16395,7 +18019,7 @@ webpackJsonp([0],[
 	//! author : Tin Aung Lin : https://github.com/thanyawzinmin
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16486,7 +18110,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 350 */
+/* 457 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16495,7 +18119,7 @@ webpackJsonp([0],[
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16554,7 +18178,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 351 */
+/* 458 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16562,7 +18186,7 @@ webpackJsonp([0],[
 	//! author : suvash : https://github.com/suvash
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16682,7 +18306,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 352 */
+/* 459 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16691,7 +18315,7 @@ webpackJsonp([0],[
 	//! author : Jacob Middag : https://github.com/middagj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16773,7 +18397,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 353 */
+/* 460 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16782,7 +18406,7 @@ webpackJsonp([0],[
 	//! author : Jacob Middag : https://github.com/middagj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16864,7 +18488,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 354 */
+/* 461 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16872,7 +18496,7 @@ webpackJsonp([0],[
 	//! author : https://github.com/mechuwind
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -16929,7 +18553,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 355 */
+/* 462 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -16937,7 +18561,7 @@ webpackJsonp([0],[
 	//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17058,7 +18682,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 356 */
+/* 463 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17066,7 +18690,7 @@ webpackJsonp([0],[
 	//! author : Rafal Hirsz : https://github.com/evoL
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17168,7 +18792,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 357 */
+/* 464 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17176,7 +18800,7 @@ webpackJsonp([0],[
 	//! author : Jefferson : https://github.com/jalex79
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17238,7 +18862,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 358 */
+/* 465 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17246,7 +18870,7 @@ webpackJsonp([0],[
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17304,7 +18928,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 359 */
+/* 466 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17313,7 +18937,7 @@ webpackJsonp([0],[
 	//! author : Valentin Agachi : https://github.com/avaly
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17384,7 +19008,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 360 */
+/* 467 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17394,7 +19018,7 @@ webpackJsonp([0],[
 	//! author : Коренберг Марк : https://github.com/socketpair
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17572,7 +19196,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 361 */
+/* 468 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17580,7 +19204,7 @@ webpackJsonp([0],[
 	//! authors : Bård Rolstad Henriksen : https://github.com/karamell
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17638,7 +19262,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 362 */
+/* 469 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17646,7 +19270,7 @@ webpackJsonp([0],[
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17714,7 +19338,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 363 */
+/* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17723,7 +19347,7 @@ webpackJsonp([0],[
 	//! based on work of petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -17869,7 +19493,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 364 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -17877,7 +19501,7 @@ webpackJsonp([0],[
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18036,7 +19660,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 365 */
+/* 472 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18046,7 +19670,7 @@ webpackJsonp([0],[
 	//! author : Oerd Cukalla : https://github.com/oerd
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18111,7 +19735,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 366 */
+/* 473 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18119,7 +19743,7 @@ webpackJsonp([0],[
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18226,7 +19850,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 367 */
+/* 474 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18234,7 +19858,7 @@ webpackJsonp([0],[
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18341,7 +19965,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 368 */
+/* 475 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18349,7 +19973,7 @@ webpackJsonp([0],[
 	//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18435,7 +20059,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 369 */
+/* 476 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18443,7 +20067,7 @@ webpackJsonp([0],[
 	//! author : Jens Alm : https://github.com/ulmus
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18509,7 +20133,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 370 */
+/* 477 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18517,7 +20141,7 @@ webpackJsonp([0],[
 	//! author : Fahad Kassim : https://github.com/fadsel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18573,7 +20197,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 371 */
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18581,7 +20205,7 @@ webpackJsonp([0],[
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18708,7 +20332,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 372 */
+/* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18716,7 +20340,7 @@ webpackJsonp([0],[
 	//! author : Krishna Chaitanya Thota : https://github.com/kcthota
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18802,7 +20426,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 373 */
+/* 480 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18811,7 +20435,7 @@ webpackJsonp([0],[
 	//! author : Onorio De J. Afonso : https://github.com/marobo
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18875,7 +20499,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 374 */
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18883,7 +20507,7 @@ webpackJsonp([0],[
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -18947,7 +20571,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 375 */
+/* 482 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -18955,7 +20579,7 @@ webpackJsonp([0],[
 	//! author : Dan Hagman : https://github.com/hagmandan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19014,7 +20638,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 376 */
+/* 483 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19022,7 +20646,7 @@ webpackJsonp([0],[
 	//! author : Dominika Kruk : https://github.com/amaranthrose
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19139,7 +20763,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 377 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19148,7 +20772,7 @@ webpackJsonp([0],[
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19234,7 +20858,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 378 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19243,7 +20867,7 @@ webpackJsonp([0],[
 	//! author : Iustì Canun
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19330,7 +20954,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 379 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19338,7 +20962,7 @@ webpackJsonp([0],[
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19393,7 +21017,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 380 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19401,7 +21025,7 @@ webpackJsonp([0],[
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19456,7 +21080,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 381 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19465,7 +21089,7 @@ webpackJsonp([0],[
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19607,7 +21231,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 382 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19615,7 +21239,7 @@ webpackJsonp([0],[
 	//! author : Sardor Muminov : https://github.com/muminoff
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19670,7 +21294,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 383 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19678,7 +21302,7 @@ webpackJsonp([0],[
 	//! author : Bang Nguyen : https://github.com/bangnk
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19754,7 +21378,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 384 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19762,7 +21386,7 @@ webpackJsonp([0],[
 	//! author : Andrew Hood : https://github.com/andrewhood125
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19827,7 +21451,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 385 */
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19835,7 +21459,7 @@ webpackJsonp([0],[
 	//! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -19892,7 +21516,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 386 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -19901,7 +21525,7 @@ webpackJsonp([0],[
 	//! author : Zeno Zeng : https://github.com/zenozeng
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -20024,7 +21648,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 387 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20034,7 +21658,7 @@ webpackJsonp([0],[
 	//! author : Konstantin : https://github.com/skfd
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -20134,7 +21758,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 388 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -20143,7 +21767,7 @@ webpackJsonp([0],[
 	//! author : Chris Lam : https://github.com/hehachris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(279)) :
+	    true ? factory(__webpack_require__(386)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -20243,7 +21867,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 389 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict'; /**
@@ -20252,8 +21876,8 @@ webpackJsonp([0],[
 	               * http://laxarjs.org/license
 	               */
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	__webpack_require__(18),
-	__webpack_require__(268)], __WEBPACK_AMD_DEFINE_RESULT__ = function (ax, patterns) {
+	__webpack_require__(23),
+	__webpack_require__(273)], __WEBPACK_AMD_DEFINE_RESULT__ = function (ax, patterns) {
 	
 	   var LIFECYCLE = 'lifecycle';
 	   var ACTION = 'action';
@@ -20503,59 +22127,53 @@ webpackJsonp([0],[
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"ax-affix-area\"\n     ax-affix\n     ax-affix-offset-top=\"100\">\n\n     <div ng-if=\"!model.eventInfos.length\"\n          class=\"text-large\">\n        <h4 class=\"text-primary\">Empty Events List</h4>\n        <p><i class=\"fa fa-clock-o\"></i> Waiting for events from host application...</p>\n     </div>\n\n     <div ng-if=\"model.eventInfos.length && !model.visibleEventInfos.length\"\n          class=\"text-large\">\n        <h4 class=\"text-primary\">0/{{ model.eventInfos.length }} Event Items</h4>\n        <p>No events matching current filters.</p>\n        <p><button type=\"button\"\n                   class=\"btn btn-sm btn-primary\"\n                   ng-click=\"commands.clearFilters()\">Show All</button></p>\n     </div>\n\n     <div ng-if=\"model.problemSummary.hasProblems\"\n          class=\"text-large\">\n        <h4 class=\"text-primary ax-error\">{{ model.problemSummary.eventInfos.length }}/{{ model.eventInfos.length }} Events with Problems</h4>\n        <ul>\n           <li ng-repeat=\"event in model.problemSummary.eventInfos\">\n              <h5><strong>{{ event.name }}</strong> <em>(source: {{ event.source }})</em></h5>\n              <ul>\n                 <li ng-repeat=\"problem in event.problems track by problem.description\"\n                    class=\"ax-event-problem\">\n                    <i class=\"fa fa-warning ax-error\"></i> {{ problem.description }}\n                 </li>\n              </ul>\n           </li>\n        </ul>\n        <p class=\"ax-event-problems-explanation\">\n           Events with problems are marked <strong class=\"ax-error\">red</strong> in the events table.\n           Filter by event/source as needed.\n        </p>\n     </div>\n\n\n     <div ng-if=\"model.visibleEventInfos.length\"\n          class=\"text-large\">\n        <h4 class=\"text-primary\">{{ model.visibleEventInfos.length }}/{{ model.eventInfos.length }} Events</h4>\n     </div>\n\n   <div class=\"ax-button-wrapper form-inline\">\n\n      <div class=\"form-group form-group-sm\">\n         <label ax-for=\"'search'\"><small>Filters:</small></label>\n         <input class=\"form-control input-sm\"\n                placeholder=\"Search (RegExp)\"\n                ax-id=\"'search'\"\n                ng-model=\"model.settings.namePattern\">\n\n         <label ax-for=\"'limit'\"><small>Limit:</small></label>\n         <input class=\"form-control input-sm\"\n                ax-id=\"'limit'\"\n                ng-model=\"model.settings.visibleEventsLimit\"\n                ng-model-options=\"{ updateOn: 'default' }\"\n                ax-input=\"integer\"\n                ax-input-minimum-value=\"0\"\n                ax-input-maximum-value=\"features.events.bufferSize\"\n                placeholder=\"0-{{ features.events.bufferSize }}\"\n                maxlength=\"4\">\n      </div>\n\n      <!-- Filters menu -->\n      <div class=\"btn-group btn-group-sm\"\n           ng-class=\"{ 'open': view.showPatterns }\"\n           ng-mouseenter=\"view.showPatterns = true\"\n           ng-mouseleave=\"view.showPatterns = false\">\n         <button type=\"button\"\n                 class=\"btn btn-default dropdown-toggle\"\n                 data-toggle=\"dropdown\"\n                 aria-expanded=\"{{ view.showPatterns }}\">\n            More <span class=\"caret\"></span>\n         </button>\n         <div class=\"dropdown-menu container col-lg-6\" role=\"menu\">\n\n            <div class=\"row\">\n               <div class=\"ax-event-settings-col first\">\n                  <h4>Patterns</h4>\n                  <div ng-repeat=\"pattern in model.patterns track by pattern.name\">\n                     <button\n                        type=\"button\"\n                        class=\"btn btn-link ax-event-setting-toggle\"\n                        ng-click=\"model.settings.patterns[ pattern.name ] = !model.settings.patterns[ pattern.name ]\">\n                        <span class=\"ax-event-pattern\" ng-bind-html=\"pattern.htmlIcon\"></span>\n                        {{ pattern.name }}\n                        <i class=\"fa pull-right ax-event-setting-toggle\"\n                           ng-class=\"{ 'fa-toggle-off': !model.settings.patterns[ pattern.name ], 'fa-toggle-on': model.settings.patterns[ pattern.name ] }\"></i>\n                     </button>\n                  </div>\n               </div>\n\n               <div class=\"ax-event-settings-col last\">\n                  <h4>Interactions</h4>\n                  <div ng-repeat=\"(interaction, enabled) in model.settings.interactions track by interaction\">\n                     <button\n                        type=\"button\"\n                        class=\"btn btn-link ax-event-setting-toggle\"\n                        ng-click=\"model.settings.interactions[ interaction ] = !enabled\"\n                        >{{ interaction }}<i class=\"fa pull-right ax-event-setting-toggle\"\n                                        ng-class=\"{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }\"></i>\n                     </button>\n                  </div>\n\n                  <br>\n                  <h4>Sources</h4>\n                  <div ng-repeat=\"(source, enabled) in model.settings.sources track by source\">\n                     <button\n                        type=\"button\"\n                        class=\"btn btn-link ax-event-setting-toggle\"\n                        ng-click=\"model.settings.sources[ source ] = !enabled\"\n                        >{{ source }}<i class=\"fa pull-right ax-event-setting-toggle\"\n                                        ng-class=\"{ 'fa-toggle-off': !enabled, 'fa-toggle-on': enabled }\"></i>\n                     </button>\n                  </div>\n               </div>\n\n            </div>\n\n            <div class=\"row\">\n               <div class=\"ax-event-settings-col first\">&nbsp;</div>\n               <div class=\"ax-event-settings-col last\">\n                  <div class=\"pull-right\">\n                     <button type=\"button\" class=\"btn btn-xs btn-primary\" ng-click=\"commands.setAll( true )\">All On</button>\n                     <button type=\"button\" class=\"btn btn-xs btn-primary\" ng-click=\"commands.setAll( false )\">All Off</button>\n                     <button type=\"button\" class=\"btn btn-xs\" ng-click=\"commands.setDefaults()\">Defaults</button>\n                  </div>\n               </div>\n            </div>\n\n         </div>\n      </div>\n\n      <button class=\"btn btn-primary btn-sm\"\n              type=\"button\"\n              ng-class=\"{ 'ax-disabled': !model.eventInfos.length }\"\n              ng-click=\"commands.discard()\">Discard Events</button>\n   </div>\n\n   <div class=\"form-inline events-display-filter-items\" ng-if=\"resources.filter.topics.length || resources.filter.participants.length\">\n      <a class=\"btn btn-xs btn-link\" href=\"#/tools/page\">Page selection</a>\n      <span class=\"btn btn-xs btn-info\"\n            ng-repeat=\"item in resources.filter.topics track by item.topic\"\n            ng-class=\"'ax-events-display-pattern-' + item.pattern\">\n            {{item.topic}}\n      </span><span class=\"btn btn-xs btn-info\"\n            ng-repeat=\"item in resources.filter.participants track by item.participant\"\n            ng-class=\"'ax-events-display-kind-' + item.kind\">\n            {{item.participant}}\n      </span>\n   </div>\n</div>\n\n<table ng-if=\"model.visibleEventInfos.length\"\n       class=\"table\">\n   <colgroup>\n      <col class=\"ax-col-pattern-icon\">\n      <col class=\"ax-col-interaction\">\n      <col class=\"ax-col-payload-icon\">\n      <col class=\"ax-col-name\">\n\n      <col class=\"ax-col-source\">\n      <col class=\"ax-col-target\">\n      <col class=\"ax-col-cycle\">\n      <col class=\"ax-col-timestamp\">\n   </colgroup>\n   <thead>\n      <tr>\n         <th>&nbsp;</th>\n         <th>Action</th>\n         <th>&nbsp;</th>\n         <th>Event Name</th>\n\n         <th>Source</th>\n         <th>Target</th>\n         <th class=\"text-right\">Cycle</th>\n         <th class=\"text-right\">Time<i class=\"fa fa-long-arrow-up\"></i></th>\n      </tr>\n   </thead>\n   <tbody ng-repeat=\"event in model.visibleEventInfos\"\n          ng-class=\"'ax-event-pattern-' + event.pattern +\n                    ' ax-event-interaction-' + event.interaction +\n                    ( event.selected ? ' ax-event-selected' : '' ) +\n                    ( event.problems.length ? ' ax-event-has-problems' : '' )\"\n          ng-click=\"commands.select( event )\">\n      <tr class=\"ax-event-summary\">\n         <td class=\"ax-col-pattern-icon\"\n             title=\"{{ event.pattern }}\"\n             ng-bind-html=\"view.patternsByName[ event.pattern ].htmlIcon\"></td>\n         <td class=\"ax-col-interaction\">{{event.interaction}}</td>\n         <td class=\"ax-col-payload-icon\">\n            <button type=\"button\" class=\"btn-link btn-info\"\n                    ng-if=\"event.interaction == 'publish' && !event.showDetails\"\n                    ng-click=\"event.showDetails = true; $event.stopPropagation();\"><i class=\"fa fa-plus-square\">&nbsp;</i></button>\n            <button type=\"button\" class=\"btn-link btn-info\"\n                    ng-if=\"event.interaction == 'publish' && event.showDetails\"\n                    ng-click=\"event.showDetails = false; $event.stopPropagation();\"><i class=\"fa fa-minus-square\" >&nbsp;</i></button>\n         </td>\n         <td ng-bind-html=\"event.htmlName\"></td>\n         <td ng-bind-html=\"event.htmlSource\"></td>\n         <td ng-bind-html=\"event.htmlTarget\"></td>\n         <td class=\"ax-col-cycle text-right\">{{event.cycleId}}</td>\n         <td class=\"text-right\"><span>{{event.formattedTime.upper}}</span><br /><span>{{event.formattedTime.lower}}</span></td>\n      </tr>\n      <tr class=\"ax-event-payload\"\n          ng-if=\"event.problems.length\">\n         <td colspan=\"3\"></td>\n         <td colspan=\"5\">\n            <ul>\n               <li ng-repeat=\"problem in event.problems track by problem.description\"\n                   class=\"ax-event-problem\">\n                  <i class=\"fa fa-warning\"></i> {{ problem.description }}\n               </li>\n            </ul>\n         </td>\n      </tr>\n      <tr class=\"ax-event-payload\"\n          ng-if=\"event.showDetails\">\n         <td colspan=\"3\"></td>\n         <td colspan=\"5\" ><pre>{{event.formattedEvent}}</pre></td>\n      </tr>\n   </tbody>\n</table>\n"
-
-/***/ },
-/* 421 */
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */,
+/* 502 */,
+/* 503 */,
+/* 504 */,
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var resource = __webpack_require__( 422 );
+	var resource = __webpack_require__( 528 );
 	module.exports = typeof resource === 'string' ? resource : null;
 
 /***/ },
-/* 422 */
+/* 528 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(423);
+	var content = __webpack_require__(529);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(260)(content, {});
+	var update = __webpack_require__(265)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20572,15 +22190,190 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 423 */
+/* 529 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(248)();
+	exports = module.exports = __webpack_require__(253)();
 	// imports
 	
 	
 	// module
 	exports.push([module.id, ".events-display-widget .ax-button-wrapper {\n   padding: 8px 8px;\n}\n\n.events-display-widget .ax-affix-area {\n   top: 0;\n   left: 0;\n   right: 0;\n   background-color: rgba(255, 255, 255, 0.8);\n   border-bottom: 1px solid #CCC;\n   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);\n   text-align: right;\n}\n\n.events-display-widget [data-ax-id=\"'limit'\"] {\n   width: 60px;\n   text-align: right;\n}\n\n.events-display-widget .fa-toggle-on {\n   color: #5cb85c;\n}\n\n.events-display-widget .fa-toggle-off,\n.events-display-widget .fa-toggle-on {\n   margin-left: -30px;\n}\n\n.events-display-widget .dropdown-menu {\n   margin: 0;\n   right: 0;\n   left: auto;\n   min-width: 400px;\n   max-width: 430px;\n   padding: 0 30px 30px;\n}\n\n.events-display-widget .ax-event-settings-col {\n   float: left;\n   width: 170px;\n}\n\n.events-display-widget .ax-event-settings-col {\n   margin-top: 30px;\n   margin-right: 30px;\n}\n\n.events-display-widget .ax-event-settings-col.last {\n   margin-right: -30px;\n}\n\n.events-display-widget button.ax-event-setting-toggle {\n   text-align: left;\n   width: 170px;\n   border-bottom: 1px solid #ddd;\n}\n\n.events-display-widget button.ax-event-setting-toggle:hover,\n.events-display-widget button.ax-event-setting-toggle:active {\n   text-decoration: none;\n}\n\n.events-display-widget .ax-event-pattern {\n   display: inline-block;\n   width: 18px;\n}\n\n.events-display-widget i.ax-event-setting-toggle {\n   width: 18px;\n   padding-top: 3px;\n}\n\n.events-display-widget .events-display-filter-items {\n   line-height: 200%;\n   padding-right: 8px;\n}\n\n.events-display-widget .events-display-filter-items .btn-info {\n   color: white;\n   margin-left: 4px;\n   border: none;\n}\n\n.events-display-widget .events-display-filter-items .ax-events-display-kind-ACTIVITY {\n   background: #4fb04f;\n}\n\n.events-display-widget .events-display-filter-items .ax-events-display-kind-WIDGET {\n   background: #f90;\n}\n\n.events-display-widget .events-display-filter-items .ax-events-display-pattern-RESOURCE {\n   background: #673ab7;\n}\n\n.events-display-widget .events-display-filter-items .ax-events-display-pattern-FLAG {\n   background: #4caf50;\n}\n\n.events-display-widget .events-display-filter-items .ax-events-display-pattern-ACTION {\n   background: #ef6c00;\n}\n\n.events-display-widget .events-display-filter-items .ax-events-display-pattern-CONTAINER {\n   background: #4285f4;\n}\n\n.events-display-widget h4 {\n   padding-left: 8px;\n   margin-top: 0;\n}\n\n.events-display-widget .ax-event-problems-explanation {\n   padding-left: 8px;\n   margin-bottom: 24px;\n}\n\n.events-display-widget colgroup .ax-col-pattern-icon {\n   width: 32px;\n}\n\n@media (min-width: 992px) {\n   .events-display-widget colgroup .ax-col-interaction {\n      width: 80px;\n   }\n}\n\n.events-display-widget colgroup .ax-col-payload-icon {\n   width: 16px;\n}\n\n@media (min-width: 992px) {\n   .events-display-widget colgroup .ax-col-name {\n      width: 300px;\n   }\n}\n\n@media (min-width: 992px) {\n   .events-display-widget colgroup .ax-col-source,\n   .events-display-widget colgroup .ax-col-target {\n      width: 140px;\n   }\n}\n\n@media (min-width: 1200px) {\n   .events-display-widget colgroup .ax-col-source,\n   .events-display-widget colgroup .ax-col-target {\n      width: 200px;\n   }\n}\n\n.events-display-widget colgroup .ax-col-cycle {\n   width: 60px;\n}\n\n.events-display-widget colgroup .ax-col-timestamp {\n   width: 60px;\n}\n\n.events-display-widget .table {\n   table-layout: fixed;\n}\n\n.events-display-widget .table tbody, .events-display-widget .table tr, .events-display-widget .table td {\n   border: none;\n   vertical-align: bottom;\n}\n\n.events-display-widget .table tr.ax-event-summary td span:first-child {\n   font-size: 80%;\n   font-weight: bold;\n   color: #999;\n}\n\n.events-display-widget .table tr.ax-event-summary td span:last-child {\n   font-weight: normal;\n   font-size: 110%;\n   color: #333;\n}\n\n.events-display-widget .table tbody.ax-event-interaction-publish {\n   background: #f9f9f9;\n}\n\n.events-display-widget .table tbody.ax-event-interaction-publish td.ax-col-interaction {\n   font-weight: bold;\n}\n\n.events-display-widget .table tbody.ax-event-interaction-publish.ax-event-pattern-navigation td:first-child {\n   background: #ffefbf;\n}\n\n.events-display-widget .table tbody.ax-event-interaction-publish.ax-event-pattern-navigation td:first-child + td {\n   background: -webkit-linear-gradient(left, #ffefbf 0%, transparent 32%);\n   background: linear-gradient(to right, #ffefbf 0%, transparent 32%);\n}\n\n.events-display-widget .table tbody.ax-event-interaction-subscribe,\n.events-display-widget .table tbody.ax-event-interaction-unsubscribe {\n   color: #999;\n}\n\n.events-display-widget .table tr.ax-event-summary td {\n   border-top: 1px solid #ddd;\n}\n\n.events-display-widget .table tr.ax-event-payload > td {\n   padding-top: 0;\n   padding-right: 0;\n   padding-bottom: 0;\n}\n\n.events-display-widget .table td.ax-col-pattern-icon {\n   background: #eee;\n   color: #aaa;\n   text-align: center;\n   font-size: 14px;\n   padding-top: 7px;\n   cursor: default;\n}\n\n.events-display-widget .table td.ax-col-payload-icon {\n   padding-right: 0;\n   text-align: right;\n}\n\n.events-display-widget .table tbody tr.ax-event-summary:hover td {\n   background: #337ab7 !important;\n}\n\n.events-display-widget .table tbody tr.ax-event-summary:hover td,\n.events-display-widget .table tbody tr.ax-event-summary:hover td * {\n   color: white !important;\n}\n\n.events-display-widget .table tbody tr:hover td.ax-col-pattern-icon {\n   background: #286090;\n}\n\n.events-display-widget .table tbody.ax-event-selected tr.ax-event-summary td {\n   border-top-color: #337ab7;\n}\n\n.events-display-widget .table tbody.ax-event-selected tr {\n   background: #b8d0e5 !important;\n}\n\n.events-display-widget .table tbody.ax-event-selected tr.ax-event-payload:hover td {\n   background: #b8d0e5 !important;\n   color: #337ab7 !important;\n}\n\n.events-display-widget .table tbody.ax-event-selected td.ax-col-pattern-icon {\n   background: #93b8d7;\n}\n\n.events-display-widget .table tbody.ax-event-selected td.ax-col-cycle {\n   font-weight: bold;\n}\n\n.events-display-widget .table tbody.ax-event-selected.ax-event-interaction-publish, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-deliver, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-publish .ax-col-pattern-icon, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-deliver .ax-col-pattern-icon {\n   color: #337ab7;\n}\n\n.events-display-widget .table tbody.ax-event-selected.ax-event-interaction-subscribe, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-unsubscribe, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-subscribe .ax-col-pattern-icon, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-unsubscribe .ax-col-pattern-icon {\n   color: #577894;\n}\n\n.events-display-widget .table tbody.ax-event-has-problems {\n   background: #f7e4e4;\n}\n\n.events-display-widget .table tbody.ax-event-has-problems .ax-col-pattern-icon {\n   background: #e09795;\n   color: #aa3532;\n}\n\n.events-display-widget .table tbody.ax-event-has-problems .ax-event-problem {\n   font-weight: bold;\n}\n\n.events-display-widget .table td.ax-col-cycle {\n   text-align: right;\n}\n\n.events-display-widget .table td {\n   word-wrap: break-word;\n   font-size: 12px;\n}\n\n.events-display-widget .table td .btn-link {\n   border: 0;\n   padding: 0;\n   margin: 0;\n}\n\n.events-display-widget .table td b {\n   color: #449d44;\n   text-decoration: underline;\n}\n\n.events-display-widget .table pre {\n   margin: 0;\n   border: none;\n   border-radius: 0;\n   background: inherit;\n   padding: 1em 0;\n   font-family: monospace;\n   font-size: 12px;\n   max-height: 0;\n   -webkit-animation: show-pre-animation .3s ease forwards;\n   animation: show-pre-animation .3s ease forwards;\n}\n\n@-webkit-keyframes show-pre-animation {\n   from {\n      max-height: 0;\n   }\n   to {\n      max-height: 400px;\n   }\n}\n\n@keyframes show-pre-animation {\n   from {\n      max-height: 0;\n   }\n   to {\n      max-height: 400px;\n   }\n}\n\n.events-display-widget .fa-folder-close,\n.events-display-widget .fa-folder-open {\n   cursor: pointer;\n}\n\n.events-display-widget li.ax-event-problem {\n   list-style-type: none;\n}\n\n.events-display-widget .text-large {\n   padding: 8px;\n   float: left;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 530 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });
+	
+	
+	
+	
+	
+	var _react = __webpack_require__(272);var _react2 = _interopRequireDefault(_react);
+	var _laxar = __webpack_require__(23);
+	var _moment = __webpack_require__(386);var _moment2 = _interopRequireDefault(_moment);
+	var _AutoAffix = __webpack_require__(497);var _AutoAffix2 = _interopRequireDefault(_AutoAffix);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
+	                                                                                                                                                                                                             * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                             * Released under the MIT license.
+	                                                                                                                                                                                                             * http://laxarjs.org/license
+	                                                                                                                                                                                                             */function create(context, eventBus, reactRender) {'use strict';
+	   var model = {
+	      messages: [] };
+	
+	
+	   var commands = {
+	      discard: function discard() {
+	         model.messages.length = 0;
+	      } };
+	
+	
+	   if (context.features.log.stream) {
+	      eventBus.subscribe('didProduce.' + context.features.log.stream, function (event) {
+	         if (Array.isArray(event.data)) {
+	            event.data.forEach(displayLogMessage);
+	         } else
+	         {
+	            displayLogMessage(event.data);
+	         }
+	      });
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function displayLogMessage(message) {
+	      model.messages.unshift({
+	         text: _laxar.string.format(message.text, message.replacements),
+	         level: message.level,
+	         time: message.time,
+	         location: message.sourceInfo.file + ':' + message.sourceInfo.line });
+	
+	
+	      while (model.messages.length > context.features.log.bufferSize) {
+	         model.messages.pop();
+	      }
+	   }
+	
+	   function discard() {
+	      model.messages.length = 0;
+	      render();
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   function render() {
+	
+	      function formatTime(date) {
+	         return (0, _moment2.default)(date).format('YYYY-MM-DD HH:mm:ss.SSS');
+	      }
+	      var messages = model.messages.map(function (message) {return (
+	            _react2.default.createElement('tr', { key: message.time },
+	               _react2.default.createElement('td', null, message.level),
+	               _react2.default.createElement('td', null, message.text),
+	               _react2.default.createElement('td', null, message.location),
+	               _react2.default.createElement('td', null, formatTime(message.time))));});
+	
+	
+	
+	      reactRender(
+	      _react2.default.createElement('div', null,
+	         _react2.default.createElement(_AutoAffix2.default, null,
+	            _react2.default.createElement('div', { className: 'ax-affix-area' },
+	               _react2.default.createElement('div', { className: 'ax-button-wrapper' },
+	                  _react2.default.createElement('button', {
+	                        type: 'button',
+	                        className: (!model.messages.length ? 'ax-disabled' : '') + "btn btn-primary btn-sm",
+	                        onClick: discard }, 'Clear')))),
+	
+	
+	
+	
+	
+	         !model.messages.length &&
+	         _react2.default.createElement('div', { className: 'text-large' },
+	            _react2.default.createElement('h4', { className: 'text-primary' }, 'No Log Messages'),
+	            _react2.default.createElement('p', null, _react2.default.createElement('i', { className: 'fa fa-clock-o' }), ' Waiting for messages from host application...')),
+	
+	
+	
+	         !!model.messages.length &&
+	         _react2.default.createElement('table', { className: 'table table-striped table-hover' },
+	            _react2.default.createElement('thead', null,
+	               _react2.default.createElement('tr', null,
+	                  _react2.default.createElement('th', null, 'Level'),
+	                  _react2.default.createElement('th', null, 'Message'),
+	                  _react2.default.createElement('th', null, 'Location'),
+	                  _react2.default.createElement('th', null, 'Time'))),
+	
+	
+	            _react2.default.createElement('tbody', null,
+	               messages))));
+	
+	
+	
+	
+	
+	
+	   }
+	
+	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	   return {
+	      onDomAvailable: render };
+	
+	}exports.default =
+	
+	{
+	   name: 'log-display-widget',
+	   injections: ['axContext', 'axEventBus', 'axReactRender'],
+	   create: create };
+
+/***/ },
+/* 531 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var resource = __webpack_require__( 532 );
+	module.exports = typeof resource === 'string' ? resource : null;
+
+/***/ },
+/* 532 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(533);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(265)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./log-display-widget.css", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./log-display-widget.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 533 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(253)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".log-display-widget .ax-button-wrapper {\n  padding: 8px 8px;\n}\n.log-display-widget .affix {\n  top: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(255, 255, 255, 0.8);\n  border-bottom: 1px solid #CCC;\n  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);\n}\n.log-display-widget .ax-affix-area {\n  text-align: right;\n}\n.log-display-widget h4 {\n  padding-left: 8px;\n  margin-top: 0;\n}\n.log-display-widget .table {\n  table-layout: fixed;\n}\n.log-display-widget .table > thead > tr > th:nth-child(1) {\n  width: 100px;\n}\n@media (min-width: 992px) {\n  .log-display-widget .table > thead > tr > th:nth-child(2) {\n    width: 380px;\n  }\n}\n@media (min-width: 1200px) {\n  .log-display-widget .table > thead > tr > th:nth-child(2) {\n    width: 580px;\n  }\n}\n.log-display-widget .table > thead > tr > th:nth-child(4) {\n  width: 180px;\n}\n.log-display-widget .table > tbody:nth-of-type(even) td {\n  background-color: #eeeeee;\n}\n.log-display-widget .table td {\n  word-wrap: break-word;\n  font-size: 12px;\n}\n", ""]);
 	
 	// exports
 

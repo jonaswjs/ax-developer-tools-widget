@@ -23,6 +23,34 @@
             }
          }
       ],
+      "toolbar": [
+         {
+            "widget": "developer-toolbar-widget",
+            "id": "tabs",
+            "features": {
+               "grid": {
+                  "resource": "gridSettings"
+               },
+               "tabs": {
+                  "parameter": "tab"
+               },
+               "detailsOn": [ "isLaxarApplication" ]
+            }
+         }
+      ],
+      "tabspage": [
+         {
+            "widget": "page-inspector-widget",
+            "features": {
+               "pageInfo": {
+                  "resource": "pageInfo"
+               },
+               "filter": {
+                  "resource": "eventFilter"
+               }
+            }
+         }
+      ],
       "tabsevents": [
          {
             "widget": "events-display-widget",
@@ -32,6 +60,16 @@
                },
                "filter": {
                   "resource": "eventFilter"
+               }
+            }
+         }
+      ],
+      "tabslog": [
+         {
+            "widget": "log-display-widget",
+            "features": {
+               "log": {
+                  "stream": "logItems"
                }
             }
          }

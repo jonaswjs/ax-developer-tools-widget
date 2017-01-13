@@ -5,8 +5,9 @@
  */
 
 import React from 'react';
-import ax from 'laxar';
+import { string } from 'laxar';
 import moment from 'moment';
+import AutoAffix from 'react-overlays/lib/AutoAffix';
 
 function create( context, eventBus, reactRender ) {
    'use strict';
@@ -36,7 +37,7 @@ function create( context, eventBus, reactRender ) {
 
    function displayLogMessage( message ) {
       model.messages.unshift( {
-         text: ax.string.format( message.text, message.replacements ),
+         text: string.format( message.text, message.replacements ),
          level: message.level,
          time: message.time,
          location: message.sourceInfo.file + ':' + message.sourceInfo.line
@@ -47,6 +48,11 @@ function create( context, eventBus, reactRender ) {
       }
    }
 
+   function discard() {
+      model.messages.length = 0;
+      render();
+   }
+
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function render() {
@@ -54,29 +60,28 @@ function create( context, eventBus, reactRender ) {
       function formatTime( date ) {
          return moment( date ).format( 'YYYY-MM-DD HH:mm:ss.SSS' )
       }
-
       const messages = model.messages.map( ( message ) =>
-         <tr>
-            <td>{message.level}</td>
-            <td>{message.text}</td>
-            <td>{message.location}</td>
-            <td>{formatTime( message.time )}</td>
+         <tr key={ message.time }>
+            <td>{ message.level }</td>
+            <td>{ message.text }</td>
+            <td>{ message.location }</td>
+            <td>{ formatTime( message.time ) }</td>
          </tr>
       );
 
       reactRender(
          <div>
-            <div className="ax-affix-area"
-                 ax-affix
-                 ax-affix-offset-top="100">
-               <div className="ax-button-wrapper">
-                  <button
-                     type="button"
-                     className={ ( !model.messages.length ? 'ax-disabled' : '' ) + "btn btn-primary btn-sm" }
-                     onClick="commands.discard"
-                     >Clear</button>
+            <AutoAffix>
+               <div className="ax-affix-area">
+                  <div className="ax-button-wrapper">
+                     <button
+                        type="button"
+                        className={ ( !model.messages.length ? 'ax-disabled' : '' ) + "btn btn-primary btn-sm" }
+                        onClick={ discard }
+                        >Clear</button>
+                  </div>
                </div>
-            </div>
+            </AutoAffix>
 
             { !model.messages.length &&
                <div className="text-large">
@@ -85,7 +90,7 @@ function create( context, eventBus, reactRender ) {
                </div>
             }
 
-            { model.messages.length &&
+            { !!model.messages.length &&
                <table className="table table-striped table-hover">
                   <thead>
                      <tr>

@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import * as axPatterns from 'laxar-patterns';
+import { resources } from 'laxar-patterns';
 import moment from 'moment';
 import tracker from './tracker';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
@@ -99,7 +99,7 @@ function create( context, reactRender ) {
       settings: settings
    };
 
-   axPatterns.resources.handlerFor( context ).registerResourceFromFeature( 'filter', {
+   resources.handlerFor( context ).registerResourceFromFeature( 'filter', {
       onUpdateReplace: () => { runFilters(); render(); },
       isOptional: true
    } );

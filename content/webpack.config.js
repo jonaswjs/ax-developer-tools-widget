@@ -18,7 +18,7 @@ const basePlugins = [
 module.exports = {
    entry: {
       'app': './init.js',
-      'vendor': [ 'polyfills', 'react', 'react-overlays', 'laxar' ]
+      'vendor': [ 'polyfills', 'react', 'react-overlays', 'laxar','wireflow' ]
    },
 
    output: {
@@ -55,9 +55,6 @@ module.exports = {
    },
 
    module: {
-      noParse: [
-         /bower_components\/page\/page.js/
-      ],
       loaders: [
          {
             test: /\.jsx?$/,

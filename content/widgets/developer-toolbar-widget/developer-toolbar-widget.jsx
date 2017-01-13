@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import axPatterns from 'laxar-patterns';
+import { resources, flags, visibility } from 'laxar-patterns';
 
 import '../../lib/laxar-developer-tools/grid';
 import '../../lib/laxar-developer-tools/widget-outline';
@@ -64,7 +64,7 @@ function create( context, eventBus, reactRender, flowService ) {
       model.noLaxar = HINT_NO_LAXAR_ANYMORE_WIDGET;
    }
 
-   axPatterns.resources.handlerFor( context ).registerResourceFromFeature(
+   resources.handlerFor( context ).registerResourceFromFeature(
       'grid',
       {
          onReplace: function( event ) {
@@ -79,7 +79,7 @@ function create( context, eventBus, reactRender, flowService ) {
       }
    );
 
-   axPatterns.flags.handlerFor( context ).registerFlag( context.features.detailsOn, {
+   flags.handlerFor( context ).registerFlag( context.features.detailsOn, {
       initialState: model.laxar,
       onChange: function( newState ) {
          model.laxar = newState;
@@ -94,7 +94,7 @@ function create( context, eventBus, reactRender, flowService ) {
       } );
    }
 
-   axPatterns.visibility.handlerFor( context, { onAnyAreaRequest: function( event ) {
+   visibility.handlerFor( context, { onAnyAreaRequest: function( event ) {
       var prefix = context.id() + '.';
       var activeTab = model.activeTab;
       return event.visible && activeTab !== null && event.area === prefix + activeTab.name;
@@ -119,7 +119,7 @@ function create( context, eventBus, reactRender, flowService ) {
       function publishVisibility( tab, visible ) {
          if( tab ) {
             var area = context.id() + '.' + tab.name;
-            axPatterns.visibility.requestPublisherForArea( context, area )( visible );
+            visibility.requestPublisherForArea( context, area )( visible );
          }
       }
       render();
