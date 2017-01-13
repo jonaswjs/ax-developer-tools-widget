@@ -501,7 +501,7 @@ webpackJsonp([0],[
 	                     enabled: true
 	                  }
 	               ],
-	               tabspage: [
+	               page: [
 	                  {
 	                     widget: "page-inspector-widget",
 	                     features: {
@@ -512,7 +512,7 @@ webpackJsonp([0],[
 	                     id: "pageInspectorWidget-id1"
 	                  }
 	               ],
-	               tabsevents: [
+	               events: [
 	                  {
 	                     widget: "events-display-widget",
 	                     features: {
@@ -528,7 +528,7 @@ webpackJsonp([0],[
 	                     id: "eventsDisplayWidget-id2"
 	                  }
 	               ],
-	               tabslog: [
+	               log: [
 	                  {
 	                     widget: "log-display-widget",
 	                     features: { log: { stream: "logItems" } },
@@ -1281,7 +1281,7 @@ webpackJsonp([0],[
 /* 266 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"fluid-container\">\n   <div class=\"app-toolbar\">\n      <div data-ax-widget-area=\"toolbar\"></div>\n   </div>\n   <div data-ax-widget-area=\"tabsevents\"></div>\n   <div style=\"height: 200px\" data-ax-widget-area=\"tabspage\"></div>\n   <div data-ax-widget-area=\"tabslog\"></div>\n</div>\n"
+	module.exports = "<div class=\"fluid-container\">\n   <div class=\"app-toolbar\">\n      <div data-ax-widget-area=\"toolbar\"></div>\n   </div>\n</div>\n"
 
 /***/ },
 /* 267 */
@@ -1561,12 +1561,14 @@ webpackJsonp([0],[
 	var _react = __webpack_require__(272);var _react2 = _interopRequireDefault(_react);
 	var _laxarPatterns = __webpack_require__(273);
 	
+	var _axWidgetArea = __webpack_require__(557);var _axWidgetArea2 = _interopRequireDefault(_axWidgetArea);
+	
 	__webpack_require__(284);
-	__webpack_require__(285);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
-	                                                                                                                                                         * Copyright 2016 aixigo AG
-	                                                                                                                                                         * Released under the MIT license.
-	                                                                                                                                                         * http://www.laxarjs.org
-	                                                                                                                                                         */function create(context, eventBus, reactRender, flowService) {'use strict';var visible = false;
+	__webpack_require__(285);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	
+	function create(context, eventBus, reactRender, flowService) {
+	   'use strict';
+	   var visible = false;
 	   var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
 	   var HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
 	   var HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
@@ -1795,10 +1797,13 @@ webpackJsonp([0],[
 	      var widgetArea = '';
 	      if (model.laxar) {
 	         var tab = model.tabs.find(function (tab) {return model.activeTab === tab;});
+	         console.log(tab);
 	         var name = tab ? tab.name : 'noTab';
+	         console.log(name);
 	         widgetArea =
-	         _react2.default.createElement('div', { className: 'app-tab app-tab-page',
-	            'data-ax-widget-area': name });
+	         _react2.default.createElement(_axWidgetArea2.default, {
+	            className: 'app-tab app-tab-page',
+	            name: name });
 	
 	
 	      }
@@ -1849,11 +1854,11 @@ webpackJsonp([0],[
 	   return {
 	      onDomAvailable: render };
 	
-	}exports.default =
-	
-	{
-	   name: 'developer-toolbar-widget',
-	   injections: ['axContext', 'axEventBus', 'axReactRender', 'axFlowService'],
+	} /**
+	   * Copyright 2016 aixigo AG
+	   * Released under the MIT license.
+	   * http://www.laxarjs.org
+	   */exports.default = { name: 'developer-toolbar-widget', injections: ['axContext', 'axEventBus', 'axReactRender', 'axFlowService'],
 	   create: create };
 
 /***/ },
@@ -22377,6 +22382,49 @@ webpackJsonp([0],[
 	
 	// exports
 
+
+/***/ },
+/* 534 */,
+/* 535 */,
+/* 536 */,
+/* 537 */,
+/* 538 */,
+/* 539 */,
+/* 540 */,
+/* 541 */,
+/* 542 */,
+/* 543 */,
+/* 544 */,
+/* 545 */,
+/* 546 */,
+/* 547 */,
+/* 548 */,
+/* 549 */,
+/* 550 */,
+/* 551 */,
+/* 552 */,
+/* 553 */,
+/* 554 */,
+/* 555 */,
+/* 556 */,
+/* 557 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();var _react = __webpack_require__(272);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}var
+	
+	AxWidgetArea = function (_React$Component) {_inherits(AxWidgetArea, _React$Component);
+	
+	   function AxWidgetArea(props) {_classCallCheck(this, AxWidgetArea);var _this = _possibleConstructorReturn(this, (AxWidgetArea.__proto__ || Object.getPrototypeOf(AxWidgetArea)).call(this,
+	      props));
+	      _this.props = props;return _this;
+	   }_createClass(AxWidgetArea, [{ key: 'render', value: function render()
+	
+	      {
+	         return (
+	            _react2.default.createElement('div', { 'data-ax-widget-area': this.props.name }, _react2.default.createElement('p', null, 'widgetarea'), this.props.children));
+	
+	
+	      } }]);return AxWidgetArea;}(_react2.default.Component);exports.default = AxWidgetArea;
 
 /***/ }
 ]);

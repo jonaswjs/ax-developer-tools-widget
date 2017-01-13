@@ -38,7 +38,7 @@
             }
          }
       ],
-      "tabspage": [
+      "page": [
          {
             "widget": "page-inspector-widget",
             "features": {
@@ -51,7 +51,7 @@
             }
          }
       ],
-      "tabsevents": [
+      "events": [
          {
             "widget": "events-display-widget",
             "features": {
@@ -64,7 +64,7 @@
             }
          }
       ],
-      "tabslog": [
+      "log": [
          {
             "widget": "log-display-widget",
             "features": {

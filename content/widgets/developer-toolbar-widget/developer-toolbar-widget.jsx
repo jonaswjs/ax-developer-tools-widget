@@ -7,6 +7,8 @@
 import React from 'react';
 import { resources, flags, visibility } from 'laxar-patterns';
 
+import AxWidgetArea from './ax-widget-area';
+
 import '../../lib/laxar-developer-tools/grid';
 import '../../lib/laxar-developer-tools/widget-outline';
 
@@ -218,7 +220,7 @@ function create( context, eventBus, reactRender, flowService ) {
                  type="button"
                  onClick={onClickToggleGrid}
             ><i className={ 'fa fa-toggle-' + ( model.gridOverlay ? 'on' : 'off' ) }
-            ></i>&nbsp;{model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay'}</button>
+            />&nbsp;{model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay'}</button>
          );
       }
 
@@ -228,7 +230,7 @@ function create( context, eventBus, reactRender, flowService ) {
             type="button"
             onClick={onClickToggleWidgetOutline}
             ><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }
-            ></i>&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>
+            />&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>
       );
 
       let optionButtons = '';
@@ -241,11 +243,14 @@ function create( context, eventBus, reactRender, flowService ) {
       let widgetArea = '';
       if( model.laxar ) {
          const tab = model.tabs.find( ( tab ) => model.activeTab === tab );
+         console.log( tab );
          const name = tab ? tab.name : 'noTab';
+         console.log( name );
          widgetArea = (
-            <div className="app-tab app-tab-page"
-                    data-ax-widget-area={name}>
-            </div>
+            <AxWidgetArea
+               className="app-tab app-tab-page"
+               name={name}>
+            </AxWidgetArea>
          );
       }
 
@@ -272,7 +277,7 @@ function create( context, eventBus, reactRender, flowService ) {
             <li><a className="developer-toolbar-icon"
                    title="LaxarJS Documentation"
                    href="http://www.laxarjs.org/docs"
-                   target="_blank"></a>
+                   target="_blank" />
             </li>
             { tabListItems }
             { model.laxar === false &&
