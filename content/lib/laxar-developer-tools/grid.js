@@ -6,7 +6,7 @@
 
 /* global chrome */
 
-function axDeveloperToolsToggleGrid( gridSettings ) {
+export function axDeveloperToolsToggleGrid( gridSettings ) {
    var hostDocument;
    var id = 'laxar-developer-tools-grid';
    if( window.chrome && chrome.runtime && chrome.runtime.id ) {

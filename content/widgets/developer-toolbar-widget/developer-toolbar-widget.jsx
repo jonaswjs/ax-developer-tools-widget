@@ -9,8 +9,11 @@ import { resources, flags, visibility } from 'laxar-patterns';
 
 import AxWidgetArea from './ax-widget-area';
 
-import '../../lib/laxar-developer-tools/grid';
-import '../../lib/laxar-developer-tools/widget-outline';
+import * as developerToolsToggleGrid from '../../lib/laxar-developer-tools/grid';
+import * as developerToolsToggleWidgetOutline from '../../lib/laxar-developer-tools/widget-outline';
+
+const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToolsToggleWidgetOutline;
+const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
 
 const injections = [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper' ];
 function create( context, eventBus, reactRender, flowService, areaHelper ) {
@@ -174,8 +177,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper ) {
 
    function toggleGrid() {
       if( window.opener ) {
-         /* global axDeveloperToolsToggleGrid */
-         axDeveloperToolsToggleGrid( context.resources.grid );
+         toggleGridHelper( context.resources.grid );
          return;
       }
       if( isBrowserWebExtension ) {
@@ -195,8 +197,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper ) {
 
    function toggleWidgetOutline() {
       if( window.opener ) {
-         /* global axDeveloperToolsToggleWidgetOutline */
-         axDeveloperToolsToggleWidgetOutline();
+         toggleWidgetOutlineHelper();
          return;
       }
       if( isBrowserWebExtension ) {

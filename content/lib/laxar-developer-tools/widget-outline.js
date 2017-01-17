@@ -5,7 +5,8 @@
  */
 
 /* global chrome */
-var axDeveloperToolsToggleWidgetOutline = (function() {
+
+export const axDeveloperToolsToggleWidgetOutline = function () {
    var infoId;
    var isBrowserWebExtension;
    var document;
@@ -85,4 +86,4 @@ var axDeveloperToolsToggleWidgetOutline = (function() {
          return ( window.opener || window.parent || window ).document;
       }
    }
-})();
+}();

@@ -7174,7 +7174,6 @@
 	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	   function isVisible(areaName) {
-	      console.log(areaName, knownVisibilityState[areaName]);
 	      return knownVisibilityState[areaName] || false;
 	   }
 	
@@ -7213,7 +7212,6 @@
 	    *    removes the according area from the registry again
 	    */
 	   function register(name, element) {
-	      console.log(name, element);
 	      if (name in areaToElement) {
 	         throw new Error('The area "' + name + '" is defined twice in the current layout.');
 	      }

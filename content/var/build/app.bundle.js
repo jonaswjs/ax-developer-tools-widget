@@ -1559,14 +1559,17 @@ webpackJsonp([0],[
 	
 	var _axWidgetArea = __webpack_require__(280);var _axWidgetArea2 = _interopRequireDefault(_axWidgetArea);
 	
-	__webpack_require__(281);
-	__webpack_require__(282);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+	var _grid = __webpack_require__(281);var developerToolsToggleGrid = _interopRequireWildcard(_grid);
+	var _widgetOutline = __webpack_require__(282);var developerToolsToggleWidgetOutline = _interopRequireWildcard(_widgetOutline);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 	
-	var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper']; /**
-	                                                                                                 * Copyright 2016 aixigo AG
-	                                                                                                 * Released under the MIT license.
-	                                                                                                 * http://www.laxarjs.org
-	                                                                                                 */function create(context, eventBus, reactRender, flowService, areaHelper) {'use strict';var visible = false;var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
+	var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToolsToggleWidgetOutline; /**
+	                                                                                                        * Copyright 2016 aixigo AG
+	                                                                                                        * Released under the MIT license.
+	                                                                                                        * http://www.laxarjs.org
+	                                                                                                        */var toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper'];function create(context, eventBus, reactRender, flowService, areaHelper) {
+	   'use strict';
+	   var visible = false;
+	   var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
 	   var HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
 	   var HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
 	   ' Reopen laxar-developer-tools from LaxarJS host window.';
@@ -1724,8 +1727,7 @@ webpackJsonp([0],[
 	
 	   function toggleGrid() {
 	      if (window.opener) {
-	         /* global axDeveloperToolsToggleGrid */
-	         axDeveloperToolsToggleGrid(context.resources.grid);
+	         toggleGridHelper(context.resources.grid);
 	         return;
 	      }
 	      if (isBrowserWebExtension) {
@@ -1745,8 +1747,7 @@ webpackJsonp([0],[
 	
 	   function toggleWidgetOutline() {
 	      if (window.opener) {
-	         /* global axDeveloperToolsToggleWidgetOutline */
-	         axDeveloperToolsToggleWidgetOutline();
+	         toggleWidgetOutlineHelper();
 	         return;
 	      }
 	      if (isBrowserWebExtension) {
@@ -4854,19 +4855,19 @@ webpackJsonp([0],[
 /* 281 */
 /***/ function(module, exports) {
 
-	'use strict'; /**
-	               * Copyright 2016 aixigo AG
-	               * Released under the MIT license.
-	               * http://laxarjs.org/license
-	               */
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.
 	
-	/* global chrome */
 	
-	function axDeveloperToolsToggleGrid(gridSettings) {
-	   var hostDocument;
-	   var id = 'laxar-developer-tools-grid';
-	   if (window.chrome && chrome.runtime && chrome.runtime.id) {
-	      hostDocument = window.document;
+	
+	
+	
+	
+	
+	axDeveloperToolsToggleGrid = axDeveloperToolsToggleGrid; /**
+	                                                          * Copyright 2016 aixigo AG
+	                                                          * Released under the MIT license.
+	                                                          * http://laxarjs.org/license
+	                                                          */ /* global chrome */function axDeveloperToolsToggleGrid(gridSettings) {var hostDocument;var id = 'laxar-developer-tools-grid';if (window.chrome && chrome.runtime && chrome.runtime.id) {hostDocument = window.document;
 	   } else
 	   {
 	      hostDocument = applicationWindow().document;
@@ -4980,14 +4981,15 @@ webpackJsonp([0],[
 /* 282 */
 /***/ function(module, exports) {
 
-	'use strict'; /**
-	               * Copyright 2016 aixigo AG
-	               * Released under the MIT license.
-	               * http://laxarjs.org/license
-	               */
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true }); /**
+	                                                                             * Copyright 2016 aixigo AG
+	                                                                             * Released under the MIT license.
+	                                                                             * http://laxarjs.org/license
+	                                                                             */
 	
 	/* global chrome */
-	var axDeveloperToolsToggleWidgetOutline = function () {
+	
+	var axDeveloperToolsToggleWidgetOutline = exports.axDeveloperToolsToggleWidgetOutline = function () {
 	   var infoId;
 	   var isBrowserWebExtension;
 	   var document;
