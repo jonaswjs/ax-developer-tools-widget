@@ -12,22 +12,23 @@ import AxWidgetArea from './ax-widget-area';
 import '../../lib/laxar-developer-tools/grid';
 import '../../lib/laxar-developer-tools/widget-outline';
 
-function create( context, eventBus, reactRender, flowService ) {
+const injections = [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper' ];
+function create( context, eventBus, reactRender, flowService, areaHelper ) {
    'use strict';
    let visible = false;
-   var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
-   var HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
-   var HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
+   const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
+   const HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
+   const HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
                                        ' Reopen laxar-developer-tools from LaxarJS host window.';
-   var HINT_CONFIGURE_GRID = 'Configure grid settings in application to enable this feature!';
+   const HINT_CONFIGURE_GRID = 'Configure grid settings in application to enable this feature!';
 
-   var TABS = [
+   const TABS = [
       { name: 'events', label: 'Events' },
       { name: 'page', label: 'Page' },
       { name: 'log', label: 'Log' }
    ];
 
-   var model = {
+   const model = {
       laxar: true,
       tabs: TABS,
       activeTab: null,
@@ -37,9 +38,8 @@ function create( context, eventBus, reactRender, flowService ) {
       noLaxar: HINT_NO_LAXAR_EXTENSION
    };
 
-
-   var isBrowserWebExtension = ( window.chrome && chrome.runtime && chrome.runtime.id );
-   var firefoxExtensionMessagePort;
+   const isBrowserWebExtension = ( window.chrome && chrome.runtime && chrome.runtime.id );
+   let firefoxExtensionMessagePort;
 
    if( !window.opener ) {
       window.addEventListener( 'message', function( event ) {
@@ -47,14 +47,14 @@ function create( context, eventBus, reactRender, flowService ) {
             model.noLaxar = HINT_NO_LAXAR_EXTENSION;
             firefoxExtensionMessagePort = event.ports[ 0 ];
             firefoxExtensionMessagePort.start();
-            var message = { text: 'messagePortStarted' };
+            const message = { text: 'messagePortStarted' };
             firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
          } else {
-            var channel = JSON.parse( event.detail || event.data );
+            const channel = JSON.parse( event.detail || event.data );
             if( channel.text === 'reloadedPage' ) {
                model.gridOverlay = false;
                model.widgetOverlay = false;
-               $scope.$apply();
+               render();
             }
          }
       } );
@@ -89,6 +89,7 @@ function create( context, eventBus, reactRender, flowService ) {
    } );
 
    if( isBrowserWebExtension ) {
+      /* global chrome */
       chrome.devtools.network.onNavigated.addListener( function() {
          model.gridOverlay = false;
          model.widgetOverlay = false;
@@ -97,17 +98,17 @@ function create( context, eventBus, reactRender, flowService ) {
    }
 
    visibility.handlerFor( context, { onAnyAreaRequest: function( event ) {
-      var prefix = context.id() + '.';
-      var activeTab = model.activeTab;
+      const prefix = context.widget.id + '.';
+      const activeTab = model.activeTab;
       return event.visible && activeTab !== null && event.area === prefix + activeTab.name;
    } } );
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    eventBus.subscribe( 'didNavigate', function( event ) {
-      var newName = event.data[ context.features.tabs.parameter ];
+      const newName = event.data[ context.features.tabs.parameter ];
 
-      var newTab = TABS.filter( function( _ ) { return _.name === newName; } )[ 0 ];
+      const newTab = TABS.filter( function( _ ) { return _.name === newName; } )[ 0 ];
       if( !newTab ) {
          return;
       }
@@ -120,14 +121,14 @@ function create( context, eventBus, reactRender, flowService ) {
 
       function publishVisibility( tab, visible ) {
          if( tab ) {
-            var area = context.id() + '.' + tab.name;
+            const area = context.widget.id + '.' + tab.name;
             visibility.requestPublisherForArea( context, area )( visible );
          }
       }
       render();
    } );
 
-   eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, (event, meta) => {
+   eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, ( event ) => {
      if( !visible && event.visible ) {
         visible = true;
         render();
@@ -136,7 +137,7 @@ function create( context, eventBus, reactRender, flowService ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   eventBus.subscribe( 'takeActionRequest.navigation', function( event ) {
+   eventBus.subscribe( 'takeActionRequest.navigation', function() {
       eventBus.publish( 'willTakeAction.navigation', {
          action: 'navigation'
       } );
@@ -159,7 +160,7 @@ function create( context, eventBus, reactRender, flowService ) {
       toggleGrid();
       model.gridOverlay = !model.gridOverlay;
       render();
-   };
+   }
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -167,7 +168,7 @@ function create( context, eventBus, reactRender, flowService ) {
       toggleWidgetOutline();
       model.widgetOverlay = !model.widgetOverlay;
       render();
-   };
+   }
 
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -178,14 +179,14 @@ function create( context, eventBus, reactRender, flowService ) {
          return;
       }
       if( isBrowserWebExtension ) {
-         var event;
+         let event;
          event = new CustomEvent( 'toogleGrid', {
             detail: JSON.stringify( context.resources.grid )
          } );
          window.dispatchEvent( event );
       }
       else if( firefoxExtensionMessagePort ) {
-         var message = { text: 'toogleGrid', data: context.resources.grid };
+         const message = { text: 'toogleGrid', data: context.resources.grid };
          firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
       }
    }
@@ -199,12 +200,12 @@ function create( context, eventBus, reactRender, flowService ) {
          return;
       }
       if( isBrowserWebExtension ) {
-         var event;
+         let event;
          event = new CustomEvent( 'widgetOutline', { } );
          window.dispatchEvent( event );
       }
       else if( firefoxExtensionMessagePort ) {
-         var message = { text: 'widgetOutline', data: {} };
+         const message = { text: 'widgetOutline', data: {} };
          firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
       }
    }
@@ -240,22 +241,20 @@ function create( context, eventBus, reactRender, flowService ) {
          </div>;
       }
 
-      let widgetArea = '';
-      if( model.laxar ) {
-         const tab = model.tabs.find( ( tab ) => model.activeTab === tab );
-         console.log( tab );
-         const name = tab ? tab.name : 'noTab';
-         console.log( name );
-         widgetArea = (
+      const widgetAreas = TABS.map( ( tab ) => {
+         return (
             <AxWidgetArea
-               className="app-tab app-tab-page"
-               name={name}>
-            </AxWidgetArea>
+               key={ tab.name }
+               areaHelper={ areaHelper }
+               css="app-tab app-tab-page"
+               name={ tab.name }
+               activeTab={ model.activeTab }
+            />
          );
-      }
+      } );
 
       const tabListItems = model.tabs.map( ( tab ) => {
-         const url = flowService.constructAbsoluteUrl( 'tools', { 'tab': tab.name } )
+         const url = flowService.constructAbsoluteUrl( 'tools', { 'tab': tab.name } );
          if( model.activeTab && model.activeTab.name === tab.name ) {
             return(
                <li key={tab.name} className='ax-active'
@@ -290,7 +289,7 @@ function create( context, eventBus, reactRender, flowService ) {
          <div>
             { optionButtons }
             { navTab }
-            { widgetArea }
+            { !!model.laxar && widgetAreas }
          </div>
       );
    }
@@ -304,6 +303,6 @@ function create( context, eventBus, reactRender, flowService ) {
 
 export default {
    name: 'developer-toolbar-widget',
-   injections: [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService' ],
+   injections,
    create
 };
