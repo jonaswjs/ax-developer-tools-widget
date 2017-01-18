@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 aixigo AG
+ * Released under the MIT license.
+ * http://www.laxarjs.org
+ */
 import React from 'react';
 
 export default class AxWidgetArea extends React.Component {

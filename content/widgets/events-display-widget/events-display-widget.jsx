@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 aixigo AG
+ * Copyright 2017 aixigo AG
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
@@ -10,7 +10,7 @@ import moment from 'moment';
 import tracker from './tracker';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 
-
+const injections = [ 'axContext', 'axReactRender' ];
 function create( context, reactRender ) {
    'use strict';
 
@@ -20,20 +20,14 @@ function create( context, reactRender ) {
 
    let settingGroups = [ 'patterns', 'interactions', 'sources' ];
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
    let patternTopics = {
-      RESOURCE: ['didReplace', 'didUpdate'],
-      ACTION: ['takeActionRequest', 'willTakeAction', 'didTakeAction'],
-      FLAG: ['didChangeFlag'],
-      CONTAINER: ['changeAreaVisibilityRequest', 'willChangeAreaVisibility', 'didChangeAreaVisibility']
+      RESOURCE: [ 'didReplace', 'didUpdate' ],
+      ACTION: [ 'takeActionRequest', 'willTakeAction', 'didTakeAction' ],
+      FLAG: [ 'didChangeFlag' ],
+      CONTAINER: [ 'changeAreaVisibilityRequest', 'willChangeAreaVisibility', 'didChangeAreaVisibility' ]
    };
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
    context.resources = {};
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    let patterns = [
       {
@@ -771,7 +765,7 @@ function create( context, reactRender ) {
          this.setState( {showDetails: !this.state.showDetails} );
       }
 
-      handleClick( e ) {
+      handleClick() {
          this.props.onSelection( this.props.event );
       }
 
@@ -1022,6 +1016,6 @@ function create( context, reactRender ) {
 
 export default {
    name: 'events-display-widget',
-   injections: [ 'axContext', 'axReactRender', 'axFlowService' ],
+   injections,
    create
 };

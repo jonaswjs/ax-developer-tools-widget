@@ -1,27 +1,27 @@
 /**
- * Copyright 2016 aixigo AG
+ * Copyright 2017 aixigo AG
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
 
 /* global chrome */
 
-define( [ 'laxar' ], function( ax ) {
+define( [], function() {
    'use strict';
 
-   var REFRESH_DELAY_MS = 100;
+   const REFRESH_DELAY_MS = 100;
 
    //Security wrapper denied access to property "buffers" on privileged Javascript object.
    //Support for exposing privileged objects to untrusted content via __exposedProps__ is being
    //gradually removed - use WebIDL bindings or Components.utils.cloneInto instead.
    // Note that only the first denied property access from a given global object will be reported.
-
-   var controller = function( context, eventBus ) {
-      var pageInfoVersion = -1;
-      var timeout;
-      var lastIndexByStream = {};
-      var isLaxarApplication;
-      var isBrowserWebExtension = ( window.chrome && chrome.runtime && chrome.runtime.id );
+   const injections = [ 'axContext', 'axEventBus' ];
+   const controller = function( context, eventBus ) {
+      let pageInfoVersion = -1;
+      let timeout;
+      const lastIndexByStream = {};
+      let isLaxarApplication;
+      const isBrowserWebExtension = ( window.chrome && chrome.runtime && chrome.runtime.id );
       // If the development server is used and we don't want the development window to be reloaded each
       // time something changes during development, we shutdown live reload here.
       if( window.LiveReload && !context.features.development.liveReload ) {
@@ -50,19 +50,19 @@ define( [ 'laxar' ], function( ax ) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function extensionEventListener( event ) {
-         var channel = JSON.parse( event.detail || event.data );
+         const channel = JSON.parse( event.detail || event.data );
          if( channel.text === 'noLaxarDeveloperToolsApi' ) {
             publishLaxarApplicationFlag( false );
             return;
          }
-         var channelGridSettings = channel && channel.gridSettings;
+         const channelGridSettings = channel && channel.gridSettings;
          if( context.features.grid.resource ) {
             publishGridSettings( channelGridSettings );
          }
          if( channel && channel.pageInfoVersion > pageInfoVersion ) {
             publishAndSetPageInfoVersion( channel.pageInfo, channel.pageInfoVersion );
          }
-         var buffers = channel && channel.buffers;
+         const buffers = channel && channel.buffers;
          if( buffers ) {
             publishStream( 'events', buffers );
             publishStream( 'log', buffers );
@@ -74,7 +74,7 @@ define( [ 'laxar' ], function( ax ) {
 
       function tryPublishData() {
          try {
-            var channel = window.opener.axDeveloperTools;
+            const channel = window.opener.axDeveloperTools;
             publishDataOrHandleException( channel, false );
          }
          catch( exception ) {
@@ -89,7 +89,7 @@ define( [ 'laxar' ], function( ax ) {
             publishLaxarApplicationFlag( false );
          }
          else {
-            var channelGridSettings = channel && channel.gridSettings;
+            const channelGridSettings = channel && channel.gridSettings;
             if( context.features.grid.resource ) {
                publishGridSettings( channelGridSettings );
             }
@@ -114,9 +114,10 @@ define( [ 'laxar' ], function( ax ) {
 
       function checkForData() {
          try {
-            var channel = window.opener.axDeveloperTools;
+            const channel = window.opener.axDeveloperTools;
             checkForDataOrHandleException( channel, false );
-         } catch (e) {
+         }
+         catch( e ) {
             checkForDataOrHandleException( undefined, true );
          }
       }
@@ -128,7 +129,7 @@ define( [ 'laxar' ], function( ax ) {
             publishLaxarApplicationFlag( false );
          }
          else {
-            var buffers = channel && channel.buffers;
+            const buffers = channel && channel.buffers;
             if( buffers ) {
                publishStream( 'events', buffers );
                publishStream( 'log', buffers );
@@ -154,19 +155,19 @@ define( [ 'laxar' ], function( ax ) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function publishStream( bufferFeature, buffers ) {
-         var buffer = buffers[ bufferFeature ];
-         var lastIndex = lastIndexByStream[ bufferFeature ] || -1;
-         var events = buffer
+         const buffer = buffers[bufferFeature];
+         const lastIndex = lastIndexByStream[bufferFeature] || -1;
+         const events = buffer
             .filter( function( _ ) { return lastIndex < _.index; } )
-            .map( function ( _ ) { return JSON.parse( _.json ); } );
+            .map( function( _ ) { return JSON.parse( _.json ); } );
          if( !events.length ) {
             return;
          }
-         eventBus.publish( 'didProduce.' + context.features[ bufferFeature ].stream, {
-            stream: context.features[ bufferFeature ].stream,
+         eventBus.publish( 'didProduce.' + context.features[bufferFeature].stream, {
+            stream: context.features[bufferFeature].stream,
             data: events
          } );
-         lastIndexByStream[ bufferFeature ] = buffer[ buffer.length - 1 ].index;
+         lastIndexByStream[bufferFeature] = buffer[buffer.length - 1].index;
          navigation( events );
       }
 
@@ -174,7 +175,7 @@ define( [ 'laxar' ], function( ax ) {
 
       function navigation( events ) {
          events.forEach( function( event ) {
-            if( event.action === 'publish' && event.event.substr( 0, 11 ) === 'didNavigate') {
+            if( event.action === 'publish' && event.event.substr( 0, 11 ) === 'didNavigate' ) {
                eventBus.publish( 'takeActionRequest.navigation', {
                   action: 'navigation'
                } );
@@ -199,15 +200,14 @@ define( [ 'laxar' ], function( ax ) {
             }
          }
       }
-   }
+   };
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    return {
       name: 'host-connector-widget',
-      injections: [ 'axContext', 'axEventBus' ],
+      injections,
       create: controller
    };
-
 
 } );

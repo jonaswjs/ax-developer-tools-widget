@@ -1331,14 +1331,14 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict'; /**
-	               * Copyright 2016 aixigo AG
+	               * Copyright 2017 aixigo AG
 	               * Released under the MIT license.
 	               * http://laxarjs.org/license
 	               */
 	
 	/* global chrome */
 	
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(25)], __WEBPACK_AMD_DEFINE_RESULT__ = function (ax) {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
 	   'use strict';
 	
 	   var REFRESH_DELAY_MS = 100;
@@ -1347,12 +1347,12 @@ webpackJsonp([0],[
 	   //Support for exposing privileged objects to untrusted content via __exposedProps__ is being
 	   //gradually removed - use WebIDL bindings or Components.utils.cloneInto instead.
 	   // Note that only the first denied property access from a given global object will be reported.
-	
+	   var injections = ['axContext', 'axEventBus'];
 	   var controller = function controller(context, eventBus) {
 	      var pageInfoVersion = -1;
-	      var timeout;
+	      var timeout = void 0;
 	      var lastIndexByStream = {};
-	      var isLaxarApplication;
+	      var isLaxarApplication = void 0;
 	      var isBrowserWebExtension = window.chrome && chrome.runtime && chrome.runtime.id;
 	      // If the development server is used and we don't want the development window to be reloaded each
 	      // time something changes during development, we shutdown live reload here.
@@ -1448,7 +1448,8 @@ webpackJsonp([0],[
 	         try {
 	            var channel = window.opener.axDeveloperTools;
 	            checkForDataOrHandleException(channel, false);
-	         } catch (e) {
+	         }
+	         catch (e) {
 	            checkForDataOrHandleException(undefined, true);
 	         }
 	      }
@@ -1537,9 +1538,8 @@ webpackJsonp([0],[
 	
 	   return {
 	      name: 'host-connector-widget',
-	      injections: ['axContext', 'axEventBus'],
+	      injections: injections,
 	      create: controller };
-	
 	
 	
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1563,7 +1563,7 @@ webpackJsonp([0],[
 	var _widgetOutline = __webpack_require__(282);var developerToolsToggleWidgetOutline = _interopRequireWildcard(_widgetOutline);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 	
 	var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToolsToggleWidgetOutline; /**
-	                                                                                                        * Copyright 2016 aixigo AG
+	                                                                                                        * Copyright 2017 aixigo AG
 	                                                                                                        * Released under the MIT license.
 	                                                                                                        * http://www.laxarjs.org
 	                                                                                                        */var toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'];function create(context, eventBus, reactRender, flowService, areaHelper, axVisibility) {
@@ -4806,11 +4806,16 @@ webpackJsonp([0],[
 /* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();var _react = __webpack_require__(268);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}var
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 	
-	AxWidgetArea = function (_React$Component) {_inherits(AxWidgetArea, _React$Component);
 	
-	   function AxWidgetArea(props) {_classCallCheck(this, AxWidgetArea);var _this = _possibleConstructorReturn(this, (AxWidgetArea.__proto__ || Object.getPrototypeOf(AxWidgetArea)).call(this,
+	
+	
+	var _react = __webpack_require__(268);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Copyright 2017 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Released under the MIT license.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * http://www.laxarjs.org
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */var AxWidgetArea = function (_React$Component) {_inherits(AxWidgetArea, _React$Component);function AxWidgetArea(props) {_classCallCheck(this, AxWidgetArea);var _this = _possibleConstructorReturn(this, (AxWidgetArea.__proto__ || Object.getPrototypeOf(AxWidgetArea)).call(this,
 	      props));
 	      _this.props = props;
 	      _this.register = _this.register.bind(_this);return _this;
@@ -4858,9 +4863,9 @@ webpackJsonp([0],[
 	
 	
 	axDeveloperToolsToggleGrid = axDeveloperToolsToggleGrid; /**
-	                                                          * Copyright 2016 aixigo AG
+	                                                          * Copyright 2017 aixigo AG
 	                                                          * Released under the MIT license.
-	                                                          * http://laxarjs.org/license
+	                                                          * http://www.laxarjs.org
 	                                                          */ /* global chrome */function axDeveloperToolsToggleGrid(gridSettings) {var hostDocument = void 0;var id = 'laxar-developer-tools-grid';if (window.chrome && chrome.runtime && chrome.runtime.id) {hostDocument = window.document;
 	   } else
 	   {
@@ -4976,9 +4981,9 @@ webpackJsonp([0],[
 /***/ function(module, exports) {
 
 	'use strict';Object.defineProperty(exports, "__esModule", { value: true }); /**
-	                                                                             * Copyright 2016 aixigo AG
+	                                                                             * Copyright 2017 aixigo AG
 	                                                                             * Released under the MIT license.
-	                                                                             * http://laxarjs.org/license
+	                                                                             * http://www.laxarjs.org
 	                                                                             */
 	
 	/* global chrome */
@@ -5999,18 +6004,16 @@ webpackJsonp([0],[
 	var _moment = __webpack_require__(383);var _moment2 = _interopRequireDefault(_moment);
 	var _tracker = __webpack_require__(493);var _tracker2 = _interopRequireDefault(_tracker);
 	var _AutoAffix = __webpack_require__(494);var _AutoAffix2 = _interopRequireDefault(_AutoAffix);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Copyright 2017 aixigo AG
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * Released under the MIT license.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * http://laxarjs.org/license
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */function create(context, reactRender) {'use strict';
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */var injections = ['axContext', 'axReactRender'];function create(context, reactRender) {'use strict';
 	
 	   var view = {
 	      showPatterns: false };
 	
 	
 	   var settingGroups = ['patterns', 'interactions', 'sources'];
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	   var patternTopics = {
 	      RESOURCE: ['didReplace', 'didUpdate'],
@@ -6019,11 +6022,7 @@ webpackJsonp([0],[
 	      CONTAINER: ['changeAreaVisibilityRequest', 'willChangeAreaVisibility', 'didChangeAreaVisibility'] };
 	
 	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	   context.resources = {};
-	
-	   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	   var patterns = [
 	   {
@@ -6759,9 +6758,9 @@ webpackJsonp([0],[
 	
 	         {
 	            this.setState({ showDetails: !this.state.showDetails });
-	         } }, { key: 'handleClick', value: function handleClick(
+	         } }, { key: 'handleClick', value: function handleClick()
 	
-	         e) {
+	         {
 	            this.props.onSelection(this.props.event);
 	         }
 	
@@ -7012,7 +7011,7 @@ webpackJsonp([0],[
 	
 	{
 	   name: 'events-display-widget',
-	   injections: ['axContext', 'axReactRender', 'axFlowService'],
+	   injections: injections,
 	   create: create };
 
 /***/ },
@@ -21904,10 +21903,11 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict'; /**
-	               * Copyright 2016 aixigo AG
+	               * Copyright 2017 aixigo AG
 	               * Released under the MIT license.
 	               * http://laxarjs.org/license
 	               */
+	
 	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 	__webpack_require__(25),
 	__webpack_require__(269)], __WEBPACK_AMD_DEFINE_RESULT__ = function (ax, patterns) {
@@ -22097,7 +22097,7 @@ webpackJsonp([0],[
 	      if (!payload.resource) {
 	         problems.push({ description: 'Event is missing "resource" field in payload.' });
 	      }
-	      var state;
+	      var state = void 0;
 	
 	      switch (verb) {
 	
@@ -22250,10 +22250,11 @@ webpackJsonp([0],[
 	var _laxar = __webpack_require__(25);
 	var _moment = __webpack_require__(383);var _moment2 = _interopRequireDefault(_moment);
 	var _AutoAffix = __webpack_require__(494);var _AutoAffix2 = _interopRequireDefault(_AutoAffix);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
-	                                                                                                                                                                                                             * Copyright 2016 aixigo AG
+	                                                                                                                                                                                                             * Copyright 2017 aixigo AG
 	                                                                                                                                                                                                             * Released under the MIT license.
 	                                                                                                                                                                                                             * http://laxarjs.org/license
-	                                                                                                                                                                                                             */function create(context, eventBus, reactRender) {'use strict';
+	                                                                                                                                                                                                             */var injections = ['axContext', 'axEventBus', 'axReactRender'];function create(context, eventBus, reactRender) {'use strict';
+	
 	   var model = {
 	      messages: [] };
 	
@@ -22361,7 +22362,7 @@ webpackJsonp([0],[
 	
 	{
 	   name: 'log-display-widget',
-	   injections: ['axContext', 'axEventBus', 'axReactRender'],
+	   injections: injections,
 	   create: create };
 
 /***/ },

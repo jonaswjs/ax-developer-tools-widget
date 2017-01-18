@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 aixigo AG
+ * Copyright 2017 aixigo AG
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
@@ -9,14 +9,15 @@ import { string } from 'laxar';
 import moment from 'moment';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 
+const injections = [ 'axContext', 'axEventBus', 'axReactRender' ];
 function create( context, eventBus, reactRender ) {
    'use strict';
 
-   var model = {
+   const model = {
       messages: []
    };
 
-   var commands = {
+   let commands = {
       discard: function() {
          model.messages.length = 0;
       }
@@ -86,7 +87,7 @@ function create( context, eventBus, reactRender ) {
             { !model.messages.length &&
                <div className="text-large">
                   <h4 className="text-primary">No Log Messages</h4>
-                  <p><i className="fa fa-clock-o"></i> Waiting for messages from host application...</p>
+                  <p><i className="fa fa-clock-o"/> Waiting for messages from host application...</p>
                </div>
             }
 
@@ -119,6 +120,6 @@ function create( context, eventBus, reactRender ) {
 
 export default {
    name: 'log-display-widget',
-   injections: [ 'axContext', 'axEventBus', 'axReactRender' ],
+   injections,
    create
 };

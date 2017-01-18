@@ -1,22 +1,23 @@
 /**
- * Copyright 2016 aixigo AG
+ * Copyright 2017 aixigo AG
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
+
 define( [
    'laxar',
    'laxar-patterns'
 ], function( ax, patterns ) {
 
-   var LIFECYCLE = 'lifecycle';
-   var ACTION = 'action';
-   var FLAG = 'flag';
-   var RESOURCE = 'resource';
-   var ERROR = 'error';
-   var OTHER = 'other';
+   const LIFECYCLE = 'lifecycle';
+   const ACTION = 'action';
+   const FLAG = 'flag';
+   const RESOURCE = 'resource';
+   const ERROR = 'error';
+   const OTHER = 'other';
 
 
-   var types = {
+   const types = {
       beginLifecycleRequest: LIFECYCLE,
 
       takeActionRequest: ACTION,
@@ -37,7 +38,7 @@ define( [
       didEncounterError: ERROR
    };
 
-   var states = {
+   let states = {
       resource: {},
       action: {},
       flag: {}
@@ -54,15 +55,15 @@ define( [
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function eventType( eventItem ) {
-      var topics = eventItem.event.split( '.' );
-      var verb = topics[ 0 ];
+      const topics = eventItem.event.split( '.' );
+      const verb = topics[ 0 ];
       return types[ verb ] || OTHER;
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function eventPatternTopic( eventItem ) {
-      var topics = eventItem.event.split( '.' );
+      const topics = eventItem.event.split( '.' );
       return topics[ 1 ];
    }
 
@@ -73,11 +74,11 @@ define( [
          return [];
       }
 
-      var sender = ( eventItem.source || 'unknown' ).replace( /.*#(.*)/g, '$1' );
-      var topics = eventItem.event.split( '.' );
-      var verb = topics[ 0 ];
-      var patternTopic = eventPatternTopic( eventItem );
-      var payload = eventItem.eventObject;
+      const sender = ( eventItem.source || 'unknown' ).replace( /.*#(.*)/g, '$1' );
+      const topics = eventItem.event.split( '.' );
+      const verb = topics[ 0 ];
+      const patternTopic = eventPatternTopic( eventItem );
+      const payload = eventItem.eventObject;
 
       if( !patternTopic ) {
          return [ { description: 'Event has an invalid name: The second topic is missing!' } ];
@@ -86,7 +87,7 @@ define( [
          return [ { description: 'Event has no payload!' } ];
       }
 
-      var type = eventType( eventItem );
+      const type = eventType( eventItem );
       if( type === LIFECYCLE ) {
          return resetEvents();
       }
@@ -116,12 +117,12 @@ define( [
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function trackActionEvent( payload, subject, verb, actionName ) {
-      var problems = [];
+      const problems = [];
       if( !payload.action ) {
          problems.push( { description: 'Event is missing "action" field in payload.' } );
       }
 
-      var state = states.action[ actionName ] = states.action[ actionName ] || {
+      const state = states.action[ actionName ] = states.action[ actionName ] || {
          state: 'inactive',
          numRequests: 0,
          requestedBy: null,
@@ -164,7 +165,7 @@ define( [
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function trackFlagEvent( payload, sender, verb, flagName ) {
-      var problems = [];
+      const problems = [];
       if( !payload.flag ) {
          problems.push( { description: 'Event is missing "flag" field in payload.' } );
       }
@@ -189,11 +190,11 @@ define( [
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function trackResourceEvent( payload, sender, verb, resourceName ) {
-      var problems = [];
+      const problems = [];
       if( !payload.resource ) {
          problems.push( { description: 'Event is missing "resource" field in payload.' } );
       }
-      var state;
+      let state;
 
       switch( verb ) {
 
