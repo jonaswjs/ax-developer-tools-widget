@@ -7,8 +7,8 @@
 /* global chrome */
 
 export function axDeveloperToolsToggleGrid( gridSettings ) {
-   var hostDocument;
-   var id = 'laxar-developer-tools-grid';
+   let hostDocument;
+   const id = 'laxar-developer-tools-grid';
    if( window.chrome && chrome.runtime && chrome.runtime.id ) {
       hostDocument = window.document;
    }
@@ -16,7 +16,7 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
       hostDocument = applicationWindow().document;
    }
 
-   var grid = hostDocument.getElementById( id );
+   const grid = hostDocument.getElementById( id );
    if( grid === null ) {
       createGrid( id );
    }
@@ -36,13 +36,13 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function createGrid( id ){
-      var grid = hostDocument.createElement( 'div' );
+      const grid = hostDocument.createElement( 'div' );
       grid.setAttribute( 'id', id );
       createSettings();
-      Object.keys( gridSettings.css ).forEach( function( key ) {
+      Object.keys( gridSettings.css ).forEach( ( key ) => {
          grid.style[ key ] = gridSettings.css[ key ];
       } );
-      var anchorElement = hostDocument.querySelector( gridSettings.anchor );
+      const anchorElement = hostDocument.querySelector( gridSettings.anchor );
       anchorElement.insertBefore(
          grid,
          anchorElement.childNodes[ 0 ]
@@ -63,7 +63,7 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
          css: gridSettings.css || {}
       };
 
-      var defaultCss = {
+      const defaultCss = {
          'background-position': gridSettings.columns.padding + 'px 0',
          'margin': '0 auto',
          'padding': '0 ' + gridSettings.columns.padding + 'px',
@@ -102,13 +102,13 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function columnBackgroundUri( settings ) {
-      var bgCanvas = document.createElement( 'canvas' );
-      var height = 64;
-      var width = parseInt( settings.width );
-      var padding = parseInt( settings.padding );
+      const bgCanvas = document.createElement( 'canvas' );
+      const height = 64;
+      const width = parseInt( settings.width );
+      const padding = parseInt( settings.padding );
       bgCanvas.width = width + parseInt( settings.gutter );
       bgCanvas.height = height;
-      var context = bgCanvas.getContext( '2d' );
+      const context = bgCanvas.getContext( '2d' );
       // padding
       context.fillStyle = 'rgba(229, 111, 114, 0.25)';
       context.fillRect( 0, 0, padding, height );

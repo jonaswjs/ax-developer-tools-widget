@@ -1566,7 +1566,7 @@ webpackJsonp([0],[
 	                                                                                                        * Copyright 2016 aixigo AG
 	                                                                                                        * Released under the MIT license.
 	                                                                                                        * http://www.laxarjs.org
-	                                                                                                        */var toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper'];function create(context, eventBus, reactRender, flowService, areaHelper) {
+	                                                                                                        */var toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'];function create(context, eventBus, reactRender, flowService, areaHelper, axVisibility) {
 	   'use strict';
 	   var visible = false;
 	   var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
@@ -1665,19 +1665,7 @@ webpackJsonp([0],[
 	      if (!newTab) {
 	         return;
 	      }
-	
-	      if (model.activeTab !== newTab) {
-	         publishVisibility(model.activeTab, false);
-	         publishVisibility(newTab, true);
-	      }
 	      model.activeTab = newTab;
-	
-	      function publishVisibility(tab, visible) {
-	         if (tab) {
-	            var area = context.widget.id + '.' + tab.name;
-	            _laxarPatterns.visibility.requestPublisherForArea(context, area)(visible);
-	         }
-	      }
 	      render();
 	   });
 	
@@ -1799,7 +1787,8 @@ webpackJsonp([0],[
 	               areaHelper: areaHelper,
 	               css: 'app-tab app-tab-page',
 	               name: tab.name,
-	               activeTab: model.activeTab }));
+	               activeTab: model.activeTab,
+	               axVisibility: axVisibility }));
 	
 	
 	      });
@@ -1840,7 +1829,7 @@ webpackJsonp([0],[
 	      _react2.default.createElement('div', null,
 	         optionButtons,
 	         navTab,
-	         !!model.laxar && widgetAreas));
+	         model.laxar && widgetAreas));
 	
 	
 	   }
@@ -4817,7 +4806,7 @@ webpackJsonp([0],[
 /* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();var _react = __webpack_require__(268);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}var
+	'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();var _react = __webpack_require__(268);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}var
 	
 	AxWidgetArea = function (_React$Component) {_inherits(AxWidgetArea, _React$Component);
 	
@@ -4841,7 +4830,12 @@ webpackJsonp([0],[
 	         var divStyle = {};
 	         if (this.props.activeTab === null || this.props.activeTab && this.props.activeTab.name !== this.props.name) {
 	            divStyle = { display: 'none' };
+	            this.props.axVisibility.updateAreaVisibility(_defineProperty({}, this.props.name, false));
+	         } else
+	         {
+	            this.props.axVisibility.updateAreaVisibility(_defineProperty({}, this.props.name, true));
 	         }
+	
 	         return (
 	            _react2.default.createElement('div', { 'data-ax-widget-area': this.props.name,
 	               style: divStyle,
@@ -4867,7 +4861,7 @@ webpackJsonp([0],[
 	                                                          * Copyright 2016 aixigo AG
 	                                                          * Released under the MIT license.
 	                                                          * http://laxarjs.org/license
-	                                                          */ /* global chrome */function axDeveloperToolsToggleGrid(gridSettings) {var hostDocument;var id = 'laxar-developer-tools-grid';if (window.chrome && chrome.runtime && chrome.runtime.id) {hostDocument = window.document;
+	                                                          */ /* global chrome */function axDeveloperToolsToggleGrid(gridSettings) {var hostDocument = void 0;var id = 'laxar-developer-tools-grid';if (window.chrome && chrome.runtime && chrome.runtime.id) {hostDocument = window.document;
 	   } else
 	   {
 	      hostDocument = applicationWindow().document;
@@ -4990,10 +4984,9 @@ webpackJsonp([0],[
 	/* global chrome */
 	
 	var axDeveloperToolsToggleWidgetOutline = exports.axDeveloperToolsToggleWidgetOutline = function () {
-	   var infoId;
-	   var isBrowserWebExtension;
-	   var document;
-	
+	   var infoId = void 0;
+	   var isBrowserWebExtension = void 0;
+	   var document = void 0;
 	   var INFO_LAYER_STYLE = {
 	      'position': 'fixed',
 	      'top': '-5px',

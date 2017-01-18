@@ -7,11 +7,10 @@
 /* global chrome */
 
 export const axDeveloperToolsToggleWidgetOutline = function () {
-   var infoId;
-   var isBrowserWebExtension;
-   var document;
-
-   var INFO_LAYER_STYLE = {
+   let infoId;
+   let isBrowserWebExtension;
+   let document;
+   const INFO_LAYER_STYLE = {
       'position': 'fixed',
       'top': '-5px',
       'left': '-5px',
@@ -30,9 +29,9 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
       isBrowserWebExtension = isBrowserWebExtension || ( window.chrome && chrome.runtime && chrome.runtime.id );
       document = hostDocument();
 
-      var cssClassName = 'ax-developer-tools-widget-outline';
-      var widgets = document.querySelectorAll( '[data-ax-widget-area] > div' );
-      for( var j = 0; j < widgets.length; ++j ) {
+      const cssClassName = 'ax-developer-tools-widget-outline';
+      const widgets = document.querySelectorAll( '[data-ax-widget-area] > div' );
+      for( let j = 0; j < widgets.length; ++j ) {
          if( widgets[ j ].classList.contains( cssClassName ) ){
             widgets[ j ].removeEventListener( 'mouseover', listener, false );
             widgets[ j ].classList.remove( cssClassName );
@@ -42,7 +41,7 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
             widgets[ j ].addEventListener( 'mouseover', listener, false );
          }
       }
-      var info = document.getElementById( infoId );
+      const info = document.getElementById( infoId );
       if( info ) {
          info.parentNode.removeChild( info );
       }
@@ -51,7 +50,7 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function listener( event ){
-      var widgetClass = this.className.split( /\s+/ ).filter( function( _ ) {
+      const widgetClass = this.className.split( /\s+/ ).filter( function( _ ) {
          return !!_.match( /(-widget|-activity)$/ );
       } ).concat( 'unknown' )[ 0 ];
       infoLayer().innerHTML = '<strong>' + widgetClass + '</strong><br>ID: ' + this.id ;
@@ -60,7 +59,7 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function infoLayer() {
-      var info = document.getElementById( infoId );
+      let info = document.getElementById( infoId );
 
       if( !info ) {
          info = document.createElement( 'div' );

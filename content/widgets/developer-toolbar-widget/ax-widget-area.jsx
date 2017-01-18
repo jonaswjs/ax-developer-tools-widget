@@ -22,7 +22,12 @@ export default class AxWidgetArea extends React.Component {
       let divStyle = {};
       if( this.props.activeTab === null || ( this.props.activeTab && this.props.activeTab.name !== this.props.name ) ) {
          divStyle = { display: 'none' };
+         this.props.axVisibility.updateAreaVisibility( { [ this.props.name ]: false } );
       }
+      else {
+         this.props.axVisibility.updateAreaVisibility( { [ this.props.name ]: true } );
+      }
+
       return (
          <div data-ax-widget-area={ this.props.name }
               style={divStyle}

@@ -15,8 +15,8 @@ import * as developerToolsToggleWidgetOutline from '../../lib/laxar-developer-to
 const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToolsToggleWidgetOutline;
 const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
 
-const injections = [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper' ];
-function create( context, eventBus, reactRender, flowService, areaHelper ) {
+const injections = [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility' ];
+function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility ) {
    'use strict';
    let visible = false;
    const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
@@ -111,23 +111,11 @@ function create( context, eventBus, reactRender, flowService, areaHelper ) {
    eventBus.subscribe( 'didNavigate', function( event ) {
       const newName = event.data[ context.features.tabs.parameter ];
 
-      const newTab = TABS.filter( function( _ ) { return _.name === newName; } )[ 0 ];
+      const newTab = TABS.filter( ( _ ) => { return _.name === newName; } )[ 0 ];
       if( !newTab ) {
          return;
       }
-
-      if( model.activeTab !== newTab ) {
-         publishVisibility( model.activeTab, false );
-         publishVisibility( newTab, true );
-      }
       model.activeTab = newTab;
-
-      function publishVisibility( tab, visible ) {
-         if( tab ) {
-            const area = context.widget.id + '.' + tab.name;
-            visibility.requestPublisherForArea( context, area )( visible );
-         }
-      }
       render();
    } );
 
@@ -136,7 +124,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper ) {
         visible = true;
         render();
      }
-  } );
+   } );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -250,6 +238,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper ) {
                css="app-tab app-tab-page"
                name={ tab.name }
                activeTab={ model.activeTab }
+               axVisibility={axVisibility}
             />
          );
       } );
@@ -290,7 +279,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper ) {
          <div>
             { optionButtons }
             { navTab }
-            { !!model.laxar && widgetAreas }
+            { model.laxar && widgetAreas }
          </div>
       );
    }
