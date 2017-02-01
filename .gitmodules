@@ -10,3 +10,6 @@
 [submodule "content/lib/laxar-uikit"]
 	path = content/lib/laxar-uikit
 	url = https://github.com/LaxarJS/laxar-uikit.git
+[submodule "content/includes/lib/laxar-mocks"]
+	path = content/lib/laxar-mocks
+	url = git@github.com:LaxarJS/laxar-mocks.git
