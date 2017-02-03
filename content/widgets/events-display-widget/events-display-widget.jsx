@@ -94,12 +94,17 @@ function create( context, reactRender ) {
    };
 
    resources.handlerFor( context ).registerResourceFromFeature( 'filter', {
-      onUpdateReplace: () => { runFilters(); render(); },
+      onUpdateReplace: () => {
+         console.log( context.filter );
+         runFilters();
+         render();
+      },
       isOptional: true
    } );
 
    if( context.features.events.stream ) {
       context.eventBus.subscribe( 'didProduce.' + context.features.events.stream, function( event ) {
+         console.log( event );
          if( Array.isArray( event.data ) && event.data.length ) {
             event.data.forEach( addEvent );
          }
@@ -869,6 +874,7 @@ function create( context, reactRender ) {
                />
             );
          } );
+         console.log(events)
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -970,6 +976,7 @@ function create( context, reactRender ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function render() {
+
       reactRender(
          <div>
             <AutoAffix>

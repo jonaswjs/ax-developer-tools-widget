@@ -4,7 +4,7 @@
  * http://laxarjs.org/license
  */
 define( [
-   'json!../widget.json',
+   '../widget.json',
    'laxar-mocks'
 ], function( descriptor, axMocks ) {
    'use strict';

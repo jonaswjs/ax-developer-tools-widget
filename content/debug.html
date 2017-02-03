@@ -7,9 +7,11 @@
    <title>LaxarJS Developer Tools</title>
 </head>
 <body>
-<div data-ax-page></div>
+   <div data-ax-page></div>
 
-<script src="var/build/vendor.bundle.js"></script>
-<script src="var/build/app.bundle.js"></script>
+   <script src="node_modules/source-map-support/browser-source-map-support.js"></script>
+   <script>sourceMapSupport.install();</script>
+   <script src="var/build/vendor.bundle.js"></script>
+   <script src="var/build/app.bundle.js"></script>
 </body>
 </html>

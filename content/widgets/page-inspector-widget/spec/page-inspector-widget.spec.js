@@ -4,7 +4,7 @@
  * http://laxarjs.org/license
  */
 define( [
-   'json!../widget.json',
+   '../widget.json',
    'laxar-mocks',
    'laxar-react-adapter'
 ], function( descriptor, axMocks, axReactAdapter ) {

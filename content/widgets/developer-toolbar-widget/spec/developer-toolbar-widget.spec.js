@@ -4,26 +4,27 @@
  * http://www.laxarjs.org
  */
 define( [
-   'json!../widget.json',
-   'laxar-mocks'
-], function( descriptor, axMocks ) {
+   '../widget.json',
+   'laxar-mocks',
+   'laxar-react-adapter'
+], function( descriptor, axMocks, axReactAdapter) {
    'use strict';
 
    describe( 'The developer-toolbar-widget', function() {
+      let widgetDom;
 
-      var testBed;
-
-      beforeEach( axMocks.createSetupForWidget( descriptor ) );
-
-      beforeEach( function() {
+      beforeEach( axMocks.createSetupForWidget( descriptor, { adapter: axReactAdapter } ) );
+      beforeEach( () => {
          axMocks.widget.configure( {
             grid: {
                resource: 'gridSettings'
             }
          } );
       } );
-
       beforeEach( axMocks.widget.load );
+      beforeEach( () => {
+         widgetDom = axMocks.widget.render();
+      } );
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,6 +33,7 @@ define( [
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       it( 'allows for the grid visualization layer to be configured through a resource (R2.2)', function() {
+         console.log( axMocks )
          expect( axMocks.widget.axEventBus.subscribe ).toHaveBeenCalledWith( 'didReplace.gridSettings', jasmine.any( Function ) );
       } );
 
