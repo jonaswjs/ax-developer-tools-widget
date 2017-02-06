@@ -95,7 +95,6 @@ function create( context, reactRender ) {
 
    resources.handlerFor( context ).registerResourceFromFeature( 'filter', {
       onUpdateReplace: () => {
-         console.log( context.filter );
          runFilters();
          render();
       },
@@ -104,7 +103,6 @@ function create( context, reactRender ) {
 
    if( context.features.events.stream ) {
       context.eventBus.subscribe( 'didProduce.' + context.features.events.stream, function( event ) {
-         console.log( event );
          if( Array.isArray( event.data ) && event.data.length ) {
             event.data.forEach( addEvent );
          }
@@ -698,7 +696,7 @@ function create( context, reactRender ) {
       }
 
       render() {
-         let classNames = 'btn btn-primary btn-sm';
+         let classNames = 'ax-discard-events btn btn-primary btn-sm';
 
          if( this.props.eventInfosLength === 0 ) {
             classNames = classNames + ' ax-disabled'
@@ -777,10 +775,11 @@ function create( context, reactRender ) {
       //////////////////////////////////////////////////////////////////////////////////////////////////
 
       render() {
-         const cssClassName = 'ax-event-pattern-' + this.props.event.pattern +
-                        ' ax-event-interaction-' + this.props.event.interaction +
-                        ( this.props.event.selected ? ' ax-event-selected' : '' ) +
-                        ( this.props.event.problems.length ? ' ax-event-has-problems' : '' );
+         const cssClassName = 'ax-event-body ' +
+                              'ax-event-pattern-' + this.props.event.pattern +
+                              ' ax-event-interaction-' + this.props.event.interaction +
+                              ( this.props.event.selected ? ' ax-event-selected' : '' ) +
+                              ( this.props.event.problems.length ? ' ax-event-has-problems' : '' );
          const eventSummaryRow = (
             <tr className="ax-event-summary">
                <td className="ax-col-pattern-icon"
@@ -874,7 +873,6 @@ function create( context, reactRender ) {
                />
             );
          } );
-         console.log(events)
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -15,11 +15,13 @@ describe( 'An events-display-widget', function() {
    const bufferSize = 9;
    let widgetDom;
    let metaEvents;
+   let metaEvents2;
 
    beforeEach( axMocks.createSetupForWidget( descriptor, { adapter: axReactAdapter } ) );
 
    beforeEach( function() {
       metaEvents = specData.metaEvents;
+      metaEvents2 = specData.metaEvents2;
 
       axMocks.widget.configure( {
          events: {
@@ -54,43 +56,32 @@ describe( 'An events-display-widget', function() {
       /////////////////////////////////////////////////////////////////////////////////////////////////////
 
       it( 'represents each event item if not filtered out (R1.2)', function() {
-         console.log(widgetDom);
-
-         // let table = ReactTestUtils.scryRenderedDOMComponentsWithClass(
-         //    widgetDom,
-         //    'table'
-         // );
-         // console.log(table);
-         expect( ReactTestUtils.isDOMComponent(widgetDom) ).toBe( true );
-         // let a = ReactTestUtils.findAllInRenderedTree( table, ReactTestUtils.isElement() );
-         // console.log(a);
-         // const expectedVisibleItems = axMocks.widget.axContext.model.eventInfos.filter( function( info ) {
-         //    return info.interaction in { 'publish': 1, 'deliver': 1 } &&
-         //           -1 === info.source.indexOf( 'AxFlowController' );
-         // } );
-         // expect( axMocks.widget.$scope.model.visibleEventInfos ).toEqual( expectedVisibleItems );
+         expect( widgetDom.querySelectorAll( '.ax-event-summary' ).length ).toEqual( 5 );
       } );
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      xit( 'maintains a buffer of limited size (R1.3)', function() {
-         expect( axMocks.widget.$scope.model.eventInfos.length ).toEqual( bufferSize );
+      it( 'maintains a buffer of limited size (R1.3)', function() {
+         axMocks.eventBus.publish( 'didProduce.myEventStream', { data: metaEvents2 } );
+         axMocks.eventBus.flush();
+         const filtered = 2;
+         expect( widgetDom.querySelectorAll( '.ax-event-summary' ).length ).toEqual( bufferSize - filtered );
       } );
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      xit( 'offers the user to clear the buffer manually, removing all event rows from view (R1.4)', function() {
-         axMocks.widget.$scope.commands.discard();
-         expect( axMocks.widget.$scope.model.eventInfos.length ).toEqual( 0 );
-         expect( axMocks.widget.$scope.model.visibleEventInfos.length ).toEqual( 0 );
+      it( 'offers the user to clear the buffer manually, removing all event rows from view (R1.4)', function() {
+         expect( widgetDom.querySelectorAll( '.ax-event-summary' ).length ).not.toEqual( 0 );
+         widgetDom.querySelector( '.ax-discard-events' ).click();
+         expect( widgetDom.querySelectorAll( '.ax-event-summary' ).length ).toEqual( 0 );
       } );
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      xit( 'allows for the user to select events rows, resulting in a highlighted representation (R1.5)', function() {
-         expect( axMocks.widget.$scope.model.visibleEventInfos[ 0 ].selected ).toBe( false );
-         axMocks.widget.$scope.commands.select( axMocks.widget.$scope.model.visibleEventInfos[ 0 ] );
-         expect( axMocks.widget.$scope.model.visibleEventInfos[ 0 ].selected ).toBe( true );
+      it( 'allows for the user to select events rows, resulting in a highlighted representation (R1.5)', function() {
+         expect( widgetDom.querySelector( '.ax-event-body' ).classList.contains( 'ax-event-selected' ) ).toBe( false );
+         widgetDom.querySelectorAll( '.ax-event-body' )[ 0 ].click();
+         expect( widgetDom.querySelector( '.ax-event-body' ).classList.contains( 'ax-event-selected' ) ).toBe( true );
       } );
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,6 +89,7 @@ describe( 'An events-display-widget', function() {
       describe( 'When a row with interaction type _publish_ or _subscribe_ is highlighted', function() {
 
          beforeEach( function() {
+ console.log( widgetDom );
             axMocks.widget.$scope.model.settings.sources.runtime = true;
             axMocks.widget.$scope.$digest();
             // select publish for takeActionRequest.doStuff
