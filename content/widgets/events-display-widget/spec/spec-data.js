@@ -76,7 +76,7 @@ export const metaEvents = [
    }
 ];
 
-export const metaEvents2 = [
+export const otherMetaEvents = [
    {
       action: 'subscribe',
       event: 'takeActionRequest.doStuff',

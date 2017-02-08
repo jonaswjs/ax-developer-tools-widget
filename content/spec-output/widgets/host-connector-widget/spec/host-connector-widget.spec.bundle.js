@@ -63,12 +63,83 @@
 /******/ 	__webpack_require__.p = "/spec-output/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 486);
+/******/ 	return __webpack_require__(__webpack_require__.s = 490);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
+/***/ 100:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.woff";
+
+/***/ }),
+
+/***/ 101:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.woff2";
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/fontawesome-webfont.eot";
+
+/***/ }),
+
+/***/ 103:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/fontawesome-webfont.eot";
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/fontawesome-webfont.ttf";
+
+/***/ }),
+
+/***/ 105:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/fontawesome-webfont.woff2";
+
+/***/ }),
+
+/***/ 106:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/fontawesome-webfont.woff";
+
+/***/ }),
+
+/***/ 107:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.svg";
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "assets/fontawesome-webfont.svg";
+
+/***/ }),
+
+/***/ 109:
+/***/ (function(module, exports, __webpack_require__) {
+
+var resource = __webpack_require__( 111 );
+module.exports = typeof resource === 'string' ? resource : null;
+
+/***/ }),
+
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -7671,77 +7742,6 @@
 
 /***/ }),
 
-/***/ 100:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.woff";
-
-/***/ }),
-
-/***/ 101:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.woff2";
-
-/***/ }),
-
-/***/ 102:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/fontawesome-webfont.eot";
-
-/***/ }),
-
-/***/ 103:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/fontawesome-webfont.eot";
-
-/***/ }),
-
-/***/ 104:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/fontawesome-webfont.ttf";
-
-/***/ }),
-
-/***/ 105:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/fontawesome-webfont.woff2";
-
-/***/ }),
-
-/***/ 106:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/fontawesome-webfont.woff";
-
-/***/ }),
-
-/***/ 107:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.svg";
-
-/***/ }),
-
-/***/ 108:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/fontawesome-webfont.svg";
-
-/***/ }),
-
-/***/ 109:
-/***/ (function(module, exports, __webpack_require__) {
-
-var resource = __webpack_require__( 111 );
-module.exports = typeof resource === 'string' ? resource : null;
-
-/***/ }),
-
 /***/ 110:
 /***/ (function(module, exports) {
 
@@ -7905,7 +7905,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 21:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -8092,13 +8092,13 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 24:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof3 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 (function webpackUniversalModuleDefinition(root, factory) {
-  if (( false ? 'undefined' : _typeof3(exports)) === 'object' && ( false ? 'undefined' : _typeof3(module)) === 'object') module.exports = factory(__webpack_require__(10));else if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+  if (( false ? 'undefined' : _typeof3(exports)) === 'object' && ( false ? 'undefined' : _typeof3(module)) === 'object') module.exports = factory(__webpack_require__(11));else if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else if ((typeof exports === 'undefined' ? 'undefined' : _typeof3(exports)) === 'object') exports["laxar-mocks"] = factory(require("laxar"));else root["laxar-mocks"] = factory(root["laxar"]);
@@ -20415,12 +20415,12 @@ module.exports = function(module) {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* global __resourceQuery */
-module.exports = __webpack_require__( 453 );
+module.exports = __webpack_require__( 454 );
 
 
 /***/ }),
 
-/***/ 394:
+/***/ 395:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -20511,7 +20511,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 403:
+/***/ 404:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20732,7 +20732,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__; /**
 
 /***/ }),
 
-/***/ 453:
+/***/ 454:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
@@ -20843,7 +20843,7 @@ module.exports = {
             controls: [],
             compatibility: []
          },
-         module: __webpack_require__( 403 ),
+         module: __webpack_require__( 404 ),
          assets: { "default.theme": {} }
       }
    ],
@@ -20852,129 +20852,150 @@ module.exports = {
 
 /***/ }),
 
-/***/ 486:
+/***/ 490:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;__webpack_require__(24).fixtures["host-connector-widget"] = {
-   adapter: undefined,
-   artifacts: __webpack_require__(389),
-   configuration: { baseHref: '/' } };
-/**
-                                       * Copyright 2016 aixigo AG
-                                       * Released under the MIT license.
-                                       * http://laxarjs.org/license
-                                       */
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-__webpack_require__(394),
-__webpack_require__(24)], __WEBPACK_AMD_DEFINE_RESULT__ = function (descriptor, axMocks) {
-   'use strict';
-
-   describe('A host-connector-widget', function () {
-
-      var testBed;
-      var fakeChannel;
-
-
-      beforeEach(axMocks.createSetupForWidget(descriptor));
-
-      beforeEach(function () {
-         // fake the AxDeveloperToolsWidget presence in the opener window:
-         window.opener = {
-            axDeveloperTools: {
-               buffers: {
-                  events: [],
-                  log: [] } } };
 
 
 
 
-         fakeChannel = window.opener.axDeveloperTools;
-
-         axMocks.widget.configure({
-            events: {
-               stream: 'eventBusItems' },
-
-            log: {
-               stream: 'logItems' },
-
-            grid: {
-               resource: 'gridSettings' },
-
-            pageInfo: {
-               resource: 'page' },
-
-            laxarApplication: {
-               flag: 'isLaxarApplication' } });
 
 
-      });
-
-      beforeEach(axMocks.widget.load);
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      afterEach(axMocks.tearDown);
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      it('polls the host application for event bus interactions and publishes them through the configured stream topic (R1.1)',
-      function (done) {
-         axMocks.eventBus.publish('beginLifecycleRequest');
-         axMocks.eventBus.flush();
-         expect(axMocks.widget.axEventBus.publish).not.toHaveBeenCalledWith('didProduce.logItems', jasmine.any(Object));
-         fakeChannel.buffers.events.push({ index: 0, json: JSON.stringify({ fake: 'event item' }) });
-         window.setTimeout(function () {
-            expect(axMocks.widget.axEventBus.publish).not.toHaveBeenCalledWith('didProduce.logItems', jasmine.any(Object));
-            window.setTimeout(function () {
-               expect(axMocks.widget.axEventBus.publish).toHaveBeenCalledWith('didProduce.eventBusItems', {
-                  stream: 'eventBusItems',
-                  data: [{ fake: 'event item' }] });
-
-               done();
-            }, 21);
-         }, 80);
-      });
 
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      it('polls the host application for log messages and publishes them through the configured stream topic (R1.2)',
-      function (done) {
-         axMocks.eventBus.publish('beginLifecycleRequest');
-         axMocks.eventBus.flush();
-
-         expect(axMocks.widget.axEventBus.publish).not.toHaveBeenCalledWith('didProduce.logItems', jasmine.any(Object));
-         fakeChannel.buffers.log.push({ index: 0, json: JSON.stringify({ fake: 'log item' }) });
-         window.setTimeout(function () {
-            expect(axMocks.widget.axEventBus.publish).not.toHaveBeenCalledWith('didProduce.logItems', jasmine.any(Object));
-            window.setTimeout(function () {
-               expect(axMocks.widget.axEventBus.publish).toHaveBeenCalledWith('didProduce.logItems', {
-                  stream: 'logItems',
-                  data: [{ fake: 'log item' }] });
-
-               done();
-            }, 21);
-         }, 80);
-      });
 
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+var _widget = __webpack_require__(395);var _widget2 = _interopRequireDefault(_widget);
+var _laxarMocks = __webpack_require__(28);var axMocks = _interopRequireWildcard(_laxarMocks);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}__webpack_require__(28).fixtures["host-connector-widget"] = { adapter: undefined, artifacts: __webpack_require__(389), configuration: { baseHref: '/' } }; /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * Copyright 2016 aixigo AG
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * Released under the MIT license.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * http://laxarjs.org/license
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */describe('A host-connector-widget', function () {var fakeChannel = void 0;
 
-      it('polls the host application for CSS grid settings and publishes them through the configured resource (R1.3)', function () {
-         fakeChannel.gridSettings = { fake: 'grid' };
-         axMocks.eventBus.publish('beginLifecycleRequest');
-         axMocks.eventBus.flush();
-         expect(axMocks.widget.axEventBus.publish).toHaveBeenCalledWith('didReplace.gridSettings', {
-            resource: 'gridSettings',
-            data: { fake: 'grid' } });
+   var widgetEventBus = void 0;
+   var testEventBus = void 0;
 
-      });
+   beforeEach(axMocks.createSetupForWidget(_widget2.default));
+
+   beforeEach(function () {
+      // fake the AxDeveloperToolsWidget presence in the opener window:
+      window.opener = {
+         axDeveloperTools: {
+            buffers: {
+               events: [],
+               log: [] } } };
+
+
+
+
+      fakeChannel = window.opener.axDeveloperTools;
+
+      axMocks.widget.configure({
+         events: {
+            stream: 'eventBusItems' },
+
+         log: {
+            stream: 'logItems' },
+
+         grid: {
+            resource: 'gridSettings' },
+
+         pageInfo: {
+            resource: 'page' },
+
+         laxarApplication: {
+            flag: 'isLaxarApplication' } });
+
 
    });
 
-}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+   beforeEach(axMocks.widget.load);
+
+   beforeEach(function () {
+      widgetEventBus = axMocks.widget.axEventBus;
+      testEventBus = axMocks.eventBus;
+   });
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   afterEach(axMocks.tearDown);
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   it('polls the host application for event bus interactions and publishes them through the configured stream topic (R1.1)',
+   function (done) {
+      testEventBus.publish('beginLifecycleRequest');
+      testEventBus.flush();
+      expect(widgetEventBus.publish).not.toHaveBeenCalledWith(
+      'didProduce.logItems',
+      jasmine.any(Object));
+
+      fakeChannel.buffers.events.push({ index: 0, json: JSON.stringify({ fake: 'event item' }) });
+      window.setTimeout(function () {
+         expect(widgetEventBus.publish).not.toHaveBeenCalledWith(
+         'didProduce.logItems',
+         jasmine.any(Object));
+
+         window.setTimeout(function () {
+            expect(widgetEventBus.publish).toHaveBeenCalledWith(
+            'didProduce.eventBusItems',
+            {
+               stream: 'eventBusItems',
+               data: [{ fake: 'event item' }] });
+
+
+            done();
+         }, 21);
+      }, 80);
+   });
+
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   it('polls the host application for log messages and publishes them through the configured stream topic (R1.2)',
+   function (done) {
+      testEventBus.publish('beginLifecycleRequest');
+      testEventBus.flush();
+      expect(widgetEventBus.publish).not.toHaveBeenCalledWith(
+      'didProduce.logItems',
+      jasmine.any(Object));
+
+      fakeChannel.buffers.log.push({ index: 0, json: JSON.stringify({ fake: 'log item' }) });
+      window.setTimeout(function () {
+         expect(widgetEventBus.publish).not.toHaveBeenCalledWith(
+         'didProduce.logItems',
+         jasmine.any(Object));
+
+         window.setTimeout(function () {
+            expect(widgetEventBus.publish).toHaveBeenCalledWith(
+            'didProduce.logItems',
+            {
+               stream: 'logItems',
+               data: [{ fake: 'log item' }] });
+
+
+            done();
+         }, 21);
+      }, 80);
+   });
+
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   it('polls the host application for CSS grid settings and publishes them through the configured resource (R1.3)',
+   function () {
+      fakeChannel.gridSettings = { fake: 'grid' };
+      testEventBus.publish('beginLifecycleRequest');
+      testEventBus.flush();
+      expect(widgetEventBus.publish).toHaveBeenCalledWith('didReplace.gridSettings', {
+         resource: 'gridSettings',
+         data: { fake: 'grid' } });
+
+   });
+
+
+});
 
 /***/ }),
 
@@ -21669,7 +21690,7 @@ module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.eo
 
   page.sameOrigin = sameOrigin;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
 

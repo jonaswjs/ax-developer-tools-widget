@@ -18,6 +18,7 @@ const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
 const injections = [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility' ];
 function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility ) {
    'use strict';
+   console.log(axVisibility)
    let visible = false;
    const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    const HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';

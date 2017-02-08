@@ -46613,6 +46613,7 @@ var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToo
                                                                                                         * http://www.laxarjs.org
                                                                                                         */var toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'];function create(context, eventBus, reactRender, flowService, areaHelper, axVisibility) {
    'use strict';
+   console.log(axVisibility);
    var visible = false;
    var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    var HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
@@ -46992,7 +46993,10 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
 
 
    _laxarPatterns.resources.handlerFor(context).registerResourceFromFeature('filter', {
-      onUpdateReplace: function onUpdateReplace() {runFilters();render();},
+      onUpdateReplace: function onUpdateReplace() {
+         runFilters();
+         render();
+      },
       isOptional: true });
 
 
@@ -47440,15 +47444,16 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
          } }, { key: 'render', value: function render()
 
          {
-            var toggleClassNames = 'fa pull-right ax-event-setting-toggle' + (
+            var toggleClassName = 'fa pull-right ax-event-setting-toggle' + (
             this.props.enabled ? ' fa-toggle-on' : ' fa-toggle-off');
+            var buttonClassName = "btn btn-link ax-event-setting-toggle ax-events-display-" + this.props.text;
             return (
                _react2.default.createElement('button', {
                      type: 'button',
-                     className: 'btn btn-link ax-event-setting-toggle',
+                     className: buttonClassName,
                      onClick: this.handleClick }, this.props.icon &&
                   _react2.default.createElement('span', { className: 'ax-event-pattern' }, _react2.default.createElement(PatternsHtmlIcon, { name: this.props.text })),
-                  this.props.text, ' ', _react2.default.createElement('i', { className: toggleClassNames })));
+                  this.props.text, ' ', _react2.default.createElement('i', { className: toggleClassName })));
 
 
          } }]);return SettingsToggleButton;}(_react2.default.Component);
@@ -47591,7 +47596,7 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
          } }, { key: 'render', value: function render()
 
          {
-            var classNames = 'btn btn-primary btn-sm';
+            var classNames = 'ax-discard-events btn btn-primary btn-sm';
 
             if (this.props.eventInfosLength === 0) {
                classNames = classNames + ' ax-disabled';
@@ -47670,7 +47675,8 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
          //////////////////////////////////////////////////////////////////////////////////////////////////
       }, { key: 'render', value: function render()
          {
-            var cssClassName = 'ax-event-pattern-' + this.props.event.pattern +
+            var cssClassName = 'ax-event-body ' +
+            'ax-event-pattern-' + this.props.event.pattern +
             ' ax-event-interaction-' + this.props.event.interaction + (
             this.props.event.selected ? ' ax-event-selected' : '') + (
             this.props.event.problems.length ? ' ax-event-has-problems' : '');
@@ -47868,6 +47874,7 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function render() {
+
       reactRender(
       _react2.default.createElement('div', null,
          _react2.default.createElement(_AutoAffix2.default, null,
@@ -48438,6 +48445,7 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
          {
             displayLogMessage(event.data);
          }
+         render();
       });
    }
 
@@ -48456,6 +48464,8 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
       }
    }
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    function discard() {
       model.messages.length = 0;
       render();
@@ -48464,7 +48474,6 @@ var _AutoAffix = __webpack_require__(229);var _AutoAffix2 = _interopRequireDefau
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function render() {
-
       function formatTime(date) {
          return (0, _moment2.default)(date).format('YYYY-MM-DD HH:mm:ss.SSS');
       }

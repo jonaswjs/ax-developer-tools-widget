@@ -3,113 +3,134 @@
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
-define( [
-   '../widget.json',
-   'laxar-mocks'
-], function( descriptor, axMocks ) {
-   'use strict';
 
-   describe( 'A host-connector-widget', function() {
+import descriptor from '../widget.json';
+import * as axMocks from 'laxar-mocks';
 
-      var testBed;
-      var fakeChannel;
+describe( 'A host-connector-widget', () => {
 
+   let fakeChannel;
 
-      beforeEach( axMocks.createSetupForWidget( descriptor ) );
+   let widgetEventBus;
+   let testEventBus;
 
-      beforeEach( function() {
-         // fake the AxDeveloperToolsWidget presence in the opener window:
-         window.opener = {
-            axDeveloperTools: {
-               buffers: {
-                  events: [],
-                  log: []
-               }
+   beforeEach( axMocks.createSetupForWidget( descriptor ) );
+
+   beforeEach( () => {
+      // fake the AxDeveloperToolsWidget presence in the opener window:
+      window.opener = {
+         axDeveloperTools: {
+            buffers: {
+               events: [],
+               log: []
             }
-         };
+         }
+      };
 
-         fakeChannel = window.opener.axDeveloperTools;
+      fakeChannel = window.opener.axDeveloperTools;
 
-         axMocks.widget.configure( {
-            events: {
-               stream: 'eventBusItems'
-            },
-            log: {
-               stream: 'logItems'
-            },
-            grid: {
-               resource: 'gridSettings'
-            },
-            pageInfo: {
-               resource: 'page'
-            },
-            laxarApplication: {
-               flag: 'isLaxarApplication'
-            }
-         } );
+      axMocks.widget.configure( {
+         events: {
+            stream: 'eventBusItems'
+         },
+         log: {
+            stream: 'logItems'
+         },
+         grid: {
+            resource: 'gridSettings'
+         },
+         pageInfo: {
+            resource: 'page'
+         },
+         laxarApplication: {
+            flag: 'isLaxarApplication'
+         }
       } );
+   } );
 
-      beforeEach( axMocks.widget.load );
+   beforeEach( axMocks.widget.load );
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   beforeEach( function() {
+      widgetEventBus = axMocks.widget.axEventBus;
+      testEventBus = axMocks.eventBus;
+   } );
 
-      afterEach( axMocks.tearDown );
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   afterEach( axMocks.tearDown );
 
-      it( 'polls the host application for event bus interactions and publishes them through the configured stream topic (R1.1)',
-         function( done ) {
-            axMocks.eventBus.publish( 'beginLifecycleRequest' );
-            axMocks.eventBus.flush();
-                           expect( axMocks.widget.axEventBus.publish ).not.toHaveBeenCalledWith( 'didProduce.logItems', jasmine.any(Object) );
-            fakeChannel.buffers.events.push( { index: 0, json: JSON.stringify( { fake: 'event item' } ) } );
-            window.setTimeout( function() {
-                              expect( axMocks.widget.axEventBus.publish ).not.toHaveBeenCalledWith( 'didProduce.logItems', jasmine.any(Object) );
-               window.setTimeout( function() {
-                  expect( axMocks.widget.axEventBus.publish ).toHaveBeenCalledWith( 'didProduce.eventBusItems', {
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   it( 'polls the host application for event bus interactions and publishes them through the configured stream topic (R1.1)',
+      ( done ) => {
+         testEventBus.publish( 'beginLifecycleRequest' );
+         testEventBus.flush();
+         expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+            'didProduce.logItems',
+            jasmine.any(Object)
+         );
+         fakeChannel.buffers.events.push( { index: 0, json: JSON.stringify( { fake: 'event item' } ) } );
+         window.setTimeout( () => {
+            expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+               'didProduce.logItems',
+               jasmine.any( Object )
+            );
+            window.setTimeout( () => {
+               expect( widgetEventBus.publish ).toHaveBeenCalledWith(
+                  'didProduce.eventBusItems',
+                  {
                      stream: 'eventBusItems',
                      data: [ { fake: 'event item' } ]
-                  } );
-                  done();
-               }, 21 );
-            }, 80 );
-         }
-      );
+                  }
+               );
+               done();
+            }, 21 );
+         }, 80 );
+      }
+   );
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      it( 'polls the host application for log messages and publishes them through the configured stream topic (R1.2)',
-         function( done ) {
-            axMocks.eventBus.publish( 'beginLifecycleRequest' );
-            axMocks.eventBus.flush();
-
-                        expect( axMocks.widget.axEventBus.publish ).not.toHaveBeenCalledWith( 'didProduce.logItems', jasmine.any(Object) );
-            fakeChannel.buffers.log.push( { index: 0, json: JSON.stringify( { fake: 'log item' } ) } );
-            window.setTimeout( function() {
-               expect( axMocks.widget.axEventBus.publish ).not.toHaveBeenCalledWith( 'didProduce.logItems', jasmine.any(Object) );
-               window.setTimeout( function() {
-                  expect( axMocks.widget.axEventBus.publish ).toHaveBeenCalledWith( 'didProduce.logItems', {
+   it( 'polls the host application for log messages and publishes them through the configured stream topic (R1.2)',
+      ( done ) => {
+         testEventBus.publish( 'beginLifecycleRequest' );
+         testEventBus.flush();
+         expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+            'didProduce.logItems',
+            jasmine.any(Object)
+         );
+         fakeChannel.buffers.log.push( { index: 0, json: JSON.stringify( { fake: 'log item' } ) } );
+         window.setTimeout( () => {
+            expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+               'didProduce.logItems',
+               jasmine.any(Object)
+            );
+            window.setTimeout( () => {
+               expect( widgetEventBus.publish ).toHaveBeenCalledWith(
+                  'didProduce.logItems',
+                  {
                      stream: 'logItems',
                      data: [ { fake: 'log item' } ]
-                  } );
-                  done();
-               }, 21 );
-            }, 80 );
-         }
-      );
+                  }
+               );
+               done();
+            }, 21 );
+         }, 80 );
+      }
+   );
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      it( 'polls the host application for CSS grid settings and publishes them through the configured resource (R1.3)', function() {
+   it( 'polls the host application for CSS grid settings and publishes them through the configured resource (R1.3)',
+      () => {
          fakeChannel.gridSettings = { fake: 'grid' };
-         axMocks.eventBus.publish( 'beginLifecycleRequest' );
-         axMocks.eventBus.flush();
-         expect( axMocks.widget.axEventBus.publish ).toHaveBeenCalledWith( 'didReplace.gridSettings', {
+         testEventBus.publish( 'beginLifecycleRequest' );
+         testEventBus.flush();
+         expect( widgetEventBus.publish ).toHaveBeenCalledWith( 'didReplace.gridSettings', {
             resource: 'gridSettings',
             data: { fake: 'grid' }
          } );
-      } );
-
-   } );
+      }
+   );
 
 } );

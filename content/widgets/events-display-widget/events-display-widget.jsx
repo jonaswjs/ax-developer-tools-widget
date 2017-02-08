@@ -545,15 +545,16 @@ function create( context, reactRender ) {
       }
 
       render() {
-         const toggleClassNames = 'fa pull-right ax-event-setting-toggle' + (
+         const toggleClassName = 'fa pull-right ax-event-setting-toggle' + (
                this.props.enabled? ' fa-toggle-on' : ' fa-toggle-off' );
+         const buttonClassName = "btn btn-link ax-event-setting-toggle ax-events-display-" + this.props.text;
          return (
             <button
                type="button"
-               className="btn btn-link ax-event-setting-toggle"
+               className={ buttonClassName }
                onClick={ this.handleClick }>{ this.props.icon &&
                <span className="ax-event-pattern"><PatternsHtmlIcon name={ this.props.text }/></span>}
-               { this.props.text } <i className={ toggleClassNames } /></button>
+               { this.props.text } <i className={ toggleClassName } /></button>
 
          );
       }

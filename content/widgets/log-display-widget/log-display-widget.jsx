@@ -31,6 +31,7 @@ function create( context, eventBus, reactRender ) {
          else {
             displayLogMessage( event.data );
          }
+         render();
       } );
    }
 
@@ -49,6 +50,8 @@ function create( context, eventBus, reactRender ) {
       }
    }
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    function discard() {
       model.messages.length = 0;
       render();
@@ -57,7 +60,6 @@ function create( context, eventBus, reactRender ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function render() {
-
       function formatTime( date ) {
          return moment( date ).format( 'YYYY-MM-DD HH:mm:ss.SSS' )
       }
