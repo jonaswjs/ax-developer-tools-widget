@@ -23,10 +23,21 @@ The AxDeveloperToolsWidget helps to visualize of the position of host applicatio
 *R2.2* The widget MUST allow for the grid visualization layer to be configured through a resource.
 The widget MUST act as a slave to the grid resource.
 
+*R2.3* The widget MUST hide the button if the grid resource is empty and has no grid configuration.
+
 
 #### 3. Show Toolbar or a Message
 
 *R3.1* The widget MUST listen to flags and either show a toolbar with the buttons for the features above or if no LaxarJS Application is available it MUST show a message.
+
+
+#### 4. Show Tab Bar and Provide Widget Areas
+
+*R4.1* The widget MUST show a tab bar with three tabs: Events, Page, Log.
+
+*R4.2* The widget MUST provide a widget area for each tab.
+
+*R4.3* The widget MUST manage the visibility of the provided widget areas.
 
 
 ## Integration

@@ -18,7 +18,7 @@ const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
 const injections = [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility' ];
 function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility ) {
    'use strict';
-   console.log(axVisibility)
+
    let visible = false;
    const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    const HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
@@ -80,6 +80,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
             }
             else {
                model.toggleGridTitle = '';
+               render();
             }
          }
       }
@@ -89,6 +90,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
       initialState: model.laxar,
       onChange: function( newState ) {
          model.laxar = newState;
+         render();
       }
    } );
 
@@ -110,21 +112,25 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    eventBus.subscribe( 'didNavigate', function( event ) {
+
       const newName = event.data[ context.features.tabs.parameter ];
 
       const newTab = TABS.filter( ( _ ) => { return _.name === newName; } )[ 0 ];
+
       if( !newTab ) {
          return;
       }
       model.activeTab = newTab;
+
       render();
    } );
 
    eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, ( event ) => {
-     if( !visible && event.visible ) {
-        visible = true;
-        render();
-     }
+      if( !visible && event.visible ) {
+         visible = true;
+         render();
+      }
+
    } );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +212,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
       let gridButton = '';
       if( context.resources.grid ) {
          gridButton = (
-            <button className="btn btn-link"
+            <button className="ax-developer-toolbar-grid btn btn-link"
                  title={model.toggleGridTitle}
                  type="button"
                  onClick={onClickToggleGrid}
@@ -217,7 +223,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
 
       const widgetOutlineButton = (
          <button
-            className="btn btn-link"
+            className="ax-developer-toolbar-outline btn btn-link"
             type="button"
             onClick={onClickToggleWidgetOutline}
             ><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }
@@ -239,7 +245,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
                css="app-tab app-tab-page"
                name={ tab.name }
                activeTab={ model.activeTab }
-               axVisibility={axVisibility}
+               axVisibility={ axVisibility }
             />
          );
       } );
@@ -271,7 +277,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
             </li>
             { tabListItems }
             { model.laxar === false &&
-               <li className="developer-toolbar-hint">{model.noLaxar}</li>
+               <li className="developer-toolbar-hint">{ model.noLaxar }</li>
             }
          </ul>
       );

@@ -23,7 +23,7 @@ const {
   components: { Graph }
 } = wireflow;
 
-
+const injections = [ 'axContext', 'axEventBus', 'axReactRender' ];
 function create( context, eventBus, reactRender ) {
 
    let visible = false;
@@ -232,6 +232,6 @@ function create( context, eventBus, reactRender ) {
 
 export default {
    name: 'page-inspector-widget',
-   injections: [ 'axContext', 'axEventBus', 'axReactRender' ],
+   injections,
    create
 };

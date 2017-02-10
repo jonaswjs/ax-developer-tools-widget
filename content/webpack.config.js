@@ -46,6 +46,7 @@ const config = {
       ],
       extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
       alias: {
+         'laxar-mocks': path.resolve( './lib/laxar-mocks' ),
          'polyfills': path.resolve( './lib/laxar/dist/polyfills.js' ),
          'laxar-uikit': path.resolve( './lib/laxar-uikit' ),
          'default.theme': path.resolve( './lib/laxar-uikit/themes/default.theme' )
