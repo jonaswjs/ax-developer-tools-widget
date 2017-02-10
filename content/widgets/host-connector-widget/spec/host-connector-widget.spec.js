@@ -4,7 +4,6 @@
  * http://laxarjs.org/license
  */
 
-import descriptor from '../widget.json';
 import * as axMocks from 'laxar-mocks';
 
 describe( 'A host-connector-widget', () => {
@@ -14,7 +13,7 @@ describe( 'A host-connector-widget', () => {
    let widgetEventBus;
    let testEventBus;
 
-   beforeEach( axMocks.createSetupForWidget( descriptor ) );
+   beforeEach( axMocks.setupForWidget() );
 
    beforeEach( () => {
       // fake the AxDeveloperToolsWidget presence in the opener window:

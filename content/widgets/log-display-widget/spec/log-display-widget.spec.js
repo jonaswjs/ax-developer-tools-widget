@@ -4,7 +4,6 @@
  * http://laxarjs.org/license
  */
 
-import descriptor from '../widget.json';
 import * as axMocks from 'laxar-mocks';
 
 
@@ -17,7 +16,7 @@ describe( 'The log-display-widget', () => {
    const messageRowSelector = 'tbody > tr';
    const clearButtonSelector = 'button';
 
-   beforeEach( axMocks.createSetupForWidget( descriptor ) );
+   beforeEach( axMocks.setupForWidget() );
 
    beforeEach( () => {
       messageItems = [

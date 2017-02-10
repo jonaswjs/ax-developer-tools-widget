@@ -5,10 +5,8 @@
  */
 
 import ReactTestUtils from 'react-addons-test-utils';
-import descriptor from '../widget.json';
 import * as specData from './spec-data.js';
 import * as axMocks from 'laxar-mocks';
-import * as axReactAdapter from 'laxar-react-adapter';
 
 describe( 'An events-display-widget', () => {
 
@@ -20,7 +18,7 @@ describe( 'An events-display-widget', () => {
 
    function createSetup( widgetConfiguration, metaEvents ) {
 
-      beforeEach( axMocks.createSetupForWidget( descriptor, { adapter: axReactAdapter } ) );
+      beforeEach( axMocks.setupForWidget() );
 
       beforeEach( () => {
          axMocks.widget.configure( widgetConfiguration );

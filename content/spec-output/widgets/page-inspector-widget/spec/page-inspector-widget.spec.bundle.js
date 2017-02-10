@@ -10469,7 +10469,7 @@ var lodash;
 
 if (true) {
   try {
-    lodash = __webpack_require__(379);
+    lodash = __webpack_require__(384);
   } catch (e) {}
 }
 
@@ -22717,6 +22717,7 @@ module.exports = __webpack_require__(18);
       });
       /* harmony export (immutable) */__webpack_exports__["tearDown"] = tearDown;
       /* harmony export (immutable) */__webpack_exports__["triggerStartupEvents"] = triggerStartupEvents;
+      /* harmony export (immutable) */__webpack_exports__["setupForWidget"] = setupForWidget;
       /* harmony export (immutable) */__webpack_exports__["createSetupForWidget"] = createSetupForWidget;
       /**
        * Copyright 2016 aixigo AG
@@ -22743,8 +22744,9 @@ module.exports = __webpack_require__(18);
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       /**
-       * The id used for the widget instance loaded in the test environment.
+       * The ID used for the widget instance loaded in the test environment.
        *
+       * @name TEST_WIDGET_ID
        * @type {String}
        */
       var TEST_WIDGET_ID = 'test-widget';
@@ -22752,13 +22754,16 @@ module.exports = __webpack_require__(18);
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       /**
-       * A map from widget names to setup-options (an object per widget name).
+       * Can be used to specify setup-fixtures for widget/activity tests.
        *
        * Spec-runners may add entries to this map to provision widget specs with options that will automatically be
-       * picked up by `createSetupForWidget`. For example, the laxar-mocks spec-loader for webpack puts the
-       * `artifacts` and `adapter` options here.
+       * picked up by `setupForWidget`. For example, the laxar-mocks spec-loader for webpack puts the `artifacts`,
+       * `adapter` and `descriptor` options here.
        *
-       * Options set by the spec-test when calling `createSetupForWidget` will take precedence over these values.
+       * Options passed by the spec-test to {@link #setupForWidget} will take precedence over these values.
+       *
+       * @name fixtures
+       * @type {Object}
        */
       var fixtures = {};
 
@@ -22790,25 +22795,29 @@ module.exports = __webpack_require__(18);
       var widget = {
 
         /**
-         * Configures the widget features before loading with the given configuration object or key/value
-         * entries. In fact this is what you'd normally configure under the `features` key in a page descriptor.
+         * Allows the user to configures the widget features before loading.
+         *
+         * Configuration may be specified using
+         *  - a configuration object, similar to a `features` key within a page descriptor,
+         *  - a combination of feature path and value, allowing to conveniently override individual values.
          *
          * Shorthands may be used:
          *
-         * This
          * ```js
-         * beforeEach( function() {
+         * beforeEach( () => {
+         *    testing.widget.configure( 'search.resource', 'search' );
+         * } );
+         * ```
+         *
+         * If no previous configuration was given for other `search` sub-keys, this is equivalent to the following:
+         *
+         * ```js
+         * beforeEach( () => {
          *    testing.widget.configure( {
          *       search: {
          *          resource: 'search'
          *       }
          *    } );
-         * } );
-         * ```
-         * is equivalent to the following shorter version
-         * ```js
-         * beforeEach( function() {
-         *    testing.widget.configure( 'search.resource', 'search' );
          * } );
          * ```
          *
@@ -23015,6 +23024,8 @@ module.exports = __webpack_require__(18);
        * Triggers all events normally published by the runtime after instantiation of the controller. This
        * includes the following events, listed with their payloads in the order they are published:
        *
+       * ###### Default Lifecycle Events
+       *
        * **1. didChangeLocale.default:**
        * ```js
        * {
@@ -23022,18 +23033,21 @@ module.exports = __webpack_require__(18);
        *    languageTag: 'en'
        * }
        * ```
+       *
        * **2. didChangeTheme.default:**
        * ```js
        * {
        *    theme: 'default'
        * }
        * ```
+       *
        * **3. beginLifecycleRequest.default:**
        * ```js
        * {
        *    lifecycleId: 'default'
        * }
        * ```
+       *
        * **4. didChangeAreaVisibility.content.true:**
        * ```js
        * {
@@ -23041,6 +23055,7 @@ module.exports = __webpack_require__(18);
        *    visible: true
        * }
        * ```
+       *
        * **5. didNavigate.testing:**
        * ```js
        * {
@@ -23050,9 +23065,11 @@ module.exports = __webpack_require__(18);
        * }
        * ```
        *
+       * ###### Customizing the Lifecycle Events
+       *
        * Via the `optionalEvents` argument it is possible to add events with different topic suffixes, to
-       * overwrite events defined above, or to completely prevent from triggering one of the events. To do so
-       * simply pass a map, where the primary topics are the keys and the value is a map from topic suffix to
+       * overwrite events defined above, or to completely prevent from triggering any of the events. To do so
+       * pass a map, where the primary topics are the keys where each value is a map from topic suffix to
        * payload. If the value is `null`, the specific event is not published.
        *
        * Example:
@@ -23117,60 +23134,81 @@ module.exports = __webpack_require__(18);
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       /**
-       * Creates the setup function for a widget test. The returned function is asynchronous and should simply be
-       * passed to `beforeEach`. By doing so, the handling of the Jasmine `done` callback happens under the hood.
-       * To receive the widget descriptor (i.e. the contents of the `widget.json` file) the use of the RequireJS
-       * *json* plugin is advised.
+       * Creates the setup function for a widget test, using externally provided fixtures.
        *
-       * Example:
+       * This is the recommended way to setup your widget test. For this to work, *this* module's `fixtures` export
+       * needs to be initialized with the following properties:
+       *
+       *   - `descriptor` - the widget's JSON descriptor,
+       *   - `adapter` - the adapter module for the widget's integration technology (use `null` for "plain"),
+       *   - `artifacts` - an artifact listing containing the assets of the widget and its controls.
+       *
+       * When webpack loads spec-tests through the `laxar-mocks/spec-loader`, fixtures are provided automatically.
+       * To manually provide these fixtures, controlling every aspect of your test environment, pass them using the
+       * named `optionalOptions` parameter.
+       *
+       * The returned function is asynchronous and should simply be passed to `beforeEach`. By doing so, the Jasmine
+       * `done` callback is handled under the hood.
+       *
+       * ###### Example (ES 2015) `example-widget.spec.js`:
+       *
        * ```js
-       * define( [
-       *    'json!../widget.json',
-       *    'laxar-mocks'
-       * ], function( descriptor, axMocks ) {
-       *    'use strict';
+       * import * as axMocks from 'laxar-mocks';
        *
-       *    describe( 'An ExampleWidget', function() {
-       *
-       *       beforeEach( testing.createSetupForWidget( descriptor ) );
-       *
-       *       // ... widget configuration, loading and your tests
-       *
-       *       afterEach( axMocks.tearDown );
-       *
-       *    } );
+       * describe( 'An ExampleWidget', () => {
+       *    beforeEach( testing.setupForWidget() );
+       *    // ... widget configuration, loading and your tests ...
+       *    afterEach( axMocks.tearDown );
        * } );
        * ```
        *
-       * @param {Object} descriptor
-       *    the widget descriptor (taken from `widget.json`)
+       * When using the spec-loader, something like the following code will be generated:
+       *
+       * ```js
+       * ( fixtures => {
+       *    fixtures.descriptor = require( '../widget.json' );
+       *    fixtures.artifacts = require( 'laxar-loader?widget=example-widget' );
+       *    fixtures.adapter = require( 'laxar-' + fixtures.descriptor.integration.technology + '-adapter' );
+       * } )( require( 'laxar-mocks' ).fixtures );
+       * import * as axMocks from 'laxar-mocks';
+       *
+       * describe( 'An ExampleWidget', () => {
+       *    // ... same as above ...
+       * } );
+       * ```
        * @param {Object} [optionalOptions]
        *    optional map of options
-       * @param {Object} [optionalOptions.adapter=laxar.plainAdapter]
-       *    a technology adapter to use for this widget.
-       *    When using a custom integration technology (something other than "plain" or "angular"), pass the
-       *    adapter module using this option.
+       * @param {Object} [optionalOptions.adapter=undefined]
+       *    a widget-adapter matching the integration technology of the widget; omit if "plain"
        * @param {Object} [optionalOptions.artifacts={}]
-       *    an artifacts listing containing all assets for the widget and its controls
-       * @param {Object} [optionalOptions.configuration={}]
-       *    mock configuration data to use when testing the widget
+       *    artifacts listing for this widget and its controls. Because it is hard to manually produce this
+       *    correctly, using the laxar-mocks spec-loader is recommended
+       * @param {Object} [optionalOptions.configuration={ baseHref: '/' }]
+       *    mock configuration data to use for the `axConfiguration` injection of the widget
+       * @param {Object} [optionalOptions.descriptor={}]
+       *    the contents of this widget's `widget.json`, including the JSON schema for the widget features
        *
        * @return {Function}
        *    a function to directly pass to `beforeEach`, accepting a Jasmine `done` callback
        */
-      function createSetupForWidget(descriptor) {
-        var optionalOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      function setupForWidget() {
+        var optionalOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_laxar__["assert"])(optionalOptions).hasType(Object);
+        var setupFixtures = Object.assign({ configuration: { baseHref: '/' } }, fixtures, optionalOptions);
+        var _setupFixtures$adapte = setupFixtures.adapter;
+        adapter = _setupFixtures$adapte === undefined ? __WEBPACK_IMPORTED_MODULE_0_laxar__["plainAdapter"] : _setupFixtures$adapte;
+        artifacts = setupFixtures.artifacts;
+        var _setupFixtures$config = setupFixtures.configuration;
+        configuration = _setupFixtures$config === undefined ? {} : _setupFixtures$config;
+        var descriptor = setupFixtures.descriptor;
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_laxar__["assert"])(artifacts).isNotNull('laxar-mocks.setupForWidget: *artifacts* must be set as fixture (use spec-loader) or passed as option');
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_laxar__["assert"])(adapter).isNotNull('laxar-mocks.setupForWidget: the *adapter* option must not be set to null');
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_laxar__["assert"])(configuration).isNotNull('laxar-mocks.setupForWidget: the *configuration* option must not be set to null');
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_laxar__["assert"])(descriptor).isNotNull('laxar-mocks.setupForWidget: *descriptor* must be set as fixture (use spec-loader) or passed as option');
 
         return function (done) {
-          var _fixtures$descriptor$ = Object.assign({}, fixtures[descriptor.name], optionalOptions);
-
-          var _fixtures$descriptor$2 = _fixtures$descriptor$.artifacts;
-          artifacts = _fixtures$descriptor$2 === undefined ? {} : _fixtures$descriptor$2;
-          var _fixtures$descriptor$3 = _fixtures$descriptor$.adapter;
-          adapter = _fixtures$descriptor$3 === undefined ? __WEBPACK_IMPORTED_MODULE_0_laxar__["plainAdapter"] : _fixtures$descriptor$3;
-          var _fixtures$descriptor$4 = _fixtures$descriptor$.configuration;
-          configuration = _fixtures$descriptor$4 === undefined ? {} : _fixtures$descriptor$4;
-
           var htmlTemplate = void 0;
           var features = {};
           var loadContext = void 0;
@@ -23192,10 +23230,10 @@ module.exports = __webpack_require__(18);
           var adapterInstance = void 0;
 
           widgetPrivateApi.configure = function (keyOrConfiguration, optionalValue) {
-            if (optionalValue === undefined) {
-              features = keyOrConfiguration;
+            if (typeof keyOrConfiguration === 'string') {
+              __WEBPACK_IMPORTED_MODULE_0_laxar__["object"].setPath(features, keyOrConfiguration, optionalValue);
             } else {
-              features[keyOrConfiguration] = optionalValue;
+              features = __WEBPACK_IMPORTED_MODULE_0_laxar__["object"].deepClone(keyOrConfiguration);
             }
           };
 
@@ -23207,7 +23245,7 @@ module.exports = __webpack_require__(18);
             }, {
               whenServicesAvailable: function whenServicesAvailable(services) {
                 // Grab the widget injections and make them available to tests.
-                // Do this lazy, to avoid creating services that where not actually injected.
+                // Do this lazily to avoid creating services that where not actually injected.
                 Object.keys(services).forEach(function (k) {
                   delete widget[k];
                   Object.defineProperty(widget, k, {
@@ -23245,6 +23283,67 @@ module.exports = __webpack_require__(18);
 
           done();
         };
+      }
+
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      /**
+       * Creates the setup function for a widget test, using user-provided fixtures.
+       *
+       * This function exists for backwards compatibility with LaxarJS v1. It is recommended to use
+       * {@link #setupForWidget} instead, which does not expect the user to provide descriptor, artifacts listing
+       * and adapter module and instead relies on external tooling (such as the `laxar-mocks/spec-loader`).
+       *
+       * The returned function is asynchronous and should simply be passed to `beforeEach`. By doing so, the Jasmine
+       * `done` callback is handled under the hood.
+       *
+       * **Note:** This method has been deprecated. Use {@link #setupForWidget} instead.
+       *
+       * ### Example (ES 2015) `example-widget.spec.js`:
+       *
+       * ```js
+       * import * as axMocks from 'laxar-mocks';
+       *
+       * describe( 'An ExampleWidget', () => {
+       *    beforeEach( testing.createSetupForWidget( descriptor, {
+       *       artifacts: {
+       *          // ... should be generated, see laxar-tooling project for details ...
+       *       },
+       *       adapter: require( 'laxar-my-adapter' )
+       *    } ) );
+       *
+       *    // ... widget configuration, loading and your tests ...
+       *
+       *    afterEach( axMocks.tearDown );
+       * } );
+       * ```
+       *
+       * @deprecated use {@link #setupForWidget} instead
+       *
+       * @param {Object} descriptor
+       *    the widget descriptor (taken from `widget.json`)
+       * @param {Object} [optionalOptions]
+       *    optional map of options
+       * @param {Object} [optionalOptions.adapter=laxar.plainAdapter]
+       *    a technology adapter to use for this widget.
+       *    When using a custom integration technology (something other than "plain" or "angular"), pass the
+       *    adapter module using this option.
+       * @param {Object} [optionalOptions.artifacts={}]
+       *    an artifacts listing containing all assets for the widget and its controls
+       * @param {Object} [optionalOptions.configuration={}]
+       *    mock configuration data to use for the `axConfiguration` injection of the widget
+       *
+       * @return {Function}
+       *    a function to directly pass to `beforeEach`, accepting a Jasmine `done` callback
+       */
+      function createSetupForWidget(descriptor) {
+        var optionalOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+        if (window.console && window.console.warn) {
+          window.console.warn('laxar-mocks: DEPRECATION: `createSetupForWidget( args )` should be changed to `setupForWidget()`');
+        }
+        optionalOptions.descriptor = descriptor;
+        return setupForWidget(optionalOptions);
       }
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32961,7 +33060,7 @@ var lodash;
 
 if (true) {
   try {
-    lodash = __webpack_require__(379);
+    lodash = __webpack_require__(384);
   } catch (e) {}
 }
 
@@ -51733,7 +51832,7 @@ function requestPublisherForArea(scope, area) {
 /* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(381)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _polyfillObjectAssign) {'use strict';module.exports = 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(386)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _polyfillObjectAssign) {'use strict';module.exports = 
 
 
 
@@ -52142,7 +52241,55 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 352 */,
 /* 353 */,
 /* 354 */,
-/* 355 */,
+/* 355 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	"name": "page-inspector-widget",
+	"description": "Visualizes the widgets on the current page and their event connections",
+	"integration": {
+		"technology": "react",
+		"type": "widget"
+	},
+	"features": {
+		"$schema": "http://json-schema.org/draft-04/schema#",
+		"type": "object",
+		"properties": {
+			"pageInfo": {
+				"type": "object",
+				"description": "Inspect page models received through wrapper events.",
+				"requires": [
+					"resource"
+				],
+				"properties": {
+					"resource": {
+						"type": "string",
+						"description": "The event topic through which to monitor pages.",
+						"format": "topic",
+						"axRole": "inlet"
+					}
+				}
+			},
+			"filter": {
+				"type": "object",
+				"description": "Allows to filter by topic or widget/activity instance",
+				"requires": [
+					"resource"
+				],
+				"properties": {
+					"resource": {
+						"type": "string",
+						"description": "The topic through which to publish filter information",
+						"format": "topic",
+						"axRole": "outlet"
+					}
+				}
+			}
+		}
+	}
+};
+
+/***/ }),
 /* 356 */,
 /* 357 */,
 /* 358 */,
@@ -52152,7 +52299,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 362 */,
 /* 363 */,
 /* 364 */,
-/* 365 */
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52678,13 +52830,13 @@ function edgeObjToId(isDirected, edgeObj) {
 
 
 /***/ }),
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
 /* 371 */,
-/* 372 */
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(36)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _immutable) {'use strict';
@@ -52724,7 +52876,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9mbHV4L3NldHRpbmdzL3NldHRpbmdzLW1vZGVsLmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFHQSxNQUFNLFVBQVUsR0FBRyxZQUFZLENBQUM7QUFDaEMsTUFBTSxTQUFTLEdBQUcsV0FBVyxDQUFDO0FBQzlCLE1BQU0sZ0JBQWdCLEdBQUcsV0FMaEIsSUFBSSxDQUtpQixFQUFFLENBQUUsU0FBUyxFQUFFLFVBQVUsQ0FBRSxDQUFDOztBQUUxRCxNQUFNLFFBQVEsR0FBRyxlQVBGLE1BQU0sRUFPRztBQUN0QixRQUFJLEVBQUUsSUFBSTtBQUNWLE9BQUcsRUFBRSxJQUFJO0FBQ1QsU0FBSyxFQUFFLElBQUk7QUFDWCxVQUFNLEVBQUUsSUFBSTtBQUNaLFdBQU8sRUFBRSxJQUFJLEVBQ2Q7QUFBRSxZQUFVLENBQUMsQ0FBQzs7QUFFZixNQUFNLGVBQWUsR0FBRyxlQWZULE1BQU0sRUFlVTtBQUM3QixTQUFLLEVBQUUsR0FBRyxFQUNYO0FBQUUsbUJBQWlCLENBQUMsQ0FBQzs7QUFFdEIsTUFBTSxRQUFRLEdBQUcsZUFuQkYsTUFBTSxFQW1CRztBQUN0QixRQUFJLEVBQUUsVUFBVTtBQUNoQixZQUFRLEVBQUUsUUFBUSxFQUFFO0FBQ3BCLFdBQU8sRUFBRSxlQUFlLEVBQUU7QUFDMUIsWUFBUSxFQUFFLEtBQUssRUFDaEI7QUFBRSxZQUFVLENBQUMsQ0FBQzs7QUFFQTtBQUNiLG9CQUFnQixFQUFoQixnQkFBZ0I7QUFDaEIsYUFBUyxFQUFULFNBQVM7QUFDVCxjQUFVLEVBQVYsVUFBVTs7QUFFVixZQUFRLEVBQVIsUUFBUTtBQUNSLFlBQVEsRUFBUixRQUFRLEVBQ1QiLCJmaWxlIjoic2V0dGluZ3MtbW9kZWwuanMiLCJzb3VyY2VSb290Ijoic3JjIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgTGlzdCwgUmVjb3JkIH0gZnJvbSAnaW1tdXRhYmxlJztcblxuXG5jb25zdCBSRUFEX1dSSVRFID0gJ3JlYWQvd3JpdGUnO1xuY29uc3QgUkVBRF9PTkxZID0gJ3JlYWQtb25seSc7XG5jb25zdCBJbnRlcmFjdGlvbk1vZGVzID0gTGlzdC5vZiggUkVBRF9PTkxZLCBSRUFEX1dSSVRFICk7XG5cbmNvbnN0IFZpZXdwb3J0ID0gUmVjb3JkKHtcbiAgbGVmdDogbnVsbCxcbiAgdG9wOiBudWxsLFxuICB3aWR0aDogbnVsbCxcbiAgaGVpZ2h0OiBudWxsLFxuICBtb3ZlZEJ5OiBudWxsXG59LCAnVmlld3BvcnQnKTtcblxuY29uc3QgTWluaW1hcFNldHRpbmdzID0gUmVjb3JkKHtcbiAgd2lkdGg6IDIwMFxufSwgJ01pbmltYXBTZXR0aW5ncycpO1xuXG5jb25zdCBTZXR0aW5ncyA9IFJlY29yZCh7XG4gIG1vZGU6IFJFQURfV1JJVEUsXG4gIHZpZXdwb3J0OiBWaWV3cG9ydCgpLFxuICBtaW5pbWFwOiBNaW5pbWFwU2V0dGluZ3MoKSxcbiAgaGFzRm9jdXM6IGZhbHNlXG59LCAnU2V0dGluZ3MnKTtcblxuZXhwb3J0IGRlZmF1bHQge1xuICBJbnRlcmFjdGlvbk1vZGVzLFxuICBSRUFEX09OTFksXG4gIFJFQURfV1JJVEUsXG5cbiAgVmlld3BvcnQsXG4gIFNldHRpbmdzXG59O1xuIl19
 
 /***/ }),
-/* 373 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52820,7 +52972,7 @@ function shiftRanks(t, g, delta) {
 
 
 /***/ }),
-/* 374 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66);
@@ -52865,11 +53017,11 @@ function doDfs(g, v, postorder, visited, acc) {
 
 
 /***/ }),
-/* 375 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66),
-    PriorityQueue = __webpack_require__(378);
+    PriorityQueue = __webpack_require__(383);
 
 module.exports = dijkstra;
 
@@ -52925,7 +53077,7 @@ function runDijkstra(g, source, weightFn, edgeFn) {
 
 
 /***/ }),
-/* 376 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66);
@@ -52978,7 +53130,7 @@ function tarjan(g) {
 
 
 /***/ }),
-/* 377 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66);
@@ -53018,7 +53170,7 @@ function CycleException() {}
 
 
 /***/ }),
-/* 378 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66);
@@ -53176,7 +53328,7 @@ PriorityQueue.prototype._swap = function(i, j) {
 
 
 /***/ }),
-/* 379 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -65535,7 +65687,7 @@ PriorityQueue.prototype._swap = function(i, j) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module), __webpack_require__(468)))
 
 /***/ }),
-/* 380 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(121), __webpack_require__(120), __webpack_require__(95), __webpack_require__(473)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilShallowEqual, _utilMetrics, _fluxGraphGraphModel, _link) {'use strict';var _slicedToArray = (function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i['return']) _i['return']();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError('Invalid attempt to destructure non-iterable instance');}};})();var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}function _defaultProps(defaultProps, props) {if (defaultProps) {for (var propName in defaultProps) {if (typeof props[propName] === 'undefined') {props[propName] = defaultProps[propName];}}}return props;}var _React = _interopRequireDefault(_react);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _count = _interopRequireDefault(_utilMetrics);var _Link = _interopRequireDefault(_link);var _ref = { $$typeof: _typeofReactElement, type: 'g', key: null, ref: null, props: {}, _owner: null };
@@ -65673,7 +65825,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9jb21wb25lbnRzL2xpbmtzLmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFTQSxNQUFNLEtBQUssR0FBRyxrQkFBTSxXQUFXLENBQUM7O0FBRTlCLFVBQU0sRUFBQSxrQkFBRzs7QUFFc0QsVUFBSSxDQUFDLEtBQUssS0FBL0QsWUFBWSxVQUFaLFlBQVksS0FBRSxNQUFNLFVBQU4sTUFBTSxLQUFFLFFBQVEsVUFBUixRQUFRLEtBQUUsS0FBSyxVQUFMLEtBQUssS0FBRSxTQUFTLFVBQVQsU0FBUztBQUN4RCxVQUFJLE1BQU0sQ0FBQyxRQUFRLENBQUMsT0FBTyxFQUFFLElBQUksTUFBTSxDQUFDLEtBQUssQ0FBQyxPQUFPLEVBQUUsRUFBRztBQUN4RCxvQkFBYSxDQUNkOztBQUNELDZCQUFNLEVBQUUsSUFBSSxFQUFFLEtBQUssQ0FBQyxXQUFXLEVBQUUsQ0FBQyxDQUFDOztBQUVuQyxrR0FBVyxXQUFXLEVBQUUsbUJBQU07O0FBRTlCLGVBQVMsV0FBVyxHQUFHO0FBQ3JCLFlBQUksWUFBWSxDQUFDLFFBQVEsQ0FBQyxPQUFPLEVBQUUsRUFBRztBQUNwQyxpQkFBTyxFQUFFLENBQUMsQ0FDWDs7QUFDRCxZQUFNLFNBQVMsR0FBRyxRQUFRLENBQUMsTUFBTSxFQUFFLENBQUM7O0FBRXBDLFlBQU0sYUFBYSxHQUFHLDRCQUE0QixDQUFFLFNBQVMsQ0FBQyxJQUFJLEVBQUUsQ0FBRSxDQUFDO0FBQ3ZFLGVBQU8scUJBdkJKLFVBQVUsQ0F1QkssT0FBTyxDQUFFLFVBQUEsU0FBUztBQUNsQyxxQkFBUyxDQUFDLE9BQU8sQ0FBRSxVQUFBLFFBQVE7QUFDekIscUJBQUssQ0FBRSxRQUFRLEVBQUUsU0FBUyxFQUFFLGFBQWEsQ0FBRSxHQUFBLENBQzVDLEdBQUEsQ0FDRixDQUFDLENBQ0g7Ozs7O0FBRUQsZUFBUyxLQUFLLENBQUUsUUFBUSxFQUFFLFNBQVMsRUFBRSxhQUFhLEVBQUc7QUFDbkQsWUFBTSxNQUFNLEdBQUcs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Q0FBQyxDQUMvQyxFQUVGLENBQUMsQ0FBQzs7Ozs7QUFFWSxPQUFLIiwiZmlsZSI6ImxpbmtzLmpzIiwic291cmNlUm9vdCI6InNyYyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbmltcG9ydCBzaGFsbG93RXF1YWwgZnJvbSAnLi4vdXRpbC9zaGFsbG93LWVxdWFsJztcbmltcG9ydCBjb3VudCBmcm9tICcuLi91dGlsL21ldHJpY3MnO1xuXG5pbXBvcnQgeyBEaXJlY3Rpb25zLCBJTiwgT1VUIH0gZnJvbSAnLi4vZmx1eC9ncmFwaC9ncmFwaC1tb2RlbCc7XG5pbXBvcnQgTGluayBmcm9tICcuL2xpbmsnO1xuXG5cbmNvbnN0IExpbmtzID0gUmVhY3QuY3JlYXRlQ2xhc3Moe1xuXG4gIHJlbmRlcigpIHtcblxuICAgIGNvbnN0IHsgbWVhc3VyZW1lbnRzLCBsYXlvdXQsIHZlcnRpY2VzLCB0eXBlcywgc2VsZWN0aW9uIH0gPSB0aGlzLnByb3BzO1xuICAgIGlmKCBsYXlvdXQudmVydGljZXMuaXNFbXB0eSgpICYmIGxheW91dC5lZGdlcy5pc0VtcHR5KCkgKSB7XG4gICAgICByZXR1cm4gPGcgLz47XG4gICAgfVxuICAgIGNvdW50KHsgd2hhdDogTGlua3MuZGlzcGxheU5hbWUgfSk7XG5cbiAgICByZXR1cm4gPGc+e3JlbmRlckxpbmtzKCl9PC9nPjtcblxuICAgIGZ1bmN0aW9uIHJlbmRlckxpbmtzKCkge1xuICAgICAgaWYoIG1lYXN1cmVtZW50cy52ZXJ0aWNlcy5pc0VtcHR5KCkgKSB7XG4gICAgICAgIHJldHVybiBbXTtcbiAgICAgIH1cbiAgICAgIGNvbnN0IHZlcnRleElkcyA9IHZlcnRpY2VzLmtleVNlcSgpO1xuICAgICAgLy8gbG9va3VwIHRhYmxlIGZvciByZXByZXNlbnRpbmcgMTpuL246MSBlZGdlcyBhcyBwb3J0LXRvLXBvcnQgbGlua3NcbiAgICAgIGNvbnN0IG5laWdoYm9yVGFibGUgPSBjcmVhdGVOZWlnaGJvckxvb2t1cEJ5RWRnZUlkKCB2ZXJ0ZXhJZHMudG9KUygpICk7XG4gICAgICByZXR1cm4gRGlyZWN0aW9ucy5mbGF0TWFwKCBkaXJlY3Rpb24gPT5cbiAgICAgICAgdmVydGV4SWRzLmZsYXRNYXAoIHZlcnRleElkID0+XG4gICAgICAgICAgbGlua3MoIHZlcnRleElkLCBkaXJlY3Rpb24sIG5laWdoYm9yVGFibGUgKVxuICAgICAgICApXG4gICAgICApO1xuICAgIH1cblxuICAgIGZ1bmN0aW9uIGxpbmtzKCB2ZXJ0ZXhJZCwgZGlyZWN0aW9uLCBuZWlnaGJvclRhYmxlICkge1xuICAgICAgY29uc3QgdmVydGV4ID0gdmVydGljZXMuZ2V0KCB2ZXJ0ZXhJZCApO1xuICAgICAgY29uc3QgdmVydGV4TGF5b3V0ID0gbGF5b3V0LnZlcnRpY2VzLmdldCggdmVydGV4SWQgKTtcbiAgICAgIGNvbnN0IHZlcnRleE1lYXN1cmVtZW50cyA9IG1lYXN1cmVtZW50cy52ZXJ0aWNlcy5nZXQoIHZlcnRleElkICk7XG4gICAgICBjb25zdCBlZGdlTGF5b3V0cyA9IGxheW91dC5lZGdlcztcbiAgICAgIGNvbnN0IGVkZ2VNZWFzdXJlbWVudHMgPSBtZWFzdXJlbWVudHMuZWRnZXM7XG5cbiAgICAgIC8vIElzIHRoZSBsaW5rIG91dGJvdW5kIHdydCB0aGUgY3VycmVudCB2ZXJ0ZXg/XG4gICAgICBjb25zdCBpc091dGJvdW5kID0gZGlyZWN0aW9uID09PSBPVVQ7XG4gICAgICBjb25zdCBvdGhlckRpcmVjdGlvbiA9IGlzT3V0Ym91bmQgPyBJTiA6IE9VVDtcblxuICAgICAgY29uc3QgaGVyZVNlbGVjdGVkID0gc2VsZWN0aW9uLnZlcnRpY2VzLmhhcyggdmVydGV4SWQgKTtcblxuICAgICAgcmV0dXJuIHZlcnRleC5wb3J0c1sgZGlyZWN0aW9uIF1cbiAgICAgICAgLmZpbHRlciggaGFzRXhhY3RseU9uZU5laWdoYm9yKCBpc091dGJvdW5kICkgKVxuICAgICAgICAubWFwKCBwb3J0ID0+IHtcbiAgICAgICAgICBjb25zdCBlZGdlSWQgPSBwb3J0LmVkZ2VJZDtcblxuICAgICAgICAgIGNvbnN0IGhlcmVMYXlvdXQgPSB2ZXJ0ZXhMYXlvdXQ7XG4gICAgICAgICAgY29uc3QgaGVyZU1lYXN1cmVtZW50cyA9IHZlcnRleE1lYXN1cmVtZW50cztcbiAgICAgICAgICBjb25zdCBoZXJlUG9ydCA9IHBvcnQ7XG5cbiAgICAgICAgICBjb25zdCBvd25pbmdQb3J0ID0gdHlwZXMuZ2V0KCBwb3J0LnR5cGUgKS5vd25pbmdQb3J0O1xuICAgICAgICAgIGNvbnN0IFsgdGhlcmVMYXlvdXQsIHRoZXJlTWVhc3VyZW1lbnRzLCB0aGVyZVBvcnQsIHRoZXJlU2VsZWN0ZWQgXSA9IG93bmluZ1BvcnQgP1xuICAgICAgICAgICAgbmVpZ2hib3JUYWJsZVsgb3RoZXJEaXJlY3Rpb24gXVsgZWRnZUlkIF0gOlxuICAgICAgICAgICAgWyBlZGdlTGF5b3V0cy5nZXQoIGVkZ2VJZCApLCBlZGdlTWVhc3VyZW1lbnRzLmdldCggZWRnZUlkICksICcnLCBzZWxlY3Rpb24uZWRnZXMuaGFzKCBlZGdlSWQgKSBdO1xuXG4gICAgICAgICAgY29uc3QgWyBmcm9tTGF5b3V0LCB0b0xheW91dCBdID0gaXNPdXRib3VuZCA/XG4gICAgICAgICAgICBbIGhlcmVMYXlvdXQsIHRoZXJlTGF5b3V0IF0gOlxuICAgICAgICAgICAgWyB0aGVyZUxheW91dCwgaGVyZUxheW91dCBdO1xuXG4gICAgICAgICAgY29uc3QgWyBmcm9tTWVhc3VyZW1lbnRzLCB0b01lYXN1cmVtZW50cyBdID0gaXNPdXRib3VuZCA/XG4gICAgICAgICAgICBbIGhlcmVNZWFzdXJlbWVudHMsIHRoZXJlTWVhc3VyZW1lbnRzIF0gOlxuICAgICAgICAgICAgWyB0aGVyZU1lYXN1cmVtZW50cywgaGVyZU1lYXN1cmVtZW50cyBdO1xuXG4gICAgICAgICAgY29uc3QgWyBmcm9tUG9ydCwgdG9Qb3J0IF0gPSBpc091dGJvdW5kID9cbiAgICAgICAgICAgIFsgaGVyZVBvcnQsIHRoZXJlUG9ydCBdIDpcbiAgICAgICAgICAgIFsgdGhlcmVQb3J0LCBoZXJlUG9ydCBdO1xuXG4gICAgICAgICAgcmV0dXJuIDxMaW5rIGtleT17dmVydGV4SWQgKyAnLycgKyBwb3J0LmlkfVxuICAgICAgICAgICAgICAgICAgICAgICBmcm9tUG9ydD17ZnJvbVBvcnR9XG4gICAgICAgICAgICAgICAgICAgICAgIHRvUG9ydD17dG9Qb3J0fVxuICAgICAgICAgICAgICAgICAgICAgICBmcm9tTGF5b3V0PXtmcm9tTGF5b3V0fVxuICAgICAgICAgICAgICAgICAgICAgICB0b0xheW91dD17dG9MYXlvdXR9XG4gICAgICAgICAgICAgICAgICAgICAgIGZyb21NZWFzdXJlbWVudHM9e2Zyb21NZWFzdXJlbWVudHN9XG4gICAgICAgICAgICAgICAgICAgICAgIHRvTWVhc3VyZW1lbnRzPXt0b01lYXN1cmVtZW50c31cbiAgICAgICAgICAgICAgICAgICAgICAgaXNTZWxlY3RlZD17aGVyZVNlbGVjdGVkIHx8IHRoZXJlU2VsZWN0ZWR9IC8+O1xuICAgICAgfSApO1xuICAgIH1cblxuICAgIC8vIE1ha2Ugc3VyZSBlYWNoIGxpbmsgaXMgZHJhd24gZnJvbSBvbmUgc2lkZSBvbmx5LlxuICAgIGZ1bmN0aW9uIGhhc0V4YWN0bHlPbmVOZWlnaGJvciggaXNPdXRib3VuZCApIHtcbiAgICAgIHJldHVybiBwb3J0ID0+IHtcbiAgICAgICAgaWYoICFwb3J0LmVkZ2VJZCApIHtcbiAgICAgICAgICByZXR1cm4gZmFsc2U7XG4gICAgICAgIH1cbiAgICAgICAgY29uc3QgdHlwZSA9IHR5cGVzLmdldCggcG9ydC50eXBlICk7XG4gICAgICAgIGlmKCAhdHlwZS5vd25pbmdQb3J0ICkge1xuICAgICAgICAgIHJldHVybiB0cnVlO1xuICAgICAgICB9XG4gICAgICAgIHJldHVybiB0eXBlLm93bmluZ1BvcnQgPT09ICggaXNPdXRib3VuZCA/IElOIDogT1VUICk7XG4gICAgICB9O1xuICAgIH1cblxuICAgIGZ1bmN0aW9uIGNyZWF0ZU5laWdoYm9yTG9va3VwQnlFZGdlSWQoIHZlcnRleElkcyApIHtcbiAgICAgIGNvbnN0IGx1dCA9IHt9O1xuICAgICAgRGlyZWN0aW9ucy5mb3JFYWNoKCBkaXJlY3Rpb24gPT4ge1xuICAgICAgICBjb25zdCBtYXRjaGluZ01lYXN1cmVtZW50cyA9IGx1dFsgZGlyZWN0aW9uIF0gPSB7fTtcbiAgICAgICAgdmVydGV4SWRzLmZvckVhY2goIGlkID0+IHtcbiAgICAgICAgICBjb25zdCB2ZXJ0ZXhNZWFzdXJlbWVudHMgPSBtZWFzdXJlbWVudHMudmVydGljZXMuZ2V0KCBpZCApO1xuICAgICAgICAgIGNvbnN0IHZlcnRleExheW91dCA9IGxheW91dC52ZXJ0aWNlcy5nZXQoIGlkICk7XG4gICAgICAgICAgdmVydGljZXMuZ2V0KCBpZCApLnBvcnRzWyBkaXJlY3Rpb24gXS5mb3JFYWNoKCBwb3J0ID0+IHtcbiAgICAgICAgICAgIGNvbnN0IGVkZ2VJZCA9IHBvcnQuZWRnZUlkO1xuICAgICAgICAgICAgaWYoIGVkZ2VJZCApIHtcbiAgICAgICAgICAgICAgbWF0Y2hpbmdNZWFzdXJlbWVudHNbIGVkZ2VJZCBdID0gW1xuICAgICAgICAgICAgICAgIHZlcnRleExheW91dCxcbiAgICAgICAgICAgICAgICB2ZXJ0ZXhNZWFzdXJlbWVudHMsXG4gICAgICAgICAgICAgICAgcG9ydCxcbiAgICAgICAgICAgICAgICBzZWxlY3Rpb24udmVydGljZXMuaGFzKCBpZCApXG4gICAgICAgICAgICAgIF07XG4gICAgICAgICAgICB9XG4gICAgICAgICAgfSApO1xuICAgICAgICB9ICk7XG4gICAgICB9ICk7XG4gICAgICByZXR1cm4gbHV0O1xuICAgIH1cblxuICB9LFxuXG4gIHNob3VsZENvbXBvbmVudFVwZGF0ZSggbmV4dFByb3BzICkge1xuICAgIHJldHVybiAhc2hhbGxvd0VxdWFsKCBuZXh0UHJvcHMsIHRoaXMucHJvcHMgKTtcbiAgfVxuXG59KTtcblxuZXhwb3J0IGRlZmF1bHQgTGlua3M7XG4iXX0=
 
 /***/ }),
-/* 381 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports) {/*eslint complexity:0 */
@@ -65713,7 +65865,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wb2x5ZmlsbC9vYmplY3QtYXNzaWduLmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztBQUtBLE9BQUksQ0FBQyxNQUFNLENBQUMsTUFBTSxFQUFFO0FBQ2pCLFlBQU0sQ0FBQyxjQUFjLENBQUMsTUFBTSxFQUFFLFFBQVEsRUFBRTtBQUNyQyxtQkFBVSxFQUFFLEtBQUs7QUFDakIscUJBQVksRUFBRSxJQUFJO0FBQ2xCLGlCQUFRLEVBQUUsSUFBSTtBQUNkLGNBQUssRUFBRSxlQUFTLE1BQU0sRUFBRSxXQUFXLEVBQUU7QUFDbEMsZ0JBQUksTUFBTSxLQUFLLFNBQVMsSUFBSSxNQUFNLEtBQUssSUFBSSxFQUFFO0FBQzFDLHFCQUFNLElBQUksU0FBUyxDQUFDLHlDQUF5QyxDQUFDLENBQUMsQ0FDakU7OztBQUVELGdCQUFJLEVBQUUsR0FBRyxNQUFNLENBQUMsTUFBTSxDQUFDLENBQUM7QUFDeEIsaUJBQUssSUFBSSxDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUMsR0FBRyxTQUFTLENBQUMsTUFBTSxFQUFFLENBQUMsRUFBRSxFQUFFO0FBQ3hDLG1CQUFJLFVBQVUsR0FBRyxTQUFTLENBQUUsQ0FBQyxDQUFFLENBQUM7QUFDaEMsbUJBQUksVUFBVSxLQUFLLFNBQVMsSUFBSSxVQUFVLEtBQUssSUFBSSxFQUFFO0FBQ2xELDJCQUFTLENBQ1g7O0FBQ0QseUJBQVUsR0FBRyxNQUFNLENBQUMsVUFBVSxDQUFDLENBQUM7O0FBRWhDLG1CQUFJLFNBQVMsR0FBRyxNQUFNLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxVQUFVLENBQUMsQ0FBQyxDQUFDO0FBQ2hELG9CQUFLLElBQUksU0FBUyxHQUFHLENBQUMsRUFBRSxHQUFHLEdBQUcsU0FBUyxDQUFDLE1BQU0sRUFBRSxTQUFTLEdBQUcsR0FBRyxFQUFFLFNBQVMsRUFBRSxFQUFFO0FBQzNFLHNCQUFJLE9BQU8sR0FBRyxTQUFTLENBQUUsU0FBUyxDQUFFLENBQUM7QUFDckMsc0JBQUksSUFBSSxHQUFHLE1BQU0sQ0FBQyx3QkFBd0IsQ0FBQyxVQUFVLEVBQUUsT0FBTyxDQUFDLENBQUM7QUFDaEUsc0JBQUksSUFBSSxLQUFLLFNBQVMsSUFBSSxJQUFJLENBQUMsVUFBVSxFQUFFO0FBQ3hDLHVCQUFFLENBQUUsT0FBTyxDQUFFLEdBQUcsVUFBVSxDQUFFLE9BQU8sQ0FBRSxDQUFDLENBQ3hDLENBQ0gsQ0FDSDs7OztBQUNELG1CQUFPLEVBQUUsQ0FBQyxDQUNaLEVBQ0gsQ0FBQyxDQUFDLENBQ0wiLCJmaWxlIjoib2JqZWN0LWFzc2lnbi5qcyIsInNvdXJjZVJvb3QiOiJzcmMiLCJzb3VyY2VzQ29udGVudCI6WyIvKmVzbGludCBjb21wbGV4aXR5OjAgKi9cbi8qKlxuICogU09VUkNFOlxuICogaHR0cHM6Ly9kZXZlbG9wZXIubW96aWxsYS5vcmcvZW4tVVMvZG9jcy9XZWIvSmF2YVNjcmlwdC9SZWZlcmVuY2UvR2xvYmFsX09iamVjdHMvT2JqZWN0L2Fzc2lnblxuICovXG5pZiAoIU9iamVjdC5hc3NpZ24pIHtcbiAgIE9iamVjdC5kZWZpbmVQcm9wZXJ0eShPYmplY3QsICdhc3NpZ24nLCB7XG4gICAgICBlbnVtZXJhYmxlOiBmYWxzZSxcbiAgICAgIGNvbmZpZ3VyYWJsZTogdHJ1ZSxcbiAgICAgIHdyaXRhYmxlOiB0cnVlLFxuICAgICAgdmFsdWU6IGZ1bmN0aW9uKHRhcmdldCwgZmlyc3RTb3VyY2UpIHtcbiAgICAgICAgIGlmICh0YXJnZXQgPT09IHVuZGVmaW5lZCB8fCB0YXJnZXQgPT09IG51bGwpIHtcbiAgICAgICAgICAgIHRocm93IG5ldyBUeXBlRXJyb3IoJ0Nhbm5vdCBjb252ZXJ0IGZpcnN0IGFyZ3VtZW50IHRvIG9iamVjdCcpO1xuICAgICAgICAgfVxuXG4gICAgICAgICB2YXIgdG8gPSBPYmplY3QodGFyZ2V0KTtcbiAgICAgICAgIGZvciAodmFyIGkgPSAxOyBpIDwgYXJndW1lbnRzLmxlbmd0aDsgaSsrKSB7XG4gICAgICAgICAgICB2YXIgbmV4dFNvdXJjZSA9IGFyZ3VtZW50c1sgaSBdO1xuICAgICAgICAgICAgaWYgKG5leHRTb3VyY2UgPT09IHVuZGVmaW5lZCB8fCBuZXh0U291cmNlID09PSBudWxsKSB7XG4gICAgICAgICAgICAgICBjb250aW51ZTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIG5leHRTb3VyY2UgPSBPYmplY3QobmV4dFNvdXJjZSk7XG5cbiAgICAgICAgICAgIHZhciBrZXlzQXJyYXkgPSBPYmplY3Qua2V5cyhPYmplY3QobmV4dFNvdXJjZSkpO1xuICAgICAgICAgICAgZm9yICh2YXIgbmV4dEluZGV4ID0gMCwgbGVuID0ga2V5c0FycmF5Lmxlbmd0aDsgbmV4dEluZGV4IDwgbGVuOyBuZXh0SW5kZXgrKykge1xuICAgICAgICAgICAgICAgdmFyIG5leHRLZXkgPSBrZXlzQXJyYXlbIG5leHRJbmRleCBdO1xuICAgICAgICAgICAgICAgdmFyIGRlc2MgPSBPYmplY3QuZ2V0T3duUHJvcGVydHlEZXNjcmlwdG9yKG5leHRTb3VyY2UsIG5leHRLZXkpO1xuICAgICAgICAgICAgICAgaWYgKGRlc2MgIT09IHVuZGVmaW5lZCAmJiBkZXNjLmVudW1lcmFibGUpIHtcbiAgICAgICAgICAgICAgICAgIHRvWyBuZXh0S2V5IF0gPSBuZXh0U291cmNlWyBuZXh0S2V5IF07XG4gICAgICAgICAgICAgICB9XG4gICAgICAgICAgICB9XG4gICAgICAgICB9XG4gICAgICAgICByZXR1cm4gdG87XG4gICAgICB9XG4gICB9KTtcbn1cbiJdfQ==
 
 /***/ }),
-/* 382 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(413)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _dagre) {'use strict';function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}var _dagre2 = _interopRequireDefault(_dagre);module.exports = 
@@ -65811,7 +65963,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy91dGlsL2F1dG8tbGF5b3V0LmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUVlLElBQUUsZUFBZSxFQUFmLGVBQWUsRUFBRTs7QUFFbEMsV0FBUyxlQUFlLENBQUUsS0FBSyxFQUFFLFlBQVksRUFBRzs7QUFFOUMsUUFBTSxNQUFNLEdBQUc7QUFDYixhQUFPLEVBQUUsRUFBRTtBQUNYLGNBQVEsRUFBRSxFQUFFLEVBQ2IsQ0FBQzs7O0FBRUYsUUFBTSxFQUFFLEdBQUcsSUFBSSxtQkFBTSxRQUFRLENBQUMsS0FBSyxFQUFFLENBQUM7O0FBRXRDLE1BQUUsQ0FBQyxRQUFRLENBQUU7QUFDWCxhQUFPLEVBQUUsSUFBSTtBQUNiLGFBQU8sRUFBRSxFQUFFO0FBQ1gsYUFBTyxFQUFFLEVBQUU7QUFDWCxhQUFPLEVBQUUsQ0FBQztBQUNWLGFBQU8sRUFBRSxFQUFFO0FBQ1gsYUFBTyxFQUFFLEVBQUUsRUFDWixDQUFFLENBQUM7O0FBQ0osTUFBRSxDQUFDLG1CQUFtQixDQUFFLFlBQU0sQ0FBRSxPQUFPLEVBQUUsQ0FBQyxDQUFFLENBQUUsQ0FBQztBQUMvQyxnQkFBWSxDQUFDLEdBQUcsQ0FBRSxPQUFPLENBQUUsQ0FBQyxPQUFPLENBQUUsR0FBRyxDQUFFLElBQUksQ0FBRSxDQUFFLENBQUM7QUFDbkQsZ0JBQVksQ0FBQyxHQUFHLENBQUUsVUFBVSxDQUFFLENBQUMsT0FBTyxDQUFFLEdBQUcsQ0FBRSxJQUFJLENBQUUsQ0FBRSxDQUFDO0FBQ3RELFNBQUssQ0FBQyxHQUFHLENBQUUsVUFBVSxDQUFFLENBQUMsT0FBTyxDQUFFLHFCQUFxQixFQUFFLENBQUUsQ0FBQztBQUMzRCxTQUFLLENBQUMsR0FBRyxDQUFFLFVBQVUsQ0FBRSxDQUFDLE9BQU8sQ0FBRSxPQUFPLENBQUUsQ0FBQzs7O0FBRzNDLHVCQUFNLE1BQU0sQ0FBRSxFQUFFLENBQUUsQ0FBQztBQUNuQixXQUFPO0FBQ0wsY0FBUSxFQUFFLE1BQU0sQ0FBRSxJQUFJLEVB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QUMsT0FBTyxDQUFFLFVBQUEsUUFBUSxFQUFJO0FBQ1ksVUFBRSxDQUFDLElBQUksQ0FBRSxRQUFRLENBQUUsSUFBSSxFQUFFLEtBQXhELEtBQUssU0FBTCxLQUFLLEtBQUUsS0FBSyxTQUFMLEtBQUssS0FBRSxNQUFNLFNBQU4sTUFBTSxLQUFFLENBQUMsU0FBRCxDQUFDLEtBQUUsQ0FBQyxTQUFELENBQUM7QUFDbEMsWUFBSSxLQUFLLElBQUksS0FBSyxDQUFDLE9BQU8sQ0FBRSxNQUFNLENBQUUsS0FBSyxDQUFDLEVBQUc7QUFDM0MsY0FBTSxFQUFFLEdBQUcsS0FBSyxDQUFDLFNBQVMsQ0FBRSxNQUFNLENBQUMsTUFBTSxFQUFFLEtBQUssQ0FBQyxNQUFNLENBQUUsQ0FBQztBQUMxRCxnQkFBTSxDQUFFLEVBQUUsQ0FBRSxHQUFHO0FBQ2IsZ0JBQUksRUFBRSxDQUFDLEdBQUcsS0FBSyxHQUFHLENBQUMsR0FBRyxPQUFPO0FBQzdCLGVBQUcsRUFBRSxDQUFDLEdBQUcsTUFBTSxHQUFHLENBQUMsR0FBRyxPQUFPLEVBQzlCLENBQUMsQ0FDSCxDQUNGLENBQUUsQ0FBQzs7OztBQUNKLGFBQU8sTUFBTSxDQUFDLENBQ2YsQ0FDRiIsImZpbGUiOiJhdXRvLWxheW91dC5qcyIsInNvdXJjZVJvb3QiOiJzcmMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgZGFncmUgZnJvbSAnZGFncmUnO1xuXG5leHBvcnQgZGVmYXVsdCB7IGNhbGN1bGF0ZUxheW91dCB9O1xuXG5mdW5jdGlvbiBjYWxjdWxhdGVMYXlvdXQoIGdyYXBoLCBtZWFzdXJlbWVudHMgKSB7XG5cbiAgY29uc3Qgb3duZXJzID0ge1xuICAgIGluYm91bmQ6IHt9LFxuICAgIG91dGJvdW5kOiB7fVxuICB9O1xuXG4gIGNvbnN0IGRnID0gbmV3IGRhZ3JlLmdyYXBobGliLkdyYXBoKCk7XG5cbiAgZGcuc2V0R3JhcGgoIHtcbiAgICByYW5rZGlyOiAnTFInLFxuICAgIG5vZGVzZXA6IDUwLFxuICAgIHJhbmtzZXA6IDYwLFxuICAgIGVkZ2VzZXA6IDAsXG4gICAgbWFyZ2lueDogMTUsXG4gICAgbWFyZ2lueTogMTVcbiAgfSApO1xuICBkZy5zZXREZWZhdWx0RWRnZUxhYmVsKCAoKSA9PiB7IHJldHVybiB7fTsgfSApO1xuICBtZWFzdXJlbWVudHMuZ2V0KCAnZWRnZXMnICkuZm9yRWFjaCggYWRkKCAnRS4nICkgKTtcbiAgbWVhc3VyZW1lbnRzLmdldCggJ3ZlcnRpY2VzJyApLmZvckVhY2goIGFkZCggJ1YuJyApICk7XG4gIGdyYXBoLmdldCggJ3ZlcnRpY2VzJyApLmZvckVhY2goIGNvbGxlY3RPd25pbmdWZXJ0aWNlcygpICk7XG4gIGdyYXBoLmdldCggJ3ZlcnRpY2VzJyApLmZvckVhY2goIGNvbm5lY3QgKTtcblxuXG4gIGRhZ3JlLmxheW91dCggZGcgKTtcbiAgcmV0dXJuIHtcbiAgICB2ZXJ0aWNlczogZGVjb2RlKCAnVi4nLCBkZy5ub2RlcygpICksXG4gICAgZWRnZXM6IGRlY29kZSggJ0UuJywgZGcubm9kZXMoKSwgeyBvZmZzZXRZOiAyMywgb2Zmc2V0WDogLTE1IH0gKVxuICB9O1xuXG5cbiAgZnVuY3Rpb24gY29ubmVjdCggdmVydGV4LCB2ZXJ0ZXhJZCApIHtcbiAgICBjb25zdCBkZ1ZlcnRleElkID0gJ1YuJyArIHZlcnRleElkO1xuICAgIFsgdmVydGV4LnBvcnRzLmluYm91bmQsIHZlcnRleC5wb3J0cy5vdXRib3VuZCBdLmZvckVhY2goIChncm91cCwgZ3JvdXBObykgPT4ge1xuICAgICAgY29uc3QgaXNJbmJvdW5kID0gZ3JvdXBObyA9PT0gMDtcbiAgICAgIGdyb3VwLmZvckVhY2goICh7IGVkZ2VJZCB9KSA9PiB7XG4gICAgICAgIGlmKCAhZWRnZUlkICkgeyByZXR1cm47IH1cbiAgICAgICAgbGV0IGRnTmVpZ2hib3JJZCA9ICdFLicgKyBlZGdlSWQ7XG4gICAgICAgIGlmKCAhbWVhc3VyZW1lbnRzLmdldCggJ2VkZ2VzJyApLmdldCggZWRnZUlkICkgKSB7XG4gICAgICAgICAgLy8gaW52aXNpYmxlIGVkZ2UsIFwib3duZWRcIiBieSBhIHZlcnRleFxuICAgICAgICAgIGRnTmVpZ2hib3JJZCA9ICdWLicgKyBvd25lcnNbIGlzSW5ib3VuZCA/ICdvdXRib3VuZCcgOiAnaW5ib3VuZCcgXVsgZWRnZUlkIF07XG4gICAgICAgIH1cblxuICAgICAgICBkZy5zZXRFZGdlKFxuICAgICAgICAgIGlzSW5ib3VuZCA/IGRnTmVpZ2hib3JJZCA6IGRnVmVydGV4SWQsXG4gICAgICAgICAgaXNJbmJvdW5kID8gZGdWZXJ0ZXhJZCA6IGRnTmVpZ2hib3JJZFxuICAgICAgICApO1xuICAgICAgfSApO1xuICAgIH0gKTtcbiAgfVxuXG5cbiAgZnVuY3Rpb24gYWRkKCBwcmVmaXggKSB7XG4gICAgcmV0dXJuICh7IGRpbWVuc2lvbnM6IHsgd2lkdGgsIGhlaWdodCB9IH0sIG5vZGVJZCkgPT4ge1xuICAgICAgY29uc3QgZGdOb2RlSWQgPSBwcmVmaXggKyBub2RlSWQ7XG4gICAgICBkZy5zZXROb2RlKCBkZ05vZGVJZCwgeyBsYWJlbDogZGdOb2RlSWQsIHdpZHRoLCBoZWlnaHQgfSApO1xuICAgIH07XG4gIH1cblxuXG4gIGZ1bmN0aW9uIGNvbGxlY3RPd25pbmdWZXJ0aWNlcygpIHtcbiAgICByZXR1cm4gKCB2ZXJ0ZXgsIHZlcnRleElkICkgPT4ge1xuICAgICAgWyB2ZXJ0ZXgucG9ydHMuaW5ib3VuZCwgdmVydGV4LnBvcnRzLm91dGJvdW5kIF0uZm9yRWFjaCggKGdyb3VwLCBncm91cE5vKSA9PiB7XG4gICAgICAgIGNvbnN0IGlzSW5ib3VuZCA9IGdyb3VwTm8gPT09IDA7XG4gICAgICAgIGdyb3VwLmZvckVhY2goICh7IGVkZ2VJZCB9KSA9PiB7XG4gICAgICAgICAgaWYoICFlZGdlSWQgKSB7IHJldHVybjsgfVxuICAgICAgICAgIG93bmVyc1sgaXNJbmJvdW5kID8gJ2luYm91bmQnIDogJ291dGJvdW5kJyBdWyBlZGdlSWQgXSA9IHZlcnRleElkO1xuICAgICAgICB9ICk7XG4gICAgICB9ICk7XG4gICAgfTtcbiAgfVxuXG5cbiAgZnVuY3Rpb24gZGVjb2RlKCBwcmVmaXgsIGRnTm9kZXMsIG9wdGlvbnMgPSB7fSApIHtcbiAgICBjb25zdCB7IG9mZnNldFkgPSAwLCBvZmZzZXRYID0gMCB9ID0gb3B0aW9ucztcbiAgICBsZXQgcmVzdWx0ID0ge307XG4gICAgZGdOb2Rlcy5mb3JFYWNoKCBkZ05vZGVJZCA9PiB7XG4gICAgICBjb25zdCB7IGxhYmVsLCB3aWR0aCwgaGVpZ2h0LCB4LCB5IH0gPSBkZy5ub2RlKCBkZ05vZGVJZCApIHx8IHt9O1xuICAgICAgaWYoIGxhYmVsICYmIGxhYmVsLmluZGV4T2YoIHByZWZpeCApID09PSAwICkge1xuICAgICAgICBjb25zdCBpZCA9IGxhYmVsLnN1YnN0cmluZyggcHJlZml4Lmxlbmd0aCwgbGFiZWwubGVuZ3RoICk7XG4gICAgICAgIHJlc3VsdFsgaWQgXSA9IHtcbiAgICAgICAgICBsZWZ0OiB4IC0gd2lkdGggLyAyICsgb2Zmc2V0WCxcbiAgICAgICAgICB0b3A6IHkgLSBoZWlnaHQgLyAyICsgb2Zmc2V0WVxuICAgICAgICB9O1xuICAgICAgfVxuICAgIH0gKTtcbiAgICByZXR1cm4gcmVzdWx0O1xuICB9XG59XG4iXX0=
 
 /***/ }),
-/* 383 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports) {'use strict';Object.defineProperty(exports, '__esModule', { value: true });exports.calculateMeasurements = calculateMeasurements;var min = Math.min;var max = Math.max;
@@ -65873,7 +66025,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy91dGlsL2F1dG8tbWVhc3VyZW1lbnRzLmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiNktBQVEsR0FBRyxHQUFVLElBQUksQ0FBakIsR0FBRyxLQUFFLEdBQUcsR0FBSyxJQUFJLENBQVosR0FBRzs7QUFFaEIsTUFBTSxZQUFZLEdBQUcsRUFBRSxDQUFDO0FBQ3hCLE1BQU0sV0FBVyxHQUFHLEVBQUUsQ0FBQztBQUN2QixNQUFNLFdBQVcsR0FBRyxDQUFDLENBQUM7O0FBRWYsV0FBUyxxQkFBcUIsQ0FBRSxLQUFLLEVBQUc7O0FBRTdDLFdBQU87QUFDTCxjQUFRLEVBQUUsS0FBSyxDQUFDLEdBQUcsQ0FBRSxVQUFVLENBQUUsQ0FBQyxHQUFHLENBQUUsVUFBQSxNQUFNLEVBQUk7QUFDdkMsYUFBSyxHQUFLLE1BQU0sQ0FBaEIsS0FBSztBQUNiLFlBQU0sV0FBVyxHQUFHLEdBQUcsQ0FBRSxLQUFLLENBQUMsT0FBTyxDQUFDLElBQUksRUFBRSxLQUFLLENBQUMsUUFBUSxDQUFDLElBQUksQ0FBRSxDQUFDOztBQUVuRSxZQUFNLFVBQVUsR0FBRztBQUNqQixlQUFLLEVBQUUsYUFBYSxDQUFFLE1BQU0sQ0FBRTtBQUM5QixnQkFBTSxFQUFFLFlBQVksR0FBRyxXQUFXLEdBQUMsV0FBVyxFQUMvQyxDQUFDOzs7QUFFRixZQUFNLE9BQU8sR0FBRyxFQUFFLENBQUM7QUFDbkIsYUFBSyxDQUFDLE9BQU8sQ0FBQyxPQUFPLENBQUUsVUFBQyxJQUFJLEVBQUUsQ0FBQyxFQUFLO0FBQ2xDLGlCQUFPLENBQUUsSUFBSSxDQUFDLEVBQUUsQ0FBRSxHQUFHO0FBQ25CLGdCQUFJLEVBQUUsV0FBVztBQUNqQixlQUFHLEVBQUUsWUFBWSxHQUFHLENBQUMsR0FBRyxXQUFXLEdBQUcsV0FBVyxFQUNsRCxDQUFDLENBQ0gsQ0FBRSxDQUFDOzs7QUFDSixZQUFNLFFBQVEsR0FBRyxFQUFFLENBQUM7QUFDcEIsYUFBSyxDQUFDLFFBQVEsQ0FBQyxPQUFPLENBQUUsVUFBQyxJQUFNLEVBQUUsQ0FBQyxFQUFLLEtBQVosRUFBRSxHQUFKLElBQU0sQ0FBSixFQUFFO0FBQzNCLGtCQUFRLENBQUUsRUFBRSxDQUFFLEdBQUc7QUFDZixnQkFBSSxFQUFFLFVBQVUsQ0FBQyxLQUFLLEdBQUcsV0FBVztBQUNwQyxlQUFHLEVBQUUsWUFBWSxHQUFHLENBQUMsR0FBRyxXQUFXLEdBQUcsV0FBVyxFQUNsRCxDQUFDLENBQ0gsQ0FBRSxDQUFDOzs7O0FBRUosZUFBTyxFQUFFLFVBQVUsRUFBVixVQUFVLEVBQUUsT0FBTyxFQUFQLE9BQU8sRUFBRSxRQUFRLEVBQVIsUUFBUSxFQUFFLENBQUMsQ0FDMUMsQ0FBRTs7O0FBRUgsV0FBSyxFQUFFLEtBQUssQ0FBQyxHQUFHLENBQUUsT0FBTyxDQUFFLENBQUMsR0FBRyxDQUFFLFVBQUEsQ0FBQyxVQUFLO0FBQ3JDLG9CQUFVLEVBQUU7QUFDVixpQkFBSyxFQUFFLEVBQUU7QUFDVCxrQkFBTSxFQUFFLEVBQUUsRUFDWCxFQUNGLEVBQUMsQ0FBRSxFQUNMLENBQUMsQ0FFSDs7Ozs7OztBQUVELFdBQVMsYUFBYSxDQUFFLE1BQU0sRUFBRztBQUMvQixRQUFNLENBQUMsR0FBRyxTQUFKLENBQUMsQ0FBSSxLQUFhLE9BQVgsS0FBSyxHQUFQLEtBQWEsQ0FBWCxLQUFLLEtBQUUsRUFBRSxHQUFYLEtBQWEsQ0FBSixFQUFFLFFBQU8sRUFBRSxHQUFHLEdBQUcsR0FBRyxDQUFFLEtBQUssSUFBSSxFQUFFLElBQUksRUFBRSxDQUFBLENBQUcsTUFBTSxFQUFBLENBQUM7QUFDckUsUUFBTSxHQUFHLEdBQUcsU0FBTixHQUFHLENBQUksQ0FBQyxFQUFFLENBQUMsVUFBSyxDQUFDLEdBQUcsQ0FBQyxHQUFHLENBQUMsR0FBRyxDQUFDLEVBQUEsQ0FBQztBQUM1QixTQUFLLEdBQUssTUFBTSxDQUFoQixLQUFLOztBQUViLFFBQU0sVUFBVTtBQUNkLFNBQUssQ0FBQyxPQUFPLENBQUMsR0FBRyxDQUFFLENBQUMsQ0FBRSxDQUFDLE1BQU0sQ0FBRSxHQUFHLEVBQUUsRUFBRSxDQUFFO0FBQ3hDLFNBQUssQ0FBQyxRQUFRLENBQUMsR0FBRyxDQUFFLENBQUMsQ0FBRSxDQUFDLE1BQU0sQ0FBRSxHQUFHLEVBQUUsRUFBRSxDQUFFLENBQUE7QUFDM0MsV0FBTyxHQUFHLENBQUUsQ0FBQyxDQUFFLE1BQU0sQ0FBRSxFQUFDLFVBQVUsQ0FBRSxDQUFDLENBQ3RDIiwiZmlsZSI6ImF1dG8tbWVhc3VyZW1lbnRzLmpzIiwic291cmNlUm9vdCI6InNyYyIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IHsgbWluLCBtYXggfSA9IE1hdGg7XG5cbmNvbnN0IFRJVExFX09GRlNFVCA9IDI0O1xuY29uc3QgUE9SVF9IRUlHSFQgPSAxNjtcbmNvbnN0IFBPUlRfT0ZGU0VUID0gODtcblxuZXhwb3J0IGZ1bmN0aW9uIGNhbGN1bGF0ZU1lYXN1cmVtZW50cyggZ3JhcGggKSB7XG5cbiAgcmV0dXJuIHtcbiAgICB2ZXJ0aWNlczogZ3JhcGguZ2V0KCAndmVydGljZXMnICkubWFwKCB2ZXJ0ZXggPT4ge1xuICAgICAgY29uc3QgeyBwb3J0cyB9ID0gdmVydGV4O1xuICAgICAgY29uc3QgbnVtUG9ydFJvd3MgPSBtYXgoIHBvcnRzLmluYm91bmQuc2l6ZSwgcG9ydHMub3V0Ym91bmQuc2l6ZSApO1xuXG4gICAgICBjb25zdCBkaW1lbnNpb25zID0ge1xuICAgICAgICB3aWR0aDogZXN0aW1hdGVXaWR0aCggdmVydGV4ICksXG4gICAgICAgIGhlaWdodDogVElUTEVfT0ZGU0VUICsgbnVtUG9ydFJvd3MqUE9SVF9IRUlHSFRcbiAgICAgIH07XG5cbiAgICAgIGNvbnN0IGluYm91bmQgPSB7fTtcbiAgICAgIHBvcnRzLmluYm91bmQuZm9yRWFjaCggKHBvcnQsIGkpID0+IHtcbiAgICAgICAgaW5ib3VuZFsgcG9ydC5pZCBdID0ge1xuICAgICAgICAgIGxlZnQ6IFBPUlRfT0ZGU0VULFxuICAgICAgICAgIHRvcDogVElUTEVfT0ZGU0VUICsgaSAqIFBPUlRfSEVJR0hUICsgUE9SVF9PRkZTRVRcbiAgICAgICAgfTtcbiAgICAgIH0gKTtcbiAgICAgIGNvbnN0IG91dGJvdW5kID0ge307XG4gICAgICBwb3J0cy5vdXRib3VuZC5mb3JFYWNoKCAoeyBpZCB9LCBpKSA9PiB7XG4gICAgICAgIG91dGJvdW5kWyBpZCBdID0ge1xuICAgICAgICAgIGxlZnQ6IGRpbWVuc2lvbnMud2lkdGggLSBQT1JUX09GRlNFVCxcbiAgICAgICAgICB0b3A6IFRJVExFX09GRlNFVCArIGkgKiBQT1JUX0hFSUdIVCArIFBPUlRfT0ZGU0VUXG4gICAgICAgIH07XG4gICAgICB9ICk7XG5cbiAgICAgIHJldHVybiB7IGRpbWVuc2lvbnMsIGluYm91bmQsIG91dGJvdW5kIH07XG4gICAgfSApLFxuXG4gICAgZWRnZXM6IGdyYXBoLmdldCggJ2VkZ2VzJyApLm1hcCggXyA9PiAoe1xuICAgICAgZGltZW5zaW9uczoge1xuICAgICAgICB3aWR0aDogNDAsXG4gICAgICAgIGhlaWdodDogNDBcbiAgICAgIH1cbiAgICB9KSApXG4gIH07XG5cbn1cblxuZnVuY3Rpb24gZXN0aW1hdGVXaWR0aCggdmVydGV4ICkge1xuICBjb25zdCB3ID0gKHsgbGFiZWwsIGlkIH0pID0+IDQwICsgNS41ICogKCBsYWJlbCB8fCBpZCB8fCAnJyApLmxlbmd0aDtcbiAgY29uc3QgbWF4ID0gKGEsIGIpID0+IGEgPiBiID8gYSA6IGI7XG4gIGNvbnN0IHsgcG9ydHMgfSA9IHZlcnRleDtcblxuICBjb25zdCBwb3J0c1dpZHRoID1cbiAgICBwb3J0cy5pbmJvdW5kLm1hcCggdyApLnJlZHVjZSggbWF4LCA0MCApICtcbiAgICBwb3J0cy5vdXRib3VuZC5tYXAoIHcgKS5yZWR1Y2UoIG1heCwgNDAgKVxuICByZXR1cm4gbWF4KCB3KCB2ZXJ0ZXggKSxwb3J0c1dpZHRoICk7XG59XG4iXX0=
 
 /***/ }),
-/* 384 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(350)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _settings) {'use strict';function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}var _settings2 = _interopRequireDefault(_settings);module.exports = 
@@ -66181,10 +66333,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy91dGlsL3BhdGhpbmcuanN4Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRWU7QUFDYixTQUFLLEVBQUUsc0JBQXNCO0FBQzdCLFVBQU0sRUFBRSxpQkFBaUIsRUFDMUI7OztBQUVPLEdBQUMsR0FBVSxDQUFDLEtBQVQsQ0FBQyxHQUFVLENBQUM7QUFDZixNQUFJLEdBQVcsQ0FBQyxLQUFWLEVBQUUsR0FBVSxDQUFDO0FBQzNCLE1BQU0sYUFBYSxHQUFHLENBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFFLENBQUM7OztBQUdoQyxNQUFNLGNBQWMsR0FBRyxzQkFBUyxPQUFPLENBQUMsVUFBVSxDQUFDO0FBQ25ELE1BQU0sbUJBQW1CLEdBQUcsc0JBQVMsT0FBTyxDQUFDLGVBQWUsQ0FBQztBQUM3RCxNQUFNLGdCQUFnQixHQUFHLHNCQUFTLE9BQU8sQ0FBQyxZQUFZLENBQUM7O0FBRS9DLE9BQUssR0FBb0IsSUFBSSxDQUE3QixLQUFLLEtBQUUsR0FBRyxHQUFlLElBQUksQ0FBdEIsR0FBRyxLQUFFLEdBQUcsR0FBVSxJQUFJLENBQWpCLEdBQUcsS0FBRSxHQUFHLEdBQUssSUFBSSxDQUFaLEdBQUc7OztBQUc1QixXQUFTLGlCQUFpQixDQUFFLElBQUksRUFBRSxFQUFFLEVBQUUsS0FBSyxFQUFFLFVBQVUsRUFBRSxLQUFLLEVBQUUsU0FBUyxFQUFHO0FBQzFFLFFBQU0sS0FBSyxHQUFHLEtBQUssQ0FBRSxJQUFJLENBQUUsQ0FBQyxDQUFFLENBQUUsRUFBRSxLQUFLLEdBQUcsS0FBSyxDQUFFLElBQUksQ0FBRSxDQUFDLENBQUUsQ0FBRTtBQUM1RCxPQUFHLEdBQUcsS0FBSyxDQUFFLEVBQUUsQ0FBRSxDQUFDLENBQUUsQ0FBRSxFQUFFLEdBQUcsR0FBRyxLQUFLLENBQUUsRUFBRSxDQUFFLENBQUMsQ0FBRSxDQUFFO0FBQzlDLGNBQVUsR0FBRyxjQUFjLElBQUssVUFBVSxJQUFJLENBQUMsQ0FBQSxBQUFFLENBQUM7O0FBRWxE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QUcsUUFBUSxDQUFDO0FBQ3hCLFlBQU0sQ0FBQyxJQUFJLEdBQUcsS0FBSyxDQUFDO0FBQ3BCLFlBQU0sQ0FBQyxJQUFJLEdBQUcsT0FBTyxDQUFDLENBQ3ZCOztBQUNJO0FBQ0gsWUFBTSxDQUFDLEVBQUUsR0FBRyxLQUFLLENBQUUsUUFBUSxDQUFFLENBQUM7QUFDOUIsWUFBTSxDQUFDLEVBQUUsR0FBRyxLQUFLLENBQUUsTUFBTSxDQUFFLENBQUM7QUFDNUIsWUFBTSxDQUFDLEVBQUUsR0FBRyxLQUFLLENBQUUsT0FBTyxDQUFFLENBQUM7QUFDN0IsWUFBTSxDQUFDLEVBQUUsR0FBRyxLQUFLLENBQUUsS0FBSyxDQUFFLENBQUM7QUFDM0IsWUFBTSxDQUFDLEtBQUssR0FBRyxRQUFRLENBQUM7QUFDeEIsWUFBTSxDQUFDLEtBQUssR0FBRyxNQUFNLENBQUM7QUFDdEIsWUFBTSxDQUFDLElBQUksR0FBRyxPQUFPLENBQUM7QUFDdEIsWUFBTSxDQUFDLElBQUksR0FBRyxLQUFLLENBQUMsQ0FDckI7OztBQUVELFdBQU8sTUFBTSxDQUFDLENBQ2YiLCJmaWxlIjoicGF0aGluZy5qcyIsInNvdXJjZVJvb3QiOiJzcmMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgc2V0dGluZ3MgZnJvbSAnLi9zZXR0aW5ncyc7XG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgY3ViaWM6IHN2Z0N1YmljQmV6aWVyTGlua1BhdGgsXG4gIGxpbmVhcjogc3ZnTGluZWFyTGlua1BhdGhcbn07XG5cbmNvbnN0IFsgWCwgWSBdID0gWyAwLCAxIF07XG5jb25zdCBbIEZST00sIFRPIF0gPSBbIDAsIDEgXTtcbmNvbnN0IERFRkFVTFRfU1RVQlMgPSBbIDEsIC0xIF07XG5cbi8vIExlbmd0aCBvZiBhIGhvcml6b250YWwgbGluayBzdHViIHRoYXQgaGVscHMgdmlzdWFsaXppbmcgd2hlcmUgYSBsaW5rIGlzIGF0dGFjaGVkXG5jb25zdCBiYXNlU3R1Ykxlbmd0aCA9IHNldHRpbmdzLnBhdGhpbmcuc3R1Ykxlbmd0aDtcbmNvbnN0IGJhc2VBcnJvd0hlYWRMZW5ndGggPSBzZXR0aW5ncy5wYXRoaW5nLmFycm93SGVhZExlbmd0aDtcbmNvbnN0IGJhc2VDdXJ2ZVBhZGRpbmcgPSBzZXR0aW5ncy5wYXRoaW5nLmN1cnZlUGFkZGluZztcblxuY29uc3QgeyByb3VuZCwgYWJzLCBtaW4sIG1heCB9ID0gTWF0aDtcblxuXG5mdW5jdGlvbiBzdmdMaW5lYXJMaW5rUGF0aCggZnJvbSwgdG8sIHN0dWJzLCB6b29tRmFjdG9yLCBib3hlcywgc2hvd0Fycm93ICkge1xuICBjb25zdCBmcm9tWCA9IHJvdW5kKCBmcm9tWyBYIF0gKSwgZnJvbVkgPSByb3VuZCggZnJvbVsgWSBdICksXG4gIHRvWCA9IHJvdW5kKCB0b1sgWCBdICksIHRvWSA9IHJvdW5kKCB0b1sgWSBdICksXG4gIHN0dWJMZW5ndGggPSBiYXNlU3R1Ykxlbmd0aCAqICggem9vbUZhY3RvciB8fCAxICk7XG5cbiAgY29uc3QgcGF0aCA9IFsgJ00nLCBmcm9tWCwgJywnLCBmcm9tWSBdO1xuICBwYXRoLnB1c2goICdIJywgZnJvbVggKyBzdHVic1sgRlJPTSBdICogc3R1Ykxlbmd0aCAvIDIgKTtcbiAgcGF0aC5wdXNoKCAnTCcsIHRvWCArIHN0dWJzWyBUTyBdICogc3R1Ykxlbmd0aCAvIDIsICcsJywgdG9ZICk7XG4gIHBhdGgucHVzaCggJ0gnLCB0b1ggKTtcbiAgcmV0dXJuIHBhdGguam9pbiggJycgKTtcbn1cblxuLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9cblxuLypcbiAqIEdlbmVyYXRlIGEgc21vb3RoIHBhdGggYmV0d2VlbjpcbiAqICAtIG91dGJvdW5kIHBvcnQgb2YgYSB2ZXJ0ZXggYW5kIGluYm91bmQgcG9ydCBvZiBhbm90aGVyIHZlcnRleFxuICogIC0gYSBwb3J0IGFuZCBhbiBlZGdlIG5vZGVcbiAqXG4gKiBUcnkgdG8gY2lyY3VtdmVudCBzdGFydCBhbmQgZW5kIGJveCBzbyB0aGF0IGNvbm5lY3Rpb25zIGFyZSBvYnZpb3VzLlxuICovXG5mdW5jdGlvbiBzdmdDdWJpY0JlemllckxpbmtQYXRoKFxuICBmcm9tLCB0bywgem9vbUZhY3RvciwgYm94ZXMsIHNob3dBcnJvdywgc3R1YnMgPSBERUZBVUxUX1NUVUJTXG4pIHtcblxuICBjb25zdCBhcnJvd0hlYWRMZW5ndGggPSBiYXNlQXJyb3dIZWFkTGVuZ3RoICogKCB6b29tRmFjdG9yIHx8IDEgKTtcbiAgY29uc3Qgc3R1Ykxlbmd0aCA9IGJhc2VTdHViTGVuZ3RoICogKCB6b29tRmFjdG9yIHx8IDEgKTtcbiAgY29uc3Qgc2FmZURpc3RhbmNlWCA9IDIgKiBzdHViTGVuZ3RoO1xuICBjb25zdCBzYWZlRGlzdGFuY2VZID0gMyAqIHN0dWJMZW5ndGg7XG5cbiAgY29uc3QgZGlzdGFuY2VYID0gYWJzKCBmcm9tWyBYIF0gLSB0b1sgWCBdICk7XG4gIGNvbnN0IGRpc3RhbmNlWSA9IGFicyggZnJvbVsgWSBdIC0gdG9bIFkgXSApO1xuICBpZiggZGlzdGFuY2VYIDwgc2FmZURpc3RhbmNlWCAmJiBkaXN0YW5jZVkgPCBzYWZlRGlzdGFuY2VZICkge1xuICAgIHJldHVybiBzdmdMaW5lYXJMaW5rUGF0aCggZnJvbSwgdG8sIHN0dWJzICk7XG4gIH1cblxuICBjb25zdCBwYXJhbXMgPSBpbml0aWFsaXplUGFyYW1ldGVycyhcbiAgICBmcm9tLCB0bywgYm94ZXMsIHN0dWJzLCBzdHViTGVuZ3RoLCBiYXNlQ3VydmVQYWRkaW5nXG4gICk7XG5cbiAgLy8gQ3VycmVudCBwYXRoIGFuZCBwb3NpdGlvbjpcbiAgdmFyIFsgeCwgeSBdID0gWyBwYXJhbXMueDAsIHBhcmFtcy55MCBdO1xuXG4gIGNvbnN0IHBhdGggPSBbXTtcbiAgcGF0aC5wdXNoKCAnTScsIHgsICcsJywgeSApO1xuICBjb25zdCB5RG9taW5hdGVzID0gc3RhcnRTZWdtZW50KCk7XG4gIGVuZFNlZ21lbnQoIHlEb21pbmF0ZXMgKTtcbiAgcmV0dXJuIHBhdGguam9pbiggJycgKTtcblxuICAvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9cblxuICBmdW5jdGlvbiBzdGFydFNlZ21lbnQoKSB7XG4gICAgaWYoIHBhcmFtcy5yZXZlcnNlICkge1xuICAgICAgYXJyb3dIZWFkKCk7XG4gICAgfVxuICAgIGhvcml6b250YWwoIHggKyBwYXJhbXMuc3R1YjAgKiBzdHViTGVuZ3RoICk7XG4gICAgaWYoIHBhcmFtcy5zdHViMCA8IDAgKSB7XG4gICAgICByZXR1cm4gY2lyY3VtdmVudEJveDAoKTtcbiAgICB9XG4gICAgcmV0dXJuIGZhbHNlO1xuICB9XG5cbiAgLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vXG5cbiAgZnVuY3Rpb24gZW5kU2VnbWVudCggdXNlQmV6aWVyWSApIHtcbiAgICBpZiggcGFyYW1zLnN0dWJOID4gMCAmJiBwYXJhbXMuYm94TiApIHtcbiAgICAgIGNpcmN1bXZlbnRCb3hOKCB1c2VCZXppZXJZICk7XG4gICAgfVxuICAgIGVsc2Uge1xuICAgICAgY3ViaWMoIHBhcmFtcy54TiArIHBhcmFtcy5zdHViTiAqIHBhcmFtcy5zdHViTGVuZ3RoLCBwYXJhbXMueU4gKTtcbiAgICB9XG5cbiAgICBob3Jpem9udGFsKCBwYXJhbXMueE4gKTtcbiAgICBpZiggIXBhcmFtcy5yZXZlcnNlICkge1xuICAgICAgYXJyb3dIZWFkKCk7XG4gICAgfVxuICB9XG5cbiAgLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vXG5cbiAgZnVuY3Rpb24gY3ViaWMoIHRvWCwgdG9ZICkge1xuICAgIGNvbnN0IG1pZGRsZVggPSB4ICsgKHRvWCAtIHgpIC8gMjtcbiAgICBwYXRoLnB1c2goICdDJywgbWlkZGxlWCwgJywnLCB5LCAnICcsIG1pZGRsZVgsICcsJywgdG9ZLCAnICcsIHRvWCwgJywnLCB0b1kgKTtcbiAgICB4ID0gdG9YO1xuICAgIHkgPSB0b1k7XG4gIH1cblxuICAvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9cblxuICBmdW5jdGlvbiBjdWJpY1koIHRvWCwgdG9ZICkge1xuICAgIGNvbnN0IG1pZGRsZVkgPSB5ICsgKHRvWSAtIHkpIC8gMjtcbiAgICBwYXRoLnB1c2goICdDJywgeCwgJywnLCBtaWRkbGVZLCAnICcsIHRvWCwgJywnLCBtaWRkbGVZLCAnICcsIHRvWCwgJywnLCB0b1kgKTtcbiAgICB4ID0gdG9YO1xuICAgIHkgPSB0b1k7XG4gIH1cblxuICAvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9cblxuICBmdW5jdGlvbiBob3Jpem9udGFsKCB4QWJzICkge1xuICAgIHggPSB4QWJzO1xuICAgIHBhdGgucHVzaCggJ0gnLCB4ICk7XG4gIH1cblxuICAvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9cblxuICBmdW5jdGlvbiBhcmM5MCggeFNnbiwgeVNnbiwgc3dlZXAgKSB7XG4gICAgeCArPSB4U2duICogcGFyYW1zLmN1cnZlUGFkZGluZztcbiAgICB5ICs9IHlTZ24gKiBwYXJhbXMuY3VydmVQYWRkaW5nO1xuICAgIHBhdGgucHVzaCggJ0EnLCBwYXJhbXMuY3VydmVQYWRkaW5nLCAnLCcsIHBhcmFtcy5jdXJ2ZVBhZGRpbmcsICcgMCAwLCcsIHN3ZWVwLCAnICcsIHgsICcsJywgeSApO1xuICB9XG5cbiAgLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vXG5cbiAgZnVuY3Rpb24gdmVydGljYWwoIHlBYnMgKSB7XG4gICAgeSA9IHlBYnM7XG4gICAgcGF0aC5wdXNoKCAnVicsIHlBYnMgKTtcbiAgfVxuXG4gIC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1xuXG4gIGZ1bmN0aW9uIGFycm93SGVhZCgpIHtcbiAgICBpZiggIXNob3dBcnJvdyApIHtcbiAgICAgIHJldHVybjtcbiAgICB9XG5cbiAgICBjb25zdCBheCA9IHggLSBzdHViTGVuZ3RoIC0gYXJyb3dIZWFkTGVuZ3RoLCBheSA9IHk7XG4gICAgcGF0aC5wdXNoKFxuICAgICAgJ00nLCBheCwgJywnLCBheSAtIGFycm93SGVhZExlbmd0aCxcbiAgICAgICdMJywgYXggKyBzdHViTGVuZ3RoIC8gMiwgJywnLCBheSxcbiAgICAgICdMJywgYXgsICcsJywgYXkgKyBhcnJvd0hlYWRMZW5ndGgsXG4gICAgICAnTCcsIGF4ICsgYXJyb3dIZWFkTGVuZ3RoLCAnLCcsIGF5LFxuICAgICAgJ0wnLCBheCwgJywnLCBheSAtIGFycm93SGVhZExlbmd0aCxcbiAgICAgICdNJywgeCwgJywnLCB5XG4gICAgKTtcbiAgfVxuXG4gIC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1xuXG4gIGZ1bmN0aW9uIGNpcmN1bXZlbnRCb3gwKCkge1xuICAgIGNvbnN0IHsgeE4sIHlOLCBib3gwLCBib3hOLCBjdXJ2ZVBhZGRpbmcgfSA9IHBhcmFtcztcbiAgICBjb25zdCB5RGlyID0gY2FsY3VsYXRlU3RhcnREaXJlY3Rpb25ZKCk7XG4gICAgY29uc3Qgc3dlZXAgPSB5RGlyID09PSAxID8gMCA6IDE7XG5cbiAgICBjaXJjdW12ZW50WSgpO1xuICAgIHJldHVybiBjaXJjdW12ZW50WCgpO1xuXG4gICAgZnVuY3Rpb24gY2lyY3VtdmVudFkoKSB7XG4gICAgICAvLyBBcmMgYW5kIGdvIHRvIGJvdHRvbS90b3A6XG4gICAgICBhcmM5MCggLTEsIHlEaXIsIHN3ZWVwICk7XG4gICAgICBpZiggeURpciA9PT0gMSApIHtcbiAgICAgICAgdmVydGljYWwoIG1heCggYm94MC5ib3R0b20sIHkgKyBjdXJ2ZVBhZGRpbmcgKSApO1xuICAgICAgfVxuICAgICAgZWxzZSB7XG4gICAgICAgIHZlcnRpY2FsKCBtaW4oIGJveDAudG9wLCB5IC0gY3VydmVQYWRkaW5nICkgKTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICBmdW5jdGlvbiBjaXJjdW12ZW50WCgpIHtcbiAgICAgIC8vIENsaW5nIHRvIGJvdHRvbS90b3AgZWRnZSBhcyBmYXIgYXMgbmVlZGVkOlxuICAgICAgaWYoIHlOICogeURpciA8IHkgKiB5RGlyIHx8IGFicyggeSAtIHlOICkgKiA0IDwgYWJzKCB4IC0geE4gKSApIHtcbiAgICAgICAgYXJjOTAoIDEsIHlEaXIsIHN3ZWVwICk7XG4gICAgICAgIGlmKCB5TiAqIHlEaXIgPCB5ICogeURpciApIHtcbiAgICAgICAgICBob3Jpem9udGFsKCBtYXgoIHgsIG1pbiggYm94MC5yaWdodCwgeE4gLSAyICogY3VydmVQYWRkaW5nICkgKSApO1xuICAgICAgICB9XG4gICAgICAgIHJldHVybiBmYWxzZTtcbiAgICAgIH1cbiAgICAgIGlmKCAhYm94TiAmJiB4TiA+IGJveDAubGVmdCApIHtcbiAgICAgICAgYXJjOTAoIDEsIHlEaXIsIHN3ZWVwICk7XG4gICAgICAgIHJldHVybiBmYWxzZTtcbiAgICAgIH1cbiAgICAgIHJldHVybiB0cnVlO1xuICAgIH1cblxuICAgIGZ1bmN0aW9uIGNhbGN1bGF0ZVN0YXJ0RGlyZWN0aW9uWSgpIHtcbiAgICAgIC8vIGRvd246IDEsIHVwOiAtMVxuICAgICAgaWYoICghYm94TiAmJiB5TiA+IHkpIHx8IChib3hOICYmIGJveE4udG9wID4gYm94MC5ib3R0b20pICkge1xuICAgICAgICAvLyBUaGUgZW50aXJlIGRlc3QgaXMgYmVsb3cgdGhpcyBib3g6IGFsd2F5cyBnbyBkb3dud2FyZHNcbiAgICAgICAgcmV0dXJuIDE7XG4gICAgICB9XG4gICAgICBpZiggKCFib3hOICYmIHlOIDwgeSkgfHwgKGJveE4gJiYgYm94Ti5ib3R0b20gPCBib3gwLnRvcCkgKSB7XG4gICAgICAgIC8vIFRoZSBlbnRpcmUgZGVzdCBpcyBhYm92ZSB0aGlzIGJveDogYWx3YXlzIGdvIHVwd2FyZHNcbiAgICAgICAgcmV0dXJuIC0xO1xuICAgICAgfVxuICAgICAgLy8gU2hvcnRlc3QgcGF0aCB0byBlZGdlIG9mIHRoaXMgYm94XG4gICAgICByZXR1cm4gYWJzKCBib3gwLnRvcCAtIHkgKSA8IGFicyggeSAtIGJveDAuYm90dG9tICkgPyAtMSA6IDE7XG4gICAgfVxuICB9XG5cbiAgLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vXG5cbiAgZnVuY3Rpb24gY2lyY3VtdmVudEJveE4oIHVzZUJlemllclkgKSB7XG4gICAgY29uc3QgeyBib3hOLCB5TiwgY3VydmVQYWRkaW5nIH0gPSBwYXJhbXM7XG5cbiAgICAvLyBEcmF3IGxpbmUgdG8gbmVhcmVzdCBjb3JuZXIgb2YgYm94TjpcbiAgICB2YXIgeURpciwgeUVkZ2UsIHhFZGdlLCBzd2VlcDtcbiAgICBpZiggYWJzKCBib3hOLnRvcCAtIHkgKSArICh5IDwgeU4gPyAtMSA6IDApIDwgYWJzKCB5IC0gYm94Ti5ib3R0b20gKSApIHtcbiAgICAgIHlEaXIgPSAxO1xuICAgICAgeUVkZ2UgPSBtaW4oIGJveE4udG9wIC0gY3VydmVQYWRkaW5nLCB5TiAtIDIgKiBjdXJ2ZVBhZGRpbmcgKTtcbiAgICAgIHN3ZWVwID0gMTtcbiAgICAgIHhFZGdlID0geUVkZ2UgPiB5ID8gYm94Ti5yaWdodCA6IGJveE4ubGVmdDtcbiAgICB9XG4gICAgZWxzZSB7XG4gICAgICB5RGlyID0gLTE7XG4gICAgICB5RWRnZSA9IG1heCggYm94Ti5ib3R0b20gKyBjdXJ2ZVBhZGRpbmcsIHlOICsgMiAqIGN1cnZlUGFkZGluZyApO1xuICAgICAgc3dlZXAgPSAwO1xuICAgICAgeEVkZ2UgPSB5RWRnZSA8IHkgPyBib3hOLnJpZ2h0IDogYm94Ti5sZWZ0O1xuICAgIH1cblxuICAgIGlmKCB1c2VCZXppZXJZICkge1xuICAgICAgY3ViaWNZKCBib3hOLnJpZ2h0ICsgY3VydmVQYWRkaW5nLCB5RWRnZSApO1xuICAgIH1cbiAgICBlbHNlIHtcbiAgICAgIGN1YmljKCBtYXgoIHhFZGdlLCB4ICsgY3VydmVQYWRkaW5nICksIHlFZGdlICk7XG4gICAgICAvLyBTdGljayB0byBib3R0b20vdG9wIGVkZ2UgYXMgZmFyIGFzIG5lZWRlZDpcbiAgICAgIGhvcml6b250YWwoIGJveE4ucmlnaHQgKTtcbiAgICAgIGFyYzkwKCAxLCB5RGlyLCBzd2VlcCApO1xuICAgIH1cbiAgICAvLyB0dXJuIHRvd2FyZHMgcG9ydFxuICAgIHZlcnRpY2FsKCB5TiAtIHlEaXIgKiBjdXJ2ZVBhZGRpbmcgKTtcbiAgICBhcmM5MCggLTEsIHlEaXIsIHN3ZWVwICk7XG4gIH1cblxufVxuXG4vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1xuXG5mdW5jdGlvbiBpbml0aWFsaXplUGFyYW1ldGVycyggZnJvbSwgdG8sIGJveGVzLCBzdHVicywgc3R1Ykxlbmd0aCwgY3VydmVQYWRkaW5nICkge1xuICBjb25zdCBwYXJhbXMgPSB7IHN0dWJMZW5ndGg6IHN0dWJMZW5ndGgsIGN1cnZlUGFkZGluZzogY3VydmVQYWRkaW5nIH07XG5cbiAgY29uc3QgZnJvbUxlZnQgPSBmcm9tWyBYIF0sIGZyb21Ub3AgPSBmcm9tWyBZIF07XG4gIGNvbnN0IHRvTGVmdCA9IHRvWyBYIF0sIHRvVG9wID0gdG9bIFkgXTtcbiAgY29uc3QgZnJvbUJveCA9IGJveGVzWyBGUk9NIF0sIHRvQm94ID0gYm94ZXNbIFRPIF07XG4gIGNvbnN0IGZyb21TdHViID0gc3R1YnNbIEZST00gXSwgdG9TdHViID0gc3R1YnNbIFRPIF07XG5cbiAgY29uc3Qgc2FmZUJveERpc3RhbmNlID0gMyAqIHN0dWJMZW5ndGg7XG4gIGNvbnN0IG1pblN0dWJMZW5ndGggPSAzO1xuICBjb25zdCBtaW5DdXJ2ZVBhZGRpbmcgPSAxO1xuXG4gIHZhciB5UmF0aW8gPSAxO1xuICBpZiggdG9Cb3ggKSB7XG4gICAgdmFyIGJveERlbHRhWSA9IGFicyggdG9Ub3AgPiBmcm9tVG9wID9cbiAgICAgIGZyb21Cb3guYm90dG9tIC0gdG9Cb3gudG9wIDpcbiAgICAgIHRvQm94LmJvdHRvbSAtIGZyb21Cb3gudG9wICk7XG4gICAgaWYoIGJveERlbHRhWSA8IHNhZmVCb3hEaXN0YW5jZSApIHtcbiAgICAgIHlSYXRpbyA9IGJveERlbHRhWSAvIHNhZmVCb3hEaXN0YW5jZTtcbiAgICAgIHBhcmFtcy5jdXJ2ZVBhZGRpbmcgPSBtYXgoIG1pblN0dWJMZW5ndGgsIG1heCggMSwgcm91bmQoIHlSYXRpbyAqIGN1cnZlUGFkZGluZyApICkgKTtcbiAgICB9XG4gIH1cblxuICB2YXIgZGVsdGFYID0gYWJzKCBmcm9tTGVmdCAtIHRvTGVmdCApO1xuICBpZiggZGVsdGFYIDwgc2FmZUJveERpc3RhbmNlICYmIHlSYXRpbyA8IDEgKSB7XG4gICAgdmFyIHhSYXRpbyA9IGRlbHRhWCAvIHNhZmVCb3hEaXN0YW5jZTtcbiAgICBwYXJhbXMuc3R1Ykxlbmd0aCA9IG1heCggbWluU3R1Ykxlbmd0aCwgcm91bmQoIHhSYXRpbyAqIHN0dWJMZW5ndGggKSApO1xuICAgIHBhcmFtcy5jdXJ2ZVBhZGRpbmcgPSBtYXgoIG1pbkN1cnZlUGFkZGluZywgcm91bmQoIHhSYXRpbyAqIGN1cnZlUGFkZGluZyApICk7XG4gIH1cblxuICAvLyBTaW1wbGlmeSBieSBhbHdheXMgZHJhd2luZyBhIHBhdGggZnJvbSBsZWZ0IHRvIHJpZ2h0OlxuICBwYXJhbXMucmV2ZXJzZSA9XG4gICAgZnJvbUxlZnQgKyBmcm9tU3R1YiAqIHN0dWJMZW5ndGggPlxuICAgIHRvTGVmdCArIHRvU3R1YiAqIHN0dWJMZW5ndGg7XG4gIGlmKCBwYXJhbXMucmV2ZXJzZSApIHtcbiAgICBwYXJhbXMueDAgPSByb3VuZCggdG9MZWZ0ICk7XG4gICAgcGFyYW1zLnhOID0gcm91bmQoIGZyb21MZWZ0ICk7XG4gICAgcGFyYW1zLnkwID0gcm91bmQoIHRvVG9wICk7XG4gICAgcGFyYW1zLnlOID0gcm91bmQoIGZyb21Ub3AgKTtcbiAgICBwYXJhbXMuc3R1YjAgPSB0b1N0dWI7XG4gICAgcGFyYW1zLnN0dWJOID0gZnJvbVN0dWI7XG4gICAgcGFyYW1zLmJveDAgPSB0b0JveDtcbiAgICBwYXJhbXMuYm94TiA9IGZyb21Cb3g7XG4gIH1cbiAgZWxzZSB7XG4gICAgcGFyYW1zLngwID0gcm91bmQoIGZyb21MZWZ0ICk7XG4gICAgcGFyYW1zLnhOID0gcm91bmQoIHRvTGVmdCApO1xuICAgIHBhcmFtcy55MCA9IHJvdW5kKCBmcm9tVG9wICk7XG4gICAgcGFyYW1zLnlOID0gcm91bmQoIHRvVG9wICk7XG4gICAgcGFyYW1zLnN0dWIwID0gZnJvbVN0dWI7XG4gICAgcGFyYW1zLnN0dWJOID0gdG9TdHViO1xuICAgIHBhcmFtcy5ib3gwID0gZnJvbUJveDtcbiAgICBwYXJhbXMuYm94TiA9IHRvQm94O1xuICB9XG5cbiAgcmV0dXJuIHBhcmFtcztcbn1cbiJdfQ==
 
 /***/ }),
-/* 385 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(471), __webpack_require__(382), __webpack_require__(383), __webpack_require__(218), __webpack_require__(95), __webpack_require__(479), __webpack_require__(112), __webpack_require__(481), __webpack_require__(216), __webpack_require__(113), __webpack_require__(482), __webpack_require__(349), __webpack_require__(372), __webpack_require__(485), __webpack_require__(484), __webpack_require__(478), __webpack_require__(472)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _componentsGraph, _utilAutoLayout, _utilAutoMeasurements, _fluxGraphGraphActions, _fluxGraphGraphModel, _fluxGraphGraphStore, _fluxHistoryHistoryActions, _fluxHistoryHistoryStore, _fluxLayoutLayoutActions, _fluxLayoutLayoutModel, _fluxLayoutLayoutStore, _fluxSettingsSettingsActions, _fluxSettingsSettingsModel, _fluxSettingsSettingsStore, _fluxSelectionSelectionStore, _fluxDispatcher, _componentsHistory) {// The wireflow API:
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(471), __webpack_require__(387), __webpack_require__(388), __webpack_require__(218), __webpack_require__(95), __webpack_require__(479), __webpack_require__(112), __webpack_require__(481), __webpack_require__(216), __webpack_require__(113), __webpack_require__(482), __webpack_require__(349), __webpack_require__(377), __webpack_require__(485), __webpack_require__(484), __webpack_require__(478), __webpack_require__(472)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _componentsGraph, _utilAutoLayout, _utilAutoMeasurements, _fluxGraphGraphActions, _fluxGraphGraphModel, _fluxGraphGraphStore, _fluxHistoryHistoryActions, _fluxHistoryHistoryStore, _fluxLayoutLayoutActions, _fluxLayoutLayoutModel, _fluxLayoutLayoutStore, _fluxSettingsSettingsActions, _fluxSettingsSettingsModel, _fluxSettingsSettingsStore, _fluxSelectionSelectionStore, _fluxDispatcher, _componentsHistory) {// The wireflow API:
   'use strict';function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}var _Graph = _interopRequireDefault(_componentsGraph);var _calculateLayout = _interopRequireDefault(_utilAutoLayout);var _calculateMeasurements = _interopRequireDefault(_utilAutoMeasurements);var _graphActions = _interopRequireDefault(_fluxGraphGraphActions);var _graphModel = _interopRequireDefault(_fluxGraphGraphModel);var _GraphStore = _interopRequireDefault(_fluxGraphGraphStore);var _historyActions = _interopRequireDefault(_fluxHistoryHistoryActions);var _HistoryStore = _interopRequireDefault(_fluxHistoryHistoryStore);var _layoutActions = _interopRequireDefault(_fluxLayoutLayoutActions);var _layoutModel = _interopRequireDefault(_fluxLayoutLayoutModel);var _LayoutStore = _interopRequireDefault(_fluxLayoutLayoutStore);var _settingsActions = _interopRequireDefault(_fluxSettingsSettingsActions);var _settingsModel = _interopRequireDefault(_fluxSettingsSettingsModel);var _SettingsStore = _interopRequireDefault(_fluxSettingsSettingsStore);var _SelectionStore = _interopRequireDefault(_fluxSelectionSelectionStore);var _Dispatcher = _interopRequireDefault(_fluxDispatcher);var _History = _interopRequireDefault(_componentsHistory);module.exports = 
 
 
@@ -66248,12 +66400,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy93aXJlZmxvdy5qc3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUE2QmU7QUFDYixhQUFTLEVBQUU7QUFDVCxvQkFBYyw0QkFBQSxFQUNmOztBQUNELFdBQU8sRUFBRTtBQUNQLGFBQU8sNEJBQWdCO0FBQ3ZCLGtCQUFZLDBCQUFBLEVBQ2I7O0FBQ0QsVUFBTSxFQUFFO0FBQ04sYUFBTywyQkFBZTtBQUN0QixXQUFLLHlCQUFhO0FBQ2xCLGlCQUFXLHlCQUFBLEVBQ1o7O0FBQ0QsU0FBSyxFQUFFO0FBQ0wsYUFBTywwQkFBYztBQUNyQixXQUFLLHdCQUFZO0FBQ2pCLGdCQUFVLHdCQUFBLEVBQ1g7O0FBQ0QsWUFBUSxFQUFFO0FBQ1IsYUFBTyw2QkFBaUI7QUFDeEIsV0FBSywyQkFBZTtBQUNwQixtQkFBYSwyQkFBQSxFQUNkOztBQUNELFFBQUksRUFBRTtBQUNKLHFCQUFlLDZCQUFBO0FBQ2YsMkJBQXFCLG1DQUFBLEVBQ3RCOztBQUNELGNBQVUsd0JBQUE7QUFDVixjQUFVLEVBQUU7QUFDVixXQUFLLG1CQUFBO0FBQ0wsYUFBTyxxQkFBQSxFQUNSLEVBQ0YiLCJmaWxlIjoid2lyZWZsb3cuanMiLCJzb3VyY2VSb290Ijoic3JjIiwic291cmNlc0NvbnRlbnQiOlsiLy8gVGhlIHdpcmVmbG93IEFQSTpcblxuaW1wb3J0IEdyYXBoIGZyb20gJy4vY29tcG9uZW50cy9ncmFwaCc7XG5cbmltcG9ydCBjYWxjdWxhdGVMYXlvdXQgZnJvbSAnLi91dGlsL2F1dG8tbGF5b3V0JztcbmltcG9ydCBjYWxjdWxhdGVNZWFzdXJlbWVudHMgZnJvbSAnLi91dGlsL2F1dG8tbWVhc3VyZW1lbnRzJztcblxuaW1wb3J0IGdyYXBoQWN0aW9ucyBmcm9tICcuL2ZsdXgvZ3JhcGgvZ3JhcGgtYWN0aW9ucyc7XG5pbXBvcnQgZ3JhcGhNb2RlbCBmcm9tICcuL2ZsdXgvZ3JhcGgvZ3JhcGgtbW9kZWwnO1xuaW1wb3J0IEdyYXBoU3RvcmUgZnJvbSAnLi9mbHV4L2dyYXBoL2dyYXBoLXN0b3JlJztcblxuaW1wb3J0IGhpc3RvcnlBY3Rpb25zIGZyb20gJy4vZmx1eC9oaXN0b3J5L2hpc3RvcnktYWN0aW9ucyc7XG5pbXBvcnQgSGlzdG9yeVN0b3JlIGZyb20gJy4vZmx1eC9oaXN0b3J5L2hpc3Rvcnktc3RvcmUnO1xuXG5pbXBvcnQgbGF5b3V0QWN0aW9ucyBmcm9tICcuL2ZsdXgvbGF5b3V0L2xheW91dC1hY3Rpb25zJztcbmltcG9ydCBsYXlvdXRNb2RlbCBmcm9tICcuL2ZsdXgvbGF5b3V0L2xheW91dC1tb2RlbCc7XG5pbXBvcnQgTGF5b3V0U3RvcmUgZnJvbSAnLi9mbHV4L2xheW91dC9sYXlvdXQtc3RvcmUnO1xuXG5pbXBvcnQgc2V0dGluZ3NBY3Rpb25zIGZyb20gJy4vZmx1eC9zZXR0aW5ncy9zZXR0aW5ncy1hY3Rpb25zJztcbmltcG9ydCBzZXR0aW5nc01vZGVsIGZyb20gJy4vZmx1eC9zZXR0aW5ncy9zZXR0aW5ncy1tb2RlbCc7XG5pbXBvcnQgU2V0dGluZ3NTdG9yZSBmcm9tICcuL2ZsdXgvc2V0dGluZ3Mvc2V0dGluZ3Mtc3RvcmUnO1xuXG5pbXBvcnQgU2VsZWN0aW9uU3RvcmUgZnJvbSAnLi9mbHV4L3NlbGVjdGlvbi9zZWxlY3Rpb24tc3RvcmUnO1xuXG5pbXBvcnQgRGlzcGF0Y2hlciBmcm9tICcuL2ZsdXgvZGlzcGF0Y2hlcic7XG5cbmltcG9ydCBIaXN0b3J5IGZyb20gJy4vY29tcG9uZW50cy9oaXN0b3J5JztcblxuXG5leHBvcnQgZGVmYXVsdCB7XG4gIHNlbGVjdGlvbjoge1xuICAgIFNlbGVjdGlvblN0b3JlXG4gIH0sXG4gIGhpc3Rvcnk6IHtcbiAgICBhY3Rpb25zOiBoaXN0b3J5QWN0aW9ucyxcbiAgICBIaXN0b3J5U3RvcmVcbiAgfSxcbiAgbGF5b3V0OiB7XG4gICAgYWN0aW9uczogbGF5b3V0QWN0aW9ucyxcbiAgICBtb2RlbDogbGF5b3V0TW9kZWwsXG4gICAgTGF5b3V0U3RvcmVcbiAgfSxcbiAgZ3JhcGg6IHtcbiAgICBhY3Rpb25zOiBncmFwaEFjdGlvbnMsXG4gICAgbW9kZWw6IGdyYXBoTW9kZWwsXG4gICAgR3JhcGhTdG9yZVxuICB9LFxuICBzZXR0aW5nczoge1xuICAgIGFjdGlvbnM6IHNldHRpbmdzQWN0aW9ucyxcbiAgICBtb2RlbDogc2V0dGluZ3NNb2RlbCxcbiAgICBTZXR0aW5nc1N0b3JlXG4gIH0sXG4gIHV0aWw6IHtcbiAgICBjYWxjdWxhdGVMYXlvdXQsXG4gICAgY2FsY3VsYXRlTWVhc3VyZW1lbnRzXG4gIH0sXG4gIERpc3BhdGNoZXIsXG4gIGNvbXBvbmVudHM6IHtcbiAgICBHcmFwaCxcbiAgICBIaXN0b3J5XG4gIH1cbn07XG4iXX0=
 
 /***/ }),
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* global __resourceQuery */
@@ -66261,60 +66413,7 @@ module.exports = __webpack_require__( 456 );
 
 
 /***/ }),
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */
-/***/ (function(module, exports) {
-
-module.exports = {
-	"name": "page-inspector-widget",
-	"description": "Visualizes the widgets on the current page and their event connections",
-	"integration": {
-		"technology": "react",
-		"type": "widget"
-	},
-	"features": {
-		"$schema": "http://json-schema.org/draft-04/schema#",
-		"type": "object",
-		"properties": {
-			"pageInfo": {
-				"type": "object",
-				"description": "Inspect page models received through wrapper events.",
-				"requires": [
-					"resource"
-				],
-				"properties": {
-					"resource": {
-						"type": "string",
-						"description": "The event topic through which to monitor pages.",
-						"format": "topic",
-						"axRole": "inlet"
-					}
-				}
-			},
-			"filter": {
-				"type": "object",
-				"description": "Allows to filter by topic or widget/activity instance",
-				"requires": [
-					"resource"
-				],
-				"properties": {
-					"resource": {
-						"type": "string",
-						"description": "The topic through which to publish filter information",
-						"format": "topic",
-						"axRole": "outlet"
-					}
-				}
-			}
-		}
-	}
-};
-
-/***/ }),
+/* 397 */,
 /* 398 */,
 /* 399 */,
 /* 400 */,
@@ -66764,7 +66863,7 @@ compositionStack = compositionStack;exports.
 
 
 
-filterFromSelection = filterFromSelection;var _wireflow = __webpack_require__(385);var _wireflow2 = _interopRequireDefault(_wireflow);var _laxar = __webpack_require__(11);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var TYPE_CONTAINER = 'CONTAINER';var layoutModel = _wireflow2.default.layout.model,graphModel = _wireflow2.default.graph.model;var edgeTypes = { RESOURCE: { hidden: false, label: 'Resources' }, FLAG: { label: 'Flags', hidden: false }, ACTION: { label: 'Actions', hidden: false }, CONTAINER: { hidden: false, label: 'Container', owningPort: 'outbound' } };var ROOT_ID = exports.ROOT_ID = '.'; /**
+filterFromSelection = filterFromSelection;var _wireflow = __webpack_require__(390);var _wireflow2 = _interopRequireDefault(_wireflow);var _laxar = __webpack_require__(11);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var TYPE_CONTAINER = 'CONTAINER';var layoutModel = _wireflow2.default.layout.model,graphModel = _wireflow2.default.graph.model;var edgeTypes = { RESOURCE: { hidden: false, label: 'Resources' }, FLAG: { label: 'Flags', hidden: false }, ACTION: { label: 'Actions', hidden: false }, CONTAINER: { hidden: false, label: 'Container', owningPort: 'outbound' } };var ROOT_ID = exports.ROOT_ID = '.'; /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Create a wireflow graph from a given page/widget information model.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @param {Object} pageInfo
@@ -66811,7 +66910,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 var _react = __webpack_require__(27);var _react2 = _interopRequireDefault(_react);
 var _laxarPatterns = __webpack_require__(217);var patterns = _interopRequireWildcard(_laxarPatterns);
-var _wireflow = __webpack_require__(385);var _wireflow2 = _interopRequireDefault(_wireflow);
+var _wireflow = __webpack_require__(390);var _wireflow2 = _interopRequireDefault(_wireflow);
 
 var _graphHelpers = __webpack_require__(406);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /**
                                                                                                                                                                                                                                                                                                                                                                                                               * Copyright 2016 aixigo AG
@@ -69366,7 +69465,7 @@ function positionY(g) {
 
 var rankUtil = __webpack_require__(344),
     longestPath = rankUtil.longestPath,
-    feasibleTree = __webpack_require__(373),
+    feasibleTree = __webpack_require__(378),
     networkSimplex = __webpack_require__(436);
 
 module.exports = rank;
@@ -69420,7 +69519,7 @@ function networkSimplexRanker(g) {
 
 
 var _ = __webpack_require__(22),
-    feasibleTree = __webpack_require__(373),
+    feasibleTree = __webpack_require__(378),
     slack = __webpack_require__(344).slack,
     initRank = __webpack_require__(344).longestPath,
     preorder = __webpack_require__(67).alg.preorder,
@@ -69742,7 +69841,7 @@ function components(g) {
 /* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dijkstra = __webpack_require__(375),
+var dijkstra = __webpack_require__(380),
     _ = __webpack_require__(66);
 
 module.exports = dijkstraAll;
@@ -69759,7 +69858,7 @@ function dijkstraAll(g, weightFunc, edgeFunc) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66),
-    tarjan = __webpack_require__(376);
+    tarjan = __webpack_require__(381);
 
 module.exports = findCycles;
 
@@ -69832,7 +69931,7 @@ function runFloydWarshall(g, weightFn, edgeFn) {
 
 module.exports = {
   components: __webpack_require__(440),
-  dijkstra: __webpack_require__(375),
+  dijkstra: __webpack_require__(380),
   dijkstraAll: __webpack_require__(441),
   findCycles: __webpack_require__(442),
   floydWarshall: __webpack_require__(443),
@@ -69840,8 +69939,8 @@ module.exports = {
   postorder: __webpack_require__(446),
   preorder: __webpack_require__(447),
   prim: __webpack_require__(448),
-  tarjan: __webpack_require__(376),
-  topsort: __webpack_require__(377)
+  tarjan: __webpack_require__(381),
+  topsort: __webpack_require__(382)
 };
 
 
@@ -69849,7 +69948,7 @@ module.exports = {
 /* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var topsort = __webpack_require__(377);
+var topsort = __webpack_require__(382);
 
 module.exports = isAcyclic;
 
@@ -69870,7 +69969,7 @@ function isAcyclic(g) {
 /* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dfs = __webpack_require__(374);
+var dfs = __webpack_require__(379);
 
 module.exports = postorder;
 
@@ -69883,7 +69982,7 @@ function postorder(g, vs) {
 /* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dfs = __webpack_require__(374);
+var dfs = __webpack_require__(379);
 
 module.exports = preorder;
 
@@ -69897,8 +69996,8 @@ function preorder(g, vs) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66),
-    Graph = __webpack_require__(365),
-    PriorityQueue = __webpack_require__(378);
+    Graph = __webpack_require__(370),
+    PriorityQueue = __webpack_require__(383);
 
 module.exports = prim;
 
@@ -69956,7 +70055,7 @@ function prim(g, weightFunc) {
 
 // Includes only the "core" of graphlib
 module.exports = {
-  Graph: __webpack_require__(365),
+  Graph: __webpack_require__(370),
   version: __webpack_require__(451)
 };
 
@@ -69966,7 +70065,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(66),
-    Graph = __webpack_require__(365);
+    Graph = __webpack_require__(370);
 
 module.exports = {
   write: write,
@@ -70311,7 +70410,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(384), __webpack_require__(95), __webpack_require__(113)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilPathing, _fluxGraphGraphModel, _fluxLayoutLayoutModel) {'use strict';var _slicedToArray = (function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i['return']) _i['return']();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError('Invalid attempt to destructure non-iterable instance');}};})();var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;var _ref = { $$typeof: _typeofReactElement, type: 'g', key: null, ref: null, props: {}, _owner: null };
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(389), __webpack_require__(95), __webpack_require__(113)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilPathing, _fluxGraphGraphModel, _fluxLayoutLayoutModel) {'use strict';var _slicedToArray = (function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i['return']) _i['return']();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError('Invalid attempt to destructure non-iterable instance');}};})();var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;var _ref = { $$typeof: _typeofReactElement, type: 'g', key: null, ref: null, props: {}, _owner: null };
 
 
 
@@ -70371,7 +70470,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(39), __webpack_require__(36), __webpack_require__(121), __webpack_require__(120), __webpack_require__(342), __webpack_require__(486), __webpack_require__(469), __webpack_require__(477), __webpack_require__(380), __webpack_require__(470), __webpack_require__(476), __webpack_require__(474), __webpack_require__(216), __webpack_require__(113), __webpack_require__(372), __webpack_require__(95), __webpack_require__(112), __webpack_require__(349), __webpack_require__(348)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _reactDom, _immutable, _utilShallowEqual, _utilMetrics, _utilDragdrop, _utilKeyboard, _edge, _vertex, _links, _ghostPort, _selectionBox, _minimap, _fluxLayoutLayoutActions, _fluxLayoutLayoutModel, _fluxSettingsSettingsModel, _fluxGraphGraphModel, _fluxHistoryHistoryActions, _fluxSettingsSettingsActions, _fluxSelectionSelectionActions) {'use strict';var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}function _defaultProps(defaultProps, props) {if (defaultProps) {for (var propName in defaultProps) {if (typeof props[propName] === 'undefined') {props[propName] = defaultProps[propName];}}}return props;}var _React = _interopRequireDefault(_react);var _ReactDom = _interopRequireDefault(_reactDom);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _count = _interopRequireDefault(_utilMetrics);var _dragdrop = _interopRequireDefault(_utilDragdrop);var _keyboard = _interopRequireDefault(_utilKeyboard);var _Edge = _interopRequireDefault(_edge);var _Vertex = _interopRequireDefault(_vertex);var _Links = _interopRequireDefault(_links);var _GhostPort = _interopRequireDefault(_ghostPort);var _SelectionBox = _interopRequireDefault(_selectionBox);var _Minimap = _interopRequireDefault(_minimap);var 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(39), __webpack_require__(36), __webpack_require__(121), __webpack_require__(120), __webpack_require__(342), __webpack_require__(486), __webpack_require__(469), __webpack_require__(477), __webpack_require__(385), __webpack_require__(470), __webpack_require__(476), __webpack_require__(474), __webpack_require__(216), __webpack_require__(113), __webpack_require__(377), __webpack_require__(95), __webpack_require__(112), __webpack_require__(349), __webpack_require__(348)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _reactDom, _immutable, _utilShallowEqual, _utilMetrics, _utilDragdrop, _utilKeyboard, _edge, _vertex, _links, _ghostPort, _selectionBox, _minimap, _fluxLayoutLayoutActions, _fluxLayoutLayoutModel, _fluxSettingsSettingsModel, _fluxGraphGraphModel, _fluxHistoryHistoryActions, _fluxSettingsSettingsActions, _fluxSelectionSelectionActions) {'use strict';var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}function _defaultProps(defaultProps, props) {if (defaultProps) {for (var propName in defaultProps) {if (typeof props[propName] === 'undefined') {props[propName] = defaultProps[propName];}}}return props;}var _React = _interopRequireDefault(_react);var _ReactDom = _interopRequireDefault(_reactDom);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _count = _interopRequireDefault(_utilMetrics);var _dragdrop = _interopRequireDefault(_utilDragdrop);var _keyboard = _interopRequireDefault(_utilKeyboard);var _Edge = _interopRequireDefault(_edge);var _Vertex = _interopRequireDefault(_vertex);var _Links = _interopRequireDefault(_links);var _GhostPort = _interopRequireDefault(_ghostPort);var _SelectionBox = _interopRequireDefault(_selectionBox);var _Minimap = _interopRequireDefault(_minimap);var 
 
 
 
@@ -70729,7 +70828,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(120), __webpack_require__(384), __webpack_require__(121), __webpack_require__(350), __webpack_require__(95)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilMetrics, _utilPathing, _utilShallowEqual, _utilSettings, _fluxGraphGraphModel) {'use strict';var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}var _React = _interopRequireDefault(_react);var _count = _interopRequireDefault(_utilMetrics);var _pathing = _interopRequireDefault(_utilPathing);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _settings = _interopRequireDefault(_utilSettings);var 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(120), __webpack_require__(389), __webpack_require__(121), __webpack_require__(350), __webpack_require__(95)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilMetrics, _utilPathing, _utilShallowEqual, _utilSettings, _fluxGraphGraphModel) {'use strict';var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}var _React = _interopRequireDefault(_react);var _count = _interopRequireDefault(_utilMetrics);var _pathing = _interopRequireDefault(_utilPathing);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _settings = _interopRequireDefault(_utilSettings);var 
 
 
 
@@ -70821,7 +70920,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(121), __webpack_require__(350), __webpack_require__(342), __webpack_require__(349), __webpack_require__(380)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilShallowEqual, _utilSettings, _utilDragdrop, _fluxSettingsSettingsActions, _links) {'use strict';var _slicedToArray = (function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i['return']) _i['return']();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError('Invalid attempt to destructure non-iterable instance');}};})();var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}function _defaultProps(defaultProps, props) {if (defaultProps) {for (var propName in defaultProps) {if (typeof props[propName] === 'undefined') {props[propName] = defaultProps[propName];}}}return props;}var _React = _interopRequireDefault(_react);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _dragdrop = _interopRequireDefault(_utilDragdrop);var _Links = _interopRequireDefault(_links);var 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(121), __webpack_require__(350), __webpack_require__(342), __webpack_require__(349), __webpack_require__(385)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilShallowEqual, _utilSettings, _utilDragdrop, _fluxSettingsSettingsActions, _links) {'use strict';var _slicedToArray = (function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i['return']) _i['return']();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError('Invalid attempt to destructure non-iterable instance');}};})();var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}function _defaultProps(defaultProps, props) {if (defaultProps) {for (var propName in defaultProps) {if (typeof props[propName] === 'undefined') {props[propName] = defaultProps[propName];}}}return props;}var _React = _interopRequireDefault(_react);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _dragdrop = _interopRequireDefault(_utilDragdrop);var _Links = _interopRequireDefault(_links);var 
 
 
 
@@ -71032,7 +71131,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(342), __webpack_require__(121), __webpack_require__(120), __webpack_require__(216), __webpack_require__(113), __webpack_require__(218), __webpack_require__(112), __webpack_require__(95), __webpack_require__(372)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilDragdrop, _utilShallowEqual, _utilMetrics, _fluxLayoutLayoutActions, _fluxLayoutLayoutModel, _fluxGraphGraphActions, _fluxHistoryHistoryActions, _fluxGraphGraphModel, _fluxSettingsSettingsModel) {'use strict';var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}var _React = _interopRequireDefault(_react);var _dragdrop = _interopRequireDefault(_utilDragdrop);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _count = _interopRequireDefault(_utilMetrics);var _layoutActions = _interopRequireDefault(_fluxLayoutLayoutActions);var _graphActions = _interopRequireDefault(_fluxGraphGraphActions);var 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(27), __webpack_require__(342), __webpack_require__(121), __webpack_require__(120), __webpack_require__(216), __webpack_require__(113), __webpack_require__(218), __webpack_require__(112), __webpack_require__(95), __webpack_require__(377)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _react, _utilDragdrop, _utilShallowEqual, _utilMetrics, _fluxLayoutLayoutActions, _fluxLayoutLayoutModel, _fluxGraphGraphActions, _fluxHistoryHistoryActions, _fluxGraphGraphModel, _fluxSettingsSettingsModel) {'use strict';var _typeofReactElement = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 60103;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}var _React = _interopRequireDefault(_react);var _dragdrop = _interopRequireDefault(_utilDragdrop);var _shallowEqual = _interopRequireDefault(_utilShallowEqual);var _count = _interopRequireDefault(_utilMetrics);var _layoutActions = _interopRequireDefault(_fluxLayoutLayoutActions);var _graphActions = _interopRequireDefault(_fluxGraphGraphActions);var 
 
 
 
@@ -71769,7 +71868,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(36), __webpack_require__(350), __webpack_require__(382), __webpack_require__(383), __webpack_require__(218), __webpack_require__(112), __webpack_require__(113), __webpack_require__(216)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _immutable, _utilSettings, _utilAutoLayout, _utilAutoMeasurements, _graphGraphActions, _historyHistoryActions, _layoutModel, _layoutActions) {'use strict';var _createClass = (function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};})();function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError('Cannot call a class as a function');}}var _settings = _interopRequireDefault(_utilSettings);var 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(36), __webpack_require__(350), __webpack_require__(387), __webpack_require__(388), __webpack_require__(218), __webpack_require__(112), __webpack_require__(113), __webpack_require__(216)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _immutable, _utilSettings, _utilAutoLayout, _utilAutoMeasurements, _graphGraphActions, _historyHistoryActions, _layoutModel, _layoutActions) {'use strict';var _createClass = (function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};})();function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { 'default': obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError('Cannot call a class as a function');}}var _settings = _interopRequireDefault(_utilSettings);var 
 
 
 
@@ -72496,7 +72595,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(381)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _polyfillObjectAssign) {'use strict';module.exports = 
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, module, __webpack_require__(386)], __WEBPACK_AMD_DEFINE_RESULT__ = function (exports, module, _polyfillObjectAssign) {'use strict';module.exports = 
 
 
 
@@ -72515,17 +72614,25 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;__webpack_require__(28).fixtures["page-inspector-widget"] = {
-   adapter: __webpack_require__(38),
-   artifacts: __webpack_require__(391),
-   configuration: { baseHref: '/' } };
-/**
-                                       * Copyright 2016 aixigo AG
-                                       * Released under the MIT license.
-                                       * http://laxarjs.org/license
-                                       */
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+(function (fixtures, adapter, artifacts, descriptor) {
+   fixtures.adapter = adapter;
+   fixtures.artifacts = artifacts;
+   fixtures.descriptor = descriptor;
+})(
+__webpack_require__(28).fixtures,
+__webpack_require__(38),
+__webpack_require__(396),
+// cannot simply read descriptor from artifacts because the features schema may have been stripped:
+__webpack_require__(355));
+
+; /**
+  * Copyright 2016 aixigo AG
+  * Released under the MIT license.
+  * http://laxarjs.org/license
+  */
 !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-__webpack_require__(397),
+__webpack_require__(355),
 __webpack_require__(28),
 __webpack_require__(38)], __WEBPACK_AMD_DEFINE_RESULT__ = function (descriptor, axMocks, axReactAdapter) {
    'use strict';

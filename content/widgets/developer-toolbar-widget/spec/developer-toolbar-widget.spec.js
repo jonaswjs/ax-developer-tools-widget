@@ -13,7 +13,8 @@ define( [
    describe( 'The developer-toolbar-widget', function() {
       let widgetDom;
 
-      beforeEach( axMocks.createSetupForWidget( descriptor, { adapter: axReactAdapter } ) );
+      beforeEach( axMocks.setupForWidget() );
+
       beforeEach( () => {
          axMocks.widget.configure( {
             grid: {
@@ -21,7 +22,9 @@ define( [
             }
          } );
       } );
+
       beforeEach( axMocks.widget.load );
+
       beforeEach( () => {
          widgetDom = axMocks.widget.render();
       } );

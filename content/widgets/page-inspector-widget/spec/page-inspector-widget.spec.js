@@ -3,47 +3,34 @@
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
-define( [
-   '../widget.json',
-   'laxar-mocks',
-   'laxar-react-adapter'
-], function( descriptor, axMocks, axReactAdapter ) {
-   'use strict';
 
-   // Minimalistic test setup. More information:
-   // https://github.com/LaxarJS/laxar-mocks/blob/master/docs/manuals/index.md
+import * as axMocks from 'laxar-mocks';
 
-   describe( 'The page-inspector-widget', function() {
 
-      beforeEach( axMocks.createSetupForWidget( descriptor, {
-         knownMissingResources: [],
-         adapter: axReactAdapter
-      } ) );
+// Minimalistic test setup. More information:
+// https://github.com/LaxarJS/laxar-mocks/blob/master/docs/manuals/index.md
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+describe( 'The page-inspector-widget', function() {
 
-      beforeEach( function() {
-         axMocks.widget.configure( {
-            pageInfo: {
-               resource: 'page'
-            }
-         } );
+   beforeEach( axMocks.setupForWidget() );
+
+   beforeEach( function() {
+      axMocks.widget.configure( {
+         pageInfo: {
+            resource: 'page'
+         }
       } );
+   } );
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   beforeEach( axMocks.widget.load );
 
-      beforeEach( axMocks.widget.load );
+   afterEach( axMocks.tearDown );
 
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      it( 'can be instantiated successfully', function() {
-         expect( true ).toBe( true );
-      } );
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      afterEach( axMocks.tearDown );
-
+   it( 'can be instantiated successfully', function() {
+      expect( true ).toBe( true );
    } );
 
 } );
+

@@ -39,7 +39,7 @@ const config = {
    plugins: processPlugins( basePlugins().concat( reactPlugins() ) ),
 
    resolve: {
-      descriptionFiles: [ 'package.json', 'bower.json' ],
+      descriptionFiles: [ 'package.json' ],
       modules: [
          path.resolve( './lib' ),
          path.resolve( './node_modules' )
@@ -105,7 +105,6 @@ const config = {
 if( isBrowserSpec ) {
    const WebpackJasmineHtmlRunnerPlugin = require( 'webpack-jasmine-html-runner-plugin' );
    config.entry = WebpackJasmineHtmlRunnerPlugin.entry( './widgets/*/spec/*.spec.js' );
-   //config.entry = WebpackJasmineHtmlRunnerPlugin.entry( './widgets/shop-demo/developer-toolbar-widget/spec/*.spec.js' );
    config.output = {
       path: path.resolve( path.join( process.cwd(), 'spec-output' ) ),
       publicPath: '/spec-output/',
