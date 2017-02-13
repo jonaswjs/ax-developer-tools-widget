@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { resources, flags, visibility } from 'laxar-patterns';
+import { resources, flags } from 'laxar-patterns';
 
 import AxWidgetArea from './ax-widget-area';
 
@@ -15,11 +15,13 @@ import * as developerToolsToggleWidgetOutline from '../../lib/laxar-developer-to
 const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToolsToggleWidgetOutline;
 const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
 
-const injections = [ 'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility' ];
+const injections = [
+   'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'
+];
+
 function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility ) {
    'use strict';
 
-   let visible = false;
    const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    const HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
    const HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
@@ -46,14 +48,15 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
    let firefoxExtensionMessagePort;
 
    if( !window.opener ) {
-      window.addEventListener( 'message', function( event ) {
+      window.addEventListener( 'message', event => {
          if( !firefoxExtensionMessagePort && event.ports ) {
             model.noLaxar = HINT_NO_LAXAR_EXTENSION;
             firefoxExtensionMessagePort = event.ports[ 0 ];
             firefoxExtensionMessagePort.start();
             const message = { text: 'messagePortStarted' };
             firefoxExtensionMessagePort.postMessage( JSON.stringify( message ) );
-         } else {
+         }
+         else {
             const channel = JSON.parse( event.detail || event.data );
             if( channel.text === 'reloadedPage' ) {
                model.gridOverlay = false;
@@ -73,7 +76,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
    resources.handlerFor( context ).registerResourceFromFeature(
       'grid',
       {
-         onReplace: function( event ) {
+         onReplace( event ) {
             if( event.data === null ) {
                model.toggleGridTitle = HINT_CONFIGURE_GRID;
                model.gridOverlay = false;
@@ -88,7 +91,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
 
    flags.handlerFor( context ).registerFlag( context.features.detailsOn, {
       initialState: model.laxar,
-      onChange: function( newState ) {
+      onChange( newState ) {
          model.laxar = newState;
          render();
       }
@@ -96,46 +99,27 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
 
    if( isBrowserWebExtension ) {
       /* global chrome */
-      chrome.devtools.network.onNavigated.addListener( function() {
+      chrome.devtools.network.onNavigated.addListener( () => {
          model.gridOverlay = false;
          model.widgetOverlay = false;
-         render()
+         render();
       } );
    }
 
-   visibility.handlerFor( context, { onAnyAreaRequest: function( event ) {
-      const prefix = context.widget.id + '.';
-      const activeTab = model.activeTab;
-      return event.visible && activeTab !== null && event.area === prefix + activeTab.name;
-   } } );
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   eventBus.subscribe( 'didNavigate', function( event ) {
-
+   eventBus.subscribe( 'didNavigate', event => {
+      console.log('didNavigate', event);
       const newName = event.data[ context.features.tabs.parameter ];
-
-      const newTab = TABS.filter( ( _ ) => { return _.name === newName; } )[ 0 ];
-
-      if( !newTab ) {
-         return;
-      }
+      const newTab = TABS.filter( _ => { return _.name === newName; } )[ 0 ];
+      if( !newTab ) { return; }
       model.activeTab = newTab;
-
       render();
-   } );
-
-   eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, ( event ) => {
-      if( !visible && event.visible ) {
-         visible = true;
-         render();
-      }
-
    } );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   eventBus.subscribe( 'takeActionRequest.navigation', function() {
+   eventBus.subscribe( 'takeActionRequest.navigation', () => {
       eventBus.publish( 'willTakeAction.navigation', {
          action: 'navigation'
       } );
@@ -176,8 +160,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
          return;
       }
       if( isBrowserWebExtension ) {
-         let event;
-         event = new CustomEvent( 'toogleGrid', {
+         const event = new CustomEvent( 'toogleGrid', {
             detail: JSON.stringify( context.resources.grid )
          } );
          window.dispatchEvent( event );
@@ -196,8 +179,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
          return;
       }
       if( isBrowserWebExtension ) {
-         let event;
-         event = new CustomEvent( 'widgetOutline', { } );
+         const event = new CustomEvent( 'widgetOutline', { } );
          window.dispatchEvent( event );
       }
       else if( firefoxExtensionMessagePort ) {
@@ -216,7 +198,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
                  title={model.toggleGridTitle}
                  type="button"
                  onClick={onClickToggleGrid}
-            ><i className={ 'fa fa-toggle-' + ( model.gridOverlay ? 'on' : 'off' ) }
+            ><i className={ `fa fa-toggle-${model.gridOverlay ? 'on' : 'off'}` }
             />&nbsp;{model.gridOverlay ? 'Turn off grid overlay' : 'Turn on grid overlay'}</button>
          );
       }
@@ -226,7 +208,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
             className="ax-developer-toolbar-outline btn btn-link"
             type="button"
             onClick={onClickToggleWidgetOutline}
-            ><i className={ 'fa fa-toggle-' + ( model.widgetOverlay ? 'on' : 'off' ) }
+            ><i className={ `fa fa-toggle-${model.widgetOverlay ? 'on' : 'off'}` }
             />&nbsp;{model.widgetOverlay ? 'Turn off widget outline' : 'Turn on widget outline'}</button>
       );
 
@@ -237,7 +219,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
          </div>;
       }
 
-      const widgetAreas = TABS.map( ( tab ) => {
+      const widgetAreas = TABS.map( tab => {
          return (
             <AxWidgetArea
                key={ tab.name }
@@ -250,22 +232,22 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
          );
       } );
 
-      const tabListItems = model.tabs.map( ( tab ) => {
+      const tabListItems = model.tabs.map( tab => {
          const url = flowService.constructAbsoluteUrl( 'tools', { 'tab': tab.name } );
          if( model.activeTab && model.activeTab.name === tab.name ) {
-            return(
+            return (
                <li key={tab.name} className='ax-active'
                   ><a href={url}
                   >{tab.label}</a></li>
             );
          }
-         else {
-            return(
+
+         return (
                <li key={tab.name}
                   ><a href={url}
                   >{tab.label}</a></li>
-            );
-         }
+         );
+
       } );
 
       const navTab = (

@@ -43878,7 +43878,7 @@ var noOp = function noOp() {};
 var technology = 'react';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+console.log('react adapter');
 function bootstrap(_ref, _ref2) {
    var widgets = _ref.widgets;
    var adapterUtilities = _ref2.adapterUtilities;
@@ -46541,52 +46541,9 @@ function requestPublisherForArea(scope, area) {
 
 /***/ }),
 /* 257 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-
-
-
-var _react = __webpack_require__(7);var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Copyright 2017 aixigo AG
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * Released under the MIT license.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * http://www.laxarjs.org
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */var AxWidgetArea = function (_React$Component) {_inherits(AxWidgetArea, _React$Component);function AxWidgetArea(props) {_classCallCheck(this, AxWidgetArea);var _this = _possibleConstructorReturn(this, (AxWidgetArea.__proto__ || Object.getPrototypeOf(AxWidgetArea)).call(this,
-      props));
-      _this.props = props;
-      _this.register = _this.register.bind(_this);return _this;
-
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-   _createClass(AxWidgetArea, [{ key: 'register', value: function register(
-      div) {
-         if (div === null) {return;}
-         this.props.areaHelper.register(this.props.name, div);
-      }
-
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-   }, { key: 'render', value: function render()
-      {
-         var divStyle = {};
-         if (this.props.activeTab === null || this.props.activeTab && this.props.activeTab.name !== this.props.name) {
-            divStyle = { display: 'none' };
-            this.props.axVisibility.updateAreaVisibility(_defineProperty({}, this.props.name, false));
-         } else
-         {
-            this.props.axVisibility.updateAreaVisibility(_defineProperty({}, this.props.name, true));
-         }
-
-         return (
-            _react2.default.createElement('div', { 'data-ax-widget-area': this.props.name,
-               style: divStyle,
-               className: this.props.css,
-               ref: this.register }));
-
-
-      } }]);return AxWidgetArea;}(_react2.default.Component);exports.default = AxWidgetArea;
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/widgets/developer-toolbar-widget/ax-widget-area.jsx'\n    at Error (native)");
 
 /***/ }),
 /* 258 */
@@ -46611,10 +46568,12 @@ var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToo
                                                                                                         * Copyright 2017 aixigo AG
                                                                                                         * Released under the MIT license.
                                                                                                         * http://www.laxarjs.org
-                                                                                                        */var toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'];function create(context, eventBus, reactRender, flowService, areaHelper, axVisibility) {
+                                                                                                        */var toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;var injections = ['axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'];
+
+
+function create(context, eventBus, reactRender, flowService, areaHelper, axVisibility) {
    'use strict';
 
-   var visible = false;
    var HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    var HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
    var HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
@@ -46648,7 +46607,8 @@ var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToo
             firefoxExtensionMessagePort.start();
             var message = { text: 'messagePortStarted' };
             firefoxExtensionMessagePort.postMessage(JSON.stringify(message));
-         } else {
+         } else
+         {
             var channel = JSON.parse(event.detail || event.data);
             if (channel.text === 'reloadedPage') {
                model.gridOverlay = false;
@@ -46698,34 +46658,15 @@ var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToo
       });
    }
 
-   _laxarPatterns.visibility.handlerFor(context, { onAnyAreaRequest: function onAnyAreaRequest(event) {
-         var prefix = context.widget.id + '.';
-         var activeTab = model.activeTab;
-         return event.visible && activeTab !== null && event.area === prefix + activeTab.name;
-      } });
-
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    eventBus.subscribe('didNavigate', function (event) {
-
+      console.log('didNavigate', event);
       var newName = event.data[context.features.tabs.parameter];
-
       var newTab = TABS.filter(function (_) {return _.name === newName;})[0];
-
-      if (!newTab) {
-         return;
-      }
+      if (!newTab) {return;}
       model.activeTab = newTab;
-
       render();
-   });
-
-   eventBus.subscribe('didChangeAreaVisibility.' + context.widget.area, function (event) {
-      if (!visible && event.visible) {
-         visible = true;
-         render();
-      }
-
    });
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46771,8 +46712,7 @@ var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToo
          return;
       }
       if (isBrowserWebExtension) {
-         var event = void 0;
-         event = new CustomEvent('toogleGrid', {
+         var event = new CustomEvent('toogleGrid', {
             detail: JSON.stringify(context.resources.grid) });
 
          window.dispatchEvent(event);
@@ -46791,8 +46731,7 @@ var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToo
          return;
       }
       if (isBrowserWebExtension) {
-         var event = void 0;
-         event = new CustomEvent('widgetOutline', {});
+         var event = new CustomEvent('widgetOutline', {});
          window.dispatchEvent(event);
       } else
       if (firefoxExtensionMessagePort) {
@@ -46853,14 +46792,14 @@ var toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToo
                   _react2.default.createElement('a', { href: url },
                      tab.label)));
 
-         } else
-         {
-            return (
-               _react2.default.createElement('li', { key: tab.name },
-                  _react2.default.createElement('a', { href: url },
-                     tab.label)));
-
          }
+
+         return (
+            _react2.default.createElement('li', { key: tab.name },
+               _react2.default.createElement('a', { href: url },
+                  tab.label)));
+
+
       });
 
       var navTab =

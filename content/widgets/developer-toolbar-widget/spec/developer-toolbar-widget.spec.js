@@ -73,9 +73,9 @@ describe( 'The developer-toolbar-widget', () => {
          axMocks.eventBus.flush();
       } );
 
-      it( 'offer a button that causes a grid visualization layer to be shown in the host application (R2.1)', () => {
-
-         expect( widgetDom.querySelector( 'button.ax-developer-toolbar-grid' ) ).not.toEqual( null );
+      it( 'offer a button that causes a grid visualization layer to be shown in the host application (R2.1)',
+         () => {
+            expect( widgetDom.querySelector( 'button.ax-developer-toolbar-grid' ) ).not.toEqual( null );
       } );
 
    } );
@@ -83,7 +83,9 @@ describe( 'The developer-toolbar-widget', () => {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    it( 'allows for the grid visualization layer to be configured through a resource (R2.2)', () => {
-      expect( axMocks.widget.axEventBus.subscribe ).toHaveBeenCalledWith( 'didReplace.gridSettings', jasmine.any( Function ) );
+      expect( axMocks.widget.axEventBus.subscribe ).toHaveBeenCalledWith(
+         'didReplace.gridSettings', jasmine.any( Function )
+      );
    } );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,47 +149,57 @@ describe( 'The developer-toolbar-widget', () => {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    it( 'provides widget areas (R4.2)', () => {
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="events"]' ) ).not.toEqual( null );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="page"]' ) ).not.toEqual( null );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="log"]' ) ).not.toEqual( null );
+      expect( selectWidgetArea( 'events' ) ).not.toEqual( null );
+      expect( selectWidgetArea( 'page' ) ).not.toEqual( null );
+      expect( selectWidgetArea( 'log' ) ).not.toEqual( null );
    } );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    it( 'manages the visibility of the provided widget areas (R4.3)', () => {
+      console.log( axMocks );
+      //expect( selectWidgetArea( 'events' ).style.display ).not.toEqual( 'none' );
+      //expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
+      //expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
 
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="events"]' ).style.display ).not.toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="page"]' ).style.display ).toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="log"]' ).style.display ).toEqual( 'none' );
-
+      //spyOn( axMocks.widget.axVisibility, 'updateAreaVisibility' ).and.callThrough();
+      expect( axMocks.widget.axVisibility.updateAreaVisibility.calls.count() ).toEqual( 0 );
       axMocks.eventBus.publish( 'didNavigate.tools', {
          tab: 'page'
       } );
       axMocks.eventBus.flush();
+      expect( axMocks.widget.axVisibility.updateAreaVisibility.calls.count() ).toEqual( 3 );
 
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="events"]' ).style.display ).toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="page"]' ).style.display ).not.toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="log"]' ).style.display ).toEqual( 'none' );
+      //expect( selectWidgetArea( 'events' ).style.display ).toEqual( 'none' );
+      //expect( selectWidgetArea( 'page' ).style.display ).not.toEqual( 'none' );
+      //expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
 
-      axMocks.eventBus.publish( 'didNavigate.tools', {
-         tab: 'events'
-      } );
-      axMocks.eventBus.flush();
+      // axMocks.eventBus.publish( 'didNavigate.tools', {
+      //    tab: 'events'
+      // } );
+      // axMocks.eventBus.flush();
+      // axMocks.widget.axVisibility.updateAreaVisibility( { events: true } );
+      // axMocks.widget.axVisibility.updateAreaVisibility( { page: false } );
+      //
+      // expect( selectWidgetArea( 'events' ).style.display ).not.toEqual( 'none' );
+      // expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
+      // expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
 
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="events"]' ).style.display ).not.toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="page"]' ).style.display ).toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="log"]' ).style.display ).toEqual( 'none' );
-
-      axMocks.eventBus.publish( 'didNavigate.tools', {
-         tab: 'log'
-      } );
-      axMocks.eventBus.flush();
-
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="events"]' ).style.display ).toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="page"]' ).style.display ).toEqual( 'none' );
-      expect( widgetDom.querySelector( 'div[data-ax-widget-area="log"]' ).style.display ).not.toEqual( 'none' );
+      // axMocks.eventBus.publish( 'didNavigate.tools', {
+      //    tab: 'log'
+      // } );
+      // axMocks.eventBus.flush();
+      //
+      // expect( selectWidgetArea( 'events' ).style.display ).toEqual( 'none' );
+      // expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
+      // expect( selectWidgetArea( 'log' ).style.display ).not.toEqual( 'none' );
 
    } );
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function selectWidgetArea( name ) {
+      return widgetDom.querySelector( `div[data-ax-widget-area="${name}"]` );
+   }
 } );
 

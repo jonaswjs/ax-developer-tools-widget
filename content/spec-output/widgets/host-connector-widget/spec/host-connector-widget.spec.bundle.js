@@ -13264,7 +13264,7 @@ function hasOwnProperty(object, property) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utilities_object__ = __webpack_require__(15);
 /* harmony export (immutable) */ __webpack_exports__["a"] = create;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -13921,7 +13921,7 @@ function create(configuration, log, nextTick, timeoutFunction, errorHandler) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utilities_object__ = __webpack_require__(15);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return levels; });
 /* unused harmony export BLACKBOX */
@@ -15050,7 +15050,7 @@ function create() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__runtime_event_bus__ = __webpack_require__(150);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__configuration_mock__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__log_mock__ = __webpack_require__(76);
@@ -15614,7 +15614,7 @@ function create() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__widget_services_area_helper_mock__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__runtime_widget_services_visibility__ = __webpack_require__(152);
 /* harmony export (immutable) */ __webpack_exports__["a"] = create;
@@ -16255,7 +16255,7 @@ module.exports = function (value, replacer, space) {
 /***/ 178:
 /***/ (function(module, exports, __webpack_require__) {
 
-var resource = __webpack_require__( 185 );
+var resource = __webpack_require__( 190 );
 module.exports = typeof resource === 'string' ? resource : null;
 
 /***/ }),
@@ -17357,7 +17357,7 @@ exports.encode = exports.stringify = __webpack_require__(183);
 
 /***/ }),
 
-/***/ 185:
+/***/ 190:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -17384,7 +17384,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 186:
+/***/ 191:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17412,7 +17412,7 @@ if(false) {
 
 
 var punycode = __webpack_require__(181);
-var util = __webpack_require__(187);
+var util = __webpack_require__(192);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -18124,7 +18124,7 @@ Url.prototype.parseHost = function() {
 
 /***/ }),
 
-/***/ 187:
+/***/ 192:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18148,7 +18148,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 20:
+/***/ 21:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18364,7 +18364,7 @@ var state = assert.state;
 
 /***/ }),
 
-/***/ 24:
+/***/ 25:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -19234,7 +19234,7 @@ function handleErrorForJasmine(err) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utilities_assert__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utilities_object__ = __webpack_require__(15);
 /* harmony export (immutable) */ __webpack_exports__["a"] = create;
 /**
@@ -19411,16 +19411,16 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 465:
+/***/ 469:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* global __resourceQuery */
-module.exports = __webpack_require__( 530 );
+module.exports = __webpack_require__( 533 );
 
 
 /***/ }),
 
-/***/ 471:
+/***/ 474:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -19511,7 +19511,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 480:
+/***/ 483:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19574,7 +19574,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__; /**
          }
          var channelGridSettings = channel && channel.gridSettings;
          if (context.features.grid.resource) {
-            console.log(channelGridSettings);
             publishGridSettings(channelGridSettings);
          }
          if (channel && channel.pageInfoVersion > pageInfoVersion) {
@@ -19733,7 +19732,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__; /**
 
 /***/ }),
 
-/***/ 530:
+/***/ 533:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
@@ -19844,7 +19843,7 @@ module.exports = {
             controls: [],
             compatibility: []
          },
-         module: __webpack_require__( 480 ),
+         module: __webpack_require__( 483 ),
          assets: { "default.theme": {} }
       }
    ],
@@ -19875,8 +19874,8 @@ module.exports = {
 
 
 
-var _laxarMocks = __webpack_require__(31);var axMocks = _interopRequireWildcard(_laxarMocks);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}(function (fixtures, adapter, artifacts, descriptor) {fixtures.adapter = adapter;fixtures.artifacts = artifacts;fixtures.descriptor = descriptor;})(__webpack_require__(31).fixtures, undefined, __webpack_require__(465), // cannot simply read descriptor from artifacts because the features schema may have been stripped:
-__webpack_require__(471));; /**
+var _laxarMocks = __webpack_require__(31);var axMocks = _interopRequireWildcard(_laxarMocks);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}(function (fixtures, adapter, artifacts, descriptor) {fixtures.adapter = adapter;fixtures.artifacts = artifacts;fixtures.descriptor = descriptor;})(__webpack_require__(31).fixtures, undefined, __webpack_require__(469), // cannot simply read descriptor from artifacts because the features schema may have been stripped:
+__webpack_require__(474));; /**
                              * Copyright 2016 aixigo AG
                              * Released under the MIT license.
                              * http://laxarjs.org/license
@@ -20306,7 +20305,7 @@ module.exports = function equal(a, b) {
 "use strict";
 
 
-var url = __webpack_require__(186)
+var url = __webpack_require__(191)
   , equal = __webpack_require__(67)
   , util = __webpack_require__(13)
   , SchemaObject = __webpack_require__(69);
@@ -22505,7 +22504,7 @@ module.exports = __webpack_require__.p + "assets/glyphicons-halflings-regular.eo
 
   page.sameOrigin = sameOrigin;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25)))
 
 /***/ }),
 
