@@ -7,8 +7,6 @@
 import React from 'react';
 import { resources, flags } from 'laxar-patterns';
 
-import AxWidgetArea from './ax-widget-area';
-
 import * as developerToolsToggleGrid from '../../lib/laxar-developer-tools/grid';
 import * as developerToolsToggleWidgetOutline from '../../lib/laxar-developer-tools/widget-outline';
 
@@ -16,12 +14,11 @@ const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperT
 const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
 
 const injections = [
-   'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'
+   'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility', 'axWidgetArea'
 ];
 
-function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility ) {
+function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility, AxWidgetArea ) {
    'use strict';
-
    const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    const HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
    const HINT_NO_LAXAR_ANYMORE_WIDGET = 'Cannot access LaxarJS host window (or tab).' +
@@ -37,7 +34,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
    const model = {
       laxar: true,
       tabs: TABS,
-      activeTab: null,
+      activeTab: TABS[ 0 ],
       gridOverlay: false,
       widgetOverlay: false,
       toggleGridTitle: HINT_DISABLE_TOGGLE_GRID,
@@ -109,8 +106,7 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    eventBus.subscribe( 'didNavigate', event => {
-      console.log('didNavigate', event);
-      const newName = event.data[ context.features.tabs.parameter ];
+      const newName = event.data && event.data[ context.features.tabs.parameter ];
       const newTab = TABS.filter( _ => { return _.name === newName; } )[ 0 ];
       if( !newTab ) { return; }
       model.activeTab = newTab;

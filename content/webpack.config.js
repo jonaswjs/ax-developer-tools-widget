@@ -3,6 +3,7 @@
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
+
 /* eslint-env node */
 
 const path = require( 'path' );
@@ -14,9 +15,7 @@ const nodeEnv = process.env.NODE_ENV;
 const isProduction = nodeEnv === 'production';
 const isBrowserSpec = nodeEnv === 'browser-spec';
 const processPlugins = {
-                          'production': productionPlugins,
-                          'browser-spec': browserSpecPlugins
-                       }[ nodeEnv ] || ( _ => _ );
+   'production': productionPlugins, 'browser-spec': browserSpecPlugins }[ nodeEnv ] || ( _ => _ );
 
 
 const publicPath = isProduction ? '/var/dist/' : '/var/build/';
@@ -44,7 +43,7 @@ const config = {
          path.resolve( './lib' ),
          path.resolve( './node_modules' )
       ],
-      extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
+      extensions: [ '.js', '.jsx' ],
       alias: {
          'laxar-mocks': path.resolve( './lib/laxar-mocks' ),
          'polyfills': path.resolve( './lib/laxar/dist/polyfills.js' ),
@@ -56,12 +55,12 @@ const config = {
    module: {
       rules: [
          {
-            test: /\.jsx?$/,
+            test: /\.(js|jsx)$/,
             exclude: /(node_modules)/,
-            loader: 'babel-loader'
+            use: 'babel-loader'
          },
          {
-            test: /.spec.(jsx?|tsx?)$/,
+            test: /.spec.(jsx?)$/,
             exclude: /(node_modules)/,
             loader: './lib/laxar-mocks/spec-loader'
          },

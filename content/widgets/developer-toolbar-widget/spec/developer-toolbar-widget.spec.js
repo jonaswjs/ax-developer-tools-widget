@@ -156,43 +156,48 @@ describe( 'The developer-toolbar-widget', () => {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   it( 'manages the visibility of the provided widget areas (R4.3)', () => {
-      console.log( axMocks );
-      //expect( selectWidgetArea( 'events' ).style.display ).not.toEqual( 'none' );
-      //expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
-      //expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
+   it( 'changes the visibility of the provided widget areas after a navigation (R4.3)', () => {
 
-      //spyOn( axMocks.widget.axVisibility, 'updateAreaVisibility' ).and.callThrough();
-      expect( axMocks.widget.axVisibility.updateAreaVisibility.calls.count() ).toEqual( 0 );
-      axMocks.eventBus.publish( 'didNavigate.tools', {
-         tab: 'page'
-      } );
-      axMocks.eventBus.flush();
+      expect( selectWidgetArea( 'events' ).style.display ).not.toEqual( 'none' );
+      expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
+      expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
       expect( axMocks.widget.axVisibility.updateAreaVisibility.calls.count() ).toEqual( 3 );
 
-      //expect( selectWidgetArea( 'events' ).style.display ).toEqual( 'none' );
-      //expect( selectWidgetArea( 'page' ).style.display ).not.toEqual( 'none' );
-      //expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
+      axMocks.eventBus.publish( 'didNavigate.tools', {
+         data: {
+            tab: 'page'
+         }
+      } );
+      axMocks.eventBus.flush();
 
-      // axMocks.eventBus.publish( 'didNavigate.tools', {
-      //    tab: 'events'
-      // } );
-      // axMocks.eventBus.flush();
-      // axMocks.widget.axVisibility.updateAreaVisibility( { events: true } );
-      // axMocks.widget.axVisibility.updateAreaVisibility( { page: false } );
-      //
-      // expect( selectWidgetArea( 'events' ).style.display ).not.toEqual( 'none' );
-      // expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
-      // expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
+      expect( selectWidgetArea( 'events' ).style.display ).toEqual( 'none' );
+      expect( selectWidgetArea( 'page' ).style.display ).not.toEqual( 'none' );
+      expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
+      expect( axMocks.widget.axVisibility.updateAreaVisibility.calls.count() ).toEqual( 6 );
 
-      // axMocks.eventBus.publish( 'didNavigate.tools', {
-      //    tab: 'log'
-      // } );
-      // axMocks.eventBus.flush();
-      //
-      // expect( selectWidgetArea( 'events' ).style.display ).toEqual( 'none' );
-      // expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
-      // expect( selectWidgetArea( 'log' ).style.display ).not.toEqual( 'none' );
+      axMocks.eventBus.publish( 'didNavigate.tools', {
+         data: {
+            tab: 'events'
+         }
+      } );
+      axMocks.eventBus.flush();
+
+      expect( selectWidgetArea( 'events' ).style.display ).not.toEqual( 'none' );
+      expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
+      expect( selectWidgetArea( 'log' ).style.display ).toEqual( 'none' );
+      expect( axMocks.widget.axVisibility.updateAreaVisibility.calls.count() ).toEqual( 9 );
+
+      axMocks.eventBus.publish( 'didNavigate.tools', {
+         data: {
+            tab: 'log'
+         }
+      } );
+      axMocks.eventBus.flush();
+
+      expect( selectWidgetArea( 'events' ).style.display ).toEqual( 'none' );
+      expect( selectWidgetArea( 'page' ).style.display ).toEqual( 'none' );
+      expect( selectWidgetArea( 'log' ).style.display ).not.toEqual( 'none' );
+      expect( axMocks.widget.axVisibility.updateAreaVisibility.calls.count() ).toEqual( 12 );
 
    } );
 
