@@ -219,10 +219,10 @@ function create( context, eventBus, reactRender, flowService, areaHelper, axVisi
          return (
             <AxWidgetArea
                key={ tab.name }
-               areaHelper={ areaHelper }
-               css="app-tab app-tab-page"
-               name={ tab.name }
-               activeTab={ model.activeTab }
+               areaName={ tab.name }
+               cssClassName="app-tab app-tab-page"
+               axAreaHelper={ areaHelper }
+               visible={ model.activeTab.name === tab.name }
                axVisibility={ axVisibility }
             />
          );

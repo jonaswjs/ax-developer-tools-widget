@@ -19,7 +19,7 @@ const processPlugins = {
 
 
 const publicPath = isProduction ? '/var/dist/' : '/var/build/';
-const absolutePublicPath = '/includes/widgets/laxar/laxar-developer-tools-widget/content' + publicPath;
+const absolutePublicPath = `/includes/widgets/laxar/laxar-developer-tools-widget/content${publicPath}`;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
