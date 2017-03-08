@@ -18,9 +18,9 @@ function create( context, reactRender ) {
       showPatterns: false
    };
 
-   let settingGroups = [ 'patterns', 'interactions', 'sources' ];
+   const settingGroups = [ 'patterns', 'interactions', 'sources' ];
 
-   let patternTopics = {
+   const patternTopics = {
       RESOURCE: [ 'didReplace', 'didUpdate' ],
       ACTION: [ 'takeActionRequest', 'willTakeAction', 'didTakeAction' ],
       FLAG: [ 'didChangeFlag' ],
@@ -29,7 +29,7 @@ function create( context, reactRender ) {
 
    context.resources = {};
 
-   let patterns = [
+   const patterns = [
       {
          name: 'lifecycle',
          eventTypes: [ 'endLifecycle', 'beginLifecycle' ]
@@ -64,7 +64,7 @@ function create( context, reactRender ) {
       }
    ];
 
-   let settings = setDefaults( {
+   const settings = setDefaults( {
       namePattern: '',
       visibleEventsLimit: 100,
       patterns: {},
@@ -80,8 +80,8 @@ function create( context, reactRender ) {
       }
    }, patterns );
 
-   let model = {
-      patterns: patterns,
+   const model = {
+      patterns,
       index: 0,
       eventInfos: [],
       visibleEventInfos: [],
@@ -90,7 +90,7 @@ function create( context, reactRender ) {
          eventInfos: []
       },
       selectionEventInfo: null,
-      settings: settings
+      settings
    };
 
    resources.handlerFor( context ).registerResourceFromFeature( 'filter', {
@@ -102,7 +102,7 @@ function create( context, reactRender ) {
    } );
 
    if( context.features.events.stream ) {
-      context.eventBus.subscribe( 'didProduce.' + context.features.events.stream, function( event ) {
+      context.eventBus.subscribe( `didProduce.${context.features.events.stream}`, event => {
          if( Array.isArray( event.data ) && event.data.length ) {
             event.data.forEach( addEvent );
          }
@@ -117,24 +117,24 @@ function create( context, reactRender ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function setDefaults( settings, patterns ) {
-      settingGroups.forEach( function( groupName ) {
-         let group = settings[ groupName ];
-         for( let name in group ) {
+      settingGroups.forEach( groupName => {
+         const group = settings[ groupName ];
+         for( const name in group ) {
             if( group.hasOwnProperty( name ) ) {
                group[ name ] = true;
             }
          }
       } );
-      patterns.forEach( function( patternInfo ) {
+      patterns.forEach( patternInfo => {
          settings.patterns[ patternInfo.name ] = true;
       } );
-      context.features.filter.hidePatterns.forEach( function( pattern ) {
+      context.features.filter.hidePatterns.forEach( pattern => {
          settings.patterns[ pattern ] = false;
       } );
-      context.features.filter.hideSources.forEach( function( pattern ) {
+      context.features.filter.hideSources.forEach( pattern => {
          settings.sources[ pattern ] = false;
       } );
-      context.features.filter.hideInteractions.forEach( function( pattern ) {
+      context.features.filter.hideInteractions.forEach( pattern => {
          settings.interactions[ pattern ] = false;
       } );
       return settings;
@@ -143,7 +143,7 @@ function create( context, reactRender ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function addEvent( eventInfo ) {
-      let completeEventInfo = {
+      const completeEventInfo = {
          index: ++model.index,
          interaction: eventInfo.action,
          cycleId: eventInfo.cycleId > -1 ? eventInfo.cycleId : '-',
@@ -170,26 +170,26 @@ function create( context, reactRender ) {
       }
 
       if( model.eventInfos.length > context.features.events.bufferSize ) {
-         let removedInfo = model.eventInfos.pop();
+         const removedInfo = model.eventInfos.pop();
          if( removedInfo.problems.length ) {
             refreshProblemSummary();
          }
       }
 
       function pattern( eventName ) {
-         let matchingPatthern = model.patterns.filter( function( pattern ) {
-            return pattern.eventTypes.some( function( eventType ) {
+         const matchingPatthern = model.patterns.filter( pattern => {
+            return pattern.eventTypes.some( eventType => {
                return eventName.indexOf( eventType.toLowerCase() ) !== -1;
             } );
          } );
-         return matchingPatthern.length ? matchingPatthern[0].name : 'other';
+         return matchingPatthern.length ? matchingPatthern[ 0 ].name : 'other';
       }
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function runFilters() {
-      let settings = model.settings;
+      const settings = model.settings;
       let numVisible = 0;
 
       let searchRegExp = null;
@@ -200,7 +200,7 @@ function create( context, reactRender ) {
          catch( e ) { /* ignore invalid search pattern */ }
       }
 
-      model.visibleEventInfos = model.eventInfos.filter( function( eventInfo ) {
+      model.visibleEventInfos = model.eventInfos.filter( eventInfo => {
          if( settings.visibleEventsLimit !== null && numVisible >= settings.visibleEventsLimit ) {
             return false;
          }
@@ -239,7 +239,7 @@ function create( context, reactRender ) {
          settings.visibleEventsLimit = null;
       }
       const value = Number( event.target.value );
-      if( !Number.isInteger( value ) ) { return; }
+      if( typeof Number.isInteger === 'function' && !Number.isInteger( value ) ) { return; }
       if( value >= 0 && value <= 5000 ) {
          settings.visibleEventsLimit = event.target.value;
       }
@@ -250,22 +250,22 @@ function create( context, reactRender ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function refreshProblemSummary() {
-      let eventInfos = model.eventInfos.filter( function( info ) {
+      const eventInfos = model.eventInfos.filter( info => {
          return info.problems.length > 0;
       } );
 
       model.problemSummary = {
          hasProblems: eventInfos.length > 0,
-         eventInfos: eventInfos
+         eventInfos
       };
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function matchesSearchExpression( eventInfo, searchRegExp ) {
-      return !searchRegExp || [eventInfo.name, eventInfo.source, eventInfo.target]
-            .some( function( field ) {
-               let matches = searchRegExp.test( field );
+      return !searchRegExp || [ eventInfo.name, eventInfo.source, eventInfo.target ]
+            .some( field => {
+               const matches = searchRegExp.test( field );
                searchRegExp.lastIndex = 0;
                return !!matches;
             } );
@@ -278,25 +278,25 @@ function create( context, reactRender ) {
          return true;
       }
 
-      let filterTopics = context.resources.filter.topics || [];
-      let filterParticipants = context.resources.filter.participants || [];
+      const filterTopics = context.resources.filter.topics || [];
+      const filterParticipants = context.resources.filter.participants || [];
       if( !filterTopics.length && !filterParticipants.length ) {
          return true;
       }
 
-      let matchesTopicFilter = filterTopics
-         .some( function( item ) {
-            let prefixes = patternTopics[item.pattern];
-            return prefixes.some( function( prefix ) {
-               let topic = prefix + '.' + item.topic;
-               return eventInfo.name === topic || eventInfo.name.indexOf( topic + '.' ) === 0;
+      const matchesTopicFilter = filterTopics
+         .some( item => {
+            const prefixes = patternTopics[ item.pattern ];
+            return prefixes.some( prefix => {
+               const topic = `${prefix}.${item.topic}`;
+               return eventInfo.name === topic || eventInfo.name.indexOf( `${topic}.` ) === 0;
             } );
          } );
 
-      let matchesParticipantsFilter = ['target', 'source'].some( function( field ) {
-         let value = eventInfo[field];
+      const matchesParticipantsFilter = [ 'target', 'source' ].some( field => {
+         const value = eventInfo[ field ];
          return filterParticipants
-            .map( function( _ ) { return _.participant; } )
+            .map( _ => { return _.participant; } )
             .some( isSuffixOf( value ) );
       } );
 
@@ -306,7 +306,7 @@ function create( context, reactRender ) {
 
       function isSuffixOf( value ) {
          return function( _ ) {
-            let tail = '#' + _;
+            const tail = `#${_}`;
             return value.length >= tail.length && value.indexOf( tail ) === value.length - tail.length;
          };
       }
@@ -317,19 +317,17 @@ function create( context, reactRender ) {
    function onSettingsChanged( type, group, name, state ) {
       let settings = model.settings;
       const patterns = model.patterns;
-      switch( type ) {
-         case 'ONE':
-            settings[ group ][ name ] = !state;
-            break;
-         case 'ON':
-            changeAll( true );
-            break;
-         case 'OFF':
-            changeAll( false );
-            break;
-         case 'DEFAULTS':
-            settings = setDefaults( settings, patterns );
-            break;
+      if( type === 'ONE' ) {
+         settings[ group ][ name ] = !state;
+      }
+      else if( type === 'ON' ) {
+         changeAll( true );
+      }
+      else if( type === 'OFF' ) {
+         changeAll( false );
+      }
+      else if( type === 'DEFAULTS' ) {
+         settings = setDefaults( settings, patterns );
       }
 
       runFilters();
@@ -339,8 +337,8 @@ function create( context, reactRender ) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function changeAll( enable ) {
-         [ 'patterns', 'interactions', 'sources' ].forEach( ( _group ) => {
-            Object.keys( settings[ _group ] ).forEach( ( _name ) => {
+         [ 'patterns', 'interactions', 'sources' ].forEach( _group => {
+            Object.keys( settings[ _group ] ).forEach( _name => {
                settings[ _group ][ _name ] = enable;
             } );
          } );
@@ -370,14 +368,14 @@ function create( context, reactRender ) {
    function handleSelection( selectedEvent ) {
       if( selectedEvent.selected ) {
          model.selectionEventInfo = null;
-         model.visibleEventInfos.forEach( ( event ) => {
+         model.visibleEventInfos.forEach( event => {
             event.selected = false;
          } );
          render();
          return;
       }
 
-      model.visibleEventInfos.forEach( ( event ) => {
+      model.visibleEventInfos.forEach( event => {
          if( event.index === selectedEvent.index ) {
             model.selectionEventInfo = event;
             event.selected = true;
@@ -455,8 +453,8 @@ function create( context, reactRender ) {
       }
 
       render() {
-         if( this.props.numberOfEvents === 0  ) {
-            return(
+         if( this.props.numberOfEvents === 0 ) {
+            return (
                <div className="text-large">
                <h4 className="text-primary">Empty Events List</h4>
                <p><i className="fa fa-clock-o" /> Waiting for events from host application...</p>
@@ -465,7 +463,7 @@ function create( context, reactRender ) {
          }
 
          if( this.props.numberOfEvents > 0 && this.props.numberOfVisibleEvents === 0) {
-            return(
+            return (
                <div className="text-large">
                   <h4 className="text-primary">0/{ this.props.numberOfEvents } Event Items</h4>
                   <p>No events matching current filters.</p>
@@ -545,9 +543,9 @@ function create( context, reactRender ) {
       }
 
       render() {
-         const toggleClassName = 'fa pull-right ax-event-setting-toggle' + (
-               this.props.enabled? ' fa-toggle-on' : ' fa-toggle-off' );
-         const buttonClassName = "btn btn-link ax-event-setting-toggle ax-events-display-" + this.props.text;
+         const toggleClassName = `fa pull-right ax-event-setting-toggle${
+               this.props.enabled ? ' fa-toggle-on' : ' fa-toggle-off'}`;
+         const buttonClassName = `btn btn-link ax-event-setting-toggle ax-events-display-${this.props.text}`;
          return (
             <button
                type="button"
@@ -589,8 +587,8 @@ function create( context, reactRender ) {
       }
 
       render() {
-         const handleMouseEnter = () => this.setState( { showPatterns : true } );
-         const handleMouseLeave = () => this.setState( { showPatterns : false } );
+         const handleMouseEnter = () => this.setState( { showPatterns: true } );
+         const handleMouseLeave = () => this.setState( { showPatterns: false } );
 
          const patternsButtons = this.props.patterns.map( pattern => {
             return (
@@ -641,7 +639,8 @@ function create( context, reactRender ) {
          );
 
          return (
-            <div className={ this.state.showPatterns ? 'btn-group btn-group-sm open': 'btn-group btn-group-sm' }
+            <div className={
+               this.state.showPatterns ? 'btn-group btn-group-sm open' : 'btn-group btn-group-sm' }
                  onMouseEnter={ handleMouseEnter }
                  onMouseLeave={ handleMouseLeave }>
                <button type="button"
@@ -700,11 +699,11 @@ function create( context, reactRender ) {
          let classNames = 'ax-discard-events btn btn-primary btn-sm';
 
          if( this.props.eventInfosLength === 0 ) {
-            classNames = classNames + ' ax-disabled'
+            classNames = `${classNames} ax-disabled`;
          }
          return <button className={ classNames }
                         type="button"
-                        onClick={this.handleClick}>Discard Events</button>
+                        onClick={this.handleClick}>Discard Events</button>;
       }
    }
 
@@ -726,7 +725,7 @@ function create( context, reactRender ) {
          return <button type="button"
                         className="btn-link btn-info"
                         onClick={this.handleClick}>
-            <i className={ this.props.showDetails ? "fa fa-minus-square" : "fa fa-plus-square" }>&nbsp;</i>
+            <i className={ this.props.showDetails ? 'fa fa-minus-square' : 'fa fa-plus-square' }>&nbsp;</i>
          </button>;
       }
    }
@@ -740,7 +739,7 @@ function create( context, reactRender ) {
       }
 
       render() {
-         let splitPoint = this.props.content.indexOf( this.props.separator  );
+         const splitPoint = this.props.content.indexOf( this.props.separator );
          if( splitPoint === -1 ) {
             return <td><span>{ this.props.content }</span></td>;
          }
@@ -766,7 +765,7 @@ function create( context, reactRender ) {
       }
 
       handleName() {
-         this.setState( {showDetails: !this.state.showDetails} );
+         this.setState( { showDetails: !this.state.showDetails } );
       }
 
       handleClick() {
@@ -776,11 +775,11 @@ function create( context, reactRender ) {
       //////////////////////////////////////////////////////////////////////////////////////////////////
 
       render() {
-         const cssClassName = 'ax-event-body ' +
-                              'ax-event-pattern-' + this.props.event.pattern +
-                              ' ax-event-interaction-' + this.props.event.interaction +
-                              ( this.props.event.selected ? ' ax-event-selected' : '' ) +
-                              ( this.props.event.problems.length ? ' ax-event-has-problems' : '' );
+         const cssClassName = `${'ax-event-body ' +
+                              'ax-event-pattern-'}${this.props.event.pattern
+                              } ax-event-interaction-${this.props.event.interaction
+                               }${this.props.event.selected ? ' ax-event-selected' : ''
+                               }${this.props.event.problems.length ? ' ax-event-has-problems' : ''}`;
          const eventSummaryRow = (
             <tr className="ax-event-summary">
                <td className="ax-col-pattern-icon"
@@ -788,7 +787,7 @@ function create( context, reactRender ) {
                </td>
                <td className="ax-col-interaction">{this.props.event.interaction}</td>
                <td className="ax-col-payload-icon">
-                  { this.props.event.interaction == 'publish' &&
+                  { this.props.event.interaction === 'publish' &&
                     <ShowDetailsButton showDetails={this.state.showDetails}
                                        onNameChanged={this.handleName}/>
                   }
@@ -809,7 +808,7 @@ function create( context, reactRender ) {
             if( !show ) {
                return <tr />;
             }
-            return( <tr className="ax-event-payload">
+            return ( <tr className="ax-event-payload">
                <td colSpan="3" />
                <td colSpan="5">
                   <pre>{formattedEvent}</pre>
@@ -823,7 +822,7 @@ function create( context, reactRender ) {
             if( problems.length === 0 ) {
                return <tr />;
             }
-            const listOfProblems = problems.map( ( problem ) => {
+            const listOfProblems = problems.map( problem => {
                return (
                   <li key={problem.description} className="ax-event-problem">
                      <i className="fa fa-warning" /> {problem.description}
@@ -916,8 +915,8 @@ function create( context, reactRender ) {
       }
 
       render() {
-         const eventList = this.props.problemSummary.eventInfos.map( function( event ) {
-            const problemList = event.problems.map( function( problem ) {
+         const eventList = this.props.problemSummary.eventInfos.map( event => {
+            const problemList = event.problems.map( problem => {
                return (
                   <li key={ problem.description }
                       className="ax-event-problem">
@@ -926,7 +925,7 @@ function create( context, reactRender ) {
                );
             } );
             return (
-               <li  key={event.index} >
+               <li key={event.index} >
                   <h5><strong>{ event.name }</strong> <em>(source: { event.source })</em></h5>
                   <ul>
                      {problemList}
@@ -937,12 +936,15 @@ function create( context, reactRender ) {
 
          return (
             <div className="text-large">
-               <h4 className="text-primary ax-error">{ this.props.problemSummary.eventInfos.length }/{ this.props.eventInfos.length } Events with Problems</h4>
+               <h4 className="text-primary ax-error"
+                  >{ this.props.problemSummary.eventInfos.length
+                  }/{ this.props.eventInfos.length } Events with Problems</h4>
                <ul>
                   {eventList}
                </ul>
                <p className="ax-event-problems-explanation">
-                  Events with problems are marked <strong className="ax-error">red</strong> in the events table.
+                  Events with problems are marked <strong
+                  className="ax-error">red</strong> in the events table.
                   Filter by event/source as needed.
                </p>
             </div>

@@ -17,6 +17,7 @@ const injections = [
    'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility', 'axWidgetArea'
 ];
 
+
 function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility, AxWidgetArea ) {
    'use strict';
    const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';

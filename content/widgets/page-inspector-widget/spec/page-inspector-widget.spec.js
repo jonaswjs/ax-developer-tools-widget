@@ -10,11 +10,11 @@ import * as axMocks from 'laxar-mocks';
 // Minimalistic test setup. More information:
 // https://github.com/LaxarJS/laxar-mocks/blob/master/docs/manuals/index.md
 
-describe( 'The page-inspector-widget', function() {
+describe( 'The page-inspector-widget', () => {
 
    beforeEach( axMocks.setupForWidget() );
 
-   beforeEach( function() {
+   beforeEach( () => {
       axMocks.widget.configure( {
          pageInfo: {
             resource: 'page'
@@ -28,7 +28,7 @@ describe( 'The page-inspector-widget', function() {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   it( 'can be instantiated successfully', function() {
+   it( 'can be instantiated successfully', () => {
       expect( true ).toBe( true );
    } );
 

@@ -49,7 +49,7 @@ describe( 'A host-connector-widget', () => {
 
    beforeEach( axMocks.widget.load );
 
-   beforeEach( function() {
+   beforeEach( () => {
       widgetEventBus = axMocks.widget.axEventBus;
       testEventBus = axMocks.eventBus;
    } );
@@ -60,76 +60,73 @@ describe( 'A host-connector-widget', () => {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   it( 'polls the host application for event bus interactions and publishes them through the configured stream topic (R1.1)',
-      ( done ) => {
-         testEventBus.publish( 'beginLifecycleRequest' );
-         testEventBus.flush();
+   it( 'polls the host application for event bus interactions and' +
+       ' publishes them through the configured stream topic (R1.1)', done => {
+      testEventBus.publish( 'beginLifecycleRequest' );
+      testEventBus.flush();
+      expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+         'didProduce.logItems',
+         jasmine.any(Object)
+      );
+      fakeChannel.buffers.events.push( { index: 0, json: JSON.stringify( { fake: 'event item' } ) } );
+      window.setTimeout( () => {
+         expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+            'didProduce.logItems',
+            jasmine.any( Object )
+         );
+         window.setTimeout( () => {
+            expect( widgetEventBus.publish ).toHaveBeenCalledWith(
+               'didProduce.eventBusItems',
+               {
+                  stream: 'eventBusItems',
+                  data: [ { fake: 'event item' } ]
+               }
+            );
+            done();
+         }, 21 );
+      }, 80 );
+   } );
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   it( 'polls the host application for log messages and ' +
+       'publishes them through the configured stream topic (R1.2)', done => {
+      testEventBus.publish( 'beginLifecycleRequest' );
+      testEventBus.flush();
+      expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+         'didProduce.logItems',
+         jasmine.any(Object)
+      );
+      fakeChannel.buffers.log.push( { index: 0, json: JSON.stringify( { fake: 'log item' } ) } );
+      window.setTimeout( () => {
          expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
             'didProduce.logItems',
             jasmine.any(Object)
          );
-         fakeChannel.buffers.events.push( { index: 0, json: JSON.stringify( { fake: 'event item' } ) } );
          window.setTimeout( () => {
-            expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
+            expect( widgetEventBus.publish ).toHaveBeenCalledWith(
                'didProduce.logItems',
-               jasmine.any( Object )
+               {
+                  stream: 'logItems',
+                  data: [ { fake: 'log item' } ]
+               }
             );
-            window.setTimeout( () => {
-               expect( widgetEventBus.publish ).toHaveBeenCalledWith(
-                  'didProduce.eventBusItems',
-                  {
-                     stream: 'eventBusItems',
-                     data: [ { fake: 'event item' } ]
-                  }
-               );
-               done();
-            }, 21 );
-         }, 80 );
-      }
-   );
+            done();
+         }, 21 );
+      }, 80 );
+   } );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   it( 'polls the host application for log messages and publishes them through the configured stream topic (R1.2)',
-      ( done ) => {
-         testEventBus.publish( 'beginLifecycleRequest' );
-         testEventBus.flush();
-         expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
-            'didProduce.logItems',
-            jasmine.any(Object)
-         );
-         fakeChannel.buffers.log.push( { index: 0, json: JSON.stringify( { fake: 'log item' } ) } );
-         window.setTimeout( () => {
-            expect( widgetEventBus.publish ).not.toHaveBeenCalledWith(
-               'didProduce.logItems',
-               jasmine.any(Object)
-            );
-            window.setTimeout( () => {
-               expect( widgetEventBus.publish ).toHaveBeenCalledWith(
-                  'didProduce.logItems',
-                  {
-                     stream: 'logItems',
-                     data: [ { fake: 'log item' } ]
-                  }
-               );
-               done();
-            }, 21 );
-         }, 80 );
-      }
-   );
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   it( 'polls the host application for CSS grid settings and publishes them through the configured resource (R1.3)',
-      () => {
-         fakeChannel.gridSettings = { fake: 'grid' };
-         testEventBus.publish( 'beginLifecycleRequest' );
-         testEventBus.flush();
-         expect( widgetEventBus.publish ).toHaveBeenCalledWith( 'didReplace.gridSettings', {
-            resource: 'gridSettings',
-            data: { fake: 'grid' }
-         } );
-      }
-   );
+   it( 'polls the host application for CSS grid settings and ' +
+       'publishes them through the configured resource (R1.3)', () => {
+      fakeChannel.gridSettings = { fake: 'grid' };
+      testEventBus.publish( 'beginLifecycleRequest' );
+      testEventBus.flush();
+      expect( widgetEventBus.publish ).toHaveBeenCalledWith( 'didReplace.gridSettings', {
+         resource: 'gridSettings',
+         data: { fake: 'grid' }
+      } );
+   } );
 
 } );

@@ -35,7 +35,7 @@ function create( context, eventBus, reactRender ) {
    let withContainers = true;
    let withFlatCompositions = false;
 
-   let compositionStack = [];
+   const compositionStack = [];
    let activeComposition = null;
 
    let publishedSelection = null;
@@ -50,14 +50,14 @@ function create( context, eventBus, reactRender ) {
       isOptional: true
    } );
 
-   eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, (event, meta) => {
+   eventBus.subscribe( `didChangeAreaVisibility.${context.widget.area}`, event => {
       if( !visible && event.visible ) {
          visible = true;
          render();
       }
    } );
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function replaceFilter( selection, graphModel ) {
       const resource = context.features.filter.resource;
@@ -68,30 +68,31 @@ function create( context, eventBus, reactRender ) {
       publishFilter( filterFromSelection( selection, graphModel ) );
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function toggleIrrelevantWidgets() {
       withIrrelevantWidgets = !withIrrelevantWidgets;
       initializeViewModel( true );
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function toggleContainers() {
       withContainers = !withContainers;
       initializeViewModel( true );
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function toggleCompositions() {
       withFlatCompositions = !withFlatCompositions;
       initializeViewModel( true );
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function enterCompositionInstance( id ) {
+   function enterCompositionInstance( identifier ) {
+      let id = identifier;
       if( id === ROOT_ID ) {
          id = compositionStack.length > 1 ? compositionStack[ compositionStack.length - 2 ] : null;
       }
@@ -107,7 +108,7 @@ function create( context, eventBus, reactRender ) {
       initializeViewModel( true );
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function initializeViewModel( doReset ) {
       if( doReset ) {
@@ -134,7 +135,7 @@ function create( context, eventBus, reactRender ) {
             new HistoryStore( dispatcher );
             const graphStore = new GraphStore( dispatcher, pageGraph, pageTypes );
             const layoutStore = new LayoutStore( dispatcher, graphStore );
-            const settingsStore = new SettingsStore( dispatcher, Settings({ mode: READ_ONLY }) );
+            const settingsStore = new SettingsStore( dispatcher, Settings( { mode: READ_ONLY } ) );
             const selectionStore = new SelectionStore( dispatcher, layoutStore, graphStore );
 
             dispatcher.register( ActivateVertex, ({ vertex }) => {
@@ -149,7 +150,7 @@ function create( context, eventBus, reactRender ) {
       }
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function render() {
       if( !visible || !domAvailable ) {
@@ -159,7 +160,7 @@ function create( context, eventBus, reactRender ) {
       if( !viewModel ) {
          reactRender(
             <div className='page-inspector-placeholder'>
-              <i className='fa fa-cog fa-spin'></i>
+              <i className='fa fa-cog fa-spin' />
             </div>
          );
          initializeViewModel();
@@ -184,45 +185,47 @@ function create( context, eventBus, reactRender ) {
                <button type='button' className='btn btn-link '
                        title="Include widgets without any links to relevant topics?"
                        onClick={toggleIrrelevantWidgets}
-                  ><i className={'fa fa-toggle-' + ( withIrrelevantWidgets ? 'on' : 'off' ) }
-                  ></i> <span>Isolated Widgets</span></button>
+                  ><i className={ `fa fa-toggle-${withIrrelevantWidgets ? 'on' : 'off'}` }
+                  /><span>Isolated Widgets</span></button>
                <button type='button' className='btn btn-link'
                        title="Include area-nesting relationships?"
                        onClick={toggleContainers}
-                  ><i className={'fa fa-toggle-' + ( withContainers ? 'on' : 'off' ) }
-                  ></i> <span>Containers</span></button>
+                  ><i className={ `fa fa-toggle-${withContainers ? 'on' : 'off'}` }
+                  /><span>Containers</span></button>
                <button type='button' className='btn btn-link'
                        title="Flatten compositions into their runtime contents?"
                        onClick={toggleCompositions}
-                  ><i className={'fa fa-toggle-' + ( withFlatCompositions ? 'on' : 'off' ) }
-                  ></i> <span>Flatten Compositions</span></button>
+                  ><i className={ `fa fa-toggle-${withFlatCompositions ? 'on' : 'off'}` }
+                  /><span>Flatten Compositions</span></button>
             </div>
             <Graph className='nbe-theme-fusebox-app'
-                   types={graphStore.types}
-                   model={graphStore.graph}
-                   layout={layoutStore.layout}
-                   measurements={layoutStore.measurements}
-                   settings={settingsStore.settings}
-                   selection={selectionStore.selection}
-                   eventHandler={dispatcher.dispatch} />
+                   types={ graphStore.types }
+                   model={ graphStore.graph }
+                   layout={ layoutStore.layout }
+                   measurements={ layoutStore.measurements }
+                   settings={ settingsStore.settings }
+                   selection={ selectionStore.selection }
+                   eventHandler={ dispatcher.dispatch } />
          </div>
       );
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function renderBreadCrumbs() {
          return [
             <button key={ROOT_ID} type='button' className='btn btn-link page-inspector-breadcrumb'
                     onClick={() => enterCompositionInstance( null )}>
-              <i className='fa fa-home'></i>
+              <i className='fa fa-home'/>
            </button>
          ].concat( compositionStack.map( id =>
             activeComposition === id ? id :
-               <button key={id} type='button' className='btn btn-link page-inspector-breadcrumb'
-                       onClick={() => enterCompositionInstance( id )}>{ id }</button>
+               <button key={ id } type='button' className='btn btn-link page-inspector-breadcrumb'
+                       onClick={ () => enterCompositionInstance( id ) }>{ id }</button>
         ) );
       }
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    return { onDomAvailable: () => {
       domAvailable = true;

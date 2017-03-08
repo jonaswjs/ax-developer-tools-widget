@@ -50,8 +50,10 @@ export const ROOT_ID = '.';
  * @param {Boolean=false} pageInfo.withContainers
  *   If set to `true`, Container relationships are included in the graph representation.
  * @param {String='FLAT'} pageInfo.compositionDisplay
- *   If set to `'COMPACT'` (default), compositions are represented by an instance node, reflecting their development-time model.
- *   If set to `'FLAT'`, compositions are replaced recursively by their configured expansion, reflecting their run-time model.
+ *   If set to `'COMPACT'` (default), compositions are represented by an instance node,
+ *   reflecting their development-time model.
+ *   If set to `'FLAT'`, compositions are replaced recursively by their configured expansion,
+ *   reflecting their run-time model.
  * @param {String=null} pageInfo.activeComposition
  *   If set, generate a graph for the contents of the given composition, rather than for the page.
  */
@@ -97,13 +99,13 @@ export function graph( pageInfo, options ) {
       Object.keys( page.areas ).forEach( areaName => {
          page.areas[ areaName ].forEach( pageAreaItem => {
             if( isWidget( pageAreaItem ) ) {
-               processWidgetInstance( pageAreaItem, areaName );
+               processWidgetInstance( pageAreaItem );
             }
             else if( isComposition( pageAreaItem ) ) {
-               processCompositionInstance( pageAreaItem, areaName );
+               processCompositionInstance( pageAreaItem );
             }
             else if( isLayout( pageAreaItem ) ) {
-               processLayoutInstance( pageAreaItem, areaName );
+               processLayoutInstance( pageAreaItem );
             }
          } );
       } );
@@ -137,15 +139,15 @@ export function graph( pageInfo, options ) {
 
          return {
             ROOT_ID,
-            label: activeComposition ? '[parent]' : ( '[root] ' + pageReference ),
+            label: activeComposition ? '[parent]' : ( `[root] ${pageReference}` ),
             kind: 'PAGE',
             ports
          };
       }
 
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      function processLayoutInstance( layout, areaName ) {
+      function processLayoutInstance( layout ) {
          vertices[ layout.id ] = {
             id: layout.id,
             label: layout.id,
@@ -156,7 +158,7 @@ export function graph( pageInfo, options ) {
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      function processWidgetInstance( widgetInstance, areaName ) {
+      function processWidgetInstance( widgetInstance ) {
          const descriptor = widgetDescriptors[ widgetInstance.widget ];
 
          const kinds = {
@@ -167,16 +169,16 @@ export function graph( pageInfo, options ) {
          const { id } = widgetInstance;
          const ports = identifyPorts( widgetInstance.features, descriptor.features );
          vertices[ id ] = {
-            id: id,
+            id,
             label: id,
             kind: kinds[ descriptor.integration.type ],
-            ports: ports
+            ports
          };
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      function processCompositionInstance( compositionInstance, areaName ) {
+      function processCompositionInstance( compositionInstance ) {
          const { id } = compositionInstance;
          const definition = compositionDefinitions[ pageReference ][ id ].COMPACT;
 
@@ -190,18 +192,20 @@ export function graph( pageInfo, options ) {
          );
 
          vertices[ id ] = {
-            id: id,
+            id,
             label: id,
             kind: 'COMPOSITION',
-            ports: ports
+            ports
          };
       }
 
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      function identifyPorts( value, schema, path, ports ) {
-         path = path || [];
-         ports = ports || { inbound: [], outbound: [] };
+      function identifyPorts( value, passedSchema, passedPath, passedPorts ) {
+         const path = passedPath || [];
+         const ports = passedPorts || { inbound: [], outbound: [] };
+         let schema = passedSchema;
+
          if( !value || !schema ) {
             return ports;
          }
@@ -218,10 +222,10 @@ export function graph( pageInfo, options ) {
          if( schema.type === 'string' && schema.axRole &&
              ( schema.format === 'topic' || schema.format === 'flag-topic' ) ) {
             const type = schema.axPattern ? schema.axPattern.toUpperCase() : inferEdgeType( path );
-            if( !type ) { return; }
-            const edgeId = type + ':' + value;
+            if( !type ) { return undefined; }
+            const edgeId = `${type}:${value}`;
             const label = path.join( '.' );
-            const id =  path.join( ':' );
+            const id = path.join( ':' );
             ports[ schema.axRole === 'outlet' ? 'outbound' : 'inbound' ].push( {
                label, id, type, edgeId
             } );
@@ -244,7 +248,7 @@ export function graph( pageInfo, options ) {
          return ports;
       }
 
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function inferEdgeType( path ) {
          if( !path.length ) {
@@ -302,7 +306,7 @@ export function graph( pageInfo, options ) {
 
       function insertOwnerPort( vertex, areaName ) {
          vertex.ports.outbound.unshift( {
-            id: 'CONTAINER:' + areaName,
+            id: `CONTAINER:${areaName}`,
             type: TYPE_CONTAINER,
             edgeId: areaEdgeId( areaName ),
             label: areaName
@@ -324,7 +328,7 @@ export function graph( pageInfo, options ) {
       }
 
       function areaEdgeId( areaName ) {
-         return TYPE_CONTAINER + ':' + areaName;
+         return `${TYPE_CONTAINER}:${areaName}`;
       }
    }
 
@@ -344,7 +348,7 @@ export function graph( pageInfo, options ) {
             const ports = vertices[ vId ].ports;
             if( ports.inbound.length <= withContainers ? 1 : 0 ) {
                if( ports.outbound.every( _ => !_.edgeId ) ) {
-                  pruneList.push( vId  );
+                  pruneList.push( vId );
                }
             }
          } );
@@ -406,15 +410,9 @@ function isLayout( pageAreaItem ) {
    return !!pageAreaItem.layout;
 }
 
-function either( f, g ) {
-   return function() {
-      return f.apply( this, arguments ) || g.apply( this, arguments );
-   };
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function layout( graph ) {
+export function layout() {
    return layoutModel.convert.layout( {
       vertices: {},
       edges: {}
@@ -429,7 +427,7 @@ export function types() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function compositionStack( compositionInstanceId ) {
+export function compositionStack() {
    return [];
 }
 
@@ -438,12 +436,12 @@ export function compositionStack( compositionInstanceId ) {
 export function filterFromSelection( selection, graphModel ) {
    const topics = selection.edges.flatMap( edgeId => {
       const [ type, topic ] = edgeId.split( ':' );
-      return ( type === 'CONTAINER' ) ? [] : [{ pattern: type, topic }];
+      return ( type === 'CONTAINER' ) ? [] : [ { pattern: type, topic } ];
    } ).toJS();
 
    const participants = selection.vertices.flatMap( vertexId => {
       const { id, kind } = graphModel.vertices.get( vertexId );
-      return ( kind === 'PAGE' || kind === 'LAYOUT' ) ? [] : [{ kind, participant: vertexId }];
+      return ( kind === 'PAGE' || kind === 'LAYOUT' ) ? [] : [ { kind, participant: vertexId } ];
    } );
 
    return {

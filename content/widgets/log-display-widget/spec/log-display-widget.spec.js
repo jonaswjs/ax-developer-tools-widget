@@ -64,7 +64,7 @@ describe( 'The log-display-widget', () => {
       axMocks.widget.configure( {
          log: {
             stream: 'myLogStream',
-            bufferSize: bufferSize
+            bufferSize
          }
       } );
 

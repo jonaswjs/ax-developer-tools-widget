@@ -76,7 +76,8 @@ describe( 'The developer-toolbar-widget', () => {
       it( 'offer a button that causes a grid visualization layer to be shown in the host application (R2.1)',
          () => {
             expect( widgetDom.querySelector( 'button.ax-developer-toolbar-grid' ) ).not.toEqual( null );
-      } );
+         }
+      );
 
    } );
 

@@ -17,14 +17,8 @@ function create( context, eventBus, reactRender ) {
       messages: []
    };
 
-   let commands = {
-      discard: function() {
-         model.messages.length = 0;
-      }
-   };
-
    if( context.features.log.stream ) {
-      eventBus.subscribe(  'didProduce.' + context.features.log.stream, function( event ) {
+      eventBus.subscribe( `didProduce.${context.features.log.stream}`, event => {
          if( Array.isArray( event.data ) ) {
             event.data.forEach( displayLogMessage );
          }
@@ -42,7 +36,7 @@ function create( context, eventBus, reactRender ) {
          text: string.format( message.text, message.replacements ),
          level: message.level,
          time: message.time,
-         location: message.sourceInfo.file + ':' + message.sourceInfo.line
+         location: `${message.sourceInfo.file}:${message.sourceInfo.line}`
       } );
 
       while( model.messages.length > context.features.log.bufferSize ) {
@@ -61,9 +55,9 @@ function create( context, eventBus, reactRender ) {
 
    function render() {
       function formatTime( date ) {
-         return moment( date ).format( 'YYYY-MM-DD HH:mm:ss.SSS' )
+         return moment( date ).format( 'YYYY-MM-DD HH:mm:ss.SSS' );
       }
-      const messages = model.messages.map( ( message ) =>
+      const messages = model.messages.map( message =>
          <tr key={ message.time }>
             <td>{ message.level }</td>
             <td>{ message.text }</td>
@@ -79,7 +73,8 @@ function create( context, eventBus, reactRender ) {
                   <div className="ax-button-wrapper">
                      <button
                         type="button"
-                        className={ ( !model.messages.length ? 'ax-disabled' : '' ) + "btn btn-primary btn-sm" }
+                        className={
+                           `${!model.messages.length ? 'ax-disabled ' : ''}btn btn-primary btn-sm` }
                         onClick={ discard }
                         >Clear</button>
                   </div>

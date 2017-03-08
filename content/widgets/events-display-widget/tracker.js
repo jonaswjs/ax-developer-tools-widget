@@ -7,7 +7,7 @@
 define( [
    'laxar',
    'laxar-patterns'
-], function( ax, patterns ) {
+], ( ax, patterns ) => {
 
    const LIFECYCLE = 'lifecycle';
    const ACTION = 'action';
@@ -46,10 +46,10 @@ define( [
 
    // developer API:
    return {
-      state: function() {
+      state() {
          return ax.object.deepClone( states );
       },
-      track: track
+      track
    };
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -199,7 +199,7 @@ define( [
       switch( verb ) {
 
          case 'didReplace':
-            if (payload.data === undefined) {
+            if( payload.data === undefined ) {
                problems.push( { description: 'didReplace event-payload is missing "data" field.' } );
             }
             state = states.resource[ resourceName ] = states.resource[ resourceName ] || {
@@ -222,17 +222,17 @@ define( [
             state = states.resource[ resourceName ];
             if( !state ) {
                problems.push( {
-                  description: 'Sender "' + sender + '" sent didUpdate without prior didReplace.'
+                  description: `Sender "${sender}" sent didUpdate without prior didReplace.`
                } );
             }
             else if( state.value === null || state.value === undefined ) {
                problems.push( {
-                  description: 'Sender "' + sender + '" sent didUpdate, but resource is ' + state.value
+                  description: `Sender "${sender}" sent didUpdate, but resource is ${state.value}`
                } );
             }
             if( !payload.patches ) {
                problems.push( {
-                  description: 'Sender "' + sender + '" sent didUpdate without patches field.'
+                  description: `Sender "${sender}" sent didUpdate without patches field.`
                } );
             }
             if( problems.length ) {
@@ -245,7 +245,7 @@ define( [
             }
             catch( error ) {
                problems.push( {
-                  description: 'Failed to apply patch sequence in didUpdate from "' + sender + '"'
+                  description: `Failed to apply patch sequence in didUpdate from "${sender}"`
                } );
             }
             return problems;

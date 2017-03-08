@@ -4,17 +4,13 @@
  * http://laxarjs.org/license
  */
 
-/* global chrome */
+/* global chrome define */
 
 define( [], function() {
    'use strict';
 
    const REFRESH_DELAY_MS = 100;
 
-   //Security wrapper denied access to property "buffers" on privileged Javascript object.
-   //Support for exposing privileged objects to untrusted content via __exposedProps__ is being
-   //gradually removed - use WebIDL bindings or Components.utils.cloneInto instead.
-   // Note that only the first denied property access from a given global object will be reported.
    const injections = [ 'axContext', 'axEventBus' ];
    const controller = function( context, eventBus ) {
       let pageInfoVersion = -1;
@@ -28,20 +24,20 @@ define( [], function() {
          window.LiveReload.shutDown();
       }
 
-      eventBus.subscribe( 'endLifecycleRequest', function() {
+      eventBus.subscribe( 'endLifecycleRequest', () => {
          if( timeout ) {
             window.clearTimeout( timeout );
          }
       } );
 
       if( window.opener ) {
-         eventBus.subscribe( 'beginLifecycleRequest', function() {
+         eventBus.subscribe( 'beginLifecycleRequest', () => {
             publishLaxarApplicationFlag( true );
             tryPublishData();
          } );
       }
       else {
-         eventBus.subscribe( 'beginLifecycleRequest', function() {
+         eventBus.subscribe( 'beginLifecycleRequest', () => {
             publishLaxarApplicationFlag( false );
             window.addEventListener( 'message', extensionEventListener );
          } );
@@ -101,12 +97,13 @@ define( [], function() {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function publishGridSettings( channelGridSettings ) {
+         let data = channelGridSettings;
          if( !channelGridSettings ) {
-            channelGridSettings = null;
+            data = null;
          }
-         eventBus.publish( 'didReplace.' + context.features.grid.resource, {
+         eventBus.publish( `didReplace.${context.features.grid.resource}`, {
             resource: context.features.grid.resource,
-            data: channelGridSettings
+            data
          } );
       }
 
@@ -146,7 +143,7 @@ define( [], function() {
 
       function publishAndSetPageInfoVersion( pageInfo, version ) {
          pageInfoVersion = version;
-         eventBus.publish( 'didReplace.' + context.features.pageInfo.resource, {
+         eventBus.publish( `didReplace.${context.features.pageInfo.resource}`, {
             resource: context.features.pageInfo.resource,
             data: pageInfo
          } );
@@ -155,26 +152,26 @@ define( [], function() {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function publishStream( bufferFeature, buffers ) {
-         const buffer = buffers[bufferFeature];
-         const lastIndex = lastIndexByStream[bufferFeature] || -1;
+         const buffer = buffers[ bufferFeature ];
+         const lastIndex = lastIndexByStream[ bufferFeature ] || -1;
          const events = buffer
-            .filter( function( _ ) { return lastIndex < _.index; } )
-            .map( function( _ ) { return JSON.parse( _.json ); } );
+            .filter( _ => lastIndex < _.index )
+            .map( _ => JSON.parse( _.json ) );
          if( !events.length ) {
             return;
          }
-         eventBus.publish( 'didProduce.' + context.features[bufferFeature].stream, {
-            stream: context.features[bufferFeature].stream,
+         eventBus.publish( `didProduce.${context.features[ bufferFeature ].stream}`, {
+            stream: context.features[ bufferFeature ].stream,
             data: events
          } );
-         lastIndexByStream[bufferFeature] = buffer[buffer.length - 1].index;
+         lastIndexByStream[ bufferFeature ] = buffer[ buffer.length - 1 ].index;
          navigation( events );
       }
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function navigation( events ) {
-         events.forEach( function( event ) {
+         events.forEach( event => {
             if( event.action === 'publish' && event.event.substr( 0, 11 ) === 'didNavigate' ) {
                eventBus.publish( 'takeActionRequest.navigation', {
                   action: 'navigation'
@@ -187,9 +184,9 @@ define( [], function() {
 
       function publishLaxarApplicationFlag( state ) {
          if( isLaxarApplication !== state ) {
-            eventBus.publish( 'didChangeFlag.' + context.features.laxarApplication.flag + '.' + state, {
+            eventBus.publish( `didChangeFlag.${context.features.laxarApplication.flag}.${state}`, {
                flag: context.features.laxarApplication.flag,
-               state: state
+               state
             } );
             isLaxarApplication = state;
             if( isBrowserWebExtension ) {

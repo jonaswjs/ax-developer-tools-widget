@@ -12,7 +12,6 @@ describe( 'An events-display-widget', () => {
 
    const bufferSize = 9;
    let widgetDom;
-   let data;
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,10 +35,6 @@ describe( 'An events-display-widget', () => {
       } );
    }
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   beforeEach( () => { data = specData; } );
-
    afterEach( axMocks.tearDown );
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +45,7 @@ describe( 'An events-display-widget', () => {
          {
             events: {
                stream: 'myEventStream',
-               bufferSize: bufferSize
+               bufferSize
             }
          },
          'metaEvents'
@@ -114,16 +109,17 @@ describe( 'An events-display-widget', () => {
       describe( 'when a row with interaction type _publish_ or _subscribe_ is highlighted', () => {
 
          beforeEach( () => {
-            widgetDom.querySelector( '.ax-event-body' ).click()
+            widgetDom.querySelector( '.ax-event-body' ).click();
          } );
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
 
          it( 'highlights _related_ rows as well (R1.6)', () => {
-            let selected = [];
-            widgetDom.querySelectorAll( '.ax-event-body' ).forEach( ( tbody ) => {
-               selected.push( tbody.classList.contains( 'ax-event-selected' ) );
-            } );
+            const selected = [];
+            const nodeList = widgetDom.querySelectorAll( '.ax-event-body' );
+            for( let i = 0; i < nodeList.length; ++i ) {
+               selected.push( nodeList[ i ].classList.contains( 'ax-event-selected' ) );
+            }
 
             expect( selected ).toEqual( [ true, true, false, true, false ] );
          } );
@@ -150,7 +146,7 @@ describe( 'An events-display-widget', () => {
          {
             events: {
                stream: 'myEventStream',
-               bufferSize: bufferSize
+               bufferSize
             }
          },
          'metaEvents'
