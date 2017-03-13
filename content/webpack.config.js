@@ -45,10 +45,10 @@ const config = {
       ],
       extensions: [ '.js', '.jsx' ],
       alias: {
-         'laxar-mocks': path.resolve( './lib/laxar-mocks' ),
-         'polyfills': path.resolve( './lib/laxar/dist/polyfills.js' ),
-         'laxar-uikit': path.resolve( './lib/laxar-uikit' ),
-         'default.theme': path.resolve( './lib/laxar-uikit/themes/default.theme' )
+         'laxar-mocks': path.resolve( './node_modules/laxar-mocks' ),
+         'polyfills': path.resolve( './node_modules/laxar/dist/polyfills.js' ),
+         'laxar-uikit': path.resolve( './node_modules/laxar-uikit' ),
+         'default.theme': path.resolve( './node_modules/laxar-uikit/themes/default.theme' )
       }
    },
 
@@ -93,8 +93,8 @@ const config = {
                   'laxar-uikit/scss',
                   './node_modules/bootstrap-sass/assets/stylesheets',
                   './node_modules',
-                  './lib/laxar-uikit/scss',
-                  './lib/laxar-uikit/themes/default.theme/scss'
+                  './node_modules/laxar-uikit/scss',
+                  './node_modules/laxar-uikit/themes/default.theme/scss'
                ].map( p => path.resolve( __dirname, p ) )
             }
          }
