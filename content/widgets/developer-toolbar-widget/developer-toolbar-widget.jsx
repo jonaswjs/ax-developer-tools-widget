@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { resources, flags } from 'laxar-patterns';
+import { AxWidgetArea } from 'laxar-react-adapter';
 
 import * as developerToolsToggleGrid from '../../lib/laxar-developer-tools/grid';
 import * as developerToolsToggleWidgetOutline from '../../lib/laxar-developer-tools/widget-outline';
@@ -14,11 +15,9 @@ const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperT
 const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
 
 const injections = [
-   'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility', 'axWidgetArea'
+   'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'
 ];
-
-
-function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility, AxWidgetArea ) {
+function create( context, eventBus, reactRender, flowService, areaHelper, axVisibility) {
    'use strict';
    const HINT_NO_LAXAR_EXTENSION = 'Reload page to enable LaxarJS developer tools!';
    const HINT_DISABLE_TOGGLE_GRID = 'Configure grid settings in application to enable this feature!';
