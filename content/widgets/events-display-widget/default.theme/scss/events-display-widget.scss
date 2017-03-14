@@ -8,15 +8,23 @@
    .ax-button-wrapper {
       padding: 8px 8px;
    }
-
+   .ax-affix-on-top-area{
+      text-align: right;
+      background-color: rgba(255, 255, 255, 255);
+   }
    .ax-affix-area {
       text-align: right;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid #CCC;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+   }
+
+   .ax-affix-area > div{
+
       top: 0;
       left: 0;
       right: 0;
       background-color: rgba(255, 255, 255, 0.8);
-      border-bottom: 1px solid #CCC;
-      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
    }
 
    [data-ax-id="'limit'"] {
@@ -336,7 +344,24 @@
    }
 
    .text-large {
-      padding: 8px;
+      padding: 16px;
       float: left;
+   }
+
+   div.form-group {
+      label {
+         margin: 0 0 0 8px;
+      }
+      input {
+         margin: 0 8px;
+      }
+   }
+
+   div.btn-group > button {
+         margin: 0 8px;
+   }
+
+   div.ax-event-settings-col > div.pull-right > button {
+      margin: 0 2px;
    }
 }

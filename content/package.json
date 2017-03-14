@@ -5,8 +5,10 @@
    "description": "Used by the LaxarJS DeveloperToolsWidget",
    "license": "MIT",
    "scripts": {
-      "browser-spec": "cross-env NODE_ENV=browser-spec webpack && cross-env NODE_ENV=browser-spec webpack-dev-server --port 8191",
-      "eslint": "eslint init.js includes/widgets/shop-demo *.config.js",
+      "browser-spec": "npm run browser-spec-build && npm run browser-spec-run",
+      "browser-spec-build": "cross-env NODE_ENV=browser-spec webpack",
+      "browser-spec-run": "cross-env NODE_ENV=browser-spec webpack-dev-server --port 8180",
+      "eslint": "eslint init.js widgets *.config.js",
       "karma": "node karma.config.js",
       "optimize": "cross-env NODE_ENV=production webpack --progress",
       "prepublish": "webpack --progress",

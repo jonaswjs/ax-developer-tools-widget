@@ -13,7 +13,6 @@ import AutoAffix from 'react-overlays/lib/AutoAffix';
 const injections = [ 'axContext', 'axReactRender' ];
 function create( context, reactRender ) {
    'use strict';
-
    const view = {
       showPatterns: false
    };
@@ -980,8 +979,10 @@ function create( context, reactRender ) {
 
       reactRender(
          <div>
-            <AutoAffix>
-               <div className="ax-affix-area">
+            <AutoAffix
+               affixClassName="ax-affix-area"
+               topClassName="ax-affix-on-top-area">
+               <div>
                   <NumberOfEvents numberOfVisibleEvents={ model.visibleEventInfos.length }
                                   numberOfEvents={ model.eventInfos.length }
                                   clearFilters={clearFilters}

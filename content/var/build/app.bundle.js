@@ -46965,7 +46965,6 @@ var _AutoAffix = __webpack_require__(226);var _AutoAffix2 = _interopRequireDefau
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Released under the MIT license.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * http://laxarjs.org/license
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */var injections = ['axContext', 'axReactRender'];function create(context, reactRender) {'use strict';
-
    var view = {
       showPatterns: false };
 
@@ -47932,8 +47931,10 @@ var _AutoAffix = __webpack_require__(226);var _AutoAffix2 = _interopRequireDefau
 
       reactRender(
       _react2.default.createElement('div', null,
-         _react2.default.createElement(_AutoAffix2.default, null,
-            _react2.default.createElement('div', { className: 'ax-affix-area' },
+         _react2.default.createElement(_AutoAffix2.default, {
+               affixClassName: 'ax-affix-area',
+               topClassName: 'ax-affix-on-top-area' },
+            _react2.default.createElement('div', null,
                _react2.default.createElement(NumberOfEvents, { numberOfVisibleEvents: model.visibleEventInfos.length,
                   numberOfEvents: model.eventInfos.length,
                   clearFilters: clearFilters }),
@@ -47984,263 +47985,259 @@ var _AutoAffix = __webpack_require__(226);var _AutoAffix2 = _interopRequireDefau
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__; /**
-               * Copyright 2017 aixigo AG
-               * Released under the MIT license.
-               * http://laxarjs.org/license
-               */
-
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-__webpack_require__(25),
-__webpack_require__(47)], __WEBPACK_AMD_DEFINE_RESULT__ = function (ax, patterns) {
-
-   var LIFECYCLE = 'lifecycle';
-   var ACTION = 'action';
-   var FLAG = 'flag';
-   var RESOURCE = 'resource';
-   var ERROR = 'error';
-   var OTHER = 'other';
+Object.defineProperty(exports, "__esModule", { value: true });
 
 
-   var types = {
-      beginLifecycleRequest: LIFECYCLE,
-
-      takeActionRequest: ACTION,
-      willTakeAction: ACTION,
-      didTakeAction: ACTION,
-
-      didChangeFlag: FLAG,
-
-      didReplace: RESOURCE,
-      didUpdate: RESOURCE,
-      validateRequest: RESOURCE,
-      willValidate: RESOURCE,
-      didValidate: RESOURCE,
-      saveRequest: RESOURCE,
-      willSave: RESOURCE,
-      didSave: RESOURCE,
-
-      didEncounterError: ERROR };
 
 
-   var states = {
+
+var _laxar = __webpack_require__(25);var ax = _interopRequireWildcard(_laxar);
+var _laxarPatterns = __webpack_require__(47);var patterns = _interopRequireWildcard(_laxarPatterns);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}} /**
+                                                                                                                                                                                                                                                                                                                                                                        * Copyright 2017 aixigo AG
+                                                                                                                                                                                                                                                                                                                                                                        * Released under the MIT license.
+                                                                                                                                                                                                                                                                                                                                                                        * http://laxarjs.org/license
+                                                                                                                                                                                                                                                                                                                                                                        */var LIFECYCLE = 'lifecycle';var ACTION = 'action';
+var FLAG = 'flag';
+var RESOURCE = 'resource';
+var ERROR = 'error';
+var OTHER = 'other';
+
+var types = {
+   beginLifecycleRequest: LIFECYCLE,
+
+   takeActionRequest: ACTION,
+   willTakeAction: ACTION,
+   didTakeAction: ACTION,
+
+   didChangeFlag: FLAG,
+
+   didReplace: RESOURCE,
+   didUpdate: RESOURCE,
+   validateRequest: RESOURCE,
+   willValidate: RESOURCE,
+   didValidate: RESOURCE,
+   saveRequest: RESOURCE,
+   willSave: RESOURCE,
+   didSave: RESOURCE,
+
+   didEncounterError: ERROR };
+
+
+var states = {
+   resource: {},
+   action: {},
+   flag: {} };
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function eventType(eventItem) {
+   var topics = eventItem.event.split('.');
+   var verb = topics[0];
+   return types[verb] || OTHER;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function eventPatternTopic(eventItem) {
+   var topics = eventItem.event.split('.');
+   return topics[1];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function track(eventItem) {
+   if (eventItem.action !== 'publish') {
+      return [];
+   }
+
+   var sender = (eventItem.source || 'unknown').replace(/.*#(.*)/g, '$1');
+   var topics = eventItem.event.split('.');
+   var verb = topics[0];
+   var patternTopic = eventPatternTopic(eventItem);
+   var payload = eventItem.eventObject;
+
+   if (!patternTopic) {
+      return [{ description: 'Event has an invalid name: The second topic is missing!' }];
+   }
+   if (!payload) {
+      return [{ description: 'Event has no payload!' }];
+   }
+
+   var type = eventType(eventItem);
+   if (type === LIFECYCLE) {
+      return resetEvents();
+   }
+   if (type === RESOURCE) {
+      return trackResourceEvent(payload, sender, verb, patternTopic);
+   }
+   if (type === ACTION) {
+      return trackActionEvent(payload, sender, verb, patternTopic);
+   }
+   if (type === FLAG) {
+      return trackFlagEvent(payload, sender, verb, patternTopic);
+   }
+   return [];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function resetEvents() {
+   states = {
       resource: {},
       action: {},
       flag: {} };
 
+   return [];
+}
 
-   // developer API:
-   return {
-      state: function state() {
-         return ax.object.deepClone(states);
-      },
-      track: track };
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function eventType(eventItem) {
-      var topics = eventItem.event.split('.');
-      var verb = topics[0];
-      return types[verb] || OTHER;
+function trackActionEvent(payload, subject, verb, actionName) {
+   var problems = [];
+   if (!payload.action) {
+      problems.push({ description: 'Event is missing "action" field in payload.' });
    }
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function eventPatternTopic(eventItem) {
-      var topics = eventItem.event.split('.');
-      return topics[1];
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function track(eventItem) {
-      if (eventItem.action !== 'publish') {
-         return [];
-      }
-
-      var sender = (eventItem.source || 'unknown').replace(/.*#(.*)/g, '$1');
-      var topics = eventItem.event.split('.');
-      var verb = topics[0];
-      var patternTopic = eventPatternTopic(eventItem);
-      var payload = eventItem.eventObject;
-
-      if (!patternTopic) {
-         return [{ description: 'Event has an invalid name: The second topic is missing!' }];
-      }
-      if (!payload) {
-         return [{ description: 'Event has no payload!' }];
-      }
-
-      var type = eventType(eventItem);
-      if (type === LIFECYCLE) {
-         return resetEvents();
-      }
-      if (type === RESOURCE) {
-         return trackResourceEvent(payload, sender, verb, patternTopic);
-      }
-      if (type === ACTION) {
-         return trackActionEvent(payload, sender, verb, patternTopic);
-      }
-      if (type === FLAG) {
-         return trackFlagEvent(payload, sender, verb, patternTopic);
-      }
-      return [];
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function resetEvents() {
-      states = {
-         resource: {},
-         action: {},
-         flag: {} };
-
-      return [];
-   }
-
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   function trackActionEvent(payload, subject, verb, actionName) {
-      var problems = [];
-      if (!payload.action) {
-         problems.push({ description: 'Event is missing "action" field in payload.' });
-      }
-
-      var state = states.action[actionName] = states.action[actionName] || {
-         state: 'inactive',
-         numRequests: 0,
-         requestedBy: null,
-         outstandingReplies: {} };
+   var state = states.action[actionName] = states.action[actionName] || {
+      state: 'inactive',
+      numRequests: 0,
+      requestedBy: null,
+      outstandingReplies: {} };
 
 
-      switch (verb) {
+   switch (verb) {
 
-         case 'takeActionRequest':
-            state.state = 'active';
-            state.requestedBy = subject;
-            ++state.numRequests;
-            return problems;
+      case 'takeActionRequest':
+         state.state = 'active';
+         state.requestedBy = subject;
+         ++state.numRequests;
+         return problems;
 
-         case 'willTakeAction':
-            if (!state.outstandingReplies.hasOwnProperty(subject)) {
-               state.outstandingReplies[subject] = 0;
+      case 'willTakeAction':
+         if (!state.outstandingReplies.hasOwnProperty(subject)) {
+            state.outstandingReplies[subject] = 0;
+         }
+         ++state.outstandingReplies[subject];
+         return problems;
+
+      case 'didTakeAction':
+         if (state.outstandingReplies.hasOwnProperty(subject)) {
+            --state.outstandingReplies[subject];
+            if (state.outstandingReplies[subject] === 0) {
+               delete state.outstandingReplies[subject];
             }
-            ++state.outstandingReplies[subject];
-            return problems;
+         }
 
-         case 'didTakeAction':
-            if (state.outstandingReplies.hasOwnProperty(subject)) {
-               --state.outstandingReplies[subject];
-               if (state.outstandingReplies[subject] === 0) {
-                  delete state.outstandingReplies[subject];
-               }
-            }
+         if (Object.keys(state.outstandingReplies).length === 0) {
+            state.state = 'inactive';
+         }
+         return problems;
 
-            if (Object.keys(state.outstandingReplies).length === 0) {
-               state.state = 'inactive';
-            }
-            return problems;
+      default:
+         return problems;}
 
-         default:
-            return problems;}
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function trackFlagEvent(payload, sender, verb, flagName) {
+   var problems = [];
+   if (!payload.flag) {
+      problems.push({ description: 'Event is missing "flag" field in payload.' });
    }
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+   states.flag[flagName] = states.flag[flagName] || {
+      state: undefined,
+      lastModificationBy: null };
 
-   function trackFlagEvent(payload, sender, verb, flagName) {
-      var problems = [];
-      if (!payload.flag) {
-         problems.push({ description: 'Event is missing "flag" field in payload.' });
+
+   if (verb === 'didChangeFlag') {
+      if (payload.state === undefined) {
+         problems.push({ description: 'Event is missing "state" field in payload.' });
+         return problems;
       }
+      states.flag[flagName].state = payload.state;
+      states.flag[flagName].lastModificationBy = sender;
+   }
 
-      states.flag[flagName] = states.flag[flagName] || {
-         state: undefined,
-         lastModificationBy: null };
+   return problems;
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-      if (verb === 'didChangeFlag') {
-         if (payload.state === undefined) {
-            problems.push({ description: 'Event is missing "state" field in payload.' });
+function trackResourceEvent(payload, sender, verb, resourceName) {
+   var problems = [];
+   if (!payload.resource) {
+      problems.push({ description: 'Event is missing "resource" field in payload.' });
+   }
+   var state = void 0;
+
+   switch (verb) {
+
+      case 'didReplace':
+         if (payload.data === undefined) {
+            problems.push({ description: 'didReplace event-payload is missing "data" field.' });
+         }
+         state = states.resource[resourceName] = states.resource[resourceName] || {
+            state: 'replaced',
+            master: sender,
+            lastModificationBy: null,
+            value: null };
+
+         if (state.master !== sender) {
+            problems.push({ description: ax.string.format(
+               'master/master conflict: for resource `[0]` (first master: [1], second master: [2])',
+               [resourceName, state.master, sender]) });
+
+         }
+         state.lastModificationBy = sender;
+         state.value = payload.data;
+         return problems;
+
+      case 'didUpdate':
+         state = states.resource[resourceName];
+         if (!state) {
+            problems.push({
+               description: 'Sender "' + sender + '" sent didUpdate without prior didReplace.' });
+
+         } else
+         if (state.value === null || state.value === undefined) {
+            problems.push({
+               description: 'Sender "' + sender + '" sent didUpdate, but resource is ' + state.value });
+
+         }
+         if (!payload.patches) {
+            problems.push({
+               description: 'Sender "' + sender + '" sent didUpdate without patches field.' });
+
+         }
+         if (problems.length) {
             return problems;
          }
-         states.flag[flagName].state = payload.state;
-         states.flag[flagName].lastModificationBy = sender;
-      }
 
-      return problems;
-   }
+         state.lastModificationBy = sender;
+         try {
+            patterns.json.applyPatch(state.value, payload.patches);
+         }
+         catch (error) {
+            problems.push({
+               description: 'Failed to apply patch sequence in didUpdate from "' + sender + '"' });
 
-   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+         }
+         return problems;
 
-   function trackResourceEvent(payload, sender, verb, resourceName) {
-      var problems = [];
-      if (!payload.resource) {
-         problems.push({ description: 'Event is missing "resource" field in payload.' });
-      }
-      var state = void 0;
+      default:
+         return problems;}
 
-      switch (verb) {
+}exports.default =
 
-         case 'didReplace':
-            if (payload.data === undefined) {
-               problems.push({ description: 'didReplace event-payload is missing "data" field.' });
-            }
-            state = states.resource[resourceName] = states.resource[resourceName] || {
-               state: 'replaced',
-               master: sender,
-               lastModificationBy: null,
-               value: null };
 
-            if (state.master !== sender) {
-               problems.push({ description: ax.string.format(
-                  'master/master conflict: for resource `[0]` (first master: [1], second master: [2])',
-                  [resourceName, state.master, sender]) });
-
-            }
-            state.lastModificationBy = sender;
-            state.value = payload.data;
-            return problems;
-
-         case 'didUpdate':
-            state = states.resource[resourceName];
-            if (!state) {
-               problems.push({
-                  description: 'Sender "' + sender + '" sent didUpdate without prior didReplace.' });
-
-            } else
-            if (state.value === null || state.value === undefined) {
-               problems.push({
-                  description: 'Sender "' + sender + '" sent didUpdate, but resource is ' + state.value });
-
-            }
-            if (!payload.patches) {
-               problems.push({
-                  description: 'Sender "' + sender + '" sent didUpdate without patches field.' });
-
-            }
-            if (problems.length) {
-               return problems;
-            }
-
-            state.lastModificationBy = sender;
-            try {
-               patterns.json.applyPatch(state.value, payload.patches);
-            }
-            catch (error) {
-               problems.push({
-                  description: 'Failed to apply patch sequence in didUpdate from "' + sender + '"' });
-
-            }
-            return problems;
-
-         default:
-            return problems;}
-
-   }
-}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+{
+   state: function state() {
+      return ax.object.deepClone(states);
+   },
+   track: track };
 
 /***/ }),
 /* 247 */
@@ -49255,17 +49252,17 @@ function create(context, eventBus, reactRender) {
             _react2.default.createElement('button', { type: 'button', className: 'btn btn-link ',
                   title: 'Include widgets without any links to relevant topics?',
                   onClick: toggleIrrelevantWidgets },
-               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withIrrelevantWidgets ? 'on' : 'off') }),
+               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withIrrelevantWidgets ? 'on' : 'off') }), ' ',
                _react2.default.createElement('span', null, 'Isolated Widgets')),
             _react2.default.createElement('button', { type: 'button', className: 'btn btn-link',
                   title: 'Include area-nesting relationships?',
                   onClick: toggleContainers },
-               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withContainers ? 'on' : 'off') }),
+               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withContainers ? 'on' : 'off') }), ' ',
                _react2.default.createElement('span', null, 'Containers')),
             _react2.default.createElement('button', { type: 'button', className: 'btn btn-link',
                   title: 'Flatten compositions into their runtime contents?',
                   onClick: toggleCompositions },
-               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withFlatCompositions ? 'on' : 'off') }),
+               _react2.default.createElement('i', { className: 'fa fa-toggle-' + (withFlatCompositions ? 'on' : 'off') }), ' ',
                _react2.default.createElement('span', null, 'Flatten Compositions'))),
 
          _react2.default.createElement(Graph, { className: 'nbe-theme-fusebox-app',
@@ -49414,7 +49411,7 @@ exports = module.exports = __webpack_require__(26)();
 
 
 // module
-exports.push([module.i, ".events-display-widget .ax-button-wrapper {\n  padding: 8px 8px; }\n\n.events-display-widget .ax-affix-area {\n  text-align: right;\n  top: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(255, 255, 255, 0.8);\n  border-bottom: 1px solid #CCC;\n  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); }\n\n.events-display-widget [data-ax-id=\"'limit'\"] {\n  width: 60px;\n  text-align: right; }\n\n.events-display-widget .fa-toggle-on {\n  color: #5cb85c; }\n\n.events-display-widget .fa-toggle-off,\n.events-display-widget .fa-toggle-on {\n  margin-left: -30px; }\n\n.events-display-widget .dropdown-menu {\n  margin: 0;\n  right: 0;\n  left: auto;\n  min-width: 400px;\n  max-width: 430px;\n  padding: 0 30px 30px; }\n\n.events-display-widget .ax-event-settings-col {\n  float: left;\n  width: 170px; }\n\n.events-display-widget .ax-event-settings-col {\n  margin-top: 30px;\n  margin-right: 30px; }\n\n.events-display-widget .ax-event-settings-col.last {\n  margin-right: -30px; }\n\n.events-display-widget button.ax-event-setting-toggle {\n  text-align: left;\n  width: 170px;\n  border-bottom: 1px solid #ddd; }\n\n.events-display-widget button.ax-event-setting-toggle:hover,\n.events-display-widget button.ax-event-setting-toggle:active {\n  text-decoration: none; }\n\n.events-display-widget .ax-event-pattern {\n  display: inline-block;\n  width: 18px; }\n\n.events-display-widget i.ax-event-setting-toggle {\n  width: 18px;\n  padding-top: 3px; }\n\n.events-display-widget .events-display-filter-items {\n  line-height: 200%;\n  padding-right: 8px; }\n  .events-display-widget .events-display-filter-items .btn-info {\n    color: white;\n    margin-left: 4px;\n    border: none; }\n  .events-display-widget .events-display-filter-items .ax-events-display-kind-ACTIVITY {\n    background: #4fb04f; }\n  .events-display-widget .events-display-filter-items .ax-events-display-kind-WIDGET {\n    background: #f90; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-RESOURCE {\n    background: #673ab7; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-FLAG {\n    background: #4caf50; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-ACTION {\n    background: #ef6c00; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-CONTAINER {\n    background: #4285f4; }\n\n.events-display-widget h4 {\n  padding-left: 8px;\n  margin-top: 0; }\n\n.events-display-widget .ax-event-problems-explanation {\n  padding-left: 8px;\n  margin-bottom: 24px; }\n\n.events-display-widget colgroup .ax-col-pattern-icon {\n  width: 32px; }\n\n@media (min-width: 992px) {\n  .events-display-widget colgroup .ax-col-interaction {\n    width: 80px; } }\n\n.events-display-widget colgroup .ax-col-payload-icon {\n  width: 16px; }\n\n@media (min-width: 992px) {\n  .events-display-widget colgroup .ax-col-name {\n    width: 300px; } }\n\n@media (min-width: 992px) {\n  .events-display-widget colgroup .ax-col-source,\n  .events-display-widget colgroup .ax-col-target {\n    width: 140px; } }\n\n@media (min-width: 1200px) {\n  .events-display-widget colgroup .ax-col-source,\n  .events-display-widget colgroup .ax-col-target {\n    width: 200px; } }\n\n.events-display-widget colgroup .ax-col-cycle {\n  width: 60px; }\n\n.events-display-widget colgroup .ax-col-timestamp {\n  width: 60px; }\n\n.events-display-widget .table {\n  table-layout: fixed; }\n  .events-display-widget .table tbody, .events-display-widget .table tr, .events-display-widget .table td {\n    border: none;\n    vertical-align: bottom; }\n  .events-display-widget .table tr.ax-event-summary td span:first-child {\n    font-size: 80%;\n    font-weight: bold;\n    color: #999; }\n  .events-display-widget .table tr.ax-event-summary td span:last-child {\n    font-weight: normal;\n    font-size: 110%;\n    color: #333; }\n  .events-display-widget .table tbody.ax-event-interaction-publish {\n    background: #f9f9f9; }\n    .events-display-widget .table tbody.ax-event-interaction-publish td.ax-col-interaction {\n      font-weight: bold; }\n    .events-display-widget .table tbody.ax-event-interaction-publish.ax-event-pattern-navigation td:first-child {\n      background: #ffefbf; }\n      .events-display-widget .table tbody.ax-event-interaction-publish.ax-event-pattern-navigation td:first-child + td {\n        background: linear-gradient(to right, #ffefbf 0%, transparent 32%); }\n  .events-display-widget .table tbody.ax-event-interaction-subscribe,\n  .events-display-widget .table tbody.ax-event-interaction-unsubscribe {\n    color: #999; }\n  .events-display-widget .table tr.ax-event-summary td {\n    border-top: 1px solid #ddd; }\n  .events-display-widget .table tr.ax-event-payload > td {\n    padding-top: 0;\n    padding-right: 0;\n    padding-bottom: 0; }\n  .events-display-widget .table td.ax-col-pattern-icon {\n    background: #eee;\n    color: #aaa;\n    text-align: center;\n    font-size: 14px;\n    padding-top: 7px;\n    cursor: default; }\n  .events-display-widget .table td.ax-col-payload-icon {\n    padding-right: 0;\n    text-align: right; }\n  .events-display-widget .table tbody tr.ax-event-summary:hover td {\n    background: #337ab7 !important; }\n  .events-display-widget .table tbody tr.ax-event-summary:hover td,\n  .events-display-widget .table tbody tr.ax-event-summary:hover td * {\n    color: white !important; }\n  .events-display-widget .table tbody tr:hover td.ax-col-pattern-icon {\n    background: #286090; }\n  .events-display-widget .table tbody.ax-event-selected tr.ax-event-summary td {\n    border-top-color: #337ab7; }\n  .events-display-widget .table tbody.ax-event-selected tr {\n    background: #b8d0e5 !important; }\n  .events-display-widget .table tbody.ax-event-selected tr.ax-event-payload:hover td {\n    background: #b8d0e5 !important;\n    color: #337ab7 !important; }\n  .events-display-widget .table tbody.ax-event-selected td.ax-col-pattern-icon {\n    background: #93b8d7; }\n  .events-display-widget .table tbody.ax-event-selected td.ax-col-cycle {\n    font-weight: bold; }\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-publish, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-deliver,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-publish .ax-col-pattern-icon,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-deliver .ax-col-pattern-icon {\n    color: #337ab7; }\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-subscribe, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-unsubscribe,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-subscribe .ax-col-pattern-icon,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-unsubscribe .ax-col-pattern-icon {\n    color: #577894; }\n  .events-display-widget .table tbody.ax-event-has-problems {\n    background: #f7e4e4; }\n    .events-display-widget .table tbody.ax-event-has-problems .ax-col-pattern-icon {\n      background: #e09795;\n      color: #aa3532; }\n    .events-display-widget .table tbody.ax-event-has-problems .ax-event-problem {\n      font-weight: bold; }\n  .events-display-widget .table td.ax-col-cycle {\n    text-align: right; }\n  .events-display-widget .table td {\n    word-wrap: break-word;\n    font-size: 12px; }\n    .events-display-widget .table td .btn-link {\n      border: 0;\n      padding: 0;\n      margin: 0; }\n    .events-display-widget .table td b {\n      color: #449d44;\n      text-decoration: underline; }\n  .events-display-widget .table pre {\n    margin: 0;\n    border: none;\n    border-radius: 0;\n    background: inherit;\n    padding: 1em 0;\n    font-family: monospace;\n    font-size: 12px;\n    max-height: 0;\n    animation: show-pre-animation .3s ease forwards; }\n\n@keyframes show-pre-animation {\n  from {\n    max-height: 0; }\n  to {\n    max-height: 400px; } }\n\n.events-display-widget .fa-folder-close,\n.events-display-widget .fa-folder-open {\n  cursor: pointer; }\n\n.events-display-widget li.ax-event-problem {\n  list-style-type: none; }\n\n.events-display-widget .text-large {\n  padding: 8px;\n  float: left; }\n", ""]);
+exports.push([module.i, ".events-display-widget .ax-button-wrapper {\n  padding: 8px 8px; }\n\n.events-display-widget .ax-affix-on-top-area {\n  text-align: right;\n  background-color: white; }\n\n.events-display-widget .ax-affix-area {\n  text-align: right;\n  background-color: rgba(255, 255, 255, 0.8);\n  border-bottom: 1px solid #CCC;\n  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); }\n\n.events-display-widget .ax-affix-area > div {\n  top: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(255, 255, 255, 0.8); }\n\n.events-display-widget [data-ax-id=\"'limit'\"] {\n  width: 60px;\n  text-align: right; }\n\n.events-display-widget .fa-toggle-on {\n  color: #5cb85c; }\n\n.events-display-widget .fa-toggle-off,\n.events-display-widget .fa-toggle-on {\n  margin-left: -30px; }\n\n.events-display-widget .dropdown-menu {\n  margin: 0;\n  right: 0;\n  left: auto;\n  min-width: 400px;\n  max-width: 430px;\n  padding: 0 30px 30px; }\n\n.events-display-widget .ax-event-settings-col {\n  float: left;\n  width: 170px; }\n\n.events-display-widget .ax-event-settings-col {\n  margin-top: 30px;\n  margin-right: 30px; }\n\n.events-display-widget .ax-event-settings-col.last {\n  margin-right: -30px; }\n\n.events-display-widget button.ax-event-setting-toggle {\n  text-align: left;\n  width: 170px;\n  border-bottom: 1px solid #ddd; }\n\n.events-display-widget button.ax-event-setting-toggle:hover,\n.events-display-widget button.ax-event-setting-toggle:active {\n  text-decoration: none; }\n\n.events-display-widget .ax-event-pattern {\n  display: inline-block;\n  width: 18px; }\n\n.events-display-widget i.ax-event-setting-toggle {\n  width: 18px;\n  padding-top: 3px; }\n\n.events-display-widget .events-display-filter-items {\n  line-height: 200%;\n  padding-right: 8px; }\n  .events-display-widget .events-display-filter-items .btn-info {\n    color: white;\n    margin-left: 4px;\n    border: none; }\n  .events-display-widget .events-display-filter-items .ax-events-display-kind-ACTIVITY {\n    background: #4fb04f; }\n  .events-display-widget .events-display-filter-items .ax-events-display-kind-WIDGET {\n    background: #f90; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-RESOURCE {\n    background: #673ab7; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-FLAG {\n    background: #4caf50; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-ACTION {\n    background: #ef6c00; }\n  .events-display-widget .events-display-filter-items .ax-events-display-pattern-CONTAINER {\n    background: #4285f4; }\n\n.events-display-widget h4 {\n  padding-left: 8px;\n  margin-top: 0; }\n\n.events-display-widget .ax-event-problems-explanation {\n  padding-left: 8px;\n  margin-bottom: 24px; }\n\n.events-display-widget colgroup .ax-col-pattern-icon {\n  width: 32px; }\n\n@media (min-width: 992px) {\n  .events-display-widget colgroup .ax-col-interaction {\n    width: 80px; } }\n\n.events-display-widget colgroup .ax-col-payload-icon {\n  width: 16px; }\n\n@media (min-width: 992px) {\n  .events-display-widget colgroup .ax-col-name {\n    width: 300px; } }\n\n@media (min-width: 992px) {\n  .events-display-widget colgroup .ax-col-source,\n  .events-display-widget colgroup .ax-col-target {\n    width: 140px; } }\n\n@media (min-width: 1200px) {\n  .events-display-widget colgroup .ax-col-source,\n  .events-display-widget colgroup .ax-col-target {\n    width: 200px; } }\n\n.events-display-widget colgroup .ax-col-cycle {\n  width: 60px; }\n\n.events-display-widget colgroup .ax-col-timestamp {\n  width: 60px; }\n\n.events-display-widget .table {\n  table-layout: fixed; }\n  .events-display-widget .table tbody, .events-display-widget .table tr, .events-display-widget .table td {\n    border: none;\n    vertical-align: bottom; }\n  .events-display-widget .table tr.ax-event-summary td span:first-child {\n    font-size: 80%;\n    font-weight: bold;\n    color: #999; }\n  .events-display-widget .table tr.ax-event-summary td span:last-child {\n    font-weight: normal;\n    font-size: 110%;\n    color: #333; }\n  .events-display-widget .table tbody.ax-event-interaction-publish {\n    background: #f9f9f9; }\n    .events-display-widget .table tbody.ax-event-interaction-publish td.ax-col-interaction {\n      font-weight: bold; }\n    .events-display-widget .table tbody.ax-event-interaction-publish.ax-event-pattern-navigation td:first-child {\n      background: #ffefbf; }\n      .events-display-widget .table tbody.ax-event-interaction-publish.ax-event-pattern-navigation td:first-child + td {\n        background: linear-gradient(to right, #ffefbf 0%, transparent 32%); }\n  .events-display-widget .table tbody.ax-event-interaction-subscribe,\n  .events-display-widget .table tbody.ax-event-interaction-unsubscribe {\n    color: #999; }\n  .events-display-widget .table tr.ax-event-summary td {\n    border-top: 1px solid #ddd; }\n  .events-display-widget .table tr.ax-event-payload > td {\n    padding-top: 0;\n    padding-right: 0;\n    padding-bottom: 0; }\n  .events-display-widget .table td.ax-col-pattern-icon {\n    background: #eee;\n    color: #aaa;\n    text-align: center;\n    font-size: 14px;\n    padding-top: 7px;\n    cursor: default; }\n  .events-display-widget .table td.ax-col-payload-icon {\n    padding-right: 0;\n    text-align: right; }\n  .events-display-widget .table tbody tr.ax-event-summary:hover td {\n    background: #337ab7 !important; }\n  .events-display-widget .table tbody tr.ax-event-summary:hover td,\n  .events-display-widget .table tbody tr.ax-event-summary:hover td * {\n    color: white !important; }\n  .events-display-widget .table tbody tr:hover td.ax-col-pattern-icon {\n    background: #286090; }\n  .events-display-widget .table tbody.ax-event-selected tr.ax-event-summary td {\n    border-top-color: #337ab7; }\n  .events-display-widget .table tbody.ax-event-selected tr {\n    background: #b8d0e5 !important; }\n  .events-display-widget .table tbody.ax-event-selected tr.ax-event-payload:hover td {\n    background: #b8d0e5 !important;\n    color: #337ab7 !important; }\n  .events-display-widget .table tbody.ax-event-selected td.ax-col-pattern-icon {\n    background: #93b8d7; }\n  .events-display-widget .table tbody.ax-event-selected td.ax-col-cycle {\n    font-weight: bold; }\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-publish, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-deliver,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-publish .ax-col-pattern-icon,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-deliver .ax-col-pattern-icon {\n    color: #337ab7; }\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-subscribe, .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-unsubscribe,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-subscribe .ax-col-pattern-icon,\n  .events-display-widget .table tbody.ax-event-selected.ax-event-interaction-unsubscribe .ax-col-pattern-icon {\n    color: #577894; }\n  .events-display-widget .table tbody.ax-event-has-problems {\n    background: #f7e4e4; }\n    .events-display-widget .table tbody.ax-event-has-problems .ax-col-pattern-icon {\n      background: #e09795;\n      color: #aa3532; }\n    .events-display-widget .table tbody.ax-event-has-problems .ax-event-problem {\n      font-weight: bold; }\n  .events-display-widget .table td.ax-col-cycle {\n    text-align: right; }\n  .events-display-widget .table td {\n    word-wrap: break-word;\n    font-size: 12px; }\n    .events-display-widget .table td .btn-link {\n      border: 0;\n      padding: 0;\n      margin: 0; }\n    .events-display-widget .table td b {\n      color: #449d44;\n      text-decoration: underline; }\n  .events-display-widget .table pre {\n    margin: 0;\n    border: none;\n    border-radius: 0;\n    background: inherit;\n    padding: 1em 0;\n    font-family: monospace;\n    font-size: 12px;\n    max-height: 0;\n    animation: show-pre-animation .3s ease forwards; }\n\n@keyframes show-pre-animation {\n  from {\n    max-height: 0; }\n  to {\n    max-height: 400px; } }\n\n.events-display-widget .fa-folder-close,\n.events-display-widget .fa-folder-open {\n  cursor: pointer; }\n\n.events-display-widget li.ax-event-problem {\n  list-style-type: none; }\n\n.events-display-widget .text-large {\n  padding: 16px;\n  float: left; }\n\n.events-display-widget div.form-group label {\n  margin: 0 0 0 8px; }\n\n.events-display-widget div.form-group input {\n  margin: 0 8px; }\n\n.events-display-widget div.btn-group > button {\n  margin: 0 8px; }\n\n.events-display-widget div.ax-event-settings-col > div.pull-right > button {\n  margin: 0 2px; }\n", ""]);
 
 // exports
 

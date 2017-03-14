@@ -186,17 +186,17 @@ function create( context, eventBus, reactRender ) {
                        title="Include widgets without any links to relevant topics?"
                        onClick={toggleIrrelevantWidgets}
                   ><i className={ `fa fa-toggle-${withIrrelevantWidgets ? 'on' : 'off'}` }
-                  /><span>Isolated Widgets</span></button>
+                  /> <span>Isolated Widgets</span></button>
                <button type='button' className='btn btn-link'
                        title="Include area-nesting relationships?"
                        onClick={toggleContainers}
                   ><i className={ `fa fa-toggle-${withContainers ? 'on' : 'off'}` }
-                  /><span>Containers</span></button>
+                  /> <span>Containers</span></button>
                <button type='button' className='btn btn-link'
                        title="Flatten compositions into their runtime contents?"
                        onClick={toggleCompositions}
                   ><i className={ `fa fa-toggle-${withFlatCompositions ? 'on' : 'off'}` }
-                  /><span>Flatten Compositions</span></button>
+                  /> <span>Flatten Compositions</span></button>
             </div>
             <Graph className='nbe-theme-fusebox-app'
                    types={ graphStore.types }
