@@ -5,7 +5,6 @@
  */
 
 import * as axMocks from 'laxar-mocks';
-import ReactTestUtils from 'react-addons-test-utils';
 
 describe( 'The developer-toolbar-widget', () => {
 
