@@ -8,12 +8,12 @@ const karma = require( 'karma' );
 const path = require( 'path' );
 
 const resolve = p => path.resolve( __dirname, p );
-const polyfillsPath = resolve( 'lib/laxar/dist/polyfills.js' );
+const polyfillsPath = resolve( 'node_modules/laxar/dist/polyfills.js' );
 const specsPattern = resolve( './widgets/**/spec/*.spec.js' );
 const assetsPatterns = [
    resolve( './widgets/**/*.css' ),
    resolve( './widgets/**/*.scss' ),
-   resolve( './lib/laxar-uikit/themes/default.theme/{css,fonts}/*.*' )
+   resolve( './node_modules/laxar-uikit/themes/default.theme/{css,fonts}/*.*' )
 ];
 
 if( require.main === module ) {
@@ -36,6 +36,10 @@ function karmaConfig() {
       files: files( specsPattern, [ polyfillsPath ], assetsPatterns ),
       preprocessors: {
          [ specsPattern ]: [ 'webpack', 'sourcemap' ]
+      },
+      proxies: {
+         '/widgets': '/base/widgets',
+         '/lib': '/base/lib'
       },
       webpack: webpackConfig(),
       webpackMiddleware: {
@@ -97,6 +101,6 @@ function files( specPath, dependencyPatterns, assetsPatterns ) {
    return [
       ...dependencyPatterns,
       specPath,
-      ...assetsPatterns.map( pattern => ({ pattern, included: false }) )
+      ...assetsPatterns.map( pattern => ( { pattern, included: false } ) )
    ];
 }

@@ -45,7 +45,6 @@ const config = {
       ],
       extensions: [ '.js', '.jsx' ],
       alias: {
-         'laxar-mocks': path.resolve( './node_modules/laxar-mocks' ),
          'polyfills': path.resolve( './node_modules/laxar/dist/polyfills.js' ),
          'laxar-uikit': path.resolve( './node_modules/laxar-uikit' ),
          'default.theme': path.resolve( './node_modules/laxar-uikit/themes/default.theme' )
@@ -62,7 +61,7 @@ const config = {
          {
             test: /.spec.(jsx?)$/,
             exclude: /(node_modules)/,
-            loader: './lib/laxar-mocks/spec-loader'
+            loader: 'laxar-mocks/spec-loader'
          },
 
          {  // load styles, images and fonts with the file-loader

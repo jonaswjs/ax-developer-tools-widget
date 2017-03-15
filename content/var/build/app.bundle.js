@@ -48259,7 +48259,7 @@ create = create; /**
                   * Copyright 2017 aixigo AG
                   * Released under the MIT license.
                   * http://laxarjs.org/license
-                  */ /* global chrome define */var name = exports.name = 'host-connector-widget';var injections = exports.injections = ['axContext', 'axEventBus'];function create(context, eventBus) {var REFRESH_DELAY_MS = 100;var pageInfoVersion = -1;var timeout = void 0;
+                  */ /* global chrome */var name = exports.name = 'host-connector-widget';var injections = exports.injections = ['axContext', 'axEventBus'];function create(context, eventBus) {var REFRESH_DELAY_MS = 100;var pageInfoVersion = -1;var timeout = void 0;
    var lastIndexByStream = {};
    var isLaxarApplication = void 0;
    var isBrowserWebExtension = window.chrome && chrome.runtime && chrome.runtime.id;
