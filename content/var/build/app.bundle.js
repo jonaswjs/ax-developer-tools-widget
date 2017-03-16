@@ -46441,19 +46441,20 @@ module.exports = __webpack_require__( 339 );
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.
+ /**
+               * Copyright 2017 aixigo AG
+               * Released under the MIT license.
+               * http://www.laxarjs.org
+               */
 
+/* global chrome */
 
-
-
-
-
-
-axDeveloperToolsToggleGrid = axDeveloperToolsToggleGrid; /**
-                                                          * Copyright 2017 aixigo AG
-                                                          * Released under the MIT license.
-                                                          * http://www.laxarjs.org
-                                                          */ /* global chrome */function axDeveloperToolsToggleGrid(gridSettings) {var hostDocument = void 0;var id = 'laxar-developer-tools-grid';if (window.chrome && chrome.runtime && chrome.runtime.id) {hostDocument = window.document;
+function axDeveloperToolsToggleGrid(settings) {
+   var gridSettings = settings;
+   var hostDocument = void 0;
+   var id = 'laxar-developer-tools-grid';
+   if (window.chrome && chrome.runtime && chrome.runtime.id) {
+      hostDocument = window.document;
    } else
    {
       hostDocument = applicationWindow().document;
@@ -46505,6 +46506,8 @@ axDeveloperToolsToggleGrid = axDeveloperToolsToggleGrid; /**
 
          css: gridSettings.css || {} };
 
+      var width = gridSettings.columns.count * gridSettings.columns.width +
+      (gridSettings.columns.count - 1) * gridSettings.columns.gutter;
 
       var defaultCss = {
          'background-position': gridSettings.columns.padding + 'px 0',
@@ -46517,9 +46520,7 @@ axDeveloperToolsToggleGrid = axDeveloperToolsToggleGrid; /**
          'bottom': 0,
          'left': 0,
          'z-index': 100,
-         'width': gridSettings.columns.count * gridSettings.columns.width +
-         (gridSettings.columns.count - 1) * gridSettings.columns.gutter +
-         'px',
+         'width': width + 'px',
          'background-image': 'url("' + columnBackgroundUri(gridSettings.columns) + '")' };
 
       gridSettings.css = mergeObjects(gridSettings.css, defaultCss);
@@ -46547,9 +46548,9 @@ axDeveloperToolsToggleGrid = axDeveloperToolsToggleGrid; /**
    function columnBackgroundUri(settings) {
       var bgCanvas = document.createElement('canvas');
       var height = 64;
-      var width = parseInt(settings.width);
-      var padding = parseInt(settings.padding);
-      bgCanvas.width = width + parseInt(settings.gutter);
+      var width = parseInt(settings.width, 10);
+      var padding = parseInt(settings.padding, 10);
+      bgCanvas.width = width + parseInt(settings.gutter, 10);
       bgCanvas.height = height;
       var context = bgCanvas.getContext('2d');
       // padding
@@ -46568,15 +46569,15 @@ axDeveloperToolsToggleGrid = axDeveloperToolsToggleGrid; /**
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true }); /**
-                                                                             * Copyright 2017 aixigo AG
-                                                                             * Released under the MIT license.
-                                                                             * http://www.laxarjs.org
-                                                                             */
+ /**
+               * Copyright 2017 aixigo AG
+               * Released under the MIT license.
+               * http://www.laxarjs.org
+               */
 
 /* global chrome */
 
-var axDeveloperToolsToggleWidgetOutline = exports.axDeveloperToolsToggleWidgetOutline = function () {
+var axDeveloperToolsToggleWidgetOutline = function () {
    var infoId = void 0;
    var isBrowserWebExtension = void 0;
    var document = void 0;
@@ -46596,7 +46597,8 @@ var axDeveloperToolsToggleWidgetOutline = exports.axDeveloperToolsToggleWidgetOu
 
    return function () {
       infoId = infoId || 'laxar-developer-tools-info-box';
-      isBrowserWebExtension = isBrowserWebExtension || window.chrome && chrome.runtime && chrome.runtime.id;
+      isBrowserWebExtension = isBrowserWebExtension ||
+      window.chrome && chrome.runtime && chrome.runtime.id;
       document = hostDocument();
 
       var cssClassName = 'ax-developer-tools-widget-outline';
@@ -46617,18 +46619,18 @@ var axDeveloperToolsToggleWidgetOutline = exports.axDeveloperToolsToggleWidgetOu
       }
    };
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function listener(event) {
+   function listener() {
       var widgetClass = this.className.split(/\s+/).filter(function (_) {
          return !!_.match(/(-widget|-activity)$/);
       }).concat('unknown')[0];
       infoLayer().innerHTML = '<strong>' + widgetClass + '</strong><br>ID: ' + this.id;
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function infoLayer() {
+   function infoLayer() {var _this = this;
       var info = document.getElementById(infoId);
 
       if (!info) {
@@ -46639,13 +46641,13 @@ var axDeveloperToolsToggleWidgetOutline = exports.axDeveloperToolsToggleWidgetOu
          });
          document.body.appendChild(info);
       }
-      info.addEventListener('click', function (event) {
-         this.remove();
+      info.addEventListener('click', function () {
+         _this.remove();
       });
       return info;
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function hostDocument() {
       if (isBrowserWebExtension) {
@@ -64416,8 +64418,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./developer-toolbar-widget.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./developer-toolbar-widget.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./developer-toolbar-widget.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./developer-toolbar-widget.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -64442,8 +64444,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./events-display-widget.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./events-display-widget.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./events-display-widget.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./events-display-widget.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -64468,8 +64470,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./log-display-widget.scss", function() {
-			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/source/jschulte/laxar-browser-extensions/shop-demo/includes/widgets/laxar/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./log-display-widget.scss");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./log-display-widget.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/index.js?{\"includePaths\":[\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/themes/default.theme/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/bootstrap-sass/assets/stylesheets\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/scss\",\"/export/home/jschulte/laxar-developer-tools-web-extension/src/laxar-developer-tools-widget/content/node_modules/laxar-uikit/themes/default.theme/scss\"]}!./log-display-widget.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
