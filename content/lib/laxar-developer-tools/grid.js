@@ -6,7 +6,8 @@
 
 /* global chrome */
 
-export function axDeveloperToolsToggleGrid( gridSettings ) {
+function axDeveloperToolsToggleGrid( settings ) {
+   let gridSettings = settings;
    let hostDocument;
    const id = 'laxar-developer-tools-grid';
    if( window.chrome && chrome.runtime && chrome.runtime.id ) {
@@ -39,7 +40,7 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
       const grid = hostDocument.createElement( 'div' );
       grid.setAttribute( 'id', id );
       createSettings();
-      Object.keys( gridSettings.css ).forEach( ( key ) => {
+      Object.keys( gridSettings.css ).forEach( key => {
          grid.style[ key ] = gridSettings.css[ key ];
       } );
       const anchorElement = hostDocument.querySelector( gridSettings.anchor );
@@ -62,11 +63,13 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
          },
          css: gridSettings.css || {}
       };
+      const width = ( gridSettings.columns.count * gridSettings.columns.width ) +
+                    ( ( gridSettings.columns.count - 1 ) * gridSettings.columns.gutter );
 
       const defaultCss = {
-         'background-position': gridSettings.columns.padding + 'px 0',
+         'background-position': `${gridSettings.columns.padding}px 0`,
          'margin': '0 auto',
-         'padding': '0 ' + gridSettings.columns.padding + 'px',
+         'padding': `0 ${gridSettings.columns.padding}px`,
          'box-sizing': 'content-box',
          'position': 'fixed',
          'top': 0,
@@ -74,10 +77,8 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
          'bottom': 0,
          'left': 0,
          'z-index': 100,
-         'width': ( gridSettings.columns.count * gridSettings.columns.width +
-               ( gridSettings.columns.count - 1 ) * gridSettings.columns.gutter ) +
-               'px',
-         'background-image': 'url("' + columnBackgroundUri( gridSettings.columns ) + '")'
+         'width': `${width}px`,
+         'background-image': `url("${columnBackgroundUri( gridSettings.columns )}")`
       };
       gridSettings.css = mergeObjects( gridSettings.css, defaultCss );
 
@@ -90,7 +91,7 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function mergeObjects( target, source ) {
-         Object.keys( source ).forEach( function( key ) {
+         Object.keys( source ).forEach( key => {
             if( !target.hasOwnProperty( key ) ) {
                target[ key ] = source[ key ];
             }
@@ -104,9 +105,9 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
    function columnBackgroundUri( settings ) {
       const bgCanvas = document.createElement( 'canvas' );
       const height = 64;
-      const width = parseInt( settings.width );
-      const padding = parseInt( settings.padding );
-      bgCanvas.width = width + parseInt( settings.gutter );
+      const width = parseInt( settings.width, 10 );
+      const padding = parseInt( settings.padding, 10 );
+      bgCanvas.width = width + parseInt( settings.gutter, 10 );
       bgCanvas.height = height;
       const context = bgCanvas.getContext( '2d' );
       // padding
@@ -115,7 +116,7 @@ export function axDeveloperToolsToggleGrid( gridSettings ) {
       context.fillRect( width - padding, 0, padding, height );
       // column
       context.fillStyle = 'rgba(229, 111, 114, 0.4)';
-      context.fillRect( padding, 0, width - 2 * padding, height );
+      context.fillRect( padding, 0, width - ( 2 * padding ) , height );
       return bgCanvas.toDataURL();
    }
 }

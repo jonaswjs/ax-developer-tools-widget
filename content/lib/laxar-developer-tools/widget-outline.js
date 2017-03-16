@@ -6,7 +6,7 @@
 
 /* global chrome */
 
-export const axDeveloperToolsToggleWidgetOutline = function () {
+const axDeveloperToolsToggleWidgetOutline = ( () => {
    let infoId;
    let isBrowserWebExtension;
    let document;
@@ -25,8 +25,9 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
    };
 
    return function() {
-      infoId = infoId ||'laxar-developer-tools-info-box';
-      isBrowserWebExtension = isBrowserWebExtension || ( window.chrome && chrome.runtime && chrome.runtime.id );
+      infoId = infoId || 'laxar-developer-tools-info-box';
+      isBrowserWebExtension = isBrowserWebExtension ||
+                              ( window.chrome && chrome.runtime && chrome.runtime.id );
       document = hostDocument();
 
       const cssClassName = 'ax-developer-tools-widget-outline';
@@ -47,16 +48,16 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
       }
    };
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function listener( event ){
-      const widgetClass = this.className.split( /\s+/ ).filter( function( _ ) {
+   function listener() {
+      const widgetClass = this.className.split( /\s+/ ).filter( _ => {
          return !!_.match( /(-widget|-activity)$/ );
       } ).concat( 'unknown' )[ 0 ];
-      infoLayer().innerHTML = '<strong>' + widgetClass + '</strong><br>ID: ' + this.id ;
+      infoLayer().innerHTML = `<strong>${widgetClass}</strong><br>ID: ${this.id}`;
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function infoLayer() {
       let info = document.getElementById( infoId );
@@ -64,18 +65,18 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
       if( !info ) {
          info = document.createElement( 'div' );
          info.setAttribute( 'id', infoId );
-         Object.keys( INFO_LAYER_STYLE ).forEach( function( key ) {
+         Object.keys( INFO_LAYER_STYLE ).forEach( key => {
             info.style[ key ] = INFO_LAYER_STYLE[ key ];
          } );
          document.body.appendChild( info );
       }
-      info.addEventListener( 'click', function( event ) {
+      info.addEventListener( 'click', () => {
          this.remove();
       } );
       return info;
    }
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function hostDocument() {
       if( isBrowserWebExtension ) {
@@ -85,4 +86,4 @@ export const axDeveloperToolsToggleWidgetOutline = function () {
          return ( window.opener || window.parent || window ).document;
       }
    }
-}();
+})();
