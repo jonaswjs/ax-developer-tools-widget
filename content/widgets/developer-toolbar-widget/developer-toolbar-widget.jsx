@@ -11,8 +11,9 @@ import { AxWidgetArea } from 'laxar-react-adapter';
 import * as developerToolsToggleGrid from '../../lib/laxar-developer-tools/grid';
 import * as developerToolsToggleWidgetOutline from '../../lib/laxar-developer-tools/widget-outline';
 
-const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.axDeveloperToolsToggleWidgetOutline;
-const toggleGridHelper = developerToolsToggleGrid.axDeveloperToolsToggleGrid;
+const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.default;
+const toggleGridHelper = developerToolsToggleGrid.default;
+
 
 const injections = [
    'axContext', 'axEventBus', 'axReactRender', 'axFlowService', 'axAreaHelper', 'axVisibility'

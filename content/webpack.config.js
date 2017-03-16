@@ -9,6 +9,8 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 
+
+
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
 const nodeEnv = process.env.NODE_ENV;
@@ -19,8 +21,6 @@ const processPlugins = {
 
 
 const publicPath = isProduction ? '/var/dist/' : '/var/build/';
-//const absolutePublicPath = `/includes/widgets/laxar/laxar-developer-tools-widget/content${publicPath}`;
-const absolutePublicPath = `/laxar-developer-tools-widget/content${publicPath}`;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +32,7 @@ const config = {
 
    output: {
       path: path.resolve( `./${publicPath}` ),
-      publicPath: absolutePublicPath,
+      publicPath: publicPath.substr(1),
       filename: isProduction ? '[name].bundle.min.js' : '[name].bundle.js'
    },
 
@@ -97,6 +97,20 @@ const config = {
                   './node_modules/laxar-uikit/themes/default.theme/scss'
                ].map( p => path.resolve( __dirname, p ) )
             }
+         },
+         {
+            test: require.resolve('./lib/laxar-developer-tools/grid.js'),
+            use: [ {
+               loader: 'exports-loader',
+               options: 'axDeveloperToolsToggleGrid'
+            } ]
+         },
+         {
+            test: require.resolve('./lib/laxar-developer-tools/widget-outline.js'),
+            use: [ {
+               loader: 'exports-loader',
+               options: 'axDeveloperToolsToggleWidgetOutline'
+            } ]
          }
       ]
    }
