@@ -8,17 +8,12 @@
 
 const path = require( 'path' );
 const webpack = require( 'webpack' );
-
-
-
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-
 const nodeEnv = process.env.NODE_ENV;
 const isProduction = nodeEnv === 'production';
 const isBrowserSpec = nodeEnv === 'browser-spec';
 const processPlugins = {
    'production': productionPlugins, 'browser-spec': browserSpecPlugins }[ nodeEnv ] || ( _ => _ );
-
 
 const publicPath = isProduction ? '/var/dist/' : '/var/build/';
 
@@ -48,7 +43,9 @@ const config = {
       alias: {
          'polyfills': path.resolve( './node_modules/laxar/dist/polyfills.js' ),
          'laxar-uikit': path.resolve( './node_modules/laxar-uikit' ),
-         'default.theme': path.resolve( './node_modules/laxar-uikit/themes/default.theme' )
+         'default.theme': path.resolve( './node_modules/laxar-uikit/themes/default.theme' ),
+         'grid': path.resolve( './lib/laxar-developer-tools/grid.js' ),
+         'widget-outline': path.resolve( './lib/laxar-developer-tools/widget-outline.js' )
       }
    },
 
@@ -98,15 +95,17 @@ const config = {
                ].map( p => path.resolve( __dirname, p ) )
             }
          },
-         {
-            test: require.resolve('./lib/laxar-developer-tools/grid.js'),
+         {  // load function as grid module
+            // grid.js must be a valid content script for extension
+            test: require.resolve( './lib/laxar-developer-tools/grid.js' ),
             use: [ {
                loader: 'exports-loader',
                options: 'axDeveloperToolsToggleGrid'
             } ]
          },
-         {
-            test: require.resolve('./lib/laxar-developer-tools/widget-outline.js'),
+         {  // load function as widget-outline module
+            // widget-outline.js must be a valid content script for extension
+            test: require.resolve( './lib/laxar-developer-tools/widget-outline.js' ),
             use: [ {
                loader: 'exports-loader',
                options: 'axDeveloperToolsToggleWidgetOutline'
@@ -118,7 +117,7 @@ const config = {
 
 if( isBrowserSpec ) {
    const WebpackJasmineHtmlRunnerPlugin = require( 'webpack-jasmine-html-runner-plugin' );
-   config.entry = WebpackJasmineHtmlRunnerPlugin.entry( './widgets/*/spec/*.spec.js' );
+   config.entry = WebpackJasmineHtmlRunnerPlugin.entry( './application/widgets/*/spec/*.spec.js' );
    config.output = {
       path: path.resolve( path.join( process.cwd(), 'spec-output' ) ),
       publicPath: '/spec-output/',
@@ -141,12 +140,16 @@ function productionPlugins( plugins ) {
    ] );
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function basePlugins() {
    return [
       new webpack.optimize.CommonsChunkPlugin( { name: 'vendor' } ),
       new webpack.SourceMapDevToolPlugin( { filename: '[name].bundle.js.map' } )
    ];
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function browserSpecPlugins() {
    const WebpackJasmineHtmlRunnerPlugin = require( 'webpack-jasmine-html-runner-plugin' );
@@ -155,6 +158,8 @@ function browserSpecPlugins() {
       new WebpackJasmineHtmlRunnerPlugin()
    ].concat( reactPlugins() );
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function reactPlugins() {
    return [

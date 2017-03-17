@@ -8,8 +8,8 @@ import React from 'react';
 import { resources, flags } from 'laxar-patterns';
 import { AxWidgetArea } from 'laxar-react-adapter';
 
-import * as developerToolsToggleGrid from '../../lib/laxar-developer-tools/grid';
-import * as developerToolsToggleWidgetOutline from '../../lib/laxar-developer-tools/widget-outline';
+import * as developerToolsToggleGrid from 'grid';
+import * as developerToolsToggleWidgetOutline from 'widget-outline';
 
 const toggleWidgetOutlineHelper = developerToolsToggleWidgetOutline.default;
 const toggleGridHelper = developerToolsToggleGrid.default;

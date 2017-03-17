@@ -9,10 +9,10 @@ const path = require( 'path' );
 
 const resolve = p => path.resolve( __dirname, p );
 const polyfillsPath = resolve( 'node_modules/laxar/dist/polyfills.js' );
-const specsPattern = resolve( './widgets/**/spec/*.spec.js' );
+const specsPattern = resolve( './application/widgets/**/spec/*.spec.js' );
 const assetsPatterns = [
-   resolve( './widgets/**/*.css' ),
-   resolve( './widgets/**/*.scss' ),
+   resolve( './application/widgets/**/*.css' ),
+   resolve( './application/widgets/**/*.scss' ),
    resolve( './node_modules/laxar-uikit/themes/default.theme/{css,fonts}/*.*' )
 ];
 
